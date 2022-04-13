@@ -1,3 +1,4 @@
+using System.Reflection;
 using MassTransit;
 using Users.Api.ConfigOptions;
 using Users.Api.Services.Concretes;
@@ -9,7 +10,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddMassTransit(cfg => cfg.UsingRabbitMq());
+builder.Services.AddMassTransit(cfg =>
+{
+    cfg.AddConsumers(Assembly.GetExecutingAssembly());
+    cfg.UsingRabbitMq();
+});
 
 builder.Services.AddTransient(
     o => builder.Configuration.GetSection(
