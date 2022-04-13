@@ -1,11 +1,23 @@
+using MassTransit;
+using Users.ConfigOptions;
+using Users.Services.Concretes;
+using Users.Services.Contracts;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddMassTransit(cfg => cfg.UsingRabbitMq());
+
+builder.Services.AddTransient(
+    o => builder.Configuration.GetSection(
+        KeycloakOptions.Keycloack).Get<KeycloakOptions>());
+
+builder.Services.AddScoped<IUsersService, UsersService>();
+
+builder.Services.AddHttpClient<IKeycloakClient, KeycloakClient>();
 
 var app = builder.Build();
 
