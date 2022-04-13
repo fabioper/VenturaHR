@@ -1,10 +1,10 @@
 using System.Net.Http.Headers;
 using Microsoft.AspNetCore.WebUtilities;
-using Users.ConfigOptions;
-using Users.Services.Concretes.Models;
-using Users.Services.Contracts;
+using Users.Api.ConfigOptions;
+using Users.Api.Services.Concretes.Models;
+using Users.Api.Services.Contracts;
 
-namespace Users.Services.Concretes;
+namespace Users.Api.Services.Concretes;
 
 public class KeycloakClient : IKeycloakClient
 {

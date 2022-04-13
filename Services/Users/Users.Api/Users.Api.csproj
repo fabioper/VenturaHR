@@ -15,7 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\SharedKernel\Common\Common.csproj" />
+      <ProjectReference Include="..\..\..\SharedKernel\Common\Common.csproj" />
     </ItemGroup>
 
 </Project>

@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using Users.DTOs;
-using Users.Services.Contracts;
+using Users.Api.DTOs;
+using Users.Api.Services.Contracts;
 
-namespace Users.Controllers;
+namespace Users.Api.Controllers;
 
 [ApiController]
 [Route("/accounts")]

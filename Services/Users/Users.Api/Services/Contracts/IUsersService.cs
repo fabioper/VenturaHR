@@ -1,6 +1,6 @@
-using Users.DTOs;
+using Users.Api.DTOs;
 
-namespace Users.Services.Contracts;
+namespace Users.Api.Services.Contracts;
 
 public interface IUsersService
 {

@@ -1,10 +1,10 @@
 using Common.EventBus.Models;
 using MassTransit;
-using Users.DTOs;
-using Users.Services.Concretes.Models;
-using Users.Services.Contracts;
+using Users.Api.DTOs;
+using Users.Api.Services.Concretes.Models;
+using Users.Api.Services.Contracts;
 
-namespace Users.Services.Concretes;
+namespace Users.Api.Services.Concretes;
 
 public class UsersService : IUsersService
 {

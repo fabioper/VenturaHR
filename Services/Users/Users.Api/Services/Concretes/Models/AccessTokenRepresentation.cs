@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace Users.Services.Concretes.Models;
+namespace Users.Api.Services.Concretes.Models;
 
 public class AccessTokenRepresentation
 {

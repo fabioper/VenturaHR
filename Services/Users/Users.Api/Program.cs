@@ -1,7 +1,7 @@
 using MassTransit;
-using Users.ConfigOptions;
-using Users.Services.Concretes;
-using Users.Services.Contracts;
+using Users.Api.ConfigOptions;
+using Users.Api.Services.Concretes;
+using Users.Api.Services.Contracts;
 
 var builder = WebApplication.CreateBuilder(args);
 

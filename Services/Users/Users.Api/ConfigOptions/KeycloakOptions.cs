@@ -1,4 +1,4 @@
-namespace Users.ConfigOptions;
+namespace Users.Api.ConfigOptions;
 
 public class KeycloakOptions
 {

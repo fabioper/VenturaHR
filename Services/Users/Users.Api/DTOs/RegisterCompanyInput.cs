@@ -1,4 +1,4 @@
-namespace Users.DTOs;
+namespace Users.Api.DTOs;
 
 public class RegisterCompanyInput
 {
