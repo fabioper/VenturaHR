@@ -15,6 +15,8 @@ const Home: NextPage = () => {
 
       <main>
         <div className="container">
+          <h2 className={buttonsStyles.buttonSetHeader}>Cadastre-se</h2>
+
           <div className={buttonsStyles.buttonsSet}>
             <Link href={Routes.CompaniesSignup}>
               <button className={buttonsStyles.button}>

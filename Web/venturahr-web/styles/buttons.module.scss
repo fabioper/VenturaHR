@@ -1,24 +1,27 @@
 .button {
   padding: .8rem 2rem;
-  background: black;
+  background: #1a1a1a;
   color: #fff;
   border: none;
   border-radius: 5px;
   transition: all .1s ease-in-out;
 
   &:hover {
-    background: #1a1a1a;
-    transform: translateY(-2px);
+    background: transparentize(#1a1a1a, .1);
+    transform: translateY(2px);
   }
+}
+
+.buttonSetHeader {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  font-weight: 400;
 }
 
 .buttonsSet {
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 1rem;
-  padding: 5rem;
-  background: #e1e3e5;
 
   button {
     cursor: pointer;
