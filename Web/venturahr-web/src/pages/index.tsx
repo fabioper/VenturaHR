@@ -1,5 +1,10 @@
 import type { NextPage } from "next"
 import Head from "next/head"
+import flexStyles from "../styles/utilities/flex.module.scss"
+
+import { Button } from "primereact/button"
+import Link from "next/link"
+import { PrimeIcons } from "primereact/api"
 
 const Home: NextPage = () => {
   return (
@@ -11,7 +16,24 @@ const Home: NextPage = () => {
       </Head>
 
       <main>
-        <div className="container">Ventura HR</div>
+        <div className="container">
+          <div className={flexStyles.withflexGap}>
+            <Link href="companies/signup">
+              <Button
+                label="Cadastrar Empresa"
+                icon={PrimeIcons.BUILDING}
+                className="p-button-sm p-button-outlined p-button-success"
+              />
+            </Link>
+            <Link href="applicants/signup">
+              <Button
+                label="Cadastrar Candidato"
+                icon={PrimeIcons.USER}
+                className="p-button-sm p-button-outlined p-button-info"
+              />
+            </Link>
+          </div>
+        </div>
       </main>
     </div>
   )
