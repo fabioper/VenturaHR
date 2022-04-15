@@ -1,10 +1,9 @@
 import Link from "next/link"
 import React from "react"
-import styles from "./Header.module.scss"
 
 const Header: React.FC = () => {
   return (
-    <header className={styles.header}>
+    <header>
       <Link href="/">
         <div className="container">VenturaHR</div>
       </Link>
