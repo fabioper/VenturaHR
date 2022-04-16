@@ -1,13 +1,23 @@
+@import "variables";
+
 *, ::before, ::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+html {
+  height: 100%;
+}
+
 body {
-  background: #1a1a1a;
+  background: var(--background);
   font-family: var(--font-family);
-  color: var(--surface-900);
+  color: var(--text-color);
+  display: grid;
+  grid-template-rows: 1fr auto;
+  height: 100%;
+  min-height: 100%;
 }
 
 .container {

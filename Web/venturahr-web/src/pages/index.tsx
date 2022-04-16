@@ -1,6 +1,5 @@
 import type { NextPage } from "next"
 import Head from "next/head"
-import flexStyles from "../styles/utilities/flex.module.scss"
 
 import { Button } from "primereact/button"
 import Link from "next/link"
@@ -17,7 +16,7 @@ const Home: NextPage = () => {
 
       <main>
         <div className="container">
-          <div className={flexStyles.withflexGap}>
+          <div className="p-buttonset">
             <Link href="companies/signup">
               <Button
                 label="Cadastrar Empresa"

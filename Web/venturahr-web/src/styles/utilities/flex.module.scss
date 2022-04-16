@@ -1,8 +1,0 @@
-.flex {
-  display: flex;
-}
-
-.withflexGap {
-  @extend .flex;
-  gap: .5rem;
-}
