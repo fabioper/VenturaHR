@@ -40,6 +40,7 @@
     "@typescript-eslint/no-use-before-define": [
       "error"
     ],
-    "comma-dangle": "off"
+    "comma-dangle": "off",
+    "@typescript-eslint/no-extra-semi": "off"
   }
 }

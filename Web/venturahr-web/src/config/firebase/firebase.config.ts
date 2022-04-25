@@ -1,4 +1,5 @@
-import { FirebaseOptions, initializeApp } from "@firebase/app"
+import firebase from "firebase/compat/app"
+import { FirebaseOptions } from "@firebase/app"
 
 export const firebaseConfig: FirebaseOptions = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -9,4 +10,4 @@ export const firebaseConfig: FirebaseOptions = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 }
 
-export const firebaseApp = initializeApp(firebaseConfig)
+export const firebaseApp = firebase.initializeApp(firebaseConfig)
