@@ -48,7 +48,7 @@ const login: React.FC = () => {
 
         <div>
           <button type="button" onClick={() => handleSubmit(getFormValues())}>
-            Criar
+            Entrar
           </button>
         </div>
 

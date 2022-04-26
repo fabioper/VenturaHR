@@ -41,6 +41,7 @@
       "error"
     ],
     "comma-dangle": "off",
-    "@typescript-eslint/no-extra-semi": "off"
+    "@typescript-eslint/no-extra-semi": "off",
+    "@typescript-eslint/no-empty-function": "off"
   }
 }

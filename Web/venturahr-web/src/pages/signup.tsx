@@ -44,6 +44,7 @@ const Signup: NextPage = () => {
 
   return (
     <div>
+      <h1>Cadastre-se</h1>
       <form>
         <div>
           <label>Email:</label>
