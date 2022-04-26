@@ -9,6 +9,12 @@ import {
 } from "firebase/auth"
 import { getFunctions, httpsCallable } from "firebase/functions"
 
+async function ensureUserRole(email: string, role: string): Promise<void> {
+  const functions = getFunctions(firebaseApp)
+  const assignRoleToUser = httpsCallable(functions, "assignRoleToUser")
+  await assignRoleToUser({ email: email, role: role })
+}
+
 const Signup: NextPage = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -17,26 +23,20 @@ const Signup: NextPage = () => {
 
   async function handleSubmit(values: { password: string; email: string }) {
     const auth = getAuth(firebaseApp)
+    const { email, password } = values
 
     try {
       const { user } = await createUserWithEmailAndPassword(
         auth,
-        values.email,
-        values.password
+        email,
+        password
       )
-
-      const functions = getFunctions(firebaseApp)
-      const assignRoleToUser = httpsCallable(functions, "assignRoleToUser")
 
       const role = "applicant"
-      await assignRoleToUser({ email: user.email, role: role })
+      await ensureUserRole(user.email || email, role)
 
-      const { user: loggedUser } = await signInWithEmailAndPassword(
-        auth,
-        values.email,
-        values.password
-      )
-      console.log(loggedUser)
+      const result = await signInWithEmailAndPassword(auth, email, password)
+      console.log(result.user)
     } catch (e) {
       console.log(e)
     }
