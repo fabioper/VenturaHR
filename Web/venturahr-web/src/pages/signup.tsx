@@ -1,9 +1,10 @@
+import { NextPage } from "next"
 import Link from "next/link"
-import React, { useState } from "react"
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
+import { useState } from "react"
 import { firebaseApp } from "../config/firebase/firebase.config"
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth"
 
-const login: React.FC = () => {
+const Signup: NextPage = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
@@ -13,7 +14,7 @@ const login: React.FC = () => {
     const auth = getAuth(firebaseApp)
 
     try {
-      const result = await signInWithEmailAndPassword(
+      const result = await createUserWithEmailAndPassword(
         auth,
         values.email,
         values.password
@@ -26,7 +27,6 @@ const login: React.FC = () => {
 
   return (
     <div>
-      <h1>Faça o login</h1>
       <form>
         <div>
           <label>Email:</label>
@@ -53,11 +53,11 @@ const login: React.FC = () => {
         </div>
 
         <div>
-          Ainda não tem conta? <Link href="/signup">Cadastre-se</Link>
+          Já tem conta? <Link href="/login">Faça login</Link>
         </div>
       </form>
     </div>
   )
 }
 
-export default login
+export default Signup

@@ -1,4 +1,5 @@
 import firebase from "firebase/compat/app"
+import "firebase/compat/auth"
 import { FirebaseOptions } from "@firebase/app"
 
 export const firebaseConfig: FirebaseOptions = {
