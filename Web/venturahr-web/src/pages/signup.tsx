@@ -2,7 +2,12 @@ import { NextPage } from "next"
 import Link from "next/link"
 import { useState } from "react"
 import { firebaseApp } from "../config/firebase/firebase.config"
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth"
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  signInWithEmailAndPassword,
+} from "firebase/auth"
+import { getFunctions, httpsCallable } from "firebase/functions"
 
 const Signup: NextPage = () => {
   const [email, setEmail] = useState("")
@@ -14,12 +19,24 @@ const Signup: NextPage = () => {
     const auth = getAuth(firebaseApp)
 
     try {
-      const result = await createUserWithEmailAndPassword(
+      const { user } = await createUserWithEmailAndPassword(
         auth,
         values.email,
         values.password
       )
-      console.log(result.user)
+
+      const functions = getFunctions(firebaseApp)
+      const assignRoleToUser = httpsCallable(functions, "assignRoleToUser")
+
+      const role = "applicant"
+      await assignRoleToUser({ email: user.email, role: role })
+
+      const { user: loggedUser } = await signInWithEmailAndPassword(
+        auth,
+        values.email,
+        values.password
+      )
+      console.log(loggedUser)
     } catch (e) {
       console.log(e)
     }
