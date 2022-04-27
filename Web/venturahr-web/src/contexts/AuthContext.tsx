@@ -54,7 +54,6 @@ const AuthProvider: React.FC<{ auth: Auth; children: React.ReactNode }> = ({
 
   useEffect(() => {
     setIsLogged(!!user)
-    user?.getIdToken().then(console.log)
   }, [user])
 
   useEffect(() => {
