@@ -4,12 +4,17 @@ import { useEffect } from "react"
 
 export function useGuardAgainst(
   guard: (auth: AuthContextProps) => boolean,
-  redirect?: string
+  redirect?: (auth: AuthContextProps) => Promise<string>
 ): void {
   const auth = useAuth()
   const router = useRouter()
 
   useEffect(() => {
-    guard(auth) && router.push(redirect || "/").then()
+    ;(async () => {
+      guard(auth) &&
+        (await router.push(
+          redirect ? await redirect(auth) : await auth.redirectUser()
+        ))
+    })()
   }, [auth.user, guard])
 }

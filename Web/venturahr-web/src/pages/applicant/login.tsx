@@ -5,11 +5,12 @@ import { NextPage } from "next"
 import { useGuardAgainst } from "../../hooks/useGuardAgainst"
 
 const Login: NextPage = () => {
-  useGuardAgainst(({ isLogged }) => isLogged, "/")
-  const { login } = useAuth()
+  useGuardAgainst(({ isLogged }) => isLogged)
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+
+  const { login } = useAuth()
 
   return (
     <div>

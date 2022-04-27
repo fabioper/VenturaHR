@@ -26,15 +26,18 @@ export interface AuthContextProps {
   signup(credentials: SignUpCredentials): Promise<void>
 
   signupWithProvider(provider: AuthProvider, role: string): Promise<void>
+
+  redirectUser(): Promise<string>
 }
 
 export const AuthContext = createContext<AuthContextProps>({
   loading: true,
   isLogged: false,
-  async login() {},
-  async logout() {},
-  async signup() {},
-  async signupWithProvider(): Promise<void> {},
+  login: async () => {},
+  logout: async () => {},
+  signup: async () => {},
+  signupWithProvider: async () => {},
+  redirectUser: async () => "",
 })
 
 interface SignUpCredentials {
@@ -52,19 +55,13 @@ const AuthProvider: React.FC<{ auth: Auth; children: React.ReactNode }> = ({
   const [loading, setLoading] = useState<boolean>(true)
   const [isLogged, setIsLogged] = useState(false)
 
-  useEffect(() => {
-    setIsLogged(!!user)
-  }, [user])
+  useEffect(() => setIsLogged(!!user), [user])
 
   useEffect(() => {
-    const updateUser = (state: User | null) => setUser(state || undefined)
-    const unsubscribeAuthStateChanged = auth.onAuthStateChanged(updateUser)
-    const unsubscribeIdTokenChanged = auth.onIdTokenChanged(updateUser)
-
-    return () => {
-      unsubscribeAuthStateChanged()
-      unsubscribeIdTokenChanged()
-    }
+    const unsubscribe = auth.onAuthStateChanged(async () => {
+      setUser(auth.currentUser || undefined)
+    })
+    return () => unsubscribe()
   }, [])
 
   const tryWithLoader = async (callback: () => Promise<any>) => {
@@ -79,17 +76,13 @@ const AuthProvider: React.FC<{ auth: Auth; children: React.ReactNode }> = ({
   }
 
   const login = async ({ email, password }: LoginCredentials) => {
-    await tryWithLoader(async () => {
-      const { user } = await signInWithEmailAndPassword(auth, email, password)
-      setUser(user)
-    })
+    await tryWithLoader(
+      async () => await signInWithEmailAndPassword(auth, email, password)
+    )
   }
 
   const logout = async () => {
-    await tryWithLoader(async () => {
-      await signOut(auth)
-      setUser(undefined)
-    })
+    await tryWithLoader(async () => await signOut(auth))
   }
 
   async function ensureUserRole(email: string, role: string): Promise<void> {
@@ -106,7 +99,7 @@ const AuthProvider: React.FC<{ auth: Auth; children: React.ReactNode }> = ({
         password
       )
       await ensureUserRole(user.email || email, role)
-      await login({ email, password })
+      await setUser(auth.currentUser || undefined)
     })
   }
 
@@ -116,6 +109,24 @@ const AuthProvider: React.FC<{ auth: Auth; children: React.ReactNode }> = ({
       await ensureUserRole(user.email || "", role)
       await signInWithPopup(auth, provider)
     })
+  }
+
+  async function redirectUser(): Promise<string> {
+    const token = await auth.currentUser?.getIdTokenResult(true)
+    const userRole = (token?.claims.role as string[]) || []
+
+    if (!userRole || !userRole.length) {
+      return "/"
+    }
+
+    if (userRole.includes("applicant")) {
+      return "/applicant/dashboard"
+    }
+    if (userRole.includes("company")) {
+      return "/company/dashboard"
+    }
+
+    throw Error("Unrecognizable role")
   }
 
   return (
@@ -128,6 +139,7 @@ const AuthProvider: React.FC<{ auth: Auth; children: React.ReactNode }> = ({
         isLogged,
         signup,
         signupWithProvider,
+        redirectUser,
       }}
     >
       {children}
