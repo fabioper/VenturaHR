@@ -1,28 +1,15 @@
 import Link from "next/link"
 import React, { useState } from "react"
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
-import { firebaseApp } from "../config/firebase/firebase.config"
+import { useAuth } from "../../contexts/AuthContext"
+import { NextPage } from "next"
+import { useGuardAgainst } from "../../hooks/useGuardAgainst"
 
-const login: React.FC = () => {
+const Login: NextPage = () => {
+  useGuardAgainst(({ isLogged }) => isLogged, "/")
+  const { login } = useAuth()
+
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-
-  const getFormValues = () => ({ email, password })
-
-  async function handleSubmit(values: { password: string; email: string }) {
-    const auth = getAuth(firebaseApp)
-
-    try {
-      const result = await signInWithEmailAndPassword(
-        auth,
-        values.email,
-        values.password
-      )
-      console.log(result.user)
-    } catch (e) {
-      console.log(e)
-    }
-  }
 
   return (
     <div>
@@ -47,17 +34,20 @@ const login: React.FC = () => {
         </div>
 
         <div>
-          <button type="button" onClick={() => handleSubmit(getFormValues())}>
+          <button
+            type="button"
+            onClick={async () => await login({ email, password })}
+          >
             Entrar
           </button>
         </div>
 
         <div>
-          Ainda não tem conta? <Link href="/signup">Cadastre-se</Link>
+          Ainda não tem conta? <Link href="/applicant/signup">Cadastre-se</Link>
         </div>
       </form>
     </div>
   )
 }
 
-export default login
+export default Login
