@@ -5,7 +5,7 @@ import { NextPage } from "next"
 import { useGuardAgainst } from "../../hooks/useGuardAgainst"
 
 const Login: NextPage = () => {
-  useGuardAgainst(({ isLogged }) => isLogged)
+  useGuardAgainst(async ({ isLogged }) => isLogged)
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")

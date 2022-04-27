@@ -3,7 +3,7 @@ import { useRouter } from "next/router"
 import { useEffect } from "react"
 
 export function useGuardAgainst(
-  guard: (auth: AuthContextProps) => boolean,
+  guard: (auth: AuthContextProps) => Promise<boolean>,
   redirect?: (auth: AuthContextProps) => Promise<string>
 ): void {
   const auth = useAuth()
@@ -11,7 +11,7 @@ export function useGuardAgainst(
 
   useEffect(() => {
     ;(async () => {
-      guard(auth) &&
+      ;(await guard(auth)) &&
         (await router.push(
           redirect ? await redirect(auth) : await auth.redirectUser()
         ))

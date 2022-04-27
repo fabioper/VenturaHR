@@ -10,6 +10,8 @@ import {
 } from "firebase/auth"
 import { getFunctions, httpsCallable } from "firebase/functions"
 import { firebaseApp } from "../config/firebase/firebase.config"
+import firebase from "firebase/compat"
+import IdTokenResult = firebase.auth.IdTokenResult
 
 export interface LoginCredentials {
   email: string
@@ -22,12 +24,10 @@ export interface AuthContextProps {
   isLogged: boolean
   login: (credentials: LoginCredentials) => Promise<any>
   logout: () => Promise<any>
-
-  signup(credentials: SignUpCredentials): Promise<void>
-
-  signupWithProvider(provider: AuthProvider, role: string): Promise<void>
-
-  redirectUser(): Promise<string>
+  hasRoles: (...roles: string[]) => Promise<boolean>
+  signup: (credentials: SignUpCredentials) => Promise<void>
+  signupWithProvider: (provider: AuthProvider, role: string) => Promise<void>
+  redirectUser: () => Promise<string>
 }
 
 export const AuthContext = createContext<AuthContextProps>({
@@ -38,6 +38,7 @@ export const AuthContext = createContext<AuthContextProps>({
   signup: async () => {},
   signupWithProvider: async () => {},
   redirectUser: async () => "",
+  hasRoles: async () => false,
 })
 
 interface SignUpCredentials {
@@ -60,6 +61,7 @@ const AuthProvider: React.FC<{ auth: Auth; children: React.ReactNode }> = ({
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async () => {
       setUser(auth.currentUser || undefined)
+      setLoading(false)
     })
     return () => unsubscribe()
   }, [])
@@ -111,18 +113,23 @@ const AuthProvider: React.FC<{ auth: Auth; children: React.ReactNode }> = ({
     })
   }
 
+  function checkForRole(token: IdTokenResult, ...roles: string[]): boolean {
+    const userRoles = (token?.claims.role as string[]) || []
+    const hasAnyRole = !!userRoles && userRoles.length > 0
+    return hasAnyRole && roles.every(role => userRoles.includes(role))
+  }
+
+  const hasRoles = async (...roles: string[]) => {
+    const token = await user?.getIdTokenResult(true)
+    return !token ? false : checkForRole(token, ...roles)
+  }
+
   async function redirectUser(): Promise<string> {
-    const token = await auth.currentUser?.getIdTokenResult(true)
-    const userRole = (token?.claims.role as string[]) || []
-
-    if (!userRole || !userRole.length) {
-      return "/"
-    }
-
-    if (userRole.includes("applicant")) {
+    if (await hasRoles("applicant")) {
       return "/applicant/dashboard"
     }
-    if (userRole.includes("company")) {
+
+    if (await hasRoles("company")) {
       return "/company/dashboard"
     }
 
@@ -140,6 +147,7 @@ const AuthProvider: React.FC<{ auth: Auth; children: React.ReactNode }> = ({
         signup,
         signupWithProvider,
         redirectUser,
+        hasRoles,
       }}
     >
       {children}

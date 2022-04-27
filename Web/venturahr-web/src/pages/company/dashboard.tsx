@@ -1,5 +1,12 @@
 import { NextPage } from "next"
+import ProtectedPage from "../../components/ProtectedPage"
 
-const dashboard: NextPage = () => <div>Área da empresa</div>
+const dashboard: NextPage = () => {
+  return (
+    <ProtectedPage onlyRoles={["company"]}>
+      <div>Área da empresa</div>
+    </ProtectedPage>
+  )
+}
 
 export default dashboard

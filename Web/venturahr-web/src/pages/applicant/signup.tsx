@@ -6,7 +6,7 @@ import { useAuth } from "../../contexts/AuthContext"
 import { useGuardAgainst } from "../../hooks/useGuardAgainst"
 
 const Signup: NextPage = () => {
-  useGuardAgainst(({ isLogged }) => isLogged)
+  useGuardAgainst(async ({ isLogged }) => isLogged)
 
   const { signup, signupWithProvider } = useAuth()
   const [email, setEmail] = useState("")
