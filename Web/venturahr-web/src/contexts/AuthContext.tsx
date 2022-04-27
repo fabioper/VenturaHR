@@ -133,7 +133,7 @@ const AuthProvider: React.FC<{ auth: Auth; children: React.ReactNode }> = ({
       return "/company/dashboard"
     }
 
-    throw Error("Unrecognizable role")
+    return "/"
   }
 
   return (
