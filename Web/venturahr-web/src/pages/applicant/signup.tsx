@@ -1,3 +1,4 @@
+import { GoogleAuthProvider } from "firebase/auth"
 import { NextPage } from "next"
 import Link from "next/link"
 import { useState } from "react"
@@ -7,10 +8,11 @@ import { useGuardAgainst } from "../../hooks/useGuardAgainst"
 const Signup: NextPage = () => {
   useGuardAgainst(({ isLogged }) => isLogged)
 
-  const { signup } = useAuth()
+  const { signup, signupWithProvider } = useAuth()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [displayName, setDisplayName] = useState("")
+  const providers = [{ label: "Google", provider: new GoogleAuthProvider() }]
 
   return (
     <div>
@@ -55,12 +57,30 @@ const Signup: NextPage = () => {
               })
             }
           >
-            Criar
+            Cadastrar
           </button>
         </div>
 
         <div>
-          Já tem conta? <Link href="/login">Faça login</Link>
+          <h2>Ou faça login através das redes sociais abaixo:</h2>
+          <ul>
+            {providers.map((provider, index) => (
+              <li key={index}>
+                <a
+                  href="#"
+                  onClick={() =>
+                    signupWithProvider(provider.provider, "applicant")
+                  }
+                >
+                  {provider.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          Já tem conta? <Link href="/applicant/login">Faça login</Link>
         </div>
       </form>
     </div>

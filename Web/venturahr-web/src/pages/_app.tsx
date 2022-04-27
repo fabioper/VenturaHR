@@ -8,6 +8,7 @@ import { firebaseApp } from "../config/firebase/firebase.config"
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   const auth = getAuth(firebaseApp)
+  auth.useDeviceLanguage()
 
   return (
     <AuthProvider auth={auth}>

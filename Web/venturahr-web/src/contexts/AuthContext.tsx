@@ -1,8 +1,10 @@
 import React, { createContext, useContext, useEffect, useState } from "react"
 import {
   Auth,
+  AuthProvider,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signInWithPopup,
   signOut,
   User,
 } from "firebase/auth"
@@ -17,12 +19,13 @@ export interface LoginCredentials {
 export interface AuthContextProps {
   user?: User
   loading: boolean
+  isLogged: boolean
   login: (credentials: LoginCredentials) => Promise<any>
   logout: () => Promise<any>
 
   signup(credentials: SignUpCredentials): Promise<void>
 
-  isLogged: boolean
+  signupWithProvider(provider: AuthProvider, role: string): Promise<void>
 }
 
 export const AuthContext = createContext<AuthContextProps>({
@@ -31,6 +34,7 @@ export const AuthContext = createContext<AuthContextProps>({
   async login() {},
   async logout() {},
   async signup() {},
+  async signupWithProvider(): Promise<void> {},
 })
 
 interface SignUpCredentials {
@@ -54,10 +58,14 @@ const AuthProvider: React.FC<{ auth: Auth; children: React.ReactNode }> = ({
   }, [user])
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(state =>
-      setUser(state || undefined)
-    )
-    return () => unsubscribe()
+    const updateUser = (state: User | null) => setUser(state || undefined)
+    const unsubscribeAuthStateChanged = auth.onAuthStateChanged(updateUser)
+    const unsubscribeIdTokenChanged = auth.onIdTokenChanged(updateUser)
+
+    return () => {
+      unsubscribeAuthStateChanged()
+      unsubscribeIdTokenChanged()
+    }
   }, [])
 
   const tryWithLoader = async (callback: () => Promise<any>) => {
@@ -103,6 +111,14 @@ const AuthProvider: React.FC<{ auth: Auth; children: React.ReactNode }> = ({
     })
   }
 
+  const signupWithProvider = async (provider: AuthProvider, role: string) => {
+    await tryWithLoader(async () => {
+      const { user } = await signInWithPopup(auth, provider)
+      await ensureUserRole(user.email || "", role)
+      await signInWithPopup(auth, provider)
+    })
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -112,6 +128,7 @@ const AuthProvider: React.FC<{ auth: Auth; children: React.ReactNode }> = ({
         logout,
         isLogged,
         signup,
+        signupWithProvider,
       }}
     >
       {children}

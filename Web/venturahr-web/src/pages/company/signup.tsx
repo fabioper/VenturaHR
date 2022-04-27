@@ -60,7 +60,7 @@ const Signup: NextPage = () => {
         </div>
 
         <div>
-          Já tem conta? <Link href="/login">Faça login</Link>
+          Já tem conta? <Link href="/company/login">Faça login</Link>
         </div>
       </form>
     </div>
