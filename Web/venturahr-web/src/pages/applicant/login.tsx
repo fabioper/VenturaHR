@@ -3,25 +3,34 @@ import React, { useState } from "react"
 import { useAuth } from "../../contexts/AuthContext"
 import { NextPage } from "next"
 import { useGuardAgainst } from "../../hooks/useGuardAgainst"
-import { Alert, Button, Input } from "antd"
-import { LoginOutlined } from "@ant-design/icons"
+import { Input, InputGroup, InputRightElement } from "@chakra-ui/input"
+import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  Button,
+  Icon,
+} from "@chakra-ui/react"
+import { MdLogin } from "react-icons/md"
 
 const Login: NextPage = () => {
   useGuardAgainst(async ({ isLogged }) => isLogged)
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [errors, setErrors] = useState<string[]>([])
+  const [error, setError] = useState<string | null>()
+  const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
 
   const { login } = useAuth()
 
   async function handleLogin(): Promise<any> {
+    setError(null)
     setLoading(true)
     try {
       return await login({ email, password })
     } catch (e) {
-      setErrors(prev => [...prev, "Verifique suas credenciais."])
+      setError("Verifique suas credenciais.")
     } finally {
       setLoading(false)
     }
@@ -30,20 +39,17 @@ const Login: NextPage = () => {
   return (
     <main>
       <div className="container pt-16">
+        <h2 className="mb-7 text-center text-3xl font-bold">
+          Entrar como Candidato
+        </h2>
+
         <form className="w-4/12 bg-slate-400 text-white bg-opacity-5 mx-auto p-10 rounded-xl">
-          <h2 className="mb-7 text-center">Entrar como Candidato</h2>
-          {errors.length > 0 && (
-            <div className="my-5 flex flex-col gap-4">
-              {errors.map((error, index) => (
-                <Alert
-                  key={index}
-                  showIcon
-                  type="warning"
-                  closable
-                  description={error}
-                  onClose={() => setErrors(e => e.filter(e => e !== error))}
-                />
-              ))}
+          {!!error && (
+            <div className="mb-5 flex flex-col gap-4">
+              <Alert status="error">
+                <AlertIcon />
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
             </div>
           )}
           <div className="mb-3">
@@ -53,33 +59,47 @@ const Login: NextPage = () => {
 
           <div>
             <label className="block mb-1">Senha:</label>
-            <Input.Password
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-            />
+            <InputGroup size="md">
+              <Input
+                pr="4.5rem"
+                type={showPassword ? "text" : "password"}
+                placeholder="Enter password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+              />
+              <InputRightElement width="4.5rem">
+                <Button
+                  h="1.75rem"
+                  size="sm"
+                  onClick={() => setShowPassword(show => !show)}
+                >
+                  {showPassword ? "Hide" : "Show"}
+                </Button>
+              </InputRightElement>
+            </InputGroup>
           </div>
 
           <div className="my-7">
             <Button
-              type="primary"
-              size="large"
-              block
-              icon={<LoginOutlined />}
               onClick={handleLogin}
-              loading={loading}
-              className="rounded"
+              isLoading={loading}
+              loadingText="Enviando"
+              colorScheme="teal"
+              size="lg"
+              width="100%"
+              rightIcon={<Icon as={MdLogin} />}
             >
               Entrar
             </Button>
           </div>
 
-          <div className="mt-6 border-0 border-solid border-t border-slate-800 pt-5 text-center">
+          <div className="border-0 border-solid border-t border-slate-700 pt-5 text-center">
             Ainda não tem conta?
             <div>
               <Link href="/applicant/signup">
-                <span className="underline underline-offset-4 cursor-pointer py-2 mx-auto hover:opacity-80 hover:text-cyan-400">
-                  Cadastre-se
-                </span>
+                <Button variant="link" colorScheme="linkedin" className="mt-2">
+                  Crie sua conta
+                </Button>
               </Link>
             </div>
           </div>

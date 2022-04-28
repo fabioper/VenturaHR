@@ -1,8 +1,8 @@
 import Link from "next/link"
 import React from "react"
 import { useAuth } from "../contexts/AuthContext"
-import { Button } from "antd"
-import { UserOutlined } from "@ant-design/icons"
+import { Button, Icon } from "@chakra-ui/react"
+import { MdLogin, MdLogout } from "react-icons/md"
 
 const Header: React.FC = () => {
   const { isLogged, logout } = useAuth()
@@ -19,19 +19,13 @@ const Header: React.FC = () => {
             <>
               <li>
                 <Link href="/company/login">
-                  <Button icon={<UserOutlined />} className="rounded">
-                    Entrar como Empresa
-                  </Button>
+                  <Button rightIcon={<Icon as={MdLogin} />}>Empresa</Button>
                 </Link>
               </li>
               <li>
                 <Link href="/applicant/login">
-                  <Button
-                    type="primary"
-                    icon={<UserOutlined />}
-                    className="rounded"
-                  >
-                    Entrar como Candidato
+                  <Button colorScheme="teal" rightIcon={<Icon as={MdLogin} />}>
+                    Candidato
                   </Button>
                 </Link>
               </li>
@@ -39,15 +33,13 @@ const Header: React.FC = () => {
           ) : (
             <>
               <li>
-                <a
-                  href="#"
-                  onClick={async e => {
-                    e.preventDefault()
-                    await logout()
-                  }}
+                <Button
+                  colorScheme="red"
+                  onClick={logout}
+                  rightIcon={<Icon as={MdLogout} />}
                 >
                   Sair
-                </a>
+                </Button>
               </li>
             </>
           )}
