@@ -3,18 +3,25 @@ import { useRouter } from "next/router"
 import { useEffect } from "react"
 
 export function useGuardAgainst(
-  guard: (auth: AuthContextProps) => Promise<boolean>,
+  rule: (auth: AuthContextProps) => Promise<boolean>,
   redirect?: (auth: AuthContextProps) => Promise<string>
 ): void {
   const auth = useAuth()
   const router = useRouter()
 
+  async function redirectUser(): Promise<void> {
+    const redirectPath = redirect
+      ? await redirect(auth)
+      : auth.user?.redirectPage
+    await router.push(redirectPath || "/")
+  }
+
   useEffect(() => {
     ;(async () => {
-      ;(await guard(auth)) &&
-        (await router.push(
-          redirect ? await redirect(auth) : await auth.redirectUser()
-        ))
+      const ruleIsSatisfied = await rule(auth)
+      if (ruleIsSatisfied) {
+        await redirectUser()
+      }
     })()
-  }, [auth.user, guard])
+  }, [auth.user, rule])
 }

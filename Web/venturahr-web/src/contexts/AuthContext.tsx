@@ -6,12 +6,14 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
+  updateProfile,
   User,
 } from "firebase/auth"
 import { getFunctions, httpsCallable } from "firebase/functions"
 import { firebaseApp } from "../config/firebase/firebase.config"
-import firebase from "firebase/compat"
-import IdTokenResult = firebase.auth.IdTokenResult
+import { AuthUser } from "./AuthUser"
+import { useLoader } from "../hooks/useLoader"
+import { toAuthUser } from "../utils/toAuthUser"
 
 export interface LoginCredentials {
   email: string
@@ -19,15 +21,20 @@ export interface LoginCredentials {
 }
 
 export interface AuthContextProps {
-  user?: User
+  user?: AuthUser
   loading: boolean
   isLogged: boolean
   login: (credentials: LoginCredentials) => Promise<any>
   logout: () => Promise<any>
-  hasRoles: (...roles: string[]) => Promise<boolean>
   signup: (credentials: SignUpCredentials) => Promise<void>
   signupWithProvider: (provider: AuthProvider, role: string) => Promise<void>
-  redirectUser: () => Promise<string>
+}
+
+interface SignUpCredentials {
+  email: string
+  password: string
+  role: string
+  displayName: string
 }
 
 export const AuthContext = createContext<AuthContextProps>({
@@ -37,103 +44,71 @@ export const AuthContext = createContext<AuthContextProps>({
   logout: async () => {},
   signup: async () => {},
   signupWithProvider: async () => {},
-  redirectUser: async () => "",
-  hasRoles: async () => false,
 })
-
-interface SignUpCredentials {
-  email: string
-  password: string
-  role: string
-  displayName: string
-}
 
 const AuthProvider: React.FC<{ auth: Auth; children: React.ReactNode }> = ({
   auth,
   children,
 }) => {
-  const [user, setUser] = useState<User>()
-  const [loading, setLoading] = useState<boolean>(true)
+  const [user, setUser] = useState<AuthUser>()
   const [isLogged, setIsLogged] = useState(false)
+  const { loading, withLoader } = useLoader()
 
   useEffect(() => setIsLogged(!!user), [user])
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async () => {
-      setUser(auth.currentUser || undefined)
-      setLoading(false)
+  async function reloadUser(): Promise<void> {
+    await withLoader(async () => {
+      const currentUser = auth.currentUser
+      const user = currentUser ? await toAuthUser(currentUser) : undefined
+      if (user?.roles && user?.roles.length > 0) {
+        setUser(user)
+      }
     })
+  }
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(async () => await reloadUser())
     return () => unsubscribe()
   }, [])
 
-  const tryWithLoader = async (callback: () => Promise<any>) => {
-    try {
-      setLoading(true)
-      await callback()
-    } catch (e) {
-      console.log(e)
-    } finally {
-      setLoading(false)
-    }
-  }
-
   const login = async ({ email, password }: LoginCredentials) => {
-    await tryWithLoader(
+    await withLoader(
       async () => await signInWithEmailAndPassword(auth, email, password)
     )
   }
 
   const logout = async () => {
-    await tryWithLoader(async () => await signOut(auth))
+    await withLoader(async () => await signOut(auth))
   }
 
-  async function ensureUserRole(email: string, role: string): Promise<void> {
+  const ensureUserRole = async (email: string, role: string): Promise<void> => {
     const functions = getFunctions(firebaseApp)
     const assignRoleToUser = httpsCallable(functions, "assignRoleToUser")
     await assignRoleToUser({ email, role })
   }
 
-  const signup = async ({ email, password, role }: SignUpCredentials) => {
-    await tryWithLoader(async () => {
+  const fillProfile = async (user: User, credentials: SignUpCredentials) => {
+    await ensureUserRole(user.email || credentials.email, credentials.role)
+    await updateProfile(user, { displayName: credentials.displayName })
+    await reloadUser()
+  }
+
+  const signup = async (credentials: SignUpCredentials) => {
+    await withLoader(async () => {
       const { user } = await createUserWithEmailAndPassword(
         auth,
-        email,
-        password
+        credentials.email,
+        credentials.password
       )
-      await ensureUserRole(user.email || email, role)
-      await setUser(auth.currentUser || undefined)
+      await fillProfile(user, credentials)
     })
   }
 
   const signupWithProvider = async (provider: AuthProvider, role: string) => {
-    await tryWithLoader(async () => {
+    await withLoader(async () => {
       const { user } = await signInWithPopup(auth, provider)
       await ensureUserRole(user.email || "", role)
-      await signInWithPopup(auth, provider)
     })
-  }
-
-  function checkForRole(token: IdTokenResult, ...roles: string[]): boolean {
-    const userRoles = (token?.claims.role as string[]) || []
-    const hasAnyRole = !!userRoles && userRoles.length > 0
-    return hasAnyRole && roles.every(role => userRoles.includes(role))
-  }
-
-  const hasRoles = async (...roles: string[]) => {
-    const token = await user?.getIdTokenResult(true)
-    return !token ? false : checkForRole(token, ...roles)
-  }
-
-  async function redirectUser(): Promise<string> {
-    if (await hasRoles("applicant")) {
-      return "/applicant/dashboard"
-    }
-
-    if (await hasRoles("company")) {
-      return "/company/dashboard"
-    }
-
-    return "/"
   }
 
   return (
@@ -146,8 +121,6 @@ const AuthProvider: React.FC<{ auth: Auth; children: React.ReactNode }> = ({
         isLogged,
         signup,
         signupWithProvider,
-        redirectUser,
-        hasRoles,
       }}
     >
       {children}

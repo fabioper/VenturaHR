@@ -13,10 +13,11 @@ const ProtectedPage: React.FC<ProtectedPageProps> = ({
 }) => {
   if (onlyRoles.length > 0) {
     useGuardAgainst(
-      async ({ isLogged, hasRoles }) =>
-        isLogged && !(await hasRoles(...onlyRoles))
+      async ({ isLogged, user }) =>
+        isLogged && !(await user?.hasRole(...onlyRoles))
     )
   }
+
   const { loading } = useAuth()
 
   if (loading) {

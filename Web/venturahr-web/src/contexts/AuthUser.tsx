@@ -1,0 +1,28 @@
+export class AuthUser {
+  id: string
+  name?: string
+  email?: string
+  jwt: string
+  roles: string[]
+
+  constructor(props: Partial<AuthUser>) {
+    Object.assign(this, props)
+  }
+
+  public hasRole(...roles: string[]) {
+    const hasAnyRole = !!roles && roles.length > 0
+    return hasAnyRole && roles.every(role => roles.includes(role))
+  }
+
+  get redirectPage() {
+    if (this.hasRole("applicant")) {
+      return "/applicant/dashboard"
+    }
+
+    if (this.hasRole("company")) {
+      return "/company/dashboard"
+    }
+
+    return "/"
+  }
+}
