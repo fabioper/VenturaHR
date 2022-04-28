@@ -1,11 +1,16 @@
 import type { NextPage } from "next"
 import Head from "next/head"
-import Link from "next/link"
 import { useAuth } from "../contexts/AuthContext"
 import ProtectedPage from "../components/ProtectedPage"
+import { useRouter } from "next/router"
 
 const Home: NextPage = () => {
   const { user, isLogged, logout } = useAuth()
+  const router = useRouter()
+
+  if (isLogged && user) {
+    router.push(user.redirectPage).then()
+  }
 
   return (
     <ProtectedPage>
@@ -16,25 +21,8 @@ const Home: NextPage = () => {
           <link rel="icon" href="/favicon.ico" />
         </Head>
 
-        <main>
+        <main className="py-6">
           <div className="container">Content</div>
-          {!isLogged ? (
-            <div>
-              <p>
-                <Link href="/applicant/login">Entrar como candidato</Link>
-              </p>
-              <p>
-                <Link href="/company/login">Entrar como empresa</Link>
-              </p>
-            </div>
-          ) : (
-            <div>
-              <p>Hello, {user?.name}</p>
-              <a href="/" onClick={() => logout()}>
-                Sair
-              </a>
-            </div>
-          )}
         </main>
       </div>
     </ProtectedPage>

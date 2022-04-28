@@ -13,41 +13,48 @@ const Login: NextPage = () => {
   const { login } = useAuth()
 
   return (
-    <div>
-      <h1>Faça o login</h1>
-      <form>
-        <div>
-          <label>Email:</label>
-          <input
-            type="text"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-          />
-        </div>
+    <main>
+      <div className="container py-6">
+        <form className="w-6/12 bg-slate-50 text-sky-800 mx-auto p-10 rounded-lg">
+          <h1 className="mb-5 font-bold">Faça o login</h1>
+          <div className="mb-3">
+            <label className="block mb-1 text-sm">Email:</label>
+            <input
+              type="text"
+              value={email}
+              className="border w-full"
+              onChange={e => setEmail(e.target.value)}
+            />
+          </div>
 
-        <div>
-          <label>Senha:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-          />
-        </div>
+          <div>
+            <label className="block mb-1">Senha:</label>
+            <input
+              type="password"
+              value={password}
+              className="border w-full"
+              onChange={e => setPassword(e.target.value)}
+            />
+          </div>
 
-        <div>
-          <button
-            type="button"
-            onClick={async () => await login({ email, password })}
-          >
-            Entrar
-          </button>
-        </div>
+          <div className="my-5">
+            <button
+              type="button"
+              onClick={async () => await login({ email, password })}
+            >
+              Entrar
+            </button>
+          </div>
 
-        <div>
-          Ainda não tem conta? <Link href="/applicant/signup">Cadastre-se</Link>
-        </div>
-      </form>
-    </div>
+          <div className="border-t border-t-slate-200 pt-3 text-center">
+            Ainda não tem conta?{" "}
+            <Link href="/applicant/signup">
+              <span className="underline cursor-pointer">Cadastre-se</span>
+            </Link>
+          </div>
+        </form>
+      </div>
+    </main>
   )
 }
 

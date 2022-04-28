@@ -4,7 +4,7 @@ import ProtectedPage from "../../components/ProtectedPage"
 const dashboard: NextPage = () => {
   return (
     <ProtectedPage onlyRoles={["applicant"]}>
-      <div>Área do candidado</div>
+      <div className="container">Área do candidado</div>
     </ProtectedPage>
   )
 }

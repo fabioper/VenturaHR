@@ -78,7 +78,10 @@ const AuthProvider: React.FC<{ auth: Auth; children: React.ReactNode }> = ({
   }
 
   const logout = async () => {
-    await withLoader(async () => await signOut(auth))
+    await withLoader(async () => {
+      await signOut(auth)
+      setUser(undefined)
+    })
   }
 
   const ensureUserRole = async (email: string, role: string): Promise<void> => {
