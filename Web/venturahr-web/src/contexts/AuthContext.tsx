@@ -73,7 +73,8 @@ const AuthProvider: React.FC<{ auth: Auth; children: React.ReactNode }> = ({
 
   const login = async ({ email, password }: LoginCredentials) => {
     await withLoader(
-      async () => await signInWithEmailAndPassword(auth, email, password)
+      async () => await signInWithEmailAndPassword(auth, email, password),
+      true
     )
   }
 

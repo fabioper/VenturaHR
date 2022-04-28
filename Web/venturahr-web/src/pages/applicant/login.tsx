@@ -3,7 +3,7 @@ import React, { useState } from "react"
 import { useAuth } from "../../contexts/AuthContext"
 import { NextPage } from "next"
 import { useGuardAgainst } from "../../hooks/useGuardAgainst"
-import { Button, Input } from "antd"
+import { Alert, Button, Input } from "antd"
 import { LoginOutlined } from "@ant-design/icons"
 
 const Login: NextPage = () => {
@@ -11,16 +11,41 @@ const Login: NextPage = () => {
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [errors, setErrors] = useState<string[]>([])
+  const [loading, setLoading] = useState(false)
 
   const { login } = useAuth()
+
+  async function handleLogin(): Promise<any> {
+    setLoading(true)
+    try {
+      return await login({ email, password })
+    } catch (e) {
+      setErrors(prev => [...prev, "Verifique suas credenciais."])
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <main>
       <div className="container pt-16">
         <form className="w-4/12 bg-slate-400 text-white bg-opacity-5 mx-auto p-10 rounded-xl">
-          <h1 className="mb-5 font-bold text-md text-center">
-            Login Candidato
-          </h1>
+          <h2 className="mb-7 text-center">Entrar como Candidato</h2>
+          {errors.length > 0 && (
+            <div className="my-5 flex flex-col gap-4">
+              {errors.map((error, index) => (
+                <Alert
+                  key={index}
+                  showIcon
+                  type="warning"
+                  closable
+                  description={error}
+                  onClose={() => setErrors(e => e.filter(e => e !== error))}
+                />
+              ))}
+            </div>
+          )}
           <div className="mb-3">
             <label className="block mb-1 text-sm">Email:</label>
             <Input value={email} onChange={e => setEmail(e.target.value)} />
@@ -34,23 +59,29 @@ const Login: NextPage = () => {
             />
           </div>
 
-          <div className="my-5">
+          <div className="my-7">
             <Button
               type="primary"
               size="large"
-              className="w-full"
+              block
               icon={<LoginOutlined />}
-              onClick={async () => await login({ email, password })}
+              onClick={handleLogin}
+              loading={loading}
+              className="rounded"
             >
               Entrar
             </Button>
           </div>
 
-          <div className="border-t border-t-slate-200 pt-3 text-center">
-            Ainda não tem conta?{" "}
-            <Link href="/applicant/signup">
-              <span className="underline cursor-pointer">Cadastre-se</span>
-            </Link>
+          <div className="mt-6 border-0 border-solid border-t border-slate-800 pt-5 text-center">
+            Ainda não tem conta?
+            <div>
+              <Link href="/applicant/signup">
+                <span className="underline underline-offset-4 cursor-pointer py-2 mx-auto hover:opacity-80 hover:text-cyan-400">
+                  Cadastre-se
+                </span>
+              </Link>
+            </div>
           </div>
         </form>
       </div>

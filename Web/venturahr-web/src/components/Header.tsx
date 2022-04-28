@@ -19,12 +19,18 @@ const Header: React.FC = () => {
             <>
               <li>
                 <Link href="/company/login">
-                  <Button icon={<UserOutlined />}>Entrar como Empresa</Button>
+                  <Button icon={<UserOutlined />} className="rounded">
+                    Entrar como Empresa
+                  </Button>
                 </Link>
               </li>
               <li>
                 <Link href="/applicant/login">
-                  <Button type="primary" icon={<UserOutlined />}>
+                  <Button
+                    type="primary"
+                    icon={<UserOutlined />}
+                    className="rounded"
+                  >
                     Entrar como Candidato
                   </Button>
                 </Link>
