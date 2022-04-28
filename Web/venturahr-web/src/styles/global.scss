@@ -3,5 +3,8 @@
 @tailwind utilities;
 
 body {
-  @apply bg-slate-900;
+  background-color: #030D19;
+  /*background-image: url("/bg.png");*/
+  font-family: var(--font-family);
+  color: var(--text-color);
 }

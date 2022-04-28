@@ -3,15 +3,11 @@ import React, { useState } from "react"
 import { useAuth } from "../../contexts/AuthContext"
 import { NextPage } from "next"
 import { useGuardAgainst } from "../../hooks/useGuardAgainst"
-import { Input, InputGroup, InputRightElement } from "@chakra-ui/input"
-import {
-  Alert,
-  AlertDescription,
-  AlertIcon,
-  Button,
-  Icon,
-} from "@chakra-ui/react"
-import { MdLogin } from "react-icons/md"
+import { Message } from "primereact/message"
+import { InputText } from "primereact/inputtext"
+import { Password } from "primereact/password"
+import { Button } from "primereact/button"
+import { PrimeIcons } from "primereact/api"
 
 const Login: NextPage = () => {
   useGuardAgainst(async ({ isLogged }) => isLogged)
@@ -19,7 +15,6 @@ const Login: NextPage = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState<string | null>()
-  const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
 
   const { login } = useAuth()
@@ -38,7 +33,7 @@ const Login: NextPage = () => {
 
   return (
     <main>
-      <div className="container pt-16">
+      <div className="container pt-10">
         <h2 className="mb-7 text-center text-3xl font-bold">
           Entrar como Candidato
         </h2>
@@ -46,58 +41,44 @@ const Login: NextPage = () => {
         <form className="w-4/12 bg-slate-400 text-white bg-opacity-5 mx-auto p-10 rounded-xl">
           {!!error && (
             <div className="mb-5 flex flex-col gap-4">
-              <Alert status="error">
-                <AlertIcon />
-                <AlertDescription>{error}</AlertDescription>
-              </Alert>
+              <Message severity="warn">{error}</Message>
             </div>
           )}
           <div className="mb-3">
-            <label className="block mb-1 text-sm">Email:</label>
-            <Input value={email} onChange={e => setEmail(e.target.value)} />
+            <label className="block mb-1">Email:</label>
+            <InputText
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              className="w-full"
+            />
           </div>
 
           <div>
             <label className="block mb-1">Senha:</label>
-            <InputGroup size="md">
-              <Input
-                pr="4.5rem"
-                type={showPassword ? "text" : "password"}
-                placeholder="Enter password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-              />
-              <InputRightElement width="4.5rem">
-                <Button
-                  h="1.75rem"
-                  size="sm"
-                  onClick={() => setShowPassword(show => !show)}
-                >
-                  {showPassword ? "Hide" : "Show"}
-                </Button>
-              </InputRightElement>
-            </InputGroup>
+            <Password
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              feedback={false}
+              className="w-full"
+              inputClassName="w-full"
+            />
           </div>
 
           <div className="my-7">
             <Button
               onClick={handleLogin}
-              isLoading={loading}
-              loadingText="Enviando"
-              colorScheme="teal"
-              size="lg"
-              width="100%"
-              rightIcon={<Icon as={MdLogin} />}
-            >
-              Entrar
-            </Button>
+              loading={loading}
+              icon={PrimeIcons.SIGN_IN}
+              className="w-full"
+              label={loading ? "Aguard um momento" : "Entrar"}
+            />
           </div>
 
           <div className="border-0 border-solid border-t border-slate-700 pt-5 text-center">
             Ainda não tem conta?
             <div>
               <Link href="/applicant/signup">
-                <Button variant="link" colorScheme="linkedin" className="mt-2">
+                <Button className="p-button-text p-button-sm mt-2">
                   Crie sua conta
                 </Button>
               </Link>

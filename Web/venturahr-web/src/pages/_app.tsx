@@ -1,4 +1,7 @@
 import React from "react"
+import "primereact/resources/themes/lara-dark-indigo/theme.css"
+import "primereact/resources/primereact.min.css"
+import "primeicons/primeicons.css"
 import "../styles/global.scss"
 
 import { AppProps } from "next/app"
@@ -7,26 +10,15 @@ import { getAuth } from "firebase/auth"
 import { firebaseApp } from "../config/firebase/firebase.config"
 import Header from "../components/Header"
 
-import { ChakraProvider, extendTheme, ThemeConfig } from "@chakra-ui/react"
-
-const config: ThemeConfig = {
-  initialColorMode: "dark",
-  useSystemColorMode: false,
-}
-
-const theme = extendTheme({ config })
-
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   const auth = getAuth(firebaseApp)
   auth.useDeviceLanguage()
 
   return (
-    <ChakraProvider theme={theme}>
-      <AuthProvider auth={auth}>
-        <Header />
-        <Component {...pageProps} />
-      </AuthProvider>
-    </ChakraProvider>
+    <AuthProvider auth={auth}>
+      <Header />
+      <Component {...pageProps} />
+    </AuthProvider>
   )
 }
 
