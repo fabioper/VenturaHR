@@ -3,6 +3,8 @@ import React, { useState } from "react"
 import { useAuth } from "../../contexts/AuthContext"
 import { NextPage } from "next"
 import { useGuardAgainst } from "../../hooks/useGuardAgainst"
+import { Button, Input } from "antd"
+import { LoginOutlined } from "@ant-design/icons"
 
 const Login: NextPage = () => {
   useGuardAgainst(async ({ isLogged }) => isLogged)
@@ -14,36 +16,34 @@ const Login: NextPage = () => {
 
   return (
     <main>
-      <div className="container py-6">
-        <form className="w-6/12 bg-slate-50 text-sky-800 mx-auto p-10 rounded-lg">
-          <h1 className="mb-5 font-bold">Faça o login</h1>
+      <div className="container pt-16">
+        <form className="w-4/12 bg-slate-400 text-white bg-opacity-5 mx-auto p-10 rounded-xl">
+          <h1 className="mb-5 font-bold text-md text-center">
+            Login Candidato
+          </h1>
           <div className="mb-3">
             <label className="block mb-1 text-sm">Email:</label>
-            <input
-              type="text"
-              value={email}
-              className="border w-full"
-              onChange={e => setEmail(e.target.value)}
-            />
+            <Input value={email} onChange={e => setEmail(e.target.value)} />
           </div>
 
           <div>
             <label className="block mb-1">Senha:</label>
-            <input
-              type="password"
+            <Input.Password
               value={password}
-              className="border w-full"
               onChange={e => setPassword(e.target.value)}
             />
           </div>
 
           <div className="my-5">
-            <button
-              type="button"
+            <Button
+              type="primary"
+              size="large"
+              className="w-full"
+              icon={<LoginOutlined />}
               onClick={async () => await login({ email, password })}
             >
               Entrar
-            </button>
+            </Button>
           </div>
 
           <div className="border-t border-t-slate-200 pt-3 text-center">
