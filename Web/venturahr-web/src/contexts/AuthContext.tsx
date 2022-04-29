@@ -11,27 +11,18 @@ import {
 import { AuthUser } from "./AuthUser"
 import { useLoader } from "../hooks/useLoader"
 import { formatUser, isNewUser, setUserRole } from "../utils/auth.utils"
-
-export interface LoginCredentials {
-  email: string
-  password: string
-}
+import { LoginDto } from "../core/dtos/LoginDto"
+import { SignUpDto } from "../core/dtos/SignUpDto"
+import { UserRole } from "../core/enums/UserRole"
 
 export interface AuthContextProps {
   user?: AuthUser
   loading: boolean
   isLogged: boolean
-  login: (credentials: LoginCredentials) => Promise<any>
+  login: (credentials: LoginDto) => Promise<any>
   logout: () => Promise<any>
-  signup: (credentials: SignUpCredentials) => Promise<void>
-  loginWithProvider: (provider: AuthProvider, role: string) => Promise<void>
-}
-
-interface SignUpCredentials {
-  email: string
-  password: string
-  role: string
-  displayName: string
+  signup: (credentials: SignUpDto) => Promise<void>
+  loginWithProvider: (provider: AuthProvider, role: UserRole) => Promise<void>
 }
 
 export const AuthContext = createContext<AuthContextProps>({
@@ -68,7 +59,7 @@ const AuthProvider: React.FC<{ auth: Auth; children: React.ReactNode }> = ({
     return () => unsubscribe()
   }, [])
 
-  const login = async ({ email, password }: LoginCredentials) => {
+  const login = async ({ email, password }: LoginDto) => {
     await withLoader(
       async () => await signInWithEmailAndPassword(auth, email, password),
       true
@@ -82,7 +73,7 @@ const AuthProvider: React.FC<{ auth: Auth; children: React.ReactNode }> = ({
     })
   }
 
-  const signup = async (credentials: SignUpCredentials) => {
+  const signup = async (credentials: SignUpDto) => {
     await withLoader(async () => {
       const { user } = await createUserWithEmailAndPassword(
         auth,
@@ -95,7 +86,7 @@ const AuthProvider: React.FC<{ auth: Auth; children: React.ReactNode }> = ({
     })
   }
 
-  const loginWithProvider = async (provider: AuthProvider, role: string) => {
+  const loginWithProvider = async (provider: AuthProvider, role: UserRole) => {
     await withLoader(async () => {
       const { user } = await signInWithPopup(auth, provider)
       isNewUser(user) && (await setUserRole(user.uid, role))

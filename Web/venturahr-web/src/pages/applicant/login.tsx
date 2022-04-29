@@ -14,6 +14,7 @@ import {
   TwitterAuthProvider,
 } from "firebase/auth"
 import Link from "next/link"
+import { UserRole } from "../../core/enums/UserRole"
 
 const Login: NextPage = () => {
   useGuardAgainst(async ({ isLogged }) => isLogged)
@@ -113,7 +114,10 @@ const Login: NextPage = () => {
                 className="google p-0"
                 aria-label="Google"
                 onClick={async () =>
-                  await loginWithProvider(new GoogleAuthProvider(), "applicant")
+                  await loginWithProvider(
+                    new GoogleAuthProvider(),
+                    UserRole.Applicant
+                  )
                 }
               >
                 <i className="pi pi-google px-2 py-2"></i>
@@ -125,7 +129,10 @@ const Login: NextPage = () => {
                 className="github p-0"
                 aria-label="github"
                 onClick={async () =>
-                  await loginWithProvider(new GithubAuthProvider(), "applicant")
+                  await loginWithProvider(
+                    new GithubAuthProvider(),
+                    UserRole.Applicant
+                  )
                 }
               >
                 <i className="pi pi-github px-2 py-2"></i>
@@ -139,7 +146,7 @@ const Login: NextPage = () => {
                 onClick={async () =>
                   await loginWithProvider(
                     new TwitterAuthProvider(),
-                    "applicant"
+                    UserRole.Applicant
                   )
                 }
               >

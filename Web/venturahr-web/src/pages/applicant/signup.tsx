@@ -4,6 +4,7 @@ import Link from "next/link"
 import { useState } from "react"
 import { useAuth } from "../../contexts/AuthContext"
 import { useGuardAgainst } from "../../hooks/useGuardAgainst"
+import { UserRole } from "../../core/enums/UserRole"
 
 const Signup: NextPage = () => {
   useGuardAgainst(async ({ isLogged }) => isLogged)
@@ -53,7 +54,7 @@ const Signup: NextPage = () => {
                 displayName,
                 email,
                 password,
-                role: "applicant",
+                role: UserRole.Applicant,
               })
             }
           >
@@ -69,7 +70,7 @@ const Signup: NextPage = () => {
                 <a
                   href="#"
                   onClick={() =>
-                    loginWithProvider(provider.provider, "applicant")
+                    loginWithProvider(provider.provider, UserRole.Applicant)
                   }
                 >
                   {provider.label}
