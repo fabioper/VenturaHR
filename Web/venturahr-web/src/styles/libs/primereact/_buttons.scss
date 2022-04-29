@@ -20,6 +20,7 @@
 
 @mixin social-button($darkColor, $lightColor) {
   @apply grow;
+  @apply rounded;
   background: linear-gradient(to left, $lightColor 50%, $darkColor 50%);
   background-size: 200% 100%;
   background-position: right bottom;
@@ -55,7 +56,7 @@
 }
 
 .p-button.github {
-  @include social-button(#000, #1f1e1e);
+  @include social-button(#000, #0D1117);
 }
 
 .p-button.twitter {

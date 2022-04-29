@@ -7,13 +7,10 @@ import {
   signInWithPopup,
   signOut,
   updateProfile,
-  User,
 } from "firebase/auth"
-import { getFunctions, httpsCallable } from "firebase/functions"
-import { firebaseApp } from "../config/firebase/firebase.config"
 import { AuthUser } from "./AuthUser"
 import { useLoader } from "../hooks/useLoader"
-import { toAuthUser } from "../utils/toAuthUser"
+import { formatUser, isNewUser, setUserRole } from "../utils/auth.utils"
 
 export interface LoginCredentials {
   email: string
@@ -56,10 +53,10 @@ const AuthProvider: React.FC<{ auth: Auth; children: React.ReactNode }> = ({
 
   useEffect(() => setIsLogged(!!user), [user])
 
-  async function reloadUser(): Promise<void> {
+  async function loadUser(): Promise<void> {
     await withLoader(async () => {
       const currentUser = auth.currentUser
-      const user = currentUser ? await toAuthUser(currentUser) : undefined
+      const user = currentUser ? await formatUser(currentUser) : undefined
       if (user?.roles && user?.roles.length > 0) {
         setUser(user)
       }
@@ -67,7 +64,7 @@ const AuthProvider: React.FC<{ auth: Auth; children: React.ReactNode }> = ({
   }
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async () => await reloadUser())
+    const unsubscribe = auth.onAuthStateChanged(async () => await loadUser())
     return () => unsubscribe()
   }, [])
 
@@ -85,18 +82,6 @@ const AuthProvider: React.FC<{ auth: Auth; children: React.ReactNode }> = ({
     })
   }
 
-  const ensureUserRole = async (id: string, role: string): Promise<void> => {
-    const functions = getFunctions(firebaseApp)
-    const assignRoleToUser = httpsCallable(functions, "assignRoleToUser")
-    await assignRoleToUser({ id, role })
-  }
-
-  const fillProfile = async (user: User, credentials: SignUpCredentials) => {
-    await ensureUserRole(user.email || credentials.email, credentials.role)
-    await updateProfile(user, { displayName: credentials.displayName })
-    await reloadUser()
-  }
-
   const signup = async (credentials: SignUpCredentials) => {
     await withLoader(async () => {
       const { user } = await createUserWithEmailAndPassword(
@@ -104,15 +89,17 @@ const AuthProvider: React.FC<{ auth: Auth; children: React.ReactNode }> = ({
         credentials.email,
         credentials.password
       )
-      await fillProfile(user, credentials)
+      await setUserRole(user.email || credentials.email, credentials.role)
+      await updateProfile(user, { displayName: credentials.displayName })
+      await loadUser()
     })
   }
 
   const loginWithProvider = async (provider: AuthProvider, role: string) => {
     await withLoader(async () => {
       const { user } = await signInWithPopup(auth, provider)
-      await ensureUserRole(user.uid, role)
-      await reloadUser()
+      isNewUser(user) && (await setUserRole(user.uid, role))
+      await loadUser()
     })
   }
 

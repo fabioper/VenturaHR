@@ -23,7 +23,7 @@ const Login: NextPage = () => {
   const [error, setError] = useState<string | null>()
   const [loading, setLoading] = useState(false)
 
-  const { login, loginWithProvider } = useAuth()
+  const { login, loginWithProvider, loading: authenticating } = useAuth()
 
   async function handleLogin(
     e: React.FormEvent<HTMLFormElement>
@@ -48,12 +48,9 @@ const Login: NextPage = () => {
 
       <div className="container mt-5">
         <header className="my-10 text-center">
-          <h2 className="mt-0 mb-2 text-slate-50 text-4xl">
+          <h2 className="mt-0 mb-2 text-slate-50 text-3xl">
             Entre no seu perfil
           </h2>
-          <p className="m-0 text-indigo-300 opacity-75">
-            Bem vindo ao VenturaHR
-          </p>
         </header>
         <div className="sm:w-full md:w-10/12 lg:w-4/12 bg-slate-900 mx-auto mb-10 p-10 rounded-xl bg-opacity-80">
           {!!error && (
@@ -95,7 +92,7 @@ const Login: NextPage = () => {
             <div>
               <Button
                 type="submit"
-                loading={loading}
+                loading={loading || authenticating}
                 icon={PrimeIcons.SIGN_IN}
                 className="w-full"
                 label="Entrar"
@@ -103,14 +100,13 @@ const Login: NextPage = () => {
             </div>
           </form>
 
+          <div className="my-7 grid grid-cols-[1fr_auto_1fr] gap-x-2 items-center">
+            <span className="h-0.5 bg-slate-800" />
+            <span className="text-slate-500 text-sm font-normal">ou</span>
+            <span className="h-0.5 bg-slate-800" />
+          </div>
+
           <div className="flex flex-col gap-3 my-7">
-            <h4 className="mb-3 text-center text-xs font-normal grid grid-cols-3 gap-x-2 justify-center items-center">
-              <span className="h-0.5 bg-slate-800" />
-              <span className="w-full text-slate-500 whitespace-nowrap">
-                Entre também com:
-              </span>
-              <span className="h-0.5 bg-slate-800" />
-            </h4>
             <div className="flex justify-center items-center flex-row gap-2">
               <Button
                 type="button"
@@ -156,10 +152,10 @@ const Login: NextPage = () => {
           <div className="flex flex-col items-center">
             <Link href="/applicant/signup">
               <Button
-                className="p-button-text p-button-sm mt-2"
+                className="p-button-text p-button-rounded p-button-sm mt-2"
                 icon={PrimeIcons.ARROW_RIGHT}
                 iconPos="right"
-                label="Ou crie sua conta aqui"
+                label="Não tenho cadastro"
               />
             </Link>
           </div>
