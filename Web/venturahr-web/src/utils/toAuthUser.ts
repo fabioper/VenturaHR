@@ -2,6 +2,7 @@ import { User } from "firebase/auth"
 import { AuthUser } from "../contexts/AuthUser"
 
 export const toAuthUser = async (user: User): Promise<AuthUser> => {
+  console.log(user)
   const token = await user.getIdTokenResult(true)
   return new AuthUser({
     id: user.uid,

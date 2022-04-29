@@ -85,10 +85,10 @@ const AuthProvider: React.FC<{ auth: Auth; children: React.ReactNode }> = ({
     })
   }
 
-  const ensureUserRole = async (email: string, role: string): Promise<void> => {
+  const ensureUserRole = async (id: string, role: string): Promise<void> => {
     const functions = getFunctions(firebaseApp)
     const assignRoleToUser = httpsCallable(functions, "assignRoleToUser")
-    await assignRoleToUser({ email, role })
+    await assignRoleToUser({ id, role })
   }
 
   const fillProfile = async (user: User, credentials: SignUpCredentials) => {
@@ -111,7 +111,8 @@ const AuthProvider: React.FC<{ auth: Auth; children: React.ReactNode }> = ({
   const loginWithProvider = async (provider: AuthProvider, role: string) => {
     await withLoader(async () => {
       const { user } = await signInWithPopup(auth, provider)
-      await ensureUserRole(user.email || "", role)
+      await ensureUserRole(user.uid, role)
+      await reloadUser()
     })
   }
 
