@@ -20,7 +20,6 @@
 
 @mixin social-button($darkColor, $lightColor) {
   @apply grow;
-
   background: linear-gradient(to left, $lightColor 50%, $darkColor 50%);
   background-size: 200% 100%;
   background-position: right bottom;
@@ -34,6 +33,7 @@
 
   span {
     @apply mx-auto;
+    @apply text-xs;
   }
 
   &:hover {

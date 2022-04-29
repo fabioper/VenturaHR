@@ -1,16 +1,21 @@
-.p-inline-message {
-  @apply rounded;
+@mixin inline-message($color) {
+  background: $color;
+  @apply rounded-none;
+  @apply border-0;
+  @apply border-l-2;
+}
 
+.p-inline-message {
   &.p-inline-message-error {
-    background: #2c1818;
+    @include inline-message(#2c1818);
   }
 
   &.p-inline-message-info {
-    background: #15174d;
+    @include inline-message(#15174d);
   }
 
   &.p-inline-message-warn {
-    background: #291d0c;
+    @include inline-message(#291d0c);
   }
 
   &.p-inline-message-success {
