@@ -27,7 +27,7 @@ export interface AuthContextProps {
   login: (credentials: LoginCredentials) => Promise<any>
   logout: () => Promise<any>
   signup: (credentials: SignUpCredentials) => Promise<void>
-  signupWithProvider: (provider: AuthProvider, role: string) => Promise<void>
+  loginWithProvider: (provider: AuthProvider, role: string) => Promise<void>
 }
 
 interface SignUpCredentials {
@@ -43,7 +43,7 @@ export const AuthContext = createContext<AuthContextProps>({
   login: async () => {},
   logout: async () => {},
   signup: async () => {},
-  signupWithProvider: async () => {},
+  loginWithProvider: async () => {},
 })
 
 const AuthProvider: React.FC<{ auth: Auth; children: React.ReactNode }> = ({
@@ -108,7 +108,7 @@ const AuthProvider: React.FC<{ auth: Auth; children: React.ReactNode }> = ({
     })
   }
 
-  const signupWithProvider = async (provider: AuthProvider, role: string) => {
+  const loginWithProvider = async (provider: AuthProvider, role: string) => {
     await withLoader(async () => {
       const { user } = await signInWithPopup(auth, provider)
       await ensureUserRole(user.email || "", role)
@@ -124,7 +124,7 @@ const AuthProvider: React.FC<{ auth: Auth; children: React.ReactNode }> = ({
         logout,
         isLogged,
         signup,
-        signupWithProvider,
+        loginWithProvider,
       }}
     >
       {children}

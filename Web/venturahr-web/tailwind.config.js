@@ -8,10 +8,14 @@ module.exports = {
       center: true,
       padding: "1rem",
     },
+    fontFamily: {
+      body: ["Inter"],
+    },
     extend: {},
   },
   plugins: [],
   corePlugins: {
     preflight: false,
+    divideStyle: true,
   },
 }

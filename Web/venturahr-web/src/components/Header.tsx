@@ -8,32 +8,24 @@ const Header: React.FC = () => {
   const { isLogged, logout } = useAuth()
 
   return (
-    <header className="border-0 border-b border-slate-900 border-solid backdrop-blur sticky">
+    <header className="border-0 border-b border-slate-900 border-solid backdrop-blur-xl sticky top-0 left-0">
       <div className="container flex justify-between py-5 items-center">
         <Link href="/">
-          <h1 className="font-bold cursor-pointer text-base m-0">VENTURAHR</h1>
+          <h1 className="font-bold cursor-pointer text-base m-0 transition-all hover:scale-110">
+            VENTURAHR
+          </h1>
         </Link>
 
         <ul className="list-none flex flex-row text-sm gap-2 m-0">
           {!isLogged ? (
             <>
               <li>
-                <Link href="/company/login">
-                  <Button
-                    icon={PrimeIcons.SIGN_IN}
-                    iconPos="right"
-                    label="Empresa"
-                    className="p-button-outlined p-button-sm p-button-info p-button-rounded"
-                  />
-                </Link>
-              </li>
-              <li>
                 <Link href="/applicant/login">
                   <Button
                     icon={PrimeIcons.SIGN_IN}
                     iconPos="right"
-                    label="Candidato"
-                    className="p-button-sm p-button-info p-button-rounded"
+                    label="Entrar"
+                    className="p-button-sm p-button-outlined p-button-raised"
                   />
                 </Link>
               </li>
@@ -45,9 +37,9 @@ const Header: React.FC = () => {
                   onClick={logout}
                   icon={PrimeIcons.SIGN_OUT}
                   iconPos="right"
-                >
-                  Sair
-                </Button>
+                  label="Sair"
+                  className="p-button-danger p-button-sm p-button-rounded p-button-outlined"
+                />
               </li>
             </>
           )}

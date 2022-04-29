@@ -1,0 +1,63 @@
+.p-button {
+  @apply bg-indigo-500;
+  @apply border-indigo-500;
+  @apply text-indigo-50;
+  @apply transition-all;
+  @apply hover:-translate-y-0.5;
+
+  &:hover:not(:disabled) {
+    @apply bg-indigo-600;
+    @apply border-indigo-600;
+    @apply text-indigo-50;
+  }
+
+  &:active:not(:disabled) {
+    @apply bg-indigo-600;
+    @apply border-indigo-600;
+    @apply text-indigo-50;
+  }
+}
+
+@mixin social-button($darkColor, $lightColor) {
+  @apply grow;
+
+  background: linear-gradient(to left, $lightColor 50%, $darkColor 50%);
+  background-size: 200% 100%;
+  background-position: right bottom;
+  transition: background-position 0.5s ease-out;
+  color: #fff;
+  border-color: $darkColor;
+
+  i {
+    background-color: $darkColor;
+  }
+
+  span {
+    @apply mx-auto;
+  }
+
+  &:hover {
+    background: linear-gradient(to left, $lightColor 50%, $darkColor 50%);
+    background-size: 200% 100%;
+    background-position: left bottom;
+    transition: background-position 0.5s ease-out;
+    color: #fff;
+    border-color: $darkColor;
+  }
+
+  :focus {
+    box-shadow: 0 0 0 1px var(--purple-400);
+  }
+}
+
+.p-button.google {
+  @include social-button(#CF2D1F, #E24132);
+}
+
+.p-button.github {
+  @include social-button(#000, #1f1e1e);
+}
+
+.p-button.twitter {
+  @include social-button(#1887cb, #1DA1F2);
+}

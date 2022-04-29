@@ -1,0 +1,19 @@
+.p-inline-message {
+  @apply rounded;
+
+  &.p-inline-message-error {
+    background: #2c1818;
+  }
+
+  &.p-inline-message-info {
+    background: #15174d;
+  }
+
+  &.p-inline-message-warn {
+    background: #291d0c;
+  }
+
+  &.p-inline-message-success {
+    background: #0b2920;
+  }
+}

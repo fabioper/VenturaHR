@@ -1,10 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "./libs/primereact/primereact";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Jost:wght@300;400;500;600&display=swap');
+
+html {
+  /*font-size: 14px;*/
+}
 
 body {
   background-color: #030D19;
-  /*background-image: url("/bg.png");*/
-  font-family: var(--font-family);
+  background-image: url("/bg.png");
   color: var(--text-color);
+  @apply font-body;
 }

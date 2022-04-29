@@ -8,7 +8,7 @@ import { useGuardAgainst } from "../../hooks/useGuardAgainst"
 const Signup: NextPage = () => {
   useGuardAgainst(async ({ isLogged }) => isLogged)
 
-  const { signup, signupWithProvider } = useAuth()
+  const { signup, loginWithProvider } = useAuth()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [displayName, setDisplayName] = useState("")
@@ -69,7 +69,7 @@ const Signup: NextPage = () => {
                 <a
                   href="#"
                   onClick={() =>
-                    signupWithProvider(provider.provider, "applicant")
+                    loginWithProvider(provider.provider, "applicant")
                   }
                 >
                   {provider.label}
