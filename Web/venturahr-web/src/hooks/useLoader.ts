@@ -8,7 +8,6 @@ export function useLoader() {
       setLoading(true)
       await callback()
     } catch (e) {
-      console.log(e)
       if (rethrow) {
         throw e
       }

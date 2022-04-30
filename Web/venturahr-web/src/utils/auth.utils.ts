@@ -5,7 +5,6 @@ import { firebaseApp } from "../config/firebase/firebase.config"
 import { UserRole } from "../core/enums/UserRole"
 
 export const formatUser = async (user: User): Promise<AuthUser> => {
-  console.log(user)
   const token = await user.getIdTokenResult(true)
   return new AuthUser({
     id: user.uid,

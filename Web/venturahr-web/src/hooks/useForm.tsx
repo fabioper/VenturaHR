@@ -12,17 +12,19 @@ function useForm<T>(
     validationSchema,
     onSubmit,
     validate,
+    validateOnMount: true,
   })
 
-  const isValid = (field: keyof T): boolean =>
-    !form.touched[field] || !form.errors[field]
+  const isValid = (field: keyof T): boolean => {
+    return !form.dirty || !form.touched[field] || !form.errors[field]
+  }
 
-  const getFormErrorMessage = (name: keyof T) =>
+  const renderError = (name: keyof T) =>
     !isValid(name) && (
       <small className="p-error">{form.errors[name]?.toString()}</small>
     )
 
-  return { form, isValid, getFormErrorMessage }
+  return { form, isValid, renderError }
 }
 
 export default useForm

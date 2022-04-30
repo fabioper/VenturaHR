@@ -2,4 +2,21 @@ input::placeholder {
   color: #1f4168;
   @apply font-body;
   @apply text-sm;
+  @apply border-r;
+}
+
+.p-error {
+  color: #ff5757;
+  @apply block;
+  @apply py-2;
+}
+
+.p-inputtext.p-invalid.p-component,
+.p-password.p-invalid.p-component > .p-inputtext {
+  border-color: #ff5757;
+  border-width: 1px;
+
+  &:focus {
+    box-shadow: 0 0 0 0.2rem rgb(255 36 36 / 30%);
+  }
 }

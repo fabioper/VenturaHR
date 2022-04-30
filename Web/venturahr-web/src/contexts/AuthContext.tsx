@@ -91,7 +91,7 @@ const AuthProvider: React.FC<{ auth: Auth; children: React.ReactNode }> = ({
       const { user } = await signInWithPopup(auth, provider)
       isNewUser(user) && (await setUserRole(user.uid, role))
       await loadUser()
-    })
+    }, true)
   }
 
   return (
