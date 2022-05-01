@@ -10,6 +10,7 @@ import { getAuth } from "firebase/auth"
 import { firebaseApp } from "../config/firebase/firebase.config"
 import Header from "../components/Header"
 
+import "@fontsource/inter/300.css"
 import "@fontsource/inter/400.css"
 import "@fontsource/inter/600.css"
 import "@fontsource/inter/700.css"

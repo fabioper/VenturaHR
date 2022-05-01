@@ -7,7 +7,7 @@ import { Button } from "primereact/button"
 import Link from "next/link"
 
 const Home: NextPage = () => {
-  const { user, isLogged, logout } = useAuth()
+  const { user, isLogged } = useAuth()
   const router = useRouter()
 
   if (isLogged && user) {
@@ -28,7 +28,7 @@ const Home: NextPage = () => {
             <h2 className="text-5xl md:text-6xl font-display font-extrabold m-0 text-center">
               Lorem ipsum dolor sit amet.
             </h2>
-            <p className="max-w-2xl text-center font-body leading-normal text-slate-400">
+            <p className="max-w-2xl text-lg md:text-xl text-center font-light font-body leading-normal text-slate-400">
               Lorem ipsum dolor sit amet, consectetur adipisicing elit.
               Aspernatur assumenda consequuntur corporis dolor dolore.
             </p>
