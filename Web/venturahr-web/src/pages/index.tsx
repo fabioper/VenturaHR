@@ -3,6 +3,8 @@ import Head from "next/head"
 import { useAuth } from "../contexts/AuthContext"
 import ProtectedPage from "../components/ProtectedPage"
 import { useRouter } from "next/router"
+import { Button } from "primereact/button"
+import Link from "next/link"
 
 const Home: NextPage = () => {
   const { user, isLogged, logout } = useAuth()
@@ -21,8 +23,28 @@ const Home: NextPage = () => {
           <link rel="icon" href="/favicon.ico" />
         </Head>
 
-        <main className="py-6">
-          <div className="container">Content</div>
+        <main className="py-6 h-full">
+          <div className="container flex flex-col items-center justify-center h-3/5">
+            <h2 className="text-3xl md:text-6xl font-display font-extrabold m-0 text-center">
+              Lorem ipsum dolor sit amet.
+            </h2>
+            <p className="max-w-2xl text-center font-body leading-normal text-slate-400">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+              Aspernatur assumenda consequuntur corporis dolor dolore eaque
+              error est, fuga in iusto minus nobis obcaecati unde.
+            </p>
+            <div className="flex flex-col md:flex-row items-center justify-center gap-2">
+              <Link href="/signup">
+                <Button label="Cadastre-se" className="p-button-rounded" />
+              </Link>
+              <Link href="/login">
+                <Button
+                  label="Já tenho conta"
+                  className="p-button-info p-button-outlined p-button-rounded"
+                />
+              </Link>
+            </div>
+          </div>
         </main>
       </div>
     </ProtectedPage>
