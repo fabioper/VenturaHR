@@ -30,8 +30,7 @@ const Home: NextPage = () => {
             </h2>
             <p className="max-w-2xl text-center font-body leading-normal text-slate-400">
               Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Aspernatur assumenda consequuntur corporis dolor dolore eaque
-              error est, fuga in iusto minus nobis obcaecati unde.
+              Aspernatur assumenda consequuntur corporis dolor dolore.
             </p>
             <div className="flex items-center justify-center gap-2">
               <Link href="/signup">
