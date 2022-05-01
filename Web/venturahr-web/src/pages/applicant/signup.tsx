@@ -16,6 +16,7 @@ import { SignUpDto } from "../../core/dtos/SignUpDto"
 import { signupValidator } from "../../core/validations/signup.validator"
 import { useAuth } from "../../contexts/AuthContext"
 import { FirebaseError } from "@firebase/util"
+import { RadioButton } from "primereact/radiobutton"
 
 const Signup: NextPage = () => {
   useGuardAgainst(async ({ isLogged }) => isLogged)
@@ -111,6 +112,36 @@ const Signup: NextPage = () => {
                 className={`w-full ${!isValid("email") ? "p-invalid" : ""}`}
               />
               {renderError("email")}
+            </div>
+
+            <div>
+              <label className="block mb-1.5" htmlFor="role">
+                Perfil
+              </label>
+
+              <div className="flex items-center gap-5 mt-3">
+                <div className="flex items-center gap-2">
+                  <RadioButton
+                    inputId="applicantRole"
+                    value={UserRole.Applicant}
+                    name="role"
+                    onChange={form.handleChange}
+                    checked={form.values.role === UserRole.Applicant}
+                  />
+                  <label htmlFor="applicantRole">Candidato</label>
+                </div>
+                <div className="flex items-center gap-2">
+                  <RadioButton
+                    inputId="companyRole"
+                    value={UserRole.Company}
+                    name="role"
+                    onChange={form.handleChange}
+                    checked={form.values.role === UserRole.Company}
+                  />
+                  <label htmlFor="companyRole">Empresa</label>
+                </div>
+              </div>
+              {renderError("role")}
             </div>
 
             <div>

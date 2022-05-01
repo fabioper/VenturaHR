@@ -71,10 +71,14 @@
 
 .p-button.user-button {
   background: #06111f;
-  border: 0;
+  border: 2px solid #06111f !important;
 
   &:hover {
     background: #071526;
+
+    i {
+      @apply text-slate-400;
+    }
   }
 
   &:focus {
