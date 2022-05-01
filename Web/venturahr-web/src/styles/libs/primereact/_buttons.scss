@@ -97,3 +97,26 @@
     box-shadow: none;
   }
 }
+
+.p-selectbutton {
+  @apply flex;
+
+  .p-button {
+    @apply grow;
+    @apply p-1.5;
+    @apply text-sm;
+    @apply transition-all;
+
+    &.p-highlight {
+      @apply bg-indigo-900;
+      @apply border-indigo-900;
+      @apply text-indigo-50;
+    }
+
+    &.p-highlight:hover {
+      @apply bg-indigo-800;
+      @apply border-indigo-800;
+      @apply text-indigo-50;
+    }
+  }
+}

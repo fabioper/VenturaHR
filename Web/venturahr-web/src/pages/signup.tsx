@@ -16,7 +16,7 @@ import { SignUpDto } from "../core/dtos/SignUpDto"
 import { signupValidator } from "../core/validations/signup.validator"
 import { useAuth } from "../contexts/AuthContext"
 import { FirebaseError } from "@firebase/util"
-import { RadioButton } from "primereact/radiobutton"
+import { SelectButton } from "primereact/selectbutton"
 
 const Signup: NextPage = () => {
   useGuardAgainst(async ({ isLogged }) => isLogged)
@@ -59,6 +59,11 @@ const Signup: NextPage = () => {
       console.log(e)
     }
   }
+
+  const roleOptions = [
+    { label: "Candidato", value: UserRole.Applicant },
+    { label: "Empresa", value: UserRole.Company },
+  ]
 
   return (
     <div>
@@ -120,7 +125,15 @@ const Signup: NextPage = () => {
               </label>
 
               <div className="flex items-center gap-5 mt-3">
-                <div className="flex items-center gap-2">
+                <SelectButton
+                  id="role"
+                  value={form.values.role}
+                  options={roleOptions}
+                  onChange={form.handleChange}
+                  onBlur={form.handleBlur}
+                  className="w-full"
+                />
+                {/* <div className="flex items-center gap-2">
                   <RadioButton
                     inputId="applicantRole"
                     value={UserRole.Applicant}
@@ -139,7 +152,7 @@ const Signup: NextPage = () => {
                     checked={form.values.role === UserRole.Company}
                   />
                   <label htmlFor="companyRole">Empresa</label>
-                </div>
+                </div> */}
               </div>
               {renderError("role")}
             </div>
