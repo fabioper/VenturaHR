@@ -35,7 +35,10 @@ const Home: NextPage = () => {
             </p>
             <div className="flex flex-col md:flex-row items-center justify-center gap-2">
               <Link href="/signup">
-                <Button label="Cadastre-se" className="p-button-rounded" />
+                <Button
+                  label="Cadastre-se"
+                  className="p-button-rounded p-button-shadowed"
+                />
               </Link>
               <Link href="/login">
                 <Button

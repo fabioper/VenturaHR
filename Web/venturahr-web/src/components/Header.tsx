@@ -68,7 +68,7 @@ const Header: React.FC = () => {
                   <Button
                     iconPos="right"
                     label="Criar conta"
-                    className="p-button-sm p-button-rounded p-button-raised"
+                    className="p-button-sm p-button-rounded p-button-raised p-button-shadowed"
                   />
                 </Link>
               </li>
