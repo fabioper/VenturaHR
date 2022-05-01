@@ -25,7 +25,7 @@ const Home: NextPage = () => {
 
         <main className="py-6 h-full">
           <div className="container flex flex-col items-center justify-center h-3/5">
-            <h2 className="text-3xl md:text-6xl font-display font-extrabold m-0 text-center">
+            <h2 className="text-5xl md:text-6xl font-display font-extrabold m-0 text-center">
               Lorem ipsum dolor sit amet.
             </h2>
             <p className="max-w-2xl text-center font-body leading-normal text-slate-400">
@@ -33,7 +33,7 @@ const Home: NextPage = () => {
               Aspernatur assumenda consequuntur corporis dolor dolore eaque
               error est, fuga in iusto minus nobis obcaecati unde.
             </p>
-            <div className="flex flex-col md:flex-row items-center justify-center gap-2">
+            <div className="flex items-center justify-center gap-2">
               <Link href="/signup">
                 <Button
                   label="Cadastre-se"
