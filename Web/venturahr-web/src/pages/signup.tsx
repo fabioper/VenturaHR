@@ -167,7 +167,7 @@ const Signup: NextPage = () => {
                 loading={form.isSubmitting || loading}
                 disabled={!form.isValid}
                 icon={PrimeIcons.SIGN_IN}
-                className="w-full"
+                className="w-full p-button-shadowed"
                 label="Confirmar"
               />
             </div>

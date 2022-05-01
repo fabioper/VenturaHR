@@ -71,7 +71,9 @@ const Login: NextPage = () => {
                 value={form.values.email}
                 onChange={form.handleChange}
                 onBlur={form.handleBlur}
-                className={`w-full ${!isValid("email") ? "p-invalid" : ""}`}
+                className={`w-full p-button-shadowed ${
+                  !isValid("email") ? "p-invalid" : ""
+                }`}
               />
               {renderError("email")}
             </div>
