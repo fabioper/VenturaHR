@@ -80,10 +80,10 @@ const AuthProvider: React.FC<{ auth: Auth; children: React.ReactNode }> = ({
         credentials.email,
         credentials.password
       )
-      await setUserRole(user.email || credentials.email, credentials.role)
+      await setUserRole(user.uid, credentials.role)
       await updateProfile(user, { displayName: credentials.displayName })
       await loadUser()
-    })
+    }, true)
   }
 
   const loginWithProvider = async (provider: AuthProvider, role: UserRole) => {

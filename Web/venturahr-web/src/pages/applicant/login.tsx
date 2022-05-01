@@ -47,11 +47,11 @@ const Login: NextPage = () => {
 
       <div className="container mt-5">
         <header className="my-10 text-center">
-          <h2 className="mt-0 mb-2 text-slate-50 text-3xl">
+          <h2 className="mt-0 mb-2 text-slate-50 text-4xl font-light font-display">
             Entre no seu perfil
           </h2>
         </header>
-        <div className="sm:w-full md:w-10/12 lg:w-4/12 bg-slate-900 mx-auto mb-10 p-10 rounded-xl bg-opacity-80">
+        <div className="sm:w-full md:w-10/12 lg:w-4/12 bg-[#0d1424] mx-auto mb-10 p-10 rounded-xl shadow-xl">
           {error && (
             <div className="mb-5 flex flex-col gap-4">
               <Message severity="error" text={error} />

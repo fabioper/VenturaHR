@@ -3,6 +3,7 @@ export class AuthUser {
   name?: string
   email?: string
   jwt: string
+  photoUrl?: string
   roles: string[]
 
   constructor(props: Partial<AuthUser>) {

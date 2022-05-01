@@ -9,6 +9,7 @@ module.exports = {
       padding: "1rem",
     },
     fontFamily: {
+      display: ["Jost"],
       body: ["Inter"],
     },
     extend: {},

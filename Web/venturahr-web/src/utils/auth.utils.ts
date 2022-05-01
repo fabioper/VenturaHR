@@ -12,6 +12,7 @@ export const formatUser = async (user: User): Promise<AuthUser> => {
     email: user.email || "",
     jwt: token.token,
     roles: (token.claims.role as string[]) || [],
+    photoUrl: user.photoURL || undefined,
   })
 }
 

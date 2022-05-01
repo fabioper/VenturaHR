@@ -18,6 +18,12 @@
   }
 }
 
+.p-button.p-button-xs.p-button-icon-only {
+  font-size: .5rem;
+  width: 2rem;
+  height: 2rem;
+}
+
 @mixin social-button($darkColor, $lightColor) {
   @apply grow;
   @apply rounded;
@@ -61,4 +67,18 @@
 
 .p-button.twitter {
   @include social-button(#1887cb, #1DA1F2);
+}
+
+.p-button.user-button {
+  background: #06111f;
+  border: 0;
+
+  &:hover {
+    background: #071526;
+  }
+
+  &:focus {
+    background: #071526;
+    box-shadow: none;
+  }
 }

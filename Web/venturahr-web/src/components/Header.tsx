@@ -1,18 +1,29 @@
 import Link from "next/link"
-import React from "react"
+import React, { useRef } from "react"
 import { useAuth } from "../contexts/AuthContext"
 import { Button } from "primereact/button"
 import { PrimeIcons } from "primereact/api"
+import { Avatar } from "primereact/avatar"
+import { Menu } from "primereact/menu"
+import { MenuItem } from "primereact/menuitem"
 
 const Header: React.FC = () => {
-  const { isLogged, logout } = useAuth()
+  const { isLogged, logout, user } = useAuth()
+  const menu = useRef<Menu>(null)
 
+  const items: MenuItem[] = [
+    {
+      label: "Sair",
+      icon: PrimeIcons.SIGN_OUT,
+      command: logout,
+    },
+  ]
   return (
-    <header className="border-0 border-b border-slate-900 border-solid backdrop-blur-xl sticky top-0 left-0">
-      <div className="container flex justify-between py-5 items-center">
+    <header className="sticky border-0 border-b border-solid border-b-slate-800 top-0 z-40 w-full backdrop-blur bg-opacity-5">
+      <div className="container flex justify-between py-3 items-center">
         <Link href="/">
-          <h1 className="font-bold cursor-pointer text-base m-0 transition-all hover:scale-110">
-            VENTURAHR
+          <h1 className="font-extrabold cursor-pointer text-lg m-0 transition-all hover:scale-110">
+            venturahr
           </h1>
         </Link>
 
@@ -25,26 +36,35 @@ const Header: React.FC = () => {
                     icon={PrimeIcons.SIGN_IN}
                     iconPos="right"
                     label="Entrar"
-                    className="p-button-sm p-button-outlined p-button-raised"
+                    className="p-button-sm p-button-outlined p-button-rounded"
                   />
                 </Link>
               </li>
             </>
           ) : (
             <>
-              <li>
-                <Button
-                  onClick={logout}
-                  icon={PrimeIcons.SIGN_OUT}
-                  iconPos="right"
-                  label="Sair"
-                  className="p-button-danger p-button-sm p-button-rounded p-button-outlined"
+              <Button
+                type="button"
+                className="user-button rounded-full p-0"
+                onClick={menu.current?.toggle}
+              >
+                <Avatar
+                  image={user?.photoUrl}
+                  label={!user?.photoUrl ? user?.name?.[0] : undefined}
+                  shape="circle"
+                  size="normal"
+                  imageAlt={`Imagem do usuário ${user?.name}`}
                 />
-              </li>
+                <span className="text-sm mx-2 text-slate-300">
+                  {user?.name}
+                </span>
+                <i className={`${PrimeIcons.ANGLE_DOWN} mr-2 text-slate-600`} />
+              </Button>
             </>
           )}
         </ul>
       </div>
+      <Menu model={items} popup ref={menu} />
     </header>
   )
 }

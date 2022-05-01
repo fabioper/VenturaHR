@@ -21,15 +21,20 @@ const SocialProviders: React.FC<SocialProvidersProps> = ({
 }) => {
   const { loginWithProvider } = useAuth()
 
+  function handleFirebaseErrors(e: FirebaseError): void {
+    if (e.code === "auth/user-cancelled") {
+      onUserCancelError()
+    } else {
+      console.log(e)
+    }
+  }
+
   const handleProviderLogin = async (provider: AuthProvider) => {
     try {
       await loginWithProvider(provider, UserRole.Applicant)
     } catch (e) {
       if (e instanceof FirebaseError) {
-        if (e.code === "auth/user-cancelled") {
-          onUserCancelError()
-        }
-        return
+        handleFirebaseErrors(e)
       }
       onError()
     }
@@ -65,7 +70,7 @@ const SocialProviders: React.FC<SocialProvidersProps> = ({
         <Button
           type="button"
           className="twitter p-0"
-          aria-label="github"
+          aria-label="twitter"
           onClick={async () =>
             await handleProviderLogin(new TwitterAuthProvider())
           }

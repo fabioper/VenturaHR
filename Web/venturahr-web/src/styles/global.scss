@@ -4,13 +4,29 @@
 @import "./libs/primereact/primereact";
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Jost:wght@300;400;500;600&display=swap');
 
-html {
-  /*font-size: 14px;*/
+*, :before, :after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  min-height: 100%;
 }
 
 body {
-  background-color: #030D19;
+  background-color: #0f172a;
   background-image: url("/bg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
   color: var(--text-color);
   @apply font-body;
+}
+
+#__next {
+  display: grid;
+  grid-template-rows: min-content auto min-content;
+  @apply gap-2;
+  height: 100%;
 }
