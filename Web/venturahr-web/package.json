@@ -11,6 +11,8 @@
   "dependencies": {
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
+    "@fontsource/inter": "^4.5.9",
+    "@fontsource/jost": "^4.5.8",
     "firebase": "^9.6.11",
     "formik": "^2.2.9",
     "framer-motion": "^6.3.3",
