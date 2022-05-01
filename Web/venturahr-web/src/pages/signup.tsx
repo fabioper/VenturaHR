@@ -124,36 +124,14 @@ const Signup: NextPage = () => {
                 Perfil
               </label>
 
-              <div className="flex items-center gap-5 mt-3">
-                <SelectButton
-                  id="role"
-                  value={form.values.role}
-                  options={roleOptions}
-                  onChange={form.handleChange}
-                  onBlur={form.handleBlur}
-                  className="w-full"
-                />
-                {/* <div className="flex items-center gap-2">
-                  <RadioButton
-                    inputId="applicantRole"
-                    value={UserRole.Applicant}
-                    name="role"
-                    onChange={form.handleChange}
-                    checked={form.values.role === UserRole.Applicant}
-                  />
-                  <label htmlFor="applicantRole">Candidato</label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <RadioButton
-                    inputId="companyRole"
-                    value={UserRole.Company}
-                    name="role"
-                    onChange={form.handleChange}
-                    checked={form.values.role === UserRole.Company}
-                  />
-                  <label htmlFor="companyRole">Empresa</label>
-                </div> */}
-              </div>
+              <SelectButton
+                id="role"
+                value={form.values.role}
+                options={roleOptions}
+                onChange={form.handleChange}
+                onBlur={form.handleBlur}
+                className="w-full"
+              />
               {renderError("role")}
             </div>
 
