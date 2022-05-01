@@ -1,19 +1,19 @@
 import React, { useState } from "react"
-import { useAuth } from "../../contexts/AuthContext"
+import { useAuth } from "../contexts/AuthContext"
 import { NextPage } from "next"
-import { useGuardAgainst } from "../../hooks/useGuardAgainst"
+import { useGuardAgainst } from "../hooks/useGuardAgainst"
 import { InputText } from "primereact/inputtext"
 import { Password } from "primereact/password"
 import { Button } from "primereact/button"
 import { PrimeIcons } from "primereact/api"
 import Head from "next/head"
 import Link from "next/link"
-import useForm from "../../hooks/useForm"
-import { LoginDto } from "../../core/dtos/LoginDto"
-import { loginValidator } from "../../core/validations/login.validator"
+import useForm from "../hooks/useForm"
+import { LoginDto } from "../core/dtos/LoginDto"
+import { loginValidator } from "../core/validations/login.validator"
 import { Message } from "primereact/message"
-import SocialProviders from "../../components/SocialProviders"
-import SectionDivider from "../../components/SectionDivider"
+import SocialProviders from "../components/SocialProviders"
+import SectionDivider from "../components/SectionDivider"
 
 const Login: NextPage = () => {
   useGuardAgainst(async ({ isLogged }) => isLogged)
@@ -113,7 +113,7 @@ const Login: NextPage = () => {
           />
 
           <div className="flex flex-col items-center">
-            <Link href="/applicant/signup">
+            <Link href="/signup">
               <Button
                 type="button"
                 className="p-button-text p-button-rounded p-button-sm mt-2"

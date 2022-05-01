@@ -1,20 +1,20 @@
 import { NextPage } from "next"
 import Link from "next/link"
 import React, { useState } from "react"
-import { useGuardAgainst } from "../../hooks/useGuardAgainst"
-import { UserRole } from "../../core/enums/UserRole"
+import { useGuardAgainst } from "../hooks/useGuardAgainst"
+import { UserRole } from "../core/enums/UserRole"
 import Head from "next/head"
 import { Message } from "primereact/message"
 import { InputText } from "primereact/inputtext"
 import { Password } from "primereact/password"
 import { Button } from "primereact/button"
 import { PrimeIcons } from "primereact/api"
-import SectionDivider from "../../components/SectionDivider"
-import SocialProviders from "../../components/SocialProviders"
-import useForm from "../../hooks/useForm"
-import { SignUpDto } from "../../core/dtos/SignUpDto"
-import { signupValidator } from "../../core/validations/signup.validator"
-import { useAuth } from "../../contexts/AuthContext"
+import SectionDivider from "../components/SectionDivider"
+import SocialProviders from "../components/SocialProviders"
+import useForm from "../hooks/useForm"
+import { SignUpDto } from "../core/dtos/SignUpDto"
+import { signupValidator } from "../core/validations/signup.validator"
+import { useAuth } from "../contexts/AuthContext"
 import { FirebaseError } from "@firebase/util"
 import { RadioButton } from "primereact/radiobutton"
 
@@ -181,7 +181,7 @@ const Signup: NextPage = () => {
           />
 
           <div className="flex flex-col items-center">
-            <Link href="/applicant/login">
+            <Link href="/login">
               <Button
                 type="button"
                 className="p-button-text p-button-rounded p-button-sm mt-2"

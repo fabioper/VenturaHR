@@ -51,9 +51,9 @@ const Header: React.FC = () => {
 
         {!isLogged ? (
           <ul className="list-none m-0 p-0 flex gap-2">
-            {router.pathname !== "/applicant/login" && (
+            {router.pathname !== "/login" && (
               <li>
-                <Link href="/applicant/login">
+                <Link href="/login">
                   <Button
                     iconPos="right"
                     label="Entrar"
@@ -62,9 +62,9 @@ const Header: React.FC = () => {
                 </Link>
               </li>
             )}
-            {router.pathname !== "/applicant/signup" && (
+            {router.pathname !== "/signup" && (
               <li>
-                <Link href="/applicant/signup" passHref>
+                <Link href="/signup" passHref>
                   <Button
                     iconPos="right"
                     label="Criar conta"
