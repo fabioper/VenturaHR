@@ -149,6 +149,7 @@ const Signup: NextPage = () => {
                 feedback={false}
                 className={`w-full ${!isValid("password") ? "p-invalid" : ""}`}
                 inputClassName="w-full"
+                toggleMask
               />
               {renderError("password")}
             </div>
