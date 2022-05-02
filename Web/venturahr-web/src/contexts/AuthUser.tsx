@@ -12,7 +12,7 @@ export class AuthUser {
 
   public hasRole(...roles: string[]) {
     const hasAnyRole = !!roles && roles.length > 0
-    return hasAnyRole && roles.every(role => roles.includes(role))
+    return hasAnyRole && roles.every(role => this.roles.includes(role))
   }
 
   get redirectPage() {
