@@ -67,7 +67,7 @@ const Header: React.FC = () => {
                 <Link href="/signup" passHref>
                   <Button
                     iconPos="right"
-                    label="Criar conta"
+                    label="Cadastre-se"
                     className="p-button-sm p-button-rounded p-button-raised p-button-shadowed"
                   />
                 </Link>

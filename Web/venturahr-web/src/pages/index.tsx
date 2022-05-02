@@ -32,7 +32,7 @@ const Home: NextPage = () => {
               Lorem ipsum dolor sit amet, consectetur adipisicing elit.
               Aspernatur assumenda consequuntur corporis dolor dolore.
             </p>
-            <div className="flex items-center justify-center gap-2">
+            <div className="flex items-center justify-center gap-2 mt-3">
               <Link href="/signup">
                 <Button
                   label="Cadastre-se"
