@@ -131,6 +131,7 @@ const Signup: NextPage = () => {
                 onChange={form.handleChange}
                 onBlur={form.handleBlur}
                 className="w-full"
+                optionValue="value"
               />
               {renderError("role")}
             </div>
