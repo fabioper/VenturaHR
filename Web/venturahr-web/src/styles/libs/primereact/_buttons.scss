@@ -3,7 +3,6 @@
   @apply border-indigo-600;
   @apply text-indigo-50;
   @apply transition-all;
-  @apply hover:-translate-y-0.5;
 
   &.p-button-shadowed:not(:disabled) {
     @apply shadow-2xl;
@@ -26,6 +25,22 @@
     @apply bg-indigo-600;
     @apply border-indigo-600;
     @apply text-indigo-50;
+  }
+
+  .p-button-label {
+    @apply font-body;
+    @apply font-normal;
+  }
+
+  &.p-button-info {
+    @apply bg-slate-100;
+    @apply border-slate-100;
+    @apply text-slate-700;
+
+    &:hover:enabled {
+      @apply bg-slate-200;
+      @apply border-slate-200;
+    }
   }
 }
 

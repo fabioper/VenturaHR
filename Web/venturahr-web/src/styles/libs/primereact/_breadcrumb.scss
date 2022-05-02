@@ -1,0 +1,28 @@
+.p-breadcrumb {
+  @apply bg-none;
+  @apply bg-transparent;
+  @apply border-0;
+  @apply font-body;
+  @apply text-sm;
+
+  ul {
+    li {
+      &.p-breadcrumb-chevron {
+        @apply text-xs;
+        @apply text-slate-700;
+      }
+
+      .p-menuitem-link .p-menuitem-icon {
+        @apply text-slate-500;
+      }
+
+      .p-menuitem-link .p-menuitem-text {
+        @apply text-slate-300;
+      }
+
+      &:last-child .p-menuitem-text {
+        @apply text-slate-500;
+      }
+    }
+  }
+}

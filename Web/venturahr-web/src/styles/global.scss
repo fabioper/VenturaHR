@@ -26,6 +26,5 @@ body {
 #__next {
   display: grid;
   grid-template-rows: min-content auto min-content;
-  @apply gap-2;
   height: 100%;
 }

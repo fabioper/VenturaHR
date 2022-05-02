@@ -5,10 +5,12 @@ import { useGuardAgainst } from "../hooks/useGuardAgainst"
 interface ProtectedPageProps {
   onlyRoles?: string[]
   children: React.ReactNode
+  loader?: JSX.Element
 }
 
 const ProtectedPage: React.FC<ProtectedPageProps> = ({
   onlyRoles = [],
+  loader,
   children,
 }) => {
   if (onlyRoles.length > 0) {
@@ -21,10 +23,10 @@ const ProtectedPage: React.FC<ProtectedPageProps> = ({
   const { loading } = useAuth()
 
   if (loading) {
-    return <div className="loader">Carregando...</div>
+    return loader || <div className="loader">Carregando...</div>
   }
 
-  return <>{children}</>
+  return <main>{children}</main>
 }
 
 export default ProtectedPage
