@@ -23,7 +23,7 @@ const Home: NextPage = () => {
           <link rel="icon" href="/favicon.ico" />
         </Head>
 
-        <main className="py-6 h-full">
+        <div className="py-6 h-full">
           <div className="container flex flex-col items-center justify-center h-3/5">
             <h2 className="text-5xl md:text-6xl font-display font-extrabold m-0 text-center">
               Lorem ipsum dolor sit amet.
@@ -47,7 +47,7 @@ const Home: NextPage = () => {
               </Link>
             </div>
           </div>
-        </main>
+        </div>
       </div>
     </ProtectedPage>
   )

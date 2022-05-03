@@ -12,7 +12,11 @@ module.exports = {
       display: ["Jost"],
       body: ["Inter"],
     },
-    extend: {},
+    extend: {
+      boxShadow: {
+        behind: "0 -2px 45px -14px var(--tw-shadow-color)",
+      },
+    },
   },
   plugins: [],
   corePlugins: {

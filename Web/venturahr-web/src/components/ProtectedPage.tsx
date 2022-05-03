@@ -26,7 +26,7 @@ const ProtectedPage: React.FC<ProtectedPageProps> = ({
     return loader || <div className="loader">Carregando...</div>
   }
 
-  return <main>{children}</main>
+  return <>{children}</>
 }
 
 export default ProtectedPage
