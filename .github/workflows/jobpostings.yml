@@ -24,17 +24,11 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-
       - name: Heroku Docker Container Deploy
-        # You may pin to the exact commit or the version.
-        # uses: lucassarcanjo/heroku-deploy@1db4c62f6032efe526c12734f18d36669218e5af
-        uses: lucassarcanjo/heroku-deploy@2.1.17
+        uses: AkhileshNS/heroku-deploy@v3.12.12
         with:
-          # Email Linked to your Heroku Account
-          email: fabiopereira.fps@gmail.com
-          # Your Heroku API Key
-          api_key: ${{ secrets.HEROKU_API_KEY }}
-          # Your Heroku App Name
-          app_name: venturahr-job-postings
-          # Dokerfile path
-          dockerfile_path: ./Services/JobPostings/JobPostings.Api
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: "venturahr-job-postings"
+          heroku_email: "fabiopereira.fps@gmail.com"
+          usedocker: true
+          appdir: "Services/JobPostings/JobPostings.Api"
