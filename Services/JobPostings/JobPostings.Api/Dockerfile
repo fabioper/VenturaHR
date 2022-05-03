@@ -17,4 +17,4 @@ RUN dotnet publish "JobPostings.Api.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "JobPostings.Api.dll"]
+CMD ASPNETCORE_URLS=http://*:$PORT dotnet JobPostings.Api.dll
