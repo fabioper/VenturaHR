@@ -15,11 +15,12 @@ html, body {
 }
 
 body {
+  @apply bg-slate-900;
   background-image: url("/bg.png");
   background-size: 100% 100%;
   background-attachment: fixed;
   background-repeat: no-repeat;
-  color: var(--text-color);
+  @apply text-slate-50;
   @apply font-body;
 }
 

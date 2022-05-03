@@ -2,3 +2,8 @@
 @import "buttons";
 @import "input";
 @import "breadcrumb";
+@import "dialog";
+
+.p-component-overlay {
+  backdrop-filter: blur(2px);
+}

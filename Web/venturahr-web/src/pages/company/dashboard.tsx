@@ -5,15 +5,16 @@ import { Button } from "primereact/button"
 import { BreadCrumb } from "primereact/breadcrumb"
 import { PrimeIcons } from "primereact/api"
 import { Skeleton } from "primereact/skeleton"
-import { useMemo } from "react"
+import { useMemo, useState } from "react"
 import { useRouter } from "next/router"
 import Head from "next/head"
 import { UserRole } from "../../core/enums/UserRole"
-import Link from "next/link"
+import PublishJobDialog from "../../components/PublishJobDialog"
 
 const dashboard: NextPage = () => {
   const { user } = useAuth()
   const router = useRouter()
+  const [showPublishJobModal, setShowPublishJobModal] = useState(false)
 
   const contentSkeleton = useMemo(
     () => (
@@ -53,18 +54,22 @@ const dashboard: NextPage = () => {
               </h2>
             </div>
             <div className="flex gap-3">
-              <Link href="/company/publish-job">
-                <Button
-                  label="Publicar vaga"
-                  className="p-button-sm p-button-rounded p-button-shadowed"
-                  icon={PrimeIcons.PLUS}
-                  iconPos="right"
-                />
-              </Link>
+              <Button
+                label="Publicar vaga"
+                className="p-button-sm p-button-rounded p-button-shadowed"
+                icon={PrimeIcons.PLUS}
+                iconPos="right"
+                onClick={() => setShowPublishJobModal(true)}
+              />
             </div>
           </div>
         </div>
       </header>
+
+      <PublishJobDialog
+        visible={showPublishJobModal}
+        onHide={() => setShowPublishJobModal(false)}
+      />
     </ProtectedPage>
   )
 }

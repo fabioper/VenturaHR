@@ -1,0 +1,9 @@
+.p-dialog {
+  .p-dialog-header {
+    .p-dialog-title {
+      @apply font-body;
+      @apply text-slate-300;
+      @apply font-normal;
+    }
+  }
+}
