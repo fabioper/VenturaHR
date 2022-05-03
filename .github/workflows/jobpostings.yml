@@ -35,7 +35,7 @@ jobs:
         working-directory: Services/JobPostings
         run: |
           docker build . -f ./JobPostings.Api/Dockerfile  -t venturahr-job-postings
-          docker tag <image> registry.heroku.com/venturahr-job-postings/web
+          docker tag venturahr-job-postings registry.heroku.com/venturahr-job-postings/web
       - name: Release
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
