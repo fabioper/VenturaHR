@@ -3,6 +3,8 @@ name: JobPostingsDeploy
 on:
   push:
     branches: [ main ]
+    paths:
+      - Services/JobPostings
   pull_request:
     branches: [ main ]
 
