@@ -24,11 +24,20 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-      - name: Heroku Docker Container Deploy
-        uses: AkhileshNS/heroku-deploy@v3.12.12
-        with:
-          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-          heroku_app_name: "venturahr-job-postings"
-          heroku_email: "fabiopereira.fps@gmail.com"
-          usedocker: true
-          appdir: "Services/JobPostings/JobPostings.Api"
+      - name: Login to Heroku Container registry
+        env: 
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        working-directory: Services/JobPostings
+        run: heroku container:login
+      - name: Build and push
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        working-directory: Services/JobPostings
+        run: |
+          docker build . -f ./JobPostings.Api/Dockerfile  -t venturahr-job-postings
+          docker tag <image> registry.heroku.com/venturahr-job-postings/web
+      - name: Release
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        working-directory: Services/JobPostings
+        run: heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web
