@@ -40,4 +40,4 @@ jobs:
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         working-directory: Services/JobPostings
-        run: heroku container:release -a registry.heroku.com/venturahr-job-postings/web web
+        run: heroku container:release registry.heroku.com/venturahr-job-postings/web
