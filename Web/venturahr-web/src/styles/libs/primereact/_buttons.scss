@@ -3,7 +3,10 @@
   @apply border-indigo-600;
   @apply text-indigo-50;
   @apply transition-all;
-  @apply hover:scale-95;
+
+  &:not(.user-button) {
+    @apply hover:scale-95;
+  }
 
   .p-button-label {
     @apply font-body;
