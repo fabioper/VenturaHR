@@ -7,14 +7,11 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
-env:
-  HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-
 jobs:
   deploy:
     uses: ./.github/workflows/service_heroku_deploy.yml
     with:
-      appdir: Services/JobPostings
-      appname: venturahr-job-postings
+      appdir: "Services/JobPostings"
+      appname: "venturahr-job-postings"
     secrets:
       HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
