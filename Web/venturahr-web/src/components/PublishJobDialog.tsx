@@ -25,12 +25,7 @@ const PublishJobDialog: React.FC<PublishJobDialogProps> = ({
     draggable={false}
     footer={() => (
       <div className="flex justify-end pt-10">
-        <Button
-          className="p-button-rounded"
-          label="Publicar vaga"
-          icon={PrimeIcons.CHECK}
-          iconPos="right"
-        />
+        <Button className="p-button-rounded" label="Publicar vaga" />
       </div>
     )}
   >
@@ -71,7 +66,7 @@ const PublishJobDialog: React.FC<PublishJobDialogProps> = ({
           <label className="text-slate-300 text-base font-display">
             Descrição
           </label>
-          <Editor style={{ height: "320px" }} />
+          <Editor style={{ height: "220px" }} />
         </div>
       </div>
     </form>
