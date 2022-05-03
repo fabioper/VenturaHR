@@ -1,0 +1,35 @@
+
+name: ServiceHerokuDeploy
+
+on:
+  workflow_call:
+    inputs:
+      appname:
+        required: true
+        type: string
+      appdir:
+        required: true
+        type: string
+    secrets:
+      HEROKU_API_KEY:
+        required: true
+
+env:
+  HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+
+defaults:
+  run:
+    working-directory: ${{inputs.appdir}}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Login to Heroku Container registry
+        run: heroku container:login
+      - name: Build and push
+        run: heroku container:push -a ${{inputs.appname}} web
+      - name: Release
+        run:  heroku container:release -a ${{inputs.appname}} web
