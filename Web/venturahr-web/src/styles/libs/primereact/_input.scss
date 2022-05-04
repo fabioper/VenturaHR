@@ -23,9 +23,11 @@ input::placeholder {
 }
 
 .p-inputtext.p-invalid.p-component,
-.p-password.p-invalid.p-component > .p-inputtext {
-  border-color: #ff5757;
-  border-width: 1px;
+.p-password.p-invalid.p-component > .p-inputtext,
+.p-editor-container.p-invalid {
+  @apply border;
+  @apply border-solid;
+  @apply border-[#ff5757];
 
   &:focus {
     box-shadow: 0 0 0 0.2rem rgb(255 36 36 / 30%);
