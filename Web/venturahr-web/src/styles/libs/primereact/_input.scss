@@ -11,6 +11,17 @@ input::placeholder {
   @apply py-2;
 }
 
+.p-inputtext {
+  &:enabled:hover {
+    @apply border-indigo-700;
+  }
+
+  &:enabled:focus {
+    @apply border-indigo-700;
+    box-shadow: 0 0 2.1px 0.2rem rgb(79 69 228 / 15%);
+  }
+}
+
 .p-inputtext.p-invalid.p-component,
 .p-password.p-invalid.p-component > .p-inputtext {
   border-color: #ff5757;
