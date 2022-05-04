@@ -62,7 +62,7 @@ const PublishJobDialog: React.FC<PublishJobDialogProps> = ({
       )}
     >
       <form className="w-full max-w-3xl" onSubmit={form.handleSubmit}>
-        <div className="grid grid-cols-5 gap-5">
+        <div className="flex flex-col md:grid md:grid-cols-5 gap-5">
           <div className="flex flex-col col-span-3">
             <label
               className="text-slate-300 text-base font-display mb-2"
