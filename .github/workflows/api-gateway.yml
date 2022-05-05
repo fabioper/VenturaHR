@@ -8,11 +8,7 @@ on:
   pull_request:
     branches: [ main ]
 
-
   workflow_dispatch:
-
-env:
-  HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
 
 defaults:
   run:
