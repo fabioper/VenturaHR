@@ -8,7 +8,6 @@ on:
   pull_request:
     branches: [ main ]
 
-
   workflow_dispatch:
 
 env:
@@ -23,10 +22,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: CDNievas/heroku-action@v1.0
-        with:
-          heroku_email: "fabiopereira.fps@gmail.com"
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "venturahr-api-gateway"
-          buildpacks: "['https://github.com/atirson/heroku-buildpack-krakend-easy']"
+      - uses: actions/checkout@v3
+      - name: Login to Heroku Container registry
+        run: heroku container:login
+      - name: Build and push
+        run: heroku container:push -a venturahr-api-gateway web
+      - name: Release
+        run:  heroku container:release -a venturahr-api-gateway web
