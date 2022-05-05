@@ -8,6 +8,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "JobPostings", "JobPostings"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobPostings.Api", "Services\JobPostings\JobPostings.Api\JobPostings.Api.csproj", "{45406896-E9C7-4107-AE86-D009781A9F4E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Webhooks", "Webhooks", "{6C270C22-E637-4B86-991C-6A1734D63D03}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webhooks", "Services\Webhooks\Webhooks\Webhooks.csproj", "{69AA737C-294B-45E0-83CC-37EF98C6CB5D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,9 +26,14 @@ Global
 		{45406896-E9C7-4107-AE86-D009781A9F4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{45406896-E9C7-4107-AE86-D009781A9F4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{45406896-E9C7-4107-AE86-D009781A9F4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69AA737C-294B-45E0-83CC-37EF98C6CB5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69AA737C-294B-45E0-83CC-37EF98C6CB5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69AA737C-294B-45E0-83CC-37EF98C6CB5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69AA737C-294B-45E0-83CC-37EF98C6CB5D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{AE7EB33C-B742-4836-8838-E17AC7ABAD92} = {E0DA9450-4E0B-4491-8E24-214F97BB455E}
 		{45406896-E9C7-4107-AE86-D009781A9F4E} = {1C2EB889-1ABD-4E8A-B903-8F9EBE40A8A8}
+		{69AA737C-294B-45E0-83CC-37EF98C6CB5D} = {6C270C22-E637-4B86-991C-6A1734D63D03}
 	EndGlobalSection
 EndGlobal
