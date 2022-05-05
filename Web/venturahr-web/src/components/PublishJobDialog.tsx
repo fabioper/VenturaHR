@@ -134,6 +134,7 @@ const PublishJobDialog: React.FC<PublishJobDialogProps> = ({
               onBlur={form.handleBlur}
               showButtonBar
               dateFormat="dd/mm/yy"
+              minDate={new Date()}
               inputClassName={!isValid("endDate") ? "p-invalid" : ""}
             />
             {renderError("endDate")}
