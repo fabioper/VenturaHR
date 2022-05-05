@@ -24,4 +24,4 @@ jobs:
           buildpack: "https://github.com/atirson/heroku-buildpack-krakend-easy"
           stack: "heroku-20"
           branch: "main"
-          remote_branch: "master"
+          remote_branch: "main"
