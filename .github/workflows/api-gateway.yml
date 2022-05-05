@@ -10,10 +10,6 @@ on:
 
   workflow_dispatch:
 
-defaults:
-  run:
-    working-directory: ApiGateway
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -24,4 +20,5 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "venturahr-api-gateway"
           heroku_email: "fabiopereira.fps@gmail.com"
+          appdir: "ApiGateway"
           buildpack: "https://github.com/atirson/heroku-buildpack-krakend-easy"
