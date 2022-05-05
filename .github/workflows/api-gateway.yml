@@ -10,16 +10,22 @@ on:
 
   workflow_dispatch:
 
+env:
+  HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+
+defaults:
+  run:
+    working-directory: ApiGateway
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2
-      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
-        with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "venturahr-api-gateway"
-          heroku_email: "fabiopereira.fps@gmail.com"
-          appdir: "ApiGateway"
-          buildpack: "https://github.com/atirson/heroku-buildpack-krakend-easy"
-          stack: "heroku-20"
+      - uses: actions/checkout@v3
+      - name: Login to Heroku Container registry
+        run: heroku container:login
+      - name: Build and push
+        run: heroku container:push -a venturahr-api-gateway web
+      - name: Release
+        run:  heroku container:release -a venturahr-api-gateway web
