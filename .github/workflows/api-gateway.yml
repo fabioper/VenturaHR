@@ -10,9 +10,9 @@ on:
 
   workflow_dispatch:
 
-defaults:
-  run:
-    working-directory: ApiGateway
+#defaults:
+#  run:
+#    working-directory: ApiGateway
 
 jobs:
   build:
@@ -25,3 +25,4 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: venturahr-api-gateway
           heroku_email: fabiopereira.fps@gmail.com
+          appdir: ApiGateway
