@@ -8,20 +8,20 @@
   "port": 8080,
   "endpoints": [
     {
-      "endpoint": "/job-postings",
+      "endpoint": "/webhooks/user-created",
       "method": "GET",
       "output_encoding": "json",
       "backend": [
         {
-          "url_pattern": "/WeatherForecast",
+          "url_pattern": "/webhooks/user-created",
           "encoding": "json",
           "sd": "static",
-          "method": "GET",
+          "method": "POST",
           "disable_host_sanitize": false,
           "host": [
             "https://venturahr-webhooks.herokuapp.com"
           ],
-          "is_collection": true,
+          "is_collection": false,
           "target": ""
         }
       ]
