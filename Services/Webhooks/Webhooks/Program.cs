@@ -1,15 +1,31 @@
+using System.Security.Authentication;
+using Common.Config;
+using MassTransit;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+var rabbitMqConfig = builder.Configuration.GetSection(RabbitMqConfig.RabbitMq).Get<RabbitMqConfig>();
+
+builder.Services.AddMassTransit(opts =>
+{
+    opts.UsingRabbitMq((_, config) =>
+    {
+        config.Host(rabbitMqConfig.Host, rabbitMqConfig.Port, rabbitMqConfig.Username, h =>
+        {
+            h.Username(rabbitMqConfig.Username);
+            h.Password(rabbitMqConfig.Password);
+
+            h.UseSsl(s => s.Protocol = SslProtocols.Tls12);
+        });
+    });
+});
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 app.UseSwagger();
 app.UseSwaggerUI();
 
