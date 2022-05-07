@@ -24,8 +24,21 @@ builder.Services.AddMassTransit(opts =>
     });
 });
 
+const string corsConfig = "_corsConfig";
+builder.Services.AddCors(config =>
+{
+    config.AddPolicy(corsConfig, c =>
+    {
+        c.WithOrigins("http://localhost:3000", "https://venturahr-api-gateway.herokuapp.com")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
+});
+
 var app = builder.Build();
 
+app.UseCors(corsConfig);
 app.UseSwagger();
 app.UseSwaggerUI();
 

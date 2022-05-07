@@ -14,6 +14,7 @@ import { formatUser, isNewUser, setUserRole } from "../utils/auth.utils"
 import { LoginDto } from "../core/dtos/LoginDto"
 import { SignUpDto } from "../core/dtos/SignUpDto"
 import { UserRole } from "../core/enums/UserRole"
+import axios from "axios"
 
 export interface AuthContextProps {
   user?: AuthUser
@@ -82,6 +83,12 @@ const AuthProvider: React.FC<{ auth: Auth; children: React.ReactNode }> = ({
       )
       await setUserRole(user.uid, credentials.role)
       await updateProfile(user, { displayName: credentials.displayName })
+      await axios.post("https://venturahr-webhooks.herokuapp.com", {
+        id: user.uid,
+        displayName: user.displayName,
+        email: user.email,
+        role: [credentials.role],
+      })
       await loadUser()
     }, true)
   }
