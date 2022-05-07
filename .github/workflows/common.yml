@@ -1,0 +1,24 @@
+name: CommonDeploy
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - SharedKernel/**
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  publish:
+    name: build, pack & publish
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: publish on version change
+        id: publish_nuget
+        uses: rohith/publish-nuget@v2
+        with:
+          PROJECT_FILE_PATH: SharedKernel/Common/Common.csproj
+          TAG_COMMIT: false
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}}

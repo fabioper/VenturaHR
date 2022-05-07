@@ -1,6 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
+        <PackageId>VenturaHRCommon</PackageId>
+        <Version>1.0.0</Version>
+        <Authors>Fabio P Silva</Authors>
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>

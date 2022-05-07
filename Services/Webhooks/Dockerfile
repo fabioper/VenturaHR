@@ -5,7 +5,6 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["../../SharedKernel", "../SharedKernel/"]
 COPY ["Webhooks/Webhooks.csproj", "Webhooks/"]
 RUN dotnet restore "Webhooks/Webhooks.csproj"
 COPY . .
