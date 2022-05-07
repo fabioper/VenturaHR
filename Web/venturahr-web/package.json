@@ -13,6 +13,7 @@
     "@emotion/styled": "^11.8.1",
     "@fontsource/inter": "^4.5.9",
     "@fontsource/jost": "^4.5.8",
+    "axios": "^0.27.2",
     "currency.js": "^2.0.4",
     "firebase": "^9.6.11",
     "formik": "^2.2.9",
