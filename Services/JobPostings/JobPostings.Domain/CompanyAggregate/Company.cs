@@ -1,9 +1,9 @@
 using Common;
-using JobPostings.Domain.Aggregates.JobPostingAggregate;
+using JobPostings.Domain.JobPostingAggregate;
 
-namespace JobPostings.Domain.Aggregates.CompanyAggregate;
+namespace JobPostings.Domain.CompanyAggregate;
 
-public class Company : IAggregateRoot
+public class Company : Entity, IAggregateRoot
 {
     public string Name { get; private set; }
     private readonly List<JobPosting> _jobPostings;
@@ -17,5 +17,8 @@ public class Company : IAggregateRoot
 
     public Company() { }
 
-    public void AddJobPosting(JobPosting jobPosting) => _jobPostings.Add(jobPosting);
+    public void AddJobPosting(JobPosting jobPosting)
+    {
+        _jobPostings.Add(jobPosting);
+    }
 }

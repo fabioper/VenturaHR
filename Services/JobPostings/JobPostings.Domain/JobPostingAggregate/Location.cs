@@ -1,7 +1,7 @@
 using Common;
 using Common.Guards;
 
-namespace JobPostings.Domain.Aggregates.JobPostingAggregate;
+namespace JobPostings.Domain.JobPostingAggregate;
 
 public class Location : ValueObject
 {

@@ -1,10 +1,10 @@
 using Common;
 using Common.Guards;
-using JobPostings.Domain.Aggregates.CompanyAggregate;
+using JobPostings.Domain.CompanyAggregate;
 
-namespace JobPostings.Domain.Aggregates.JobPostingAggregate;
+namespace JobPostings.Domain.JobPostingAggregate;
 
-public class JobPosting : IAggregateRoot
+public class JobPosting : Entity, IAggregateRoot
 {
     private long _companyId;
 
@@ -16,7 +16,7 @@ public class JobPosting : IAggregateRoot
 
     public Compensation Compensation { get; }
 
-    public ExpirationDate ExpireOn { get; }
+    public ExpirationDate ExpireAt { get; }
 
     public Location Location { get; }
 
@@ -33,7 +33,7 @@ public class JobPosting : IAggregateRoot
         Role = role;
         Description = description;
         Compensation = compensation;
-        ExpireOn = expiration;
+        ExpireAt = expiration;
         Location = location;
     }
 

@@ -1,6 +1,6 @@
 using Common;
 
-namespace JobPostings.Domain.Aggregates.JobPostingAggregate;
+namespace JobPostings.Domain.JobPostingAggregate;
 
 public class Compensation : ValueObject
 {
@@ -8,5 +8,8 @@ public class Compensation : ValueObject
 
     public Compensation(decimal value) => Value = value;
 
-    protected override IEnumerable<object> GetEqualityComponents() { yield return Value; }
+    protected override IEnumerable<object> GetEqualityComponents()
+    {
+        yield return Value;
+    }
 }

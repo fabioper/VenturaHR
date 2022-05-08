@@ -1,6 +1,6 @@
 using Common;
 
-namespace JobPostings.Domain.Aggregates.JobPostingAggregate;
+namespace JobPostings.Domain.JobPostingAggregate;
 
 public class ExpirationDate : ValueObject
 {
