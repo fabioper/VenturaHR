@@ -9,11 +9,16 @@
 
     <ItemGroup>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+        <PackageReference Include="VenturaHRCommon" Version="1.0.0" />
     </ItemGroup>
 
     <ItemGroup>
       <None Remove="Dockerfile" />
       <None Remove=".dockerignore" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\JobPostings.Infra\JobPostings.Infra.csproj" />
     </ItemGroup>
 
 </Project>

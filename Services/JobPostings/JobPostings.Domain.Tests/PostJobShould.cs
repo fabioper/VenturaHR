@@ -1,7 +1,7 @@
 using System;
 using System.IO;
-using JobPostings.Domain.Aggregates.CompanyAggregate;
-using JobPostings.Domain.Aggregates.JobPostingAggregate;
+using JobPostings.Domain.CompanyAggregate;
+using JobPostings.Domain.JobPostingAggregate;
 using NUnit.Framework;
 
 namespace JobPostings.Domain.Tests;
@@ -11,7 +11,10 @@ public class PostJobShould
     private Company _company;
 
     [SetUp]
-    public void SetUp() { _company = new Company("Under Test"); }
+    public void SetUp()
+    {
+        _company = new Company("Under Test");
+    }
 
     [Test]
     public void IncreaseJobPostings_WithValidInput()
