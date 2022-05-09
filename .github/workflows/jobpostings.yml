@@ -13,7 +13,10 @@ on:
 
 env:
   HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-  DIR_PATH: Services/JobPostings
+  
+defaults:
+  run:
+    working-directory: Services/JobPostings
 
 jobs:
   build:
@@ -27,12 +30,10 @@ jobs:
           dotnet-version: 6.0.x
       - name: Run tests
         run: dotnet test --no-build --verbosity normal
+        working-directory: /
       - name: Login to Heroku Container registry
         run: heroku container:login
-        working-directory: ${{ env.DIR_PATH }}
       - name: Build and push
         run: heroku container:push -a venturahr-job-postings web
-        working-directory: ${{ env.DIR_PATH }}
       - name: Release
         run:  heroku container:release -a venturahr-job-postings web
-        working-directory: ${{ env.DIR_PATH }}
