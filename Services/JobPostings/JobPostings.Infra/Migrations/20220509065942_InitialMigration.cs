@@ -34,7 +34,6 @@ namespace JobPostings.Infra.Migrations
                     Compensation = table.Column<decimal>(type: "numeric", nullable: false),
                     ExpireAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Location = table.Column<string>(type: "text", nullable: false),
-                    CompanyId = table.Column<long>(type: "bigint", nullable: true),
                     _companyId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
@@ -46,22 +45,12 @@ namespace JobPostings.Infra.Migrations
                         principalTable: "Companies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_JobPostings_Companies_CompanyId",
-                        column: x => x.CompanyId,
-                        principalTable: "Companies",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_JobPostings__companyId",
                 table: "JobPostings",
                 column: "_companyId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_JobPostings_CompanyId",
-                table: "JobPostings",
-                column: "CompanyId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

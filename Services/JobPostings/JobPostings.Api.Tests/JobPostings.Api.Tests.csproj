@@ -18,6 +18,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\JobPostings.Api\JobPostings.Api.csproj" />
       <ProjectReference Include="..\JobPostings.Infra\JobPostings.Infra.csproj" />
     </ItemGroup>
 

@@ -16,16 +16,15 @@ public class JobPosting : Entity, IAggregateRoot
 
     public string Location { get; private set; }
 
-    private long _companyId;
-
-    public Company Company;
+    public Company Company { get; private set; }
 
     public JobPosting(
         string role,
         string description,
         string location,
         Compensation compensation,
-        ExpirationDate expiration)
+        ExpirationDate expiration,
+        Company company)
     {
         Guard.Against.NullOrEmpty(role, nameof(role));
         Guard.Against.NullOrEmpty(description, nameof(description));
@@ -35,6 +34,7 @@ public class JobPosting : Entity, IAggregateRoot
         Compensation = compensation;
         ExpireAt = expiration;
         Location = location;
+        Company = company;
     }
 
     public JobPosting() { }

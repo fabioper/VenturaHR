@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace JobPostings.Infra.Migrations
 {
     [DbContext(typeof(ModelContext))]
-    [Migration("20220509030056_InitialMigration")]
+    [Migration("20220509065942_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,9 +49,6 @@ namespace JobPostings.Infra.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<long?>("CompanyId")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
@@ -69,8 +66,6 @@ namespace JobPostings.Infra.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CompanyId");
-
                     b.HasIndex("_companyId");
 
                     b.ToTable("JobPostings", (string)null);
@@ -78,12 +73,8 @@ namespace JobPostings.Infra.Migrations
 
             modelBuilder.Entity("JobPostings.Domain.JobPostingAggregate.JobPosting", b =>
                 {
-                    b.HasOne("JobPostings.Domain.CompanyAggregate.Company", null)
-                        .WithMany("JobPostings")
-                        .HasForeignKey("CompanyId");
-
                     b.HasOne("JobPostings.Domain.CompanyAggregate.Company", "Company")
-                        .WithMany()
+                        .WithMany("JobPostings")
                         .HasForeignKey("_companyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

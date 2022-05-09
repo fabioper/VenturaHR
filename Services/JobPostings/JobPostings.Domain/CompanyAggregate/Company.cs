@@ -17,8 +17,21 @@ public class Company : Entity, IAggregateRoot
 
     public Company() { }
 
-    public void AddJobPosting(JobPosting jobPosting)
+    public void AddJobPosting(
+        string role,
+        string description,
+        string location,
+        decimal compensation,
+        DateTime expirationDate)
     {
+        var jobPosting = new JobPosting(
+            role,
+            description,
+            location,
+            new Compensation(compensation),
+            new ExpirationDate(expirationDate),
+            this
+        );
         _jobPostings.Add(jobPosting);
     }
 }

@@ -1,10 +1,11 @@
 using System;
 using System.IO;
 using JobPostings.Domain.CompanyAggregate;
-using JobPostings.Domain.JobPostingAggregate;
 using NUnit.Framework;
 
 namespace JobPostings.Domain.Tests;
+
+#nullable disable
 
 public class PostJobShould
 {
@@ -19,15 +20,11 @@ public class PostJobShould
     [Test]
     public void IncreaseJobPostings_WithValidInput()
     {
-        var jobPosting = new JobPosting(
-            "Desenvolvedor Front-end",
+        _company.AddJobPosting("Desenvolvedor Front-end",
             "Longa descrição",
             "Brasil",
-            new Compensation(14000),
-            new ExpirationDate(DateTime.Now.AddMonths(1))
-        );
-
-        _company.AddJobPosting(jobPosting);
+            14000,
+            DateTime.Now.AddMonths(1));
 
         Assert.That(_company.JobPostings, Has.Exactly(1).Items);
     }
@@ -37,15 +34,11 @@ public class PostJobShould
     {
         Assert.Throws<InvalidDataException>(() =>
         {
-            var jobPosting = new JobPosting(
-                "Desenvolvedor Front-end",
+            _company.AddJobPosting("Desenvolvedor Front-end",
                 "Longa descrição",
                 "Brasil",
-                new Compensation(14000),
-                new ExpirationDate(DateTime.Now.AddMonths(-1))
-            );
-
-            _company.AddJobPosting(jobPosting);
+                14000,
+                DateTime.Now.AddMonths(-1));
         });
     }
 }

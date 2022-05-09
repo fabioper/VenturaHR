@@ -1,12 +1,13 @@
-using System;
+using System.Linq;
 using JobPostings.Infra.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace JobPostings.Api.Tests;
+
+#nullable disable
 
 public class ApplicationFactory<TProgram> : WebApplicationFactory<TProgram> where TProgram : class
 {
@@ -14,7 +15,11 @@ public class ApplicationFactory<TProgram> : WebApplicationFactory<TProgram> wher
     {
         builder.ConfigureServices(services =>
         {
-            services.RemoveAll(typeof(ModelContext));
+            var descriptor = services.SingleOrDefault(
+                d => d.ServiceType ==
+                     typeof(DbContextOptions<ModelContext>));
+
+            services.Remove(descriptor);
 
             services.AddDbContext<ModelContext>(options =>
                 options.UseSqlite("Filename=:memory:"));
@@ -27,16 +32,6 @@ public class ApplicationFactory<TProgram> : WebApplicationFactory<TProgram> wher
 
             db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
-
-            // try
-            // {
-            //     DbSeed.SeedDatabase(db);
-            // }
-            // catch (Exception ex)
-            // {
-            //     Console.WriteLine(ex);
-            //     throw;
-            // }
         });
     }
 }

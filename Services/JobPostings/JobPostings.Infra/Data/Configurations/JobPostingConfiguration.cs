@@ -28,7 +28,7 @@ public class JobPostingConfiguration : IEntityTypeConfiguration<JobPosting>
         });
 
         builder.HasOne(x => x.Company)
-               .WithMany()
+               .WithMany(x => x.JobPostings)
                .HasForeignKey("_companyId")
                .IsRequired();
     }
