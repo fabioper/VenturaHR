@@ -42,7 +42,7 @@ public class PostJobShould
                 "Longa descrição",
                 "Brasil",
                 new Compensation(14000),
-                new ExpirationDate(DateTime.Now.AddMonths(1))
+                new ExpirationDate(DateTime.Now.AddMonths(-1))
             );
 
             _company.AddJobPosting(jobPosting);
