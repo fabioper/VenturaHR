@@ -6,26 +6,26 @@ namespace JobPostings.Domain.JobPostingAggregate;
 
 public class JobPosting : Entity, IAggregateRoot
 {
+    public string Role { get; private set; }
+
+    public string Description { get; private set; }
+
+    public Compensation Compensation { get; private set; }
+
+    public ExpirationDate ExpireAt { get; private set; }
+
+    public string Location { get; private set; }
+
     private long _companyId;
 
     public Company Company;
 
-    public string Role { get; }
-
-    public string Description { get; }
-
-    public Compensation Compensation { get; }
-
-    public ExpirationDate ExpireAt { get; }
-
-    public Location Location { get; }
-
     public JobPosting(
         string role,
         string description,
+        string location,
         Compensation compensation,
-        ExpirationDate expiration,
-        Location location)
+        ExpirationDate expiration)
     {
         Guard.Against.NullOrEmpty(role, nameof(role));
         Guard.Against.NullOrEmpty(description, nameof(description));

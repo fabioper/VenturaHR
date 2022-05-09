@@ -15,17 +15,11 @@ public class JobPostingConfiguration : IEntityTypeConfiguration<JobPosting>
         builder.Property(x => x.Role).IsRequired();
 
         builder.Property(x => x.Description).IsRequired();
+        builder.Property(x => x.Location).IsRequired();
 
         builder.OwnsOne(x => x.Compensation, x =>
         {
             x.Property(c => c.Value).HasColumnName("Compensation");
-        });
-
-        builder.OwnsOne(x => x.Location, x =>
-        {
-            x.Property(l => l.City).HasColumnName("City");
-            x.Property(l => l.State).HasColumnName("State");
-            x.Property(l => l.Country).HasColumnName("Country");
         });
 
         builder.OwnsOne(x => x.ExpireAt, x =>

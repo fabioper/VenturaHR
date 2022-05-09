@@ -4,7 +4,7 @@ namespace JobPostings.Domain.JobPostingAggregate;
 
 public class Compensation : ValueObject
 {
-    public decimal Value { get; set; }
+    public decimal Value { get; private set; }
 
     public Compensation(decimal value) => Value = value;
 

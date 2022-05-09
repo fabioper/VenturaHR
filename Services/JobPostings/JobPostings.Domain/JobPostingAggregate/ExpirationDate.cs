@@ -4,7 +4,7 @@ namespace JobPostings.Domain.JobPostingAggregate;
 
 public class ExpirationDate : ValueObject
 {
-    public DateTime Date { get; set; }
+    public DateTime Date { get; private set; }
 
     public ExpirationDate(DateTime date)
     {

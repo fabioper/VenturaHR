@@ -22,9 +22,9 @@ public class PostJobShould
         var jobPosting = new JobPosting(
             "Desenvolvedor Front-end",
             "Longa descrição",
+            "Brasil",
             new Compensation(14000),
-            new ExpirationDate(DateTime.Now.AddMonths(1)),
-            new Location("Brasil")
+            new ExpirationDate(DateTime.Now.AddMonths(1))
         );
 
         _company.AddJobPosting(jobPosting);
@@ -40,9 +40,9 @@ public class PostJobShould
             var jobPosting = new JobPosting(
                 "Desenvolvedor Front-end",
                 "Longa descrição",
+                "Brasil",
                 new Compensation(14000),
-                new ExpirationDate(DateTime.Now.AddMinutes(-1)),
-                new Location("Brasil")
+                new ExpirationDate(DateTime.Now.AddMonths(-1))
             );
 
             _company.AddJobPosting(jobPosting);
