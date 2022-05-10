@@ -14,14 +14,14 @@ public class JobPosting : Entity, IAggregateRoot
 
     public ExpirationDate ExpireAt { get; private set; }
 
-    public string Location { get; private set; }
+    public Location Location { get; private set; }
 
     public Company Company { get; private set; }
 
     public JobPosting(
         string role,
         string description,
-        string location,
+        Location location,
         Compensation compensation,
         ExpirationDate expiration,
         Company company)

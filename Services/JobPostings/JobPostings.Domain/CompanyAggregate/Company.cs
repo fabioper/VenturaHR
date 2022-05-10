@@ -27,7 +27,7 @@ public class Company : Entity, IAggregateRoot
         var jobPosting = new JobPosting(
             role,
             description,
-            location,
+            new Location(location),
             new Compensation(compensation),
             new ExpirationDate(expirationDate),
             this
