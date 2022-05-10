@@ -4,6 +4,8 @@ using JobPostings.Domain.CompanyAggregate;
 
 namespace JobPostings.Domain.JobPostingAggregate;
 
+#nullable disable
+
 public class JobPosting : Entity, IAggregateRoot
 {
     public string Role { get; private set; }
@@ -37,5 +39,7 @@ public class JobPosting : Entity, IAggregateRoot
         Company = company;
     }
 
-    public JobPosting() { }
+    public JobPosting() { } // Ef required
+
+    public virtual bool IsExpired => ExpireAt.HasPassed(DateTime.Now);
 }

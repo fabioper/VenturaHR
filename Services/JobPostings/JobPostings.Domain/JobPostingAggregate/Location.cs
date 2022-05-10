@@ -1,6 +1,8 @@
 using Common;
 using Common.Guards;
 
+#nullable disable
+
 namespace JobPostings.Domain.JobPostingAggregate;
 
 public class Location : ValueObject
@@ -13,7 +15,7 @@ public class Location : ValueObject
         Place = location;
     }
 
-    public Location() { }
+    public Location() { } // Ef core
 
     protected override IEnumerable<object> GetEqualityComponents()
     {

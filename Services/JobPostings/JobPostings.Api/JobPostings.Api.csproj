@@ -24,6 +24,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\JobPostings.Application\JobPostings.Application.csproj" />
       <ProjectReference Include="..\JobPostings.Infra\JobPostings.Infra.csproj" />
     </ItemGroup>
 

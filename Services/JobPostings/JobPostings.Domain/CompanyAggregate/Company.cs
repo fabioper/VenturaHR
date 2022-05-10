@@ -1,11 +1,14 @@
 using Common;
 using JobPostings.Domain.JobPostingAggregate;
 
+#nullable disable
+
 namespace JobPostings.Domain.CompanyAggregate;
 
 public class Company : Entity, IAggregateRoot
 {
     public string Name { get; private set; }
+
     private readonly List<JobPosting> _jobPostings;
     public IReadOnlyCollection<JobPosting> JobPostings => _jobPostings;
 
@@ -15,7 +18,7 @@ public class Company : Entity, IAggregateRoot
         _jobPostings = new List<JobPosting>();
     }
 
-    public Company() { }
+    public Company() { } // Ef required
 
     public void AddJobPosting(
         string role,

@@ -1,4 +1,6 @@
 using Common;
+using JobPostings.Application.Services.Concretes;
+using JobPostings.Application.Services.Contracts;
 using JobPostings.Infra.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,6 +11,7 @@ builder.Services.AddDbContext<ModelContext>(
     cfg => cfg.UseNpgsql(dbConnection));
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
+builder.Services.AddScoped<IJobPostingsService, JobPostingsService>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

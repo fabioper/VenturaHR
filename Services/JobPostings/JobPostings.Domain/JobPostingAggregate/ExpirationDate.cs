@@ -17,4 +17,6 @@ public class ExpirationDate : ValueObject
     {
         yield return Date;
     }
+
+    public bool HasPassed(DateTime date) => Date > date;
 }
