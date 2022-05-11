@@ -1,6 +1,32 @@
 version: "3.9"
+
 services:
-  db:
+  api_gateway:
+    build:
+      context: ./ApiGateway
+      dockerfile: ./Dockerfile
+    environment:
+      PORT: 5000
+    ports:
+      - "5000:5000"
+    networks:
+      - venturahr_net
+    depends_on:
+      - jobposting
+  jobposting:
+    build:
+      context: ./Services/JobPostings
+      dockerfile: ./Dockerfile
+    environment:
+      PORT: 8080
+    depends_on:
+      - jobposting_db
+      - rabbitmq
+    ports:
+      - "8080:8080"
+    networks:
+      - venturahr_net
+  jobposting_db:
     image: postgres
     restart: always
     networks:
