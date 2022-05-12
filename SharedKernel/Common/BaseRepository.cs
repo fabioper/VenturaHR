@@ -1,23 +1,19 @@
-using Common;
 using Microsoft.EntityFrameworkCore;
 
-namespace JobPostings.Infra.Data;
+namespace Common;
 
 public class BaseRepository<T> : IRepository<T> where T : Entity, IAggregateRoot
 {
     protected readonly DbContext Context;
     protected readonly DbSet<T> Entity;
 
-    public BaseRepository(ModelContext context)
+    public BaseRepository(DbContext context)
     {
         Context = context;
         Entity = context.Set<T>();
     }
 
-    public async Task<IEnumerable<T>> GetAll()
-    {
-        return await Entity.AsNoTracking().ToListAsync();
-    }
+    public async Task<IEnumerable<T>> GetAll() => await Entity.AsNoTracking().ToListAsync();
 
     public async Task<IEnumerable<T>> GetAll(params ISpecification<T>[] specs)
     {
