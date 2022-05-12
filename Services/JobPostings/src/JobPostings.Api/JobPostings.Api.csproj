@@ -8,24 +8,24 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.5"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.5" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.4">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.4"/>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3"/>
-        <PackageReference Include="VenturaHRCommon" Version="1.2.2"/>
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.4" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+        <PackageReference Include="VenturaHRCommon" Version="1.2.3" />
     </ItemGroup>
 
     <ItemGroup>
-        <None Remove="Dockerfile"/>
-        <None Remove=".dockerignore"/>
+        <None Remove="Dockerfile" />
+        <None Remove=".dockerignore" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\JobPostings.Application\JobPostings.Application.csproj"/>
-        <ProjectReference Include="..\JobPostings.Infra\JobPostings.Infra.csproj"/>
+        <ProjectReference Include="..\JobPostings.Application\JobPostings.Application.csproj" />
+        <ProjectReference Include="..\JobPostings.Infra\JobPostings.Infra.csproj" />
     </ItemGroup>
 
 </Project>

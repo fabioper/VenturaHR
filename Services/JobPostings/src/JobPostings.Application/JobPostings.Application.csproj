@@ -7,11 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="VenturaHRCommon" Version="1.0.0"/>
+        <ProjectReference Include="..\JobPostings.Domain\JobPostings.Domain.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\JobPostings.Domain\JobPostings.Domain.csproj"/>
+      <PackageReference Include="VenturaHRCommon" Version="1.2.3" />
     </ItemGroup>
 
 </Project>
