@@ -20,6 +20,6 @@ jobs:
         uses: rohith/publish-nuget@v2
         with:
           PROJECT_FILE_PATH: SharedKernel/Common/Common.csproj
-          PACKAGE_NAME: VenturaHRCommon
+#          PACKAGE_NAME: VenturaHRCommon
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
-#          NUGET_SOURCE: https://api.nuget.org/v3/index.json
+          NUGET_SOURCE: https://api.nuget.org/v3/index.json
