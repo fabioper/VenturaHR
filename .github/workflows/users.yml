@@ -35,8 +35,8 @@ jobs:
         run: heroku container:login
         working-directory: ${{ env.DIR_PATH }}
       - name: Build and push
-        run: heroku container:push -a venturahr-job-postings web
+        run: heroku container:push -a venturahr-users web
         working-directory: ${{ env.DIR_PATH }}
       - name: Release
-        run: heroku container:release -a venturahr-job-postings web
+        run: heroku container:release -a venturahr-users web
         working-directory: ${{ env.DIR_PATH }}
