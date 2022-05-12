@@ -17,4 +17,4 @@ RUN dotnet publish "Users.Api.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Users.Api.dll"]
+CMD ASPNETCORE_URLS=http://*:$PORT dotnet Users.Api.dll
