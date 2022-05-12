@@ -1,5 +1,7 @@
 namespace Common.Config;
 
+#nullable disable
+
 public class RabbitMqConfig
 {
     public const string RabbitMq = "RabbitMq";

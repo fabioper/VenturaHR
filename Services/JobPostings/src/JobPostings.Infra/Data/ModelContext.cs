@@ -3,6 +3,8 @@ using JobPostings.Domain.CompanyAggregate;
 using JobPostings.Domain.JobPostingAggregate;
 using Microsoft.EntityFrameworkCore;
 
+#nullable disable
+
 namespace JobPostings.Infra.Data;
 
 public class ModelContext : DbContext

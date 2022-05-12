@@ -1,5 +1,7 @@
 namespace Common.Events.Models;
 
+#nullable disable
+
 public class UserCreated
 {
     public string Id { get; set; }
