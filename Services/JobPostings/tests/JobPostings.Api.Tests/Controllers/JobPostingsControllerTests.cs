@@ -16,11 +16,4 @@ public class JobPostingsControllerTests
         var factory = new ApplicationFactory<Program>();
         _client = factory.CreateClient();
     }
-
-    [Test]
-    public async Task ShouldSuccess()
-    {
-        var response = await _client.PostAsync("/job-postings", null);
-        response.EnsureSuccessStatusCode();
-    }
 }
