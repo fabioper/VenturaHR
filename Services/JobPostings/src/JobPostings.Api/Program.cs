@@ -1,4 +1,4 @@
-using Common;
+using Common.Extensions;
 using JobPostings.Application.Services.Concretes;
 using JobPostings.Application.Services.Contracts;
 using JobPostings.Infra.Data;
@@ -10,12 +10,12 @@ var dbConnection = builder.Configuration.GetConnectionString("Database");
 builder.Services.AddDbContext<ModelContext>(
     cfg => cfg.UseNpgsql(dbConnection));
 
-builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
 builder.Services.AddScoped<IJobPostingsService, JobPostingsService>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCommon();
 
 var app = builder.Build();
 

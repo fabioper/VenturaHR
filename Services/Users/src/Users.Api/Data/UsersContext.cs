@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Users.Api.Data.Models;
 
+#nullable disable
+
 namespace Users.Api.Data;
 
 public class UsersContext : DbContext

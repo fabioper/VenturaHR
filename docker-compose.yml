@@ -13,6 +13,7 @@ services:
       - venturahr_net
     depends_on:
       - jobposting
+      - users
   jobposting:
     build:
       context: ./Services/JobPostings/src

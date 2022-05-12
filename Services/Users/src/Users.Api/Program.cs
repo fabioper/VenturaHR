@@ -1,4 +1,7 @@
 using System.Reflection;
+using System.Security.Authentication;
+using Common.Config;
+using Common.Extensions;
 using MassTransit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -7,26 +10,38 @@ using Users.Api.MappingProfiles;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<UsersContext>(c => c.UseNpgsql());
-builder.Services.AddMassTransit(c => c.UsingRabbitMq());
-builder.Services.AddAutoMapper(c => c.AddProfile<UserMapping>());
+var dbConnection = builder.Configuration.GetConnectionString("DbConnection");
+builder.Services.AddDbContext<UsersContext>(c =>
+    c.UseNpgsql(dbConnection));
+
+var rabbitConfig = builder.Configuration.GetSection(RabbitMqConfig.RabbitMq)
+                          .Get<RabbitMqConfig>();
+builder.Services.AddMassTransit(c =>
+{
+    c.UsingRabbitMq((ctx, config) =>
+    {
+        config.Host(rabbitConfig.Host, rabbitConfig.Port, rabbitConfig.Username, h =>
+        {
+            h.Username(rabbitConfig.Username);
+            h.Password(rabbitConfig.Password);
+            h.UseSsl(s => s.Protocol = SslProtocols.Tls12);
+        });
+    });
+});
+
 builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
+builder.Services.AddAutoMapper(c => c.AddProfile<UserMapping>());
+builder.Services.AddCommon();
+
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
