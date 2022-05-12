@@ -1,6 +1,6 @@
 using AutoMapper;
-using Users.Api.Commands;
-using Users.Api.Data.Models;
+using Users.Application.Commands;
+using Users.Infra.Data.Models;
 
 namespace Users.Api.MappingProfiles;
 

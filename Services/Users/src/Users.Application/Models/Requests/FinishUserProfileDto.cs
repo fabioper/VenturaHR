@@ -1,4 +1,4 @@
-namespace Users.Api.Models.Requests;
+namespace Users.Application.Models.Requests;
 
 public class FinishUserProfileDto
 {

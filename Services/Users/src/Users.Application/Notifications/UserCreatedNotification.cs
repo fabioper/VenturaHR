@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace Users.Api.Notifications;
+namespace Users.Application.Notifications;
 
 public class UserCreatedNotification : INotification
 {

@@ -1,24 +1,24 @@
 using Common;
 using Microsoft.EntityFrameworkCore;
 
-namespace Users.Api.Data.Repositories;
+namespace Users.Infra.Data.Repositories;
 
 public class BaseRepository<T> : IRepository<T> where T : Entity, IAggregateRoot
 {
-    protected readonly DbContext Context;
-    protected readonly DbSet<T> Entity;
+    private readonly DbContext _context;
+    private readonly DbSet<T> _entity;
 
     public BaseRepository(UsersContext context)
     {
-        Context = context;
-        Entity = context.Set<T>();
+        _context = context;
+        _entity = context.Set<T>();
     }
 
-    public async Task<IEnumerable<T>> GetAll() => await Entity.AsNoTracking().ToListAsync();
+    public async Task<IEnumerable<T>> GetAll() => await _entity.AsNoTracking().ToListAsync();
 
     public async Task<IEnumerable<T>> GetAll(params ISpecification<T>[] specs)
     {
-        IQueryable<T> query = Entity;
+        IQueryable<T> query = _entity;
 
         foreach (var spec in specs)
         {
@@ -34,24 +34,24 @@ public class BaseRepository<T> : IRepository<T> where T : Entity, IAggregateRoot
 
     public async Task<T?> FindById(long id)
     {
-        return await Entity.FirstOrDefaultAsync(x => x.Id == id);
+        return await _entity.FirstOrDefaultAsync(x => x.Id == id);
     }
 
     public async Task Add(T entity)
     {
-        await Entity.AddAsync(entity);
-        await Context.SaveChangesAsync();
+        await _entity.AddAsync(entity);
+        await _context.SaveChangesAsync();
     }
 
     public async Task Update(T entity)
     {
-        Context.Entry(entity).State = EntityState.Modified;
-        await Context.SaveChangesAsync();
+        _context.Entry(entity).State = EntityState.Modified;
+        await _context.SaveChangesAsync();
     }
 
     public async Task Remove(T entity)
     {
-        Entity.Remove(entity);
-        await Context.SaveChangesAsync();
+        _entity.Remove(entity);
+        await _context.SaveChangesAsync();
     }
 }

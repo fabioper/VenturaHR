@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace Users.Api.Commands;
+namespace Users.Application.Commands;
 
 public class FinishUserProfileCommand : IRequest
 {

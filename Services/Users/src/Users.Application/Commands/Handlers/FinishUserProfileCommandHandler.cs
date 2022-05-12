@@ -1,11 +1,10 @@
 using AutoMapper;
 using Common;
 using MediatR;
-using Users.Api.Commands;
-using Users.Api.Data.Models;
-using Users.Api.Notifications;
+using Users.Application.Notifications;
+using Users.Infra.Data.Models;
 
-namespace Users.Api.Handlers;
+namespace Users.Application.Commands.Handlers;
 
 public class FinishUserProfileCommandHandler : IRequestHandler<FinishUserProfileCommand>
 {

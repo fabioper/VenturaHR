@@ -1,9 +1,9 @@
-using Microsoft.EntityFrameworkCore;
-using Users.Api.Data.Models;
-
 #nullable disable
 
-namespace Users.Api.Data;
+using Microsoft.EntityFrameworkCore;
+using Users.Infra.Data.Models;
+
+namespace Users.Infra.Data;
 
 public class UsersContext : DbContext
 {

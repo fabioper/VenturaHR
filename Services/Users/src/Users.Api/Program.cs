@@ -3,9 +3,9 @@ using Common;
 using MassTransit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Users.Api.Data;
-using Users.Api.Data.Repositories;
 using Users.Api.MappingProfiles;
+using Users.Infra.Data;
+using Users.Infra.Data.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 

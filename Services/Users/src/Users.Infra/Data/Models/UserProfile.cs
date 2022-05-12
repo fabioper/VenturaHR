@@ -1,8 +1,8 @@
-using Common;
-
 #nullable disable
 
-namespace Users.Api.Data.Models;
+using Common;
+
+namespace Users.Infra.Data.Models;
 
 public class UserProfile : Entity, IAggregateRoot
 {

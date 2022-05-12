@@ -2,7 +2,7 @@ using Common.Events.Models;
 using MassTransit;
 using MediatR;
 
-namespace Users.Api.Notifications.Handlers;
+namespace Users.Application.Notifications.Handlers;
 
 public class UserCreatedNotificationHandler : INotificationHandler<UserCreatedNotification>
 {
