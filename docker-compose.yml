@@ -22,20 +22,6 @@ services:
       POSTGRES_PASSWORD: admin
     ports:
       - "5432:5432"
-  jobposting:
-    build:
-      context: ./Services/JobPostings/src
-      dockerfile: ./Dockerfile
-    restart: always
-    environment:
-      PORT: 8080
-    depends_on:
-      - jobposting_db
-      - rabbitmq
-    ports:
-      - "8080:8080"
-    networks:
-      - venturahr_net
   users_db:
     image: postgres
     restart: always
@@ -47,34 +33,47 @@ services:
       POSTGRES_PASSWORD: admin
     ports:
       - "5433:5432"
-  users:
-    restart: always
-    build:
-      context: ./Services/Users/src
-      dockerfile: ./Dockerfile
-    environment:
-      PORT: 8081
-    depends_on:
-      - users_db
-      - rabbitmq
-    ports:
-      - "8081:8081"
-    networks:
-      - venturahr_net
-  
   api_gateway:
     build:
       context: ./ApiGateway
       dockerfile: ./Dockerfile
     environment:
-      PORT: 5000
+      PORT: 9000
     ports:
-      - "8000:5000"
+      - "9000:9000"
     networks:
       - venturahr_net
-    depends_on:
-      - jobposting
-      - users
+  #    depends_on:
+  #      - jobposting
+  #      - users
+  #  jobposting:
+  #    build:
+  #      context: ./Services/JobPostings/src
+  #      dockerfile: ./Dockerfile
+  #    restart: always
+  #    environment:
+  #      PORT: 8080
+  #    depends_on:
+  #      - jobposting_db
+  #      - rabbitmq
+  #    ports:
+  #      - "8080:8080"
+  #    networks:
+  #      - venturahr_net
+  #  users:
+  #    restart: always
+  #    build:
+  #      context: ./Services/Users/src
+  #      dockerfile: ./Dockerfile
+  #    environment:
+  #      PORT: 8081
+  #    depends_on:
+  #      - users_db
+  #      - rabbitmq
+  #    ports:
+  #      - "8081:8081"
+  #    networks:
+  #      - venturahr_net
 
 networks:
   venturahr_net:

@@ -21,7 +21,8 @@ var app = builder.Build();
 
 using var serviceScope = app.Services.GetService<IServiceScopeFactory>()?.CreateScope();
 var context = serviceScope?.ServiceProvider.GetRequiredService<ModelContext>();
-context?.Database.Migrate();
+if (context?.Database.IsNpgsql() == true)
+    context.Database.Migrate();
 
 app.UseSwagger();
 app.UseSwaggerUI();
