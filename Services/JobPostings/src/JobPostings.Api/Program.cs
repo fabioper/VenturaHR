@@ -1,4 +1,4 @@
-using Common.Extensions;
+using Common;
 using JobPostings.Application.Services.Concretes;
 using JobPostings.Application.Services.Contracts;
 using JobPostings.Infra.Data;
@@ -15,9 +15,13 @@ builder.Services.AddScoped<IJobPostingsService, JobPostingsService>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddCommon();
+builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
 
 var app = builder.Build();
+
+using var serviceScope = app.Services.GetService<IServiceScopeFactory>()?.CreateScope();
+var context = serviceScope?.ServiceProvider.GetRequiredService<ModelContext>();
+context?.Database.Migrate();
 
 app.UseSwagger();
 app.UseSwaggerUI();

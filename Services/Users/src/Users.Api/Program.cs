@@ -1,11 +1,10 @@
 using System.Reflection;
-using System.Security.Authentication;
-using Common.Config;
-using Common.Extensions;
+using Common;
 using MassTransit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Users.Api.Data;
+using Users.Api.Data.Repositories;
 using Users.Api.MappingProfiles;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,9 +25,13 @@ builder.Services.AddMassTransit(c =>
 
 builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 builder.Services.AddAutoMapper(c => c.AddProfile<UserMapping>());
-builder.Services.AddCommon();
+builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
 
 var app = builder.Build();
+
+using var serviceScope = app.Services.GetService<IServiceScopeFactory>()?.CreateScope();
+var context = serviceScope?.ServiceProvider.GetRequiredService<UsersContext>();
+context?.Database.Migrate();
 
 app.UseSwagger();
 app.UseSwaggerUI();
