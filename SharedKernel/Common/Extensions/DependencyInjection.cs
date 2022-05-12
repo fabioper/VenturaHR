@@ -4,7 +4,7 @@ namespace Common.Extensions;
 
 public static class DependencyInjection
 {
-    private static void UseCommon(this IServiceCollection services)
+    public static void AddCommon(this IServiceCollection services)
     {
         services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
     }
