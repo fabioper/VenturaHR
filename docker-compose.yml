@@ -15,7 +15,7 @@ services:
       - jobposting
   jobposting:
     build:
-      context: ./Services/JobPostings
+      context: ./Services/JobPostings/src
       dockerfile: ./Dockerfile
     environment:
       PORT: 8080
@@ -37,6 +37,31 @@ services:
       POSTGRES_PASSWORD: admin
     ports:
       - "5432:5432"
+  users:
+    build:
+      context: ./Services/Users/src
+      dockerfile: ./Dockerfile
+    environment:
+      PORT: 8080
+    depends_on:
+      - users_db
+      - rabbitmq
+    ports:
+      - "8081:8080"
+    networks:
+      - venturahr_net
+  users_db:
+    image: postgres
+    restart: always
+    networks:
+      - venturahr_net
+    environment:
+      POSTGRES_DB: admin
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5433:5432"
+  
   rabbitmq:
     image: rabbitmq:3-management-alpine
     environment:
