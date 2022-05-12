@@ -15,8 +15,6 @@ public class Location : ValueObject
         Place = location;
     }
 
-    public Location() { } // Ef core
-
     protected override IEnumerable<object> GetEqualityComponents()
     {
         yield return Place;

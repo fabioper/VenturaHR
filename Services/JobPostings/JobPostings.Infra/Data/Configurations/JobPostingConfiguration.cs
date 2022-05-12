@@ -21,7 +21,7 @@ public class JobPostingConfiguration : IEntityTypeConfiguration<JobPosting>
             x.Property(l => l.Place).HasColumnName("Location");
         });
 
-        builder.OwnsOne(x => x.Compensation, x =>
+        builder.OwnsOne(x => x.Salary, x =>
         {
             x.Property(c => c.Value).HasColumnName("Compensation");
         });

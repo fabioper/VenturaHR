@@ -12,7 +12,7 @@ public class JobPosting : Entity, IAggregateRoot
 
     public string Description { get; private set; }
 
-    public Compensation Compensation { get; private set; }
+    public Salary Salary { get; private set; }
 
     public ExpirationDate ExpireAt { get; private set; }
 
@@ -24,7 +24,7 @@ public class JobPosting : Entity, IAggregateRoot
         string role,
         string description,
         Location location,
-        Compensation compensation,
+        Salary salary,
         ExpirationDate expiration,
         Company company)
     {
@@ -33,13 +33,9 @@ public class JobPosting : Entity, IAggregateRoot
 
         Role = role;
         Description = description;
-        Compensation = compensation;
+        Salary = salary;
         ExpireAt = expiration;
         Location = location;
         Company = company;
     }
-
-    public JobPosting() { } // Ef required
-
-    public virtual bool IsExpired => ExpireAt.HasPassed(DateTime.Now);
 }

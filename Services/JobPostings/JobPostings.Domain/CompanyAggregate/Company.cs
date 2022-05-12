@@ -1,8 +1,6 @@
 using Common;
 using JobPostings.Domain.JobPostingAggregate;
 
-#nullable disable
-
 namespace JobPostings.Domain.CompanyAggregate;
 
 public class Company : Entity, IAggregateRoot
@@ -16,25 +14,5 @@ public class Company : Entity, IAggregateRoot
     {
         Name = name;
         _jobPostings = new List<JobPosting>();
-    }
-
-    public Company() { } // Ef required
-
-    public void AddJobPosting(
-        string role,
-        string description,
-        string location,
-        decimal compensation,
-        DateTime expirationDate)
-    {
-        var jobPosting = new JobPosting(
-            role,
-            description,
-            new Location(location),
-            new Compensation(compensation),
-            new ExpirationDate(expirationDate),
-            this
-        );
-        _jobPostings.Add(jobPosting);
     }
 }
