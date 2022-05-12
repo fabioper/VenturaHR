@@ -13,7 +13,7 @@ on:
 
 env:
   HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-  DIR_PATH: Services/JobPostings
+  DIR_PATH: Services/JobPostings/src
 
 jobs:
   build:
