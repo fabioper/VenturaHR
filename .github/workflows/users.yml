@@ -1,4 +1,4 @@
-name: JobPostingsDeploy
+name: UsersDeploy
 
 on:
   push:
