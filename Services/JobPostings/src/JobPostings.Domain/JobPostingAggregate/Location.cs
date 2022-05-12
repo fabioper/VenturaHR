@@ -19,4 +19,6 @@ public class Location : ValueObject
     {
         yield return Place;
     }
+
+    public Location() { } // Ef required
 }

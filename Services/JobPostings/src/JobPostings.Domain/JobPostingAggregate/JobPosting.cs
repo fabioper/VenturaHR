@@ -38,4 +38,6 @@ public class JobPosting : Entity, IAggregateRoot
         Location = location;
         Company = company;
     }
+
+    public JobPosting() { } // Ef required
 }
