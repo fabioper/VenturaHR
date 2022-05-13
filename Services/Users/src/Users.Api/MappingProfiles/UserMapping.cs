@@ -8,6 +8,8 @@ public class UserMapping : Profile
 {
     public UserMapping()
     {
-        CreateMap<FinishUserProfileCommand, UserProfile>();
+        CreateMap<FinishUserProfileCommand, UserProfile>()
+            .ForMember(x => x.Role,
+                opts => opts.MapFrom(vm => vm.Role.FirstOrDefault()));
     }
 }

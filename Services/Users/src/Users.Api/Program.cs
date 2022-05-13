@@ -4,6 +4,7 @@ using MassTransit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Users.Api.MappingProfiles;
+using Users.Application.Commands;
 using Users.Infra.Data;
 using Users.Infra.Data.Repositories;
 
@@ -20,10 +21,16 @@ builder.Services.AddDbContext<UsersContext>(c =>
     c.UseNpgsql(dbConnection));
 
 builder.Services.AddMassTransit(c =>
-    c.UsingRabbitMq((_, config) =>
-        config.Host(new Uri(rabbitMqConnection))));
+{
+    c.UsingRabbitMq((context, config) =>
+    {
+        config.ConfigureEndpoints(context);
+        config.Host(new Uri(rabbitMqConnection));
+    });
+});
 
-builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
+
+builder.Services.AddMediatR(typeof(FinishUserProfileCommand));
 builder.Services.AddAutoMapper(c => c.AddProfile<UserMapping>());
 builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
 

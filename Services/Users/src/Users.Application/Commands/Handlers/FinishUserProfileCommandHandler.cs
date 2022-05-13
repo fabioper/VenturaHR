@@ -25,7 +25,15 @@ public class FinishUserProfileCommandHandler : IRequestHandler<FinishUserProfile
 
         await _repository.Add(user);
 
-        await _mediator.Publish(new UserCreatedNotification(), cancellationToken);
+        var notification = new UserCreatedNotification
+        {
+            Id = user.Id,
+            Name = user.Name,
+            ExternalId = user.ExternalId,
+            Role = new() { user.Role },
+        };
+
+        await _mediator.Publish(notification, cancellationToken);
 
         return Unit.Value;
     }

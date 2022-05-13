@@ -21,5 +21,6 @@ public class UsersContext : DbContext
         userBuilder.Property(x => x.Name);
         userBuilder.Property(x => x.Email);
         userBuilder.Property(x => x.ExternalId);
+        userBuilder.Property(x => x.Role);
     }
 }

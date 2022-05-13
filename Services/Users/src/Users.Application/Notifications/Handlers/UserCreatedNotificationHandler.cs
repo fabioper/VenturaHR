@@ -6,19 +6,18 @@ namespace Users.Application.Notifications.Handlers;
 
 public class UserCreatedNotificationHandler : INotificationHandler<UserCreatedNotification>
 {
-    private readonly IBus _bus;
+    private readonly IPublishEndpoint _publishEndpoint;
 
-    public UserCreatedNotificationHandler(IBus bus) => _bus = bus;
+    public UserCreatedNotificationHandler(IPublishEndpoint publishEndpoint) =>
+        _publishEndpoint = publishEndpoint;
 
     public async Task Handle(UserCreatedNotification notification, CancellationToken cancellationToken)
     {
-        var userCreated = new UserCreated(
-            notification.Name,
-            notification.Email,
-            notification.ExternalId,
-            notification.Role
-        );
+        var userCreated = new UserCreated(notification.Name,
+                                          notification.Email,
+                                          notification.ExternalId,
+                                          notification.Role);
 
-        await _bus.Publish(userCreated, cancellationToken);
+        await _publishEndpoint.Publish(userCreated, cancellationToken);
     }
 }

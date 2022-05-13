@@ -13,6 +13,7 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
         builder.HasKey(x => x.Id);
 
         builder.Property(x => x.Name).IsRequired();
+        builder.Property(x => x.ExternalId).IsRequired();
 
         var jobPostings = builder.Metadata.FindNavigation(nameof(Company.JobPostings));
         jobPostings?.SetPropertyAccessMode(PropertyAccessMode.Field);
