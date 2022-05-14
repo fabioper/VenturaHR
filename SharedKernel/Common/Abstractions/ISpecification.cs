@@ -1,6 +1,6 @@
 using System.Linq.Expressions;
 
-namespace Common;
+namespace Common.Abstractions;
 
 public interface ISpecification<T>
 {

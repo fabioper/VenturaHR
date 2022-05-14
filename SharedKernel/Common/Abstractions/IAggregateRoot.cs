@@ -1,5 +1,3 @@
-namespace Common;
+namespace Common.Abstractions;
 
-public interface IAggregateRoot
-{
-}
+public interface IAggregateRoot { }

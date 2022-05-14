@@ -1,13 +1,11 @@
-namespace Common;
+namespace Common.Abstractions;
 
 public abstract class ValueObject
 {
     protected static bool EqualOperator(ValueObject? left, ValueObject? right)
     {
         if (ReferenceEquals(left, null) ^ ReferenceEquals(right, null))
-        {
             return false;
-        }
         return ReferenceEquals(left, null) || left.Equals(right);
     }
 
@@ -19,9 +17,7 @@ public abstract class ValueObject
     public override bool Equals(object? obj)
     {
         if (obj == null || obj.GetType() != GetType())
-        {
             return false;
-        }
 
         var other = (ValueObject)obj;
 
@@ -31,7 +27,7 @@ public abstract class ValueObject
     public override int GetHashCode()
     {
         return GetEqualityComponents()
-            .Select(x => x.GetHashCode())
-            .Aggregate((x, y) => x ^ y);
+               .Select(x => x.GetHashCode())
+               .Aggregate((x, y) => x ^ y);
     }
 }

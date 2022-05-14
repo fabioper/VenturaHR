@@ -1,4 +1,4 @@
-namespace Common;
+namespace Common.Abstractions;
 
 public interface IRepository<T> where T : IAggregateRoot
 {
