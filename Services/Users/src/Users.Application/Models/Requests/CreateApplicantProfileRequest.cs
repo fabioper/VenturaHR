@@ -1,9 +1,8 @@
 namespace Users.Application.Models.Requests;
 
-public class FinishUserProfileDto
+public class CreateApplicantProfileRequest
 {
-    public string ExternalId { get; set; }
     public string Name { get; set; }
     public string Email { get; set; }
-    public List<string> Role { get; set; }
+    public string Identifier { get; set; }
 }

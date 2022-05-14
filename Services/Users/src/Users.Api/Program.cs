@@ -30,7 +30,7 @@ builder.Services.AddMassTransit(c =>
 });
 
 
-builder.Services.AddMediatR(typeof(FinishUserProfileCommand));
+builder.Services.AddMediatR(typeof(CreateCompanyCommand));
 builder.Services.AddAutoMapper(c => c.AddProfile<UserMapping>());
 builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
 
