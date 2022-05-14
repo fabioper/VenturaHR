@@ -1,4 +1,3 @@
-using AutoMapper;
 using Common.Abstractions;
 using Common.Events;
 using MassTransit;
@@ -7,25 +6,22 @@ using Users.Infra.Data.Models.Entities;
 
 namespace Users.Application.Commands.Handlers;
 
-public class CreateApplicantCommandHandler : IRequestHandler<CreateCompanyCommand>
+public class CreateApplicantCommandHandler : IRequestHandler<CreateApplicantCommand>
 {
     private readonly IRepository<Applicant> _repository;
     private readonly IPublishEndpoint _publishEndpoint;
-    private readonly IMapper _mapper;
 
     public CreateApplicantCommandHandler(
         IRepository<Applicant> repository,
-        IMapper mapper,
         IPublishEndpoint publishEndpoint)
     {
         _repository = repository;
-        _mapper = mapper;
         _publishEndpoint = publishEndpoint;
     }
 
-    public async Task<Unit> Handle(CreateCompanyCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(CreateApplicantCommand request, CancellationToken cancellationToken)
     {
-        var newApplicant = _mapper.Map<Applicant>(request);
+        var newApplicant = new Applicant(request.Identifier, request.Name, request.Email);
 
         await _repository.Add(newApplicant);
 

@@ -1,6 +1,8 @@
 namespace Users.Application.Models.Requests;
 
-public class CreateApplicantProfileRequest
+#nullable disable
+
+public record CreateApplicantProfileRequest
 {
     public string Name { get; set; }
     public string Email { get; set; }

@@ -1,10 +1,12 @@
 using MediatR;
 
+#nullable disable
+
 namespace Users.Application.Commands;
 
-public class CreateApplicantCommand : IRequest
+public record CreateApplicantCommand : IRequest
 {
-    public string Identifier { get; set; }
-    public string Name { get; set; }
-    public string Email { get; set; }
+    public string Identifier { get; init; }
+    public string Name { get; init; }
+    public string Email { get; init; }
 }

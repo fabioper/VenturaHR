@@ -2,7 +2,6 @@ using Common.Abstractions;
 using MassTransit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Users.Api.MappingProfiles;
 using Users.Application.Commands;
 using Users.Infra.Data;
 using Users.Infra.Data.Repositories;
@@ -16,21 +15,24 @@ builder.Services.AddSwaggerGen();
 var dbConnection = builder.Configuration.GetConnectionString("Database");
 var rabbitMqConnection = builder.Configuration.GetConnectionString("RabbitMq");
 
-builder.Services.AddDbContext<UsersContext>(c =>
-    c.UseNpgsql(dbConnection));
+builder.Services.AddDbContext<UsersContext>(c => c.UseNpgsql(dbConnection));
 
-builder.Services.AddMassTransit(c =>
-{
-    c.UsingRabbitMq((context, config) =>
+
+builder.Services.AddMassTransit(
+    x =>
     {
-        config.ConfigureEndpoints(context);
-        config.Host(new Uri(rabbitMqConnection));
-    });
-});
+        x.UsingRabbitMq(
+            (context, config) =>
+            {
+                config.ConfigureEndpoints(context);
+                config.Host(new Uri(rabbitMqConnection));
+            }
+        );
+    }
+);
 
 
 builder.Services.AddMediatR(typeof(CreateCompanyCommand));
-builder.Services.AddAutoMapper(c => c.AddProfile<UserMapping>());
 builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
 
 var app = builder.Build();

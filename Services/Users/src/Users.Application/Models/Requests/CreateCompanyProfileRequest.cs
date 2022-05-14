@@ -1,6 +1,8 @@
 namespace Users.Application.Models.Requests;
 
-public class CreateCompanyProfileRequest
+#nullable disable
+
+public record CreateCompanyProfileRequest
 {
     public string Identifier { get; set; }
     public string Name { get; set; }

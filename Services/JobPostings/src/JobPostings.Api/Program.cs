@@ -30,6 +30,7 @@ builder.Services.AddMassTransit(
     }
 );
 
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
