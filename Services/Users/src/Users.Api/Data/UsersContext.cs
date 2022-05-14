@@ -1,10 +1,9 @@
 #nullable disable
 
 using Microsoft.EntityFrameworkCore;
-using Users.Infra.Data.Models;
-using Users.Infra.Data.Models.Entities;
+using Users.Api.Data.Models.Entities;
 
-namespace Users.Infra.Data;
+namespace Users.Api.Data;
 
 public class UsersContext : DbContext
 {

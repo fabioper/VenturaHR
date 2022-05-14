@@ -1,4 +1,4 @@
-namespace Users.Application.Models.Requests;
+namespace Users.Api.DTOs;
 
 #nullable disable
 

@@ -2,9 +2,9 @@ using Common.Abstractions;
 using MassTransit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Users.Application.Commands;
-using Users.Infra.Data;
-using Users.Infra.Data.Repositories;
+using Users.Api.Commands;
+using Users.Api.Data;
+using Users.Api.Data.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 

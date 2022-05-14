@@ -1,7 +1,7 @@
 using Common.Abstractions;
 using Microsoft.EntityFrameworkCore;
 
-namespace Users.Infra.Data.Repositories;
+namespace Users.Api.Data.Repositories;
 
 public class BaseRepository<T> : IRepository<T> where T : Entity, IAggregateRoot
 {

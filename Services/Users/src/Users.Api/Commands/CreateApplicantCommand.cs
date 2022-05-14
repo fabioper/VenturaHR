@@ -1,8 +1,8 @@
-using MediatR;
-
 #nullable disable
 
-namespace Users.Application.Commands;
+using MediatR;
+
+namespace Users.Api.Commands;
 
 public record CreateApplicantCommand : IRequest
 {

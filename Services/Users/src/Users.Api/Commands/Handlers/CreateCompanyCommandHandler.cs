@@ -2,9 +2,9 @@ using Common.Abstractions;
 using Common.Events;
 using MassTransit;
 using MediatR;
-using Users.Infra.Data.Models.Entities;
+using Users.Api.Data.Models.Entities;
 
-namespace Users.Application.Commands.Handlers;
+namespace Users.Api.Commands.Handlers;
 
 public class CreateCompanyCommandHandler : IRequestHandler<CreateCompanyCommand>
 {

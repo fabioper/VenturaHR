@@ -1,7 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Users.Application.Commands;
-using Users.Application.Models.Requests;
+using Users.Api.Commands;
+using Users.Api.DTOs;
 
 namespace Users.Api.Controllers;
 

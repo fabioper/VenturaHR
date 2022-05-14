@@ -1,9 +1,9 @@
 #nullable disable
 
 using Common.Abstractions;
-using Users.Infra.Data.Models.ValueObjects;
+using Users.Api.Data.Models.ValueObjects;
 
-namespace Users.Infra.Data.Models.Entities;
+namespace Users.Api.Data.Models.Entities;
 
 public class Company : Entity, IAggregateRoot
 {
