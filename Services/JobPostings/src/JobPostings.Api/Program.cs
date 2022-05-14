@@ -16,15 +16,19 @@ var rabbitMqConnection = builder.Configuration.GetConnectionString("RabbitMq");
 
 builder.Services.AddDbContext<ModelContext>(cfg => cfg.UseNpgsql(dbConnection));
 
-builder.Services.AddMassTransit(x =>
-{
-    x.AddConsumer<UserCreatedConsumer>();
-    x.UsingRabbitMq((context, config) =>
+builder.Services.AddMassTransit(
+    x =>
     {
-        config.ConfigureEndpoints(context);
-        config.Host(new Uri(rabbitMqConnection));
-    });
-});
+        x.AddConsumer<CompanyCreatedConsumer>();
+        x.UsingRabbitMq(
+            (context, config) =>
+            {
+                config.ConfigureEndpoints(context);
+                config.Host(new Uri(rabbitMqConnection));
+            }
+        );
+    }
+);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

@@ -10,7 +10,7 @@ public class Company : Entity, IAggregateRoot
     private readonly List<JobPosting> _jobPostings;
     public IReadOnlyCollection<JobPosting> JobPostings => _jobPostings;
 
-    public Company(string name, string externalId)
+    public Company(string externalId, string name)
     {
         Id = Guid.Parse(externalId);
         Name = name;
