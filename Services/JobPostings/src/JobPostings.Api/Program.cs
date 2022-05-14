@@ -16,31 +16,21 @@ var rabbitMqConnection = builder.Configuration.GetConnectionString("RabbitMq");
 
 builder.Services.AddDbContext<ModelContext>(cfg => cfg.UseNpgsql(dbConnection));
 
-builder.Services.AddMassTransit(
-    x =>
+builder.Services.AddMassTransit(x =>
+{
+    x.AddConsumer<CompanyCreatedConsumer>();
+    x.UsingRabbitMq((context, config) =>
     {
-        x.AddConsumer<CompanyCreatedConsumer>();
-        x.UsingRabbitMq(
-            (context, config) =>
-            {
-                config.ConfigureEndpoints(context);
-                config.Host(new Uri(rabbitMqConnection));
-            }
-        );
-    }
-);
-
+        config.ConfigureEndpoints(context);
+        config.Host(new Uri(rabbitMqConnection));
+    });
+});
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-
-using var serviceScope = app.Services.GetService<IServiceScopeFactory>()?.CreateScope();
-var context = serviceScope?.ServiceProvider.GetRequiredService<ModelContext>();
-if (context?.Database.IsNpgsql() == true)
-    context.Database.Migrate();
 
 app.UseSwagger();
 app.UseSwaggerUI();

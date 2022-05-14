@@ -1,12 +1,11 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace JobPostings.Infra.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class InitialSchema : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,8 +13,7 @@ namespace JobPostings.Infra.Migrations
                 name: "Companies",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
@@ -27,14 +25,13 @@ namespace JobPostings.Infra.Migrations
                 name: "JobPostings",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Role = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
-                    Compensation = table.Column<decimal>(type: "numeric", nullable: false),
-                    ExpireAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Location = table.Column<string>(type: "text", nullable: false),
-                    _companyId = table.Column<long>(type: "bigint", nullable: false)
+                    Compensation = table.Column<decimal>(type: "numeric", nullable: true),
+                    ExpireAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    Location = table.Column<string>(type: "text", nullable: true),
+                    _companyId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {

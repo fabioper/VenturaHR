@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace JobPostings.Infra.Migrations
 {
     [DbContext(typeof(ModelContext))]
-    [Migration("20220513044203_AddCompanyExternalIdColumn")]
-    partial class AddCompanyExternalIdColumn
+    [Migration("20220514183918_InitialSchema")]
+    partial class InitialSchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,15 +26,9 @@ namespace JobPostings.Infra.Migrations
 
             modelBuilder.Entity("JobPostings.Domain.CompanyAggregate.Company", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<string>("ExternalId")
-                        .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -47,11 +41,9 @@ namespace JobPostings.Infra.Migrations
 
             modelBuilder.Entity("JobPostings.Domain.JobPostingAggregate.JobPosting", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -61,8 +53,8 @@ namespace JobPostings.Infra.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<long>("_companyId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("_companyId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
@@ -81,8 +73,8 @@ namespace JobPostings.Infra.Migrations
 
                     b.OwnsOne("JobPostings.Domain.JobPostingAggregate.ExpirationDate", "ExpireAt", b1 =>
                         {
-                            b1.Property<long>("JobPostingId")
-                                .HasColumnType("bigint");
+                            b1.Property<Guid>("JobPostingId")
+                                .HasColumnType("uuid");
 
                             b1.Property<DateTime>("Date")
                                 .HasColumnType("timestamp with time zone")
@@ -98,8 +90,8 @@ namespace JobPostings.Infra.Migrations
 
                     b.OwnsOne("JobPostings.Domain.JobPostingAggregate.Location", "Location", b1 =>
                         {
-                            b1.Property<long>("JobPostingId")
-                                .HasColumnType("bigint");
+                            b1.Property<Guid>("JobPostingId")
+                                .HasColumnType("uuid");
 
                             b1.Property<string>("Place")
                                 .HasColumnType("text")
@@ -115,8 +107,8 @@ namespace JobPostings.Infra.Migrations
 
                     b.OwnsOne("JobPostings.Domain.JobPostingAggregate.Salary", "Salary", b1 =>
                         {
-                            b1.Property<long>("JobPostingId")
-                                .HasColumnType("bigint");
+                            b1.Property<Guid>("JobPostingId")
+                                .HasColumnType("uuid");
 
                             b1.Property<decimal>("Value")
                                 .HasColumnType("numeric")

@@ -18,10 +18,11 @@ public class JobPosting : Entity, IAggregateRoot
 
     public Location Location { get; private set; }
 
+    public Guid _companyId;
     public Company Company { get; private set; }
 
     public JobPosting(
-        string externalId,
+        string id,
         string role,
         string description,
         Location location,
@@ -32,7 +33,7 @@ public class JobPosting : Entity, IAggregateRoot
         Guard.Against.NullOrEmpty(role, nameof(role));
         Guard.Against.NullOrEmpty(description, nameof(description));
 
-        Id = Guid.Parse(externalId);
+        Id = Guid.Parse(id);
         Role = role;
         Description = description;
         Salary = salary;
