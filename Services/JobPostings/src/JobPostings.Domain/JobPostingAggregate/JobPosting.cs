@@ -1,4 +1,4 @@
-using Common;
+using Common.Abstractions;
 using Common.Guards;
 using JobPostings.Domain.CompanyAggregate;
 
@@ -21,6 +21,7 @@ public class JobPosting : Entity, IAggregateRoot
     public Company Company { get; private set; }
 
     public JobPosting(
+        string externalId,
         string role,
         string description,
         Location location,
@@ -31,6 +32,7 @@ public class JobPosting : Entity, IAggregateRoot
         Guard.Against.NullOrEmpty(role, nameof(role));
         Guard.Against.NullOrEmpty(description, nameof(description));
 
+        Id = Guid.Parse(externalId);
         Role = role;
         Description = description;
         Salary = salary;

@@ -1,11 +1,10 @@
-using Common;
-using Common.Guards;
-
 #nullable disable
+
+using Common.Guards;
 
 namespace JobPostings.Domain.JobPostingAggregate;
 
-public class Location : ValueObject
+public record Location
 {
     public string Place { get; private set; }
 
@@ -15,10 +14,5 @@ public class Location : ValueObject
         Place = location;
     }
 
-    protected override IEnumerable<object> GetEqualityComponents()
-    {
-        yield return Place;
-    }
-
-    public Location() { } // Ef required
+    public Location() { }
 }

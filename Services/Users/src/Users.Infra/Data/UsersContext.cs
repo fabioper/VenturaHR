@@ -25,32 +25,33 @@ public class UsersContext : DbContext
         var builder = modelBuilder.Entity<Applicant>();
 
         builder.ToTable("Applicants");
+
         builder.HasKey(x => x.Id);
+
         builder.Property(x => x.Name);
         builder.Property(x => x.Email);
-        builder.OwnsOne(x => x.ExternalId, b =>
-        {
-            b.Property(x => x.Value).HasColumnName("ExternalId");
-        });
     }
 
     private static void ConfigureCompanies(ModelBuilder modelBuilder)
     {
         var builder = modelBuilder.Entity<Company>();
         builder.ToTable("Companies");
+
         builder.HasKey(x => x.Id);
+
         builder.Property(x => x.Name);
         builder.Property(x => x.Email);
 
-        builder.OwnsOne(x => x.ExternalId, b =>
-        {
-            b.Property(x => x.Value).HasColumnName("ExternalId");
-        });
+        builder.OwnsOne(
+            x => x.Registration,
+            b =>
+                b.Property(ad => ad.Number).HasColumnName("Registration")
+        );
 
-        builder.OwnsOne(x => x.Registration, b =>
-            b.Property(ad => ad.Number).HasColumnName("Registration"));
-
-        builder.OwnsOne(x => x.PhoneNumber, b =>
-            b.Property(x => x.Value).HasColumnName("PhoneNumber"));
+        builder.OwnsOne(
+            x => x.PhoneNumber,
+            b =>
+                b.Property(x => x.Value).HasColumnName("PhoneNumber")
+        );
     }
 }

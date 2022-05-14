@@ -1,6 +1,6 @@
 using AutoMapper;
-using Common;
-using Common.Events.Models;
+using Common.Abstractions;
+using Common.Events;
 using MassTransit;
 using MediatR;
 using Users.Infra.Data.Models.Entities;
@@ -26,13 +26,13 @@ public class CreateApplicantCommandHandler : IRequestHandler<CreateCompanyComman
     public async Task<Unit> Handle(CreateCompanyCommand request, CancellationToken cancellationToken)
     {
         var newApplicant = _mapper.Map<Applicant>(request);
+
         await _repository.Add(newApplicant);
 
-        var userCreatedEvent = new UserCreated(
+        var userCreatedEvent = new ApplicantCreatedEvent(
             newApplicant.Name,
             newApplicant.Email,
-            newApplicant.ExternalId.Value,
-            new() { nameof(Applicant) }
+            newApplicant.Id.ToString()
         );
 
         await _publishEndpoint.Publish(userCreatedEvent, cancellationToken);

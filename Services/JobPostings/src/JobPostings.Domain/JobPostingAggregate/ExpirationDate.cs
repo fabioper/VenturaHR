@@ -1,8 +1,6 @@
-using Common;
-
 namespace JobPostings.Domain.JobPostingAggregate;
 
-public class ExpirationDate : ValueObject
+public record ExpirationDate
 {
     public DateTime Date { get; private set; }
 
@@ -13,8 +11,5 @@ public class ExpirationDate : ValueObject
         Date = date;
     }
 
-    protected override IEnumerable<object> GetEqualityComponents()
-    {
-        yield return Date;
-    }
+    public ExpirationDate() { }
 }

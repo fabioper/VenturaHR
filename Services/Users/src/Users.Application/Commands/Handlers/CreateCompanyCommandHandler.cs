@@ -1,6 +1,6 @@
 using AutoMapper;
-using Common;
-using Common.Events.Models;
+using Common.Abstractions;
+using Common.Events;
 using MassTransit;
 using MediatR;
 using Users.Infra.Data.Models.Entities;
@@ -28,12 +28,7 @@ public class CreateCompanyCommandHandler : IRequestHandler<CreateCompanyCommand>
         var newCompany = _mapper.Map<Company>(request);
         await _companyRepository.Add(newCompany);
 
-        var userCreatedEvent = new UserCreated(
-            newCompany.Name,
-            newCompany.Email,
-            newCompany.ExternalId.Value,
-            new() { nameof(Company) }
-        );
+        var userCreatedEvent = new CompanyCreatedEvent(newCompany.Name, newCompany.Email, newCompany.Id.ToString());
 
         await _publishEndpoint.Publish(userCreatedEvent, cancellationToken);
         return Unit.Value;

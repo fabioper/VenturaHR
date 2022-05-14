@@ -1,4 +1,4 @@
-using Common;
+using Common.Abstractions;
 using JobPostings.Application.Broker.Consumers;
 using JobPostings.Application.Services.Concretes;
 using JobPostings.Application.Services.Contracts;

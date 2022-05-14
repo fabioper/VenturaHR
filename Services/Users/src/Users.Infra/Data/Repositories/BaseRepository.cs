@@ -1,4 +1,4 @@
-using Common;
+using Common.Abstractions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Users.Infra.Data.Repositories;
@@ -32,7 +32,7 @@ public class BaseRepository<T> : IRepository<T> where T : Entity, IAggregateRoot
         return await query.ToListAsync();
     }
 
-    public async Task<T?> FindById(long id)
+    public async Task<T?> FindById(Guid id)
     {
         return await _entity.FirstOrDefaultAsync(x => x.Id == id);
     }

@@ -1,11 +1,11 @@
-using Common;
+#nullable disable
+
+using Common.Abstractions;
 using JobPostings.Application.Services.Concretes;
 using JobPostings.Application.Services.Contracts;
 using JobPostings.Domain.JobPostingAggregate;
 using Moq;
 using NUnit.Framework;
-
-#nullable disable
 
 namespace JobPostings.Application.Tests.Services;
 
@@ -17,7 +17,7 @@ public class JobPostingsServiceTests
     [SetUp]
     public void Setup()
     {
-        _jobPostingsRepositoryMock = new Mock<IRepository<JobPosting>>();
+        _jobPostingsRepositoryMock = new();
         _jobPostingsService = new JobPostingsService(_jobPostingsRepositoryMock.Object);
     }
 

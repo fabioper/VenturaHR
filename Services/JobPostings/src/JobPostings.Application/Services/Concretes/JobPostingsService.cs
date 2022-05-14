@@ -1,4 +1,4 @@
-using Common;
+using Common.Abstractions;
 using JobPostings.Application.Services.Contracts;
 using JobPostings.Domain.JobPostingAggregate;
 

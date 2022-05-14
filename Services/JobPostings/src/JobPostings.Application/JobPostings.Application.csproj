@@ -12,7 +12,7 @@
 
     <ItemGroup>
       <PackageReference Include="MassTransit" Version="8.0.2" />
-      <PackageReference Include="VenturaHRCommon" Version="1.2.5" />
+      <PackageReference Include="VenturaHRCommon" Version="1.2.7" />
     </ItemGroup>
 
 </Project>
