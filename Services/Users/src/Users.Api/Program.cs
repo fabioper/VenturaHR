@@ -1,15 +1,23 @@
+using System.Reflection;
 using Common.Abstractions;
+using FluentValidation.AspNetCore;
 using MassTransit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Users.Api.Commands;
 using Users.Api.Commands.CreateCompany;
 using Users.Api.Data;
 using Users.Api.Data.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+
+builder.Services.AddControllers()
+       .AddFluentValidation(x =>
+       {
+           x.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+           x.ImplicitlyValidateChildProperties = true;
+       });
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -19,18 +27,14 @@ var rabbitMqConnection = builder.Configuration.GetConnectionString("RabbitMq");
 builder.Services.AddDbContext<UsersContext>(c => c.UseNpgsql(dbConnection));
 
 
-builder.Services.AddMassTransit(
-    x =>
+builder.Services.AddMassTransit(x =>
+{
+    x.UsingRabbitMq((context, config) =>
     {
-        x.UsingRabbitMq(
-            (context, config) =>
-            {
-                config.ConfigureEndpoints(context);
-                config.Host(new Uri(rabbitMqConnection));
-            }
-        );
-    }
-);
+        config.ConfigureEndpoints(context);
+        config.Host(new Uri(rabbitMqConnection));
+    });
+});
 
 
 builder.Services.AddMediatR(typeof(CreateCompanyCommand));
