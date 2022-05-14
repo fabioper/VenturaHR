@@ -2,9 +2,9 @@ using Common.Abstractions;
 using Common.Events;
 using MassTransit;
 using MediatR;
-using Users.Api.Data.Models.Entities;
+using Users.Api.Models.Entities;
 
-namespace Users.Api.Commands.Handlers;
+namespace Users.Api.Commands.CreateApplicant;
 
 public class CreateApplicantCommandHandler : IRequestHandler<CreateApplicantCommand>
 {

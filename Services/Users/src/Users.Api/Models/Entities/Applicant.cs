@@ -2,7 +2,7 @@
 
 using Common.Abstractions;
 
-namespace Users.Api.Data.Models.Entities;
+namespace Users.Api.Models.Entities;
 
 public class Applicant : Entity, IAggregateRoot
 {

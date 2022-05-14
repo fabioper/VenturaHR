@@ -1,7 +1,8 @@
 #nullable disable
 
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
-using Users.Api.Data.Models.Entities;
+using Users.Api.Models.Entities;
 
 namespace Users.Api.Data;
 
@@ -15,42 +16,6 @@ public class UsersContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        ConfigureApplicants(modelBuilder);
-        ConfigureCompanies(modelBuilder);
-    }
-
-    private static void ConfigureApplicants(ModelBuilder modelBuilder)
-    {
-        var builder = modelBuilder.Entity<Applicant>();
-
-        builder.ToTable("Applicants");
-
-        builder.HasKey(x => x.Id);
-
-        builder.Property(x => x.Name);
-        builder.Property(x => x.Email);
-    }
-
-    private static void ConfigureCompanies(ModelBuilder modelBuilder)
-    {
-        var builder = modelBuilder.Entity<Company>();
-        builder.ToTable("Companies");
-
-        builder.HasKey(x => x.Id);
-
-        builder.Property(x => x.Name);
-        builder.Property(x => x.Email);
-
-        builder.OwnsOne(
-            x => x.Registration,
-            b =>
-                b.Property(ad => ad.Number).HasColumnName("Registration")
-        );
-
-        builder.OwnsOne(
-            x => x.PhoneNumber,
-            b =>
-                b.Property(x => x.Value).HasColumnName("PhoneNumber")
-        );
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 }

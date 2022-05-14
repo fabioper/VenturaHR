@@ -2,7 +2,7 @@
 
 using MediatR;
 
-namespace Users.Api.Commands;
+namespace Users.Api.Commands.CreateApplicant;
 
 public record CreateApplicantCommand : IRequest
 {

@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Users.Api.Commands;
+using Users.Api.Commands.CreateCompany;
 using Users.Api.DTOs;
 
 namespace Users.Api.Controllers;

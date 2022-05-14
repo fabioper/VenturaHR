@@ -2,7 +2,7 @@
 
 using MediatR;
 
-namespace Users.Api.Commands;
+namespace Users.Api.Commands.CreateCompany;
 
 public record CreateCompanyCommand : IRequest
 {

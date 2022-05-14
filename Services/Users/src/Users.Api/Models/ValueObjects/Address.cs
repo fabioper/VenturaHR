@@ -1,5 +1,5 @@
 #nullable disable
 
-namespace Users.Api.Data.Models.ValueObjects;
+namespace Users.Api.Models.ValueObjects;
 
 public record Address(string Value);

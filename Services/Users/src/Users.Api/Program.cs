@@ -3,6 +3,7 @@ using MassTransit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Users.Api.Commands;
+using Users.Api.Commands.CreateCompany;
 using Users.Api.Data;
 using Users.Api.Data.Repositories;
 
