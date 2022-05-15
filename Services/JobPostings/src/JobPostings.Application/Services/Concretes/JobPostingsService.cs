@@ -1,4 +1,5 @@
 using Common.Abstractions;
+using JobPostings.Application.Models.Inputs;
 using JobPostings.Application.Services.Contracts;
 using JobPostings.Domain.JobPostingAggregate;
 
@@ -10,4 +11,18 @@ public class JobPostingsService : IJobPostingsService
 
     public JobPostingsService(IRepository<JobPosting> jobPostingsRepository) =>
         _jobPostingsRepository = jobPostingsRepository;
+
+    public async Task PostJob(PostJobInput input)
+    {
+        var newJob = new JobPosting(
+            input.Role,
+            input.Description,
+            input.Location,
+            input.Salary,
+            input.ExpirationDate,
+            input.CompanyId
+        );
+
+        await _jobPostingsRepository.Add(newJob);
+    }
 }

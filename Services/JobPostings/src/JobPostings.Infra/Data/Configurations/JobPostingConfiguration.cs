@@ -12,9 +12,10 @@ public class JobPostingConfiguration : IEntityTypeConfiguration<JobPosting>
 
         builder.HasKey(x => x.Id);
 
-        builder.Property(x => x.Role).IsRequired();
-
         builder.Property(x => x.Description).IsRequired();
+
+        builder.OwnsOne(x => x.Role,
+            x => x.Property(r => r.Title).HasColumnName("Role"));
 
         builder.OwnsOne(x => x.Location,
             x => x.Property(l => l.Place).HasColumnName("Location"));

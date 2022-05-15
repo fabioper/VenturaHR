@@ -7,9 +7,9 @@ namespace JobPostings.Domain.JobPostingAggregate;
 
 public class JobPosting : Entity, IAggregateRoot
 {
-    public string Role { get; private set; }
-
     public string Description { get; private set; }
+
+    public Role Role { get; private set; }
 
     public Salary Salary { get; private set; }
 
@@ -31,8 +31,8 @@ public class JobPosting : Entity, IAggregateRoot
         Guard.Against.NullOrEmpty(description, nameof(description));
 
         Id = Guid.NewGuid();
-        Role = role;
         Description = description;
+        Role = new(role);
         Salary = new(salary);
         ExpireAt = new(expiration);
         Location = new(location);
