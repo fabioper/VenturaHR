@@ -1,5 +1,4 @@
 using Common.Abstractions;
-using JobPostings.Application.Broker.Consumers;
 using JobPostings.Application.Services.Concretes;
 using JobPostings.Application.Services.Contracts;
 using JobPostings.Infra.Data;
@@ -18,7 +17,6 @@ builder.Services.AddDbContext<ModelContext>(cfg => cfg.UseNpgsql(dbConnection));
 
 builder.Services.AddMassTransit(x =>
 {
-    x.AddConsumer<CompanyCreatedConsumer>();
     x.UsingRabbitMq((context, config) =>
     {
         config.ConfigureEndpoints(context);
