@@ -1,0 +1,15 @@
+.p-tabview .p-tabview-panels,
+.p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link,
+.p-tabview .p-tabview-nav li .p-tabview-nav-link {
+  background: transparent;
+}
+
+.p-tabview .p-tabview-nav li {
+  flex-grow: 1;
+}
+
+.p-tabview .p-tabview-nav li .p-tabview-nav-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
