@@ -6,8 +6,6 @@ import "../styles/global.scss"
 
 import { AppProps } from "next/app"
 import AuthProvider from "../contexts/AuthContext"
-import { getAuth } from "firebase/auth"
-import { firebaseApp } from "../config/firebase/firebase.config"
 import Header from "../components/Header"
 
 import "@fontsource/inter/300.css"
@@ -19,11 +17,8 @@ import "@fontsource/jost/400.css"
 import "@fontsource/jost/700.css"
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
-  const auth = getAuth(firebaseApp)
-  auth.useDeviceLanguage()
-
   return (
-    <AuthProvider auth={auth}>
+    <AuthProvider>
       <Header />
       <Component {...pageProps} />
     </AuthProvider>

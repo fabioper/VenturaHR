@@ -1,20 +1,18 @@
 import React, { createContext, useContext, useEffect, useState } from "react"
-import {
-  Auth,
-  AuthProvider,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signInWithPopup,
-  signOut,
-  updateProfile,
-} from "firebase/auth"
 import { AuthUser } from "./AuthUser"
 import { useLoader } from "../hooks/useLoader"
-import { formatUser, isNewUser, setUserRole } from "../utils/auth.utils"
 import { LoginDto } from "../core/dtos/LoginDto"
 import { SignUpDto } from "../core/dtos/SignUpDto"
 import { UserRole } from "../core/enums/UserRole"
-import axios from "axios"
+import {
+  getCurrentUser,
+  onAuthChange,
+  ProviderOptions,
+  signInUser,
+  signInWithProvider,
+  signOutUser,
+  signUp,
+} from "../core/services/auth.service"
 
 export interface AuthContextProps {
   user?: AuthUser
@@ -23,7 +21,10 @@ export interface AuthContextProps {
   login: (credentials: LoginDto) => Promise<any>
   logout: () => Promise<any>
   signup: (credentials: SignUpDto) => Promise<void>
-  loginWithProvider: (provider: AuthProvider, role: UserRole) => Promise<void>
+  loginWithProvider: (
+    providerId: ProviderOptions,
+    role: UserRole
+  ) => Promise<void>
 }
 
 export const AuthContext = createContext<AuthContextProps>({
@@ -35,8 +36,7 @@ export const AuthContext = createContext<AuthContextProps>({
   loginWithProvider: async () => {},
 })
 
-const AuthProvider: React.FC<{ auth: Auth; children: React.ReactNode }> = ({
-  auth,
+const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [user, setUser] = useState<AuthUser>()
@@ -47,8 +47,8 @@ const AuthProvider: React.FC<{ auth: Auth; children: React.ReactNode }> = ({
 
   async function loadUser(): Promise<void> {
     await withLoader(async () => {
-      const currentUser = auth.currentUser
-      const user = currentUser ? await formatUser(currentUser) : undefined
+      const currentUser = getCurrentUser()
+      const user = currentUser ? await currentUser : undefined
       if (user?.roles && user?.roles.length > 0) {
         setUser(user)
       }
@@ -56,47 +56,34 @@ const AuthProvider: React.FC<{ auth: Auth; children: React.ReactNode }> = ({
   }
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async () => await loadUser())
+    const unsubscribe = onAuthChange(loadUser)
     return () => unsubscribe()
   }, [])
 
-  const login = async ({ email, password }: LoginDto) => {
-    await withLoader(
-      async () => await signInWithEmailAndPassword(auth, email, password),
-      true
-    )
+  const login = async (credentials: LoginDto) => {
+    await withLoader(async () => signInUser(credentials), true)
   }
 
   const logout = async () => {
     await withLoader(async () => {
-      await signOut(auth)
+      await signOutUser()
       setUser(undefined)
     })
   }
 
   const signup = async (credentials: SignUpDto) => {
     await withLoader(async () => {
-      const { user } = await createUserWithEmailAndPassword(
-        auth,
-        credentials.email,
-        credentials.password
-      )
-      await setUserRole(user.uid, credentials.role)
-      await updateProfile(user, { displayName: credentials.displayName })
-      await axios.post("https://venturahr-webhooks.herokuapp.com", {
-        id: user.uid,
-        displayName: user.displayName,
-        email: user.email,
-        role: [credentials.role],
-      })
+      await signUp(credentials)
       await loadUser()
     }, true)
   }
 
-  const loginWithProvider = async (provider: AuthProvider, role: UserRole) => {
+  const loginWithProvider = async (
+    providerId: ProviderOptions,
+    role: UserRole
+  ) => {
     await withLoader(async () => {
-      const { user } = await signInWithPopup(auth, provider)
-      isNewUser(user) && (await setUserRole(user.uid, role))
+      await signInWithProvider(providerId, role)
       await loadUser()
     }, true)
   }

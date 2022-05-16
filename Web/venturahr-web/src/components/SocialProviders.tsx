@@ -1,14 +1,9 @@
 import React from "react"
 import { Button } from "primereact/button"
-import {
-  AuthProvider,
-  GithubAuthProvider,
-  GoogleAuthProvider,
-  TwitterAuthProvider,
-} from "firebase/auth"
 import { UserRole } from "../core/enums/UserRole"
 import { FirebaseError } from "@firebase/util"
 import { useAuth } from "../contexts/AuthContext"
+import { ProviderOptions } from "../core/services/auth.service"
 
 interface SocialProvidersProps {
   onUserCancelError: () => any
@@ -29,9 +24,9 @@ const SocialProviders: React.FC<SocialProvidersProps> = ({
     }
   }
 
-  const handleProviderLogin = async (provider: AuthProvider) => {
+  const handleProviderLogin = async (providerId: ProviderOptions) => {
     try {
-      await loginWithProvider(provider, UserRole.Applicant)
+      await loginWithProvider(providerId, UserRole.Applicant)
     } catch (e) {
       if (e instanceof FirebaseError) {
         handleFirebaseErrors(e)
@@ -47,9 +42,7 @@ const SocialProviders: React.FC<SocialProvidersProps> = ({
           type="button"
           className="google p-0"
           aria-label="Google"
-          onClick={async () =>
-            await handleProviderLogin(new GoogleAuthProvider())
-          }
+          onClick={async () => await handleProviderLogin("google")}
         >
           <i className="pi pi-google px-2 py-2"></i>
           <span className="px-0 text-sm">Google</span>
@@ -59,9 +52,7 @@ const SocialProviders: React.FC<SocialProvidersProps> = ({
           type="button"
           className="github p-0"
           aria-label="github"
-          onClick={async () =>
-            await handleProviderLogin(new GithubAuthProvider())
-          }
+          onClick={async () => await handleProviderLogin("github")}
         >
           <i className="pi pi-github px-2 py-2"></i>
           <span className="px-0 text-sm">Github</span>
@@ -71,9 +62,7 @@ const SocialProviders: React.FC<SocialProvidersProps> = ({
           type="button"
           className="twitter p-0"
           aria-label="twitter"
-          onClick={async () =>
-            await handleProviderLogin(new TwitterAuthProvider())
-          }
+          onClick={async () => await handleProviderLogin("twitter")}
         >
           <i className="pi pi-twitter px-2 py-2"></i>
           <span className="px-0 text-sm">Twitter</span>
