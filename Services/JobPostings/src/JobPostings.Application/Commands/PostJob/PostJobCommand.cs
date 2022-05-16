@@ -1,8 +1,10 @@
-namespace JobPostings.Application.Models.Inputs;
+using MediatR;
+
+namespace JobPostings.Application.Commands.PostJob;
 
 #nullable disable
 
-public record PostJobInput
+public record PostJobCommand : IRequest
 {
     public string Role { get; init; }
     public string Description { get; init; }

@@ -1,15 +1,14 @@
 using Common.Abstractions;
 using JobPostings.Api.Extensions;
-using JobPostings.Application.Services.Concretes;
-using JobPostings.Application.Services.Contracts;
+using JobPostings.Application.Commands.PostJob;
 using JobPostings.Infra.Data;
 using MassTransit;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
-builder.Services.AddScoped<IJobPostingsService, JobPostingsService>();
 
 var dbConnection = builder.Configuration.GetConnectionString("Database");
 builder.Services.AddDbContext<ModelContext>(cfg => cfg.UseNpgsql(dbConnection));
@@ -23,6 +22,8 @@ builder.Services.AddMassTransit(x =>
         config.Host(new Uri(rabbitMqConnection));
     });
 });
+
+builder.Services.AddMediatR(typeof(PostJobCommand));
 
 builder.Services.AddControllers();
 
