@@ -83,7 +83,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     role: UserRole
   ) => {
     await withLoader(async () => {
-      await signInWithProvider(providerId, role)
+      await signInWithProvider({ providerId, role })
       await loadUser()
     }, true)
   }

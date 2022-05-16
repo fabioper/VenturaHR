@@ -20,13 +20,13 @@ import { AuthUser } from "../../shared/contexts/AuthUser"
 const auth = getAuth(firebaseApp)
 auth.useDeviceLanguage()
 
-const providers = {
+const availableProviders = {
   twitter: () => new TwitterAuthProvider(),
   github: () => new GithubAuthProvider(),
   google: () => new GoogleAuthProvider(),
 }
 
-export type ProviderOptions = keyof typeof providers
+export type ProviderOptions = keyof typeof availableProviders
 
 export async function getToken() {
   const idTokenResult = await auth.currentUser?.getIdTokenResult()
@@ -61,17 +61,23 @@ export function onAuthChange(callback: () => Promise<void>) {
   return auth.onAuthStateChanged(async () => callback())
 }
 
-export async function signInWithProvider(
-  provider: ProviderOptions,
+interface SignInWithProviderParams {
+  providerId: ProviderOptions
   role: UserRole
-) {
-  const selectedProvider = providers[provider]
+}
+
+export async function signInWithProvider(params: SignInWithProviderParams) {
+  const selectedProvider = {
+    twitter: () => new TwitterAuthProvider(),
+    github: () => new GithubAuthProvider(),
+    google: () => new GoogleAuthProvider(),
+  }[params.providerId]
   const { user } = await signInWithPopup(auth, selectedProvider())
-  isNewUser(user) && (await finishUserProfile(user.uid, role))
+  isNewUser(user) && (await finishUserProfile(user.uid, params.role))
 }
 
 export async function signOutUser() {
-  await signOut(auth)
+  return await signOut(auth)
 }
 
 async function setUserRoles(id: string, role: UserRole): Promise<void> {
