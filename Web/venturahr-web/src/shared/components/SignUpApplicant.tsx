@@ -7,9 +7,9 @@ import SectionDivider from "./SectionDivider"
 import SocialProviders from "./SocialProviders"
 import { useAuth } from "../contexts/AuthContext"
 import useForm from "../hooks/useForm"
-import { SignUpDto } from "../../core/dtos/SignUpDto"
+import { SignUpApplicantDto } from "../../core/dtos/SignUpDto"
 import { UserRole } from "../../core/enums/UserRole"
-import { signupValidator } from "../../core/validations/signup.validator"
+import { signupApplicantValidator } from "../../core/validations/signup.validator"
 import { FirebaseError } from "@firebase/util"
 import { Message } from "primereact/message"
 
@@ -17,14 +17,13 @@ const SignUpApplicant: React.FC = () => {
   const [error, setError] = useState<string | null>(null)
   const { signup, loading } = useAuth()
 
-  const { form, renderError, isValid } = useForm<SignUpDto>(
+  const { form, renderError, isValid } = useForm<SignUpApplicantDto>(
     {
-      displayName: "",
+      name: "",
       email: "",
       password: "",
-      role: UserRole.Applicant,
     },
-    signupValidator,
+    signupApplicantValidator,
     handleSignUp
   )
 
@@ -37,14 +36,14 @@ const SignUpApplicant: React.FC = () => {
     }
   }
 
-  async function handleSignUp(values: SignUpDto) {
+  async function handleSignUp(values: SignUpApplicantDto) {
     setError(null)
     try {
       await signup({
         email: values.email,
         password: values.password,
-        displayName: values.displayName,
-        role: values.role,
+        displayName: values.name,
+        role: UserRole.Applicant,
       })
     } catch (e) {
       if (e instanceof FirebaseError) {
@@ -63,19 +62,19 @@ const SignUpApplicant: React.FC = () => {
       )}
       <form onSubmit={form.handleSubmit} className="flex flex-col gap-y-5">
         <div>
-          <label className="block mb-1.5" htmlFor="displayName">
+          <label className="block mb-1.5" htmlFor="name">
             Nome:
           </label>
           <InputText
             autoFocus
-            id="displayName"
+            id="name"
             placeholder="John Doe"
-            value={form.values.displayName}
+            value={form.values.name}
             onChange={form.handleChange}
             onBlur={form.handleBlur}
-            className={`w-full ${!isValid("displayName") ? "p-invalid" : ""}`}
+            className={`w-full ${!isValid("name") ? "p-invalid" : ""}`}
           />
-          {renderError("displayName")}
+          {renderError("name")}
         </div>
 
         <div>

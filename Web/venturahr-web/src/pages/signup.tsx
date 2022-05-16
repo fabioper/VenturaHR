@@ -24,6 +24,7 @@ const Signup: NextPage = () => {
             Crie seu perfil
           </h2>
         </header>
+
         <div className="sm:w-full md:w-10/12 lg:w-5/12 bg-[#0d1424] mx-auto mb-10 p-10 rounded-xl bg-opacity-80">
           <TabView>
             <TabPanel header="Candidato">

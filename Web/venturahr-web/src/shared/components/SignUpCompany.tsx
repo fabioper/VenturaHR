@@ -1,9 +1,9 @@
 import React, { useState } from "react"
 import { useAuth } from "../contexts/AuthContext"
 import useForm from "../hooks/useForm"
-import { SignUpDto } from "../../core/dtos/SignUpDto"
+import { SignUpCompanyDto } from "../../core/dtos/SignUpDto"
 import { UserRole } from "../../core/enums/UserRole"
-import { signupValidator } from "../../core/validations/signup.validator"
+import { signupCompanyValidator } from "../../core/validations/signup.validator"
 import { FirebaseError } from "@firebase/util"
 import { Message } from "primereact/message"
 import { InputText } from "primereact/inputtext"
@@ -15,14 +15,15 @@ const SignUpCompany: React.FC = () => {
   const [error, setError] = useState<string | null>(null)
   const { signup, loading } = useAuth()
 
-  const { form, renderError, isValid } = useForm<SignUpDto>(
+  const { form, renderError, isValid } = useForm<SignUpCompanyDto>(
     {
-      displayName: "",
+      name: "",
       email: "",
       password: "",
-      role: UserRole.Company,
+      phoneNumber: "",
+      registration: "",
     },
-    signupValidator,
+    signupCompanyValidator,
     handleSignUp
   )
 
@@ -35,14 +36,14 @@ const SignUpCompany: React.FC = () => {
     }
   }
 
-  async function handleSignUp(values: SignUpDto) {
+  async function handleSignUp(values: SignUpCompanyDto) {
     setError(null)
     try {
       await signup({
         email: values.email,
         password: values.password,
-        displayName: values.displayName,
-        role: values.role,
+        displayName: values.name,
+        role: UserRole.Company,
       })
     } catch (e) {
       if (e instanceof FirebaseError) {
@@ -61,19 +62,51 @@ const SignUpCompany: React.FC = () => {
       )}
       <form onSubmit={form.handleSubmit} className="flex flex-col gap-y-5">
         <div>
-          <label className="block mb-1.5" htmlFor="displayName">
+          <label className="block mb-1.5" htmlFor="name">
             Nome:
           </label>
           <InputText
             autoFocus
-            id="displayName"
+            id="name"
             placeholder="John Doe"
-            value={form.values.displayName}
+            value={form.values.name}
             onChange={form.handleChange}
             onBlur={form.handleBlur}
-            className={`w-full ${!isValid("displayName") ? "p-invalid" : ""}`}
+            className={`w-full ${!isValid("name") ? "p-invalid" : ""}`}
           />
-          {renderError("displayName")}
+          {renderError("name")}
+        </div>
+
+        <div>
+          <label className="block mb-1.5" htmlFor="registration">
+            CNPJ:
+          </label>
+          <InputText
+            autoFocus
+            id="registration"
+            placeholder="John Doe"
+            value={form.values.registration}
+            onChange={form.handleChange}
+            onBlur={form.handleBlur}
+            className={`w-full ${!isValid("registration") ? "p-invalid" : ""}`}
+          />
+          {renderError("registration")}
+        </div>
+
+        <div>
+          <label className="block mb-1.5" htmlFor="phoneNumber">
+            Telefone:
+          </label>
+          <InputText
+            autoFocus
+            id="phoneNumber"
+            placeholder="John Doe"
+            value={form.values.phoneNumber}
+            onChange={form.handleChange}
+            onBlur={form.handleBlur}
+            className={`w-full ${!isValid("phoneNumber") ? "p-invalid" : ""}`}
+          />
+          {renderError("phoneNumber")}
         </div>
 
         <div>
