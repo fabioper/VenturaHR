@@ -1,4 +1,5 @@
 using Common.Abstractions;
+using JobPostings.Api.Extensions;
 using JobPostings.Application.Services.Concretes;
 using JobPostings.Application.Services.Contracts;
 using JobPostings.Infra.Data;
@@ -25,8 +26,13 @@ builder.Services.AddMassTransit(x =>
 });
 
 builder.Services.AddControllers();
+
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddSwaggerConfiguration();
+
+builder.Services.AddJwtAuthentication();
+builder.Services.AddAuthorizationPolicies();
 
 var app = builder.Build();
 
@@ -35,6 +41,7 @@ app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
