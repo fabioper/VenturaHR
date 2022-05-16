@@ -1,8 +1,8 @@
 import axios, { AxiosRequestConfig } from "axios"
-import { getToken } from "../core/services/auth.service"
+import { getToken } from "../services/auth.service"
 
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || "",
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
 })
 
 const authTokenInterceptor = (config: AxiosRequestConfig) => {

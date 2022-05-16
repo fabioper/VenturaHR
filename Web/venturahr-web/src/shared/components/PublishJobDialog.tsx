@@ -7,8 +7,8 @@ import { Dialog } from "primereact/dialog"
 import { PrimeIcons } from "primereact/api"
 import InputCurrency from "./InputCurrency"
 import useForm from "../hooks/useForm"
-import { CreateJobPostingDto } from "../core/dtos/CreateJobPostingDto"
-import { createJobPostingValidator } from "../core/validations/create-job-posting.validator"
+import { CreateJobPostingDto } from "../../core/dtos/CreateJobPostingDto"
+import { createJobPostingValidator } from "../../core/validations/create-job-posting.validator"
 
 interface PublishJobDialogProps {
   visible: boolean

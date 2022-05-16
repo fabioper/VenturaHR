@@ -10,12 +10,12 @@ import {
   updateProfile,
   User,
 } from "firebase/auth"
-import { firebaseApp } from "../../config/firebase/firebase.config"
+import { firebaseApp } from "../config/firebase/firebase.config"
 import { SignUpDto } from "../dtos/SignUpDto"
 import { LoginDto } from "../dtos/LoginDto"
 import { UserRole } from "../enums/UserRole"
 import { getFunctions, httpsCallable } from "firebase/functions"
-import { AuthUser } from "../../contexts/AuthUser"
+import { AuthUser } from "../../shared/contexts/AuthUser"
 
 const auth = getAuth(firebaseApp)
 auth.useDeviceLanguage()

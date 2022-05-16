@@ -5,8 +5,8 @@ import "primeicons/primeicons.css"
 import "../styles/global.scss"
 
 import { AppProps } from "next/app"
-import AuthProvider from "../contexts/AuthContext"
-import Header from "../components/Header"
+import AuthProvider from "../shared/contexts/AuthContext"
+import Header from "../shared/components/Header"
 
 import "@fontsource/inter/300.css"
 import "@fontsource/inter/400.css"

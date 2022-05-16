@@ -1,9 +1,9 @@
 import React, { createContext, useContext, useEffect, useState } from "react"
 import { AuthUser } from "./AuthUser"
 import { useLoader } from "../hooks/useLoader"
-import { LoginDto } from "../core/dtos/LoginDto"
-import { SignUpDto } from "../core/dtos/SignUpDto"
-import { UserRole } from "../core/enums/UserRole"
+import { LoginDto } from "../../core/dtos/LoginDto"
+import { SignUpDto } from "../../core/dtos/SignUpDto"
+import { UserRole } from "../../core/enums/UserRole"
 import {
   getCurrentUser,
   onAuthChange,
@@ -12,7 +12,7 @@ import {
   signInWithProvider,
   signOutUser,
   signUp,
-} from "../core/services/auth.service"
+} from "../../core/services/auth.service"
 
 export interface AuthContextProps {
   user?: AuthUser

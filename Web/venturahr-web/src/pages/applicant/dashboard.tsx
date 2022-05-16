@@ -1,5 +1,5 @@
 import { NextPage } from "next"
-import ProtectedPage from "../../components/ProtectedPage"
+import ProtectedPage from "../../shared/components/ProtectedPage"
 
 const dashboard: NextPage = () => {
   return (

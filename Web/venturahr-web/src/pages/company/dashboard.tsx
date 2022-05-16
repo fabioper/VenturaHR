@@ -1,6 +1,6 @@
 import { NextPage } from "next"
-import ProtectedPage from "../../components/ProtectedPage"
-import { useAuth } from "../../contexts/AuthContext"
+import ProtectedPage from "../../shared/components/ProtectedPage"
+import { useAuth } from "../../shared/contexts/AuthContext"
 import { Button } from "primereact/button"
 import { BreadCrumb } from "primereact/breadcrumb"
 import { PrimeIcons } from "primereact/api"
@@ -9,7 +9,7 @@ import { useMemo, useState } from "react"
 import { useRouter } from "next/router"
 import Head from "next/head"
 import { UserRole } from "../../core/enums/UserRole"
-import PublishJobDialog from "../../components/PublishJobDialog"
+import PublishJobDialog from "../../shared/components/PublishJobDialog"
 
 const dashboard: NextPage = () => {
   const { user } = useAuth()
