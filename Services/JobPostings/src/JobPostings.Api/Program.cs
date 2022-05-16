@@ -12,10 +12,9 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
 builder.Services.AddScoped<IJobPostingsService, JobPostingsService>();
 
 var dbConnection = builder.Configuration.GetConnectionString("Database");
-var rabbitMqConnection = builder.Configuration.GetConnectionString("RabbitMq");
-
 builder.Services.AddDbContext<ModelContext>(cfg => cfg.UseNpgsql(dbConnection));
 
+var rabbitMqConnection = builder.Configuration.GetConnectionString("RabbitMq");
 builder.Services.AddMassTransit(x =>
 {
     x.UsingRabbitMq((context, config) =>
@@ -31,7 +30,7 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerConfiguration();
 
-builder.Services.AddJwtAuthentication();
+builder.Services.AddJwtAuthentication(builder.Configuration);
 builder.Services.AddAuthorizationPolicies();
 
 var app = builder.Build();

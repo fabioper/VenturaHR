@@ -1,3 +1,4 @@
+using JobPostings.Api.Config;
 using JobPostings.Api.Constants;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -7,19 +8,21 @@ namespace JobPostings.Api.Extensions;
 
 public static class DependencyInjectionExtensions
 {
-    public static void AddJwtAuthentication(this IServiceCollection services)
+    public static void AddJwtAuthentication(this IServiceCollection services, ConfigurationManager configuration)
     {
+        var jwtConfig = configuration.GetSection(nameof(JwtConfig)).Get<JwtConfig>();
+
         services
             .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
-                options.Authority = "https://securetoken.google.com/venturahr-93abd";
+                options.Authority = jwtConfig.Authority;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
-                    ValidIssuer = "https://securetoken.google.com/venturahr-93abd",
+                    ValidIssuer = jwtConfig.Issuer,
                     ValidateAudience = true,
-                    ValidAudience = "venturahr-93abd",
+                    ValidAudience = jwtConfig.Audience,
                     ValidateLifetime = true,
                 };
             });
