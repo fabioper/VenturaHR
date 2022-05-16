@@ -28,6 +28,11 @@ const providers = {
 
 export type ProviderOptions = keyof typeof providers
 
+export async function getToken() {
+  const idTokenResult = await auth.currentUser?.getIdTokenResult()
+  return idTokenResult?.token
+}
+
 export async function signUp(credentials: SignUpDto) {
   const { user } = await createUserWithEmailAndPassword(
     auth,
