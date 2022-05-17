@@ -1,6 +1,6 @@
 import * as yup from "yup"
 import { SchemaOf } from "yup"
-import { CreateJobPostingModel } from "../dtos/CreateJobPostingModel"
+import { CreateJobPostingModel } from "../dtos/jobposting/CreateJobPostingModel"
 
 export const createJobPostingValidator: SchemaOf<CreateJobPostingModel> = yup
   .object()

@@ -11,8 +11,8 @@ import {
   User,
 } from "firebase/auth"
 import { firebaseApp } from "../config/firebase/firebase.config"
-import { SignUpModel } from "../dtos/SignUpModel"
-import { LoginModel } from "../dtos/LoginModel"
+import { SignUpModel } from "../dtos/signup/SignUpModel"
+import { LoginModel } from "../dtos/login/LoginModel"
 import { UserRole } from "../enums/UserRole"
 import { getFunctions, httpsCallable } from "firebase/functions"
 import { AuthUser } from "../models/AuthUser"
@@ -55,7 +55,7 @@ export async function signUpUser<T extends SignUpModel>(model: T) {
     model.password
   )
 
-  await finishUserProfile(user.uid, model.role)
+  await setUserRoles(user.uid, model.role)
   await updateProfile(user, { displayName: model.name })
 }
 
@@ -74,7 +74,9 @@ export async function signInWithProvider(params: SignInWithProviderParams) {
     google: () => new GoogleAuthProvider(),
   }[params.providerId]
   const { user } = await signInWithPopup(auth, selectedProvider())
-  isNewUser(user) && (await finishUserProfile(user.uid, params.role))
+  if (isNewUser(user)) {
+    await setUserRoles(user.uid, params.role)
+  }
 }
 
 export async function signOutUser() {
@@ -85,10 +87,6 @@ async function setUserRoles(id: string, role: UserRole): Promise<void> {
   const functions = getFunctions(firebaseApp)
   const assignRoleToUser = httpsCallable(functions, "assignRoleToUser")
   await assignRoleToUser({ id, role })
-}
-
-async function finishUserProfile(id: string, role: UserRole) {
-  await setUserRoles(id, role)
 }
 
 const isNewUser = (user: User): boolean =>

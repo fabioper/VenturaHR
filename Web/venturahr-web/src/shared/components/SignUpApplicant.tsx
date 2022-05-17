@@ -7,11 +7,11 @@ import SectionDivider from "./SectionDivider"
 import SocialProviders from "./SocialProviders"
 import { useAuth } from "../contexts/AuthContext"
 import useForm from "../hooks/useForm"
-import { SignUpApplicantModel } from "../../core/dtos/SignUpModel"
 import { UserRole } from "../../core/enums/UserRole"
 import { signupApplicantValidator } from "../../core/validations/signup.validator"
 import { FirebaseError } from "@firebase/util"
 import { Message } from "primereact/message"
+import { SignUpApplicantModel } from "../../core/dtos/signup/SignUpApplicantModel"
 
 const SignUpApplicant: React.FC = () => {
   const [error, setError] = useState<string | null>(null)

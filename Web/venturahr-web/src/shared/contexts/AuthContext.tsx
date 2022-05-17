@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from "react"
 import { AuthUser } from "../../core/models/AuthUser"
 import { useLoader } from "../hooks/useLoader"
-import { LoginModel } from "../../core/dtos/LoginModel"
-import { SignUpModel } from "../../core/dtos/SignUpModel"
+import { LoginModel } from "../../core/dtos/login/LoginModel"
+import { SignUpModel } from "../../core/dtos/signup/SignUpModel"
 import { UserRole } from "../../core/enums/UserRole"
 import {
   getCurrentUser,
@@ -12,7 +12,7 @@ import {
   signInWithProvider,
   signOutUser,
   signUpUser,
-} from "../../core/services/auth.service"
+} from "../../core/services/FirebaseAuthService"
 
 export interface AuthContextProps {
   user?: AuthUser

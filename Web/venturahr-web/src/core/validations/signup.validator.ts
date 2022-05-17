@@ -1,7 +1,8 @@
 import * as yup from "yup"
 import { SchemaOf } from "yup"
-import { SignUpApplicantModel, SignUpCompanyModel } from "../dtos/SignUpModel"
 import { UserRole } from "../enums/UserRole"
+import { SignUpApplicantModel } from "../dtos/signup/SignUpApplicantModel"
+import { SignUpCompanyModel } from "../dtos/signup/SignUpCompanyModel"
 
 export const signupApplicantValidator: SchemaOf<SignUpApplicantModel> = yup
   .object()

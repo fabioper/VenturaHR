@@ -1,7 +1,6 @@
 import React, { useState } from "react"
 import { useAuth } from "../contexts/AuthContext"
 import useForm from "../hooks/useForm"
-import { SignUpCompanyModel } from "../../core/dtos/SignUpModel"
 import { UserRole } from "../../core/enums/UserRole"
 import { signupCompanyValidator } from "../../core/validations/signup.validator"
 import { FirebaseError } from "@firebase/util"
@@ -10,6 +9,7 @@ import { InputText } from "primereact/inputtext"
 import { Password } from "primereact/password"
 import { Button } from "primereact/button"
 import { PrimeIcons } from "primereact/api"
+import { SignUpCompanyModel } from "../../core/dtos/signup/SignUpCompanyModel"
 
 const SignUpCompany: React.FC = () => {
   const [error, setError] = useState<string | null>(null)

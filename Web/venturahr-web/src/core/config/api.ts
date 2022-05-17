@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from "axios"
-import { getToken } from "../services/auth.service"
+import { getToken } from "../services/FirebaseAuthService"
 
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
