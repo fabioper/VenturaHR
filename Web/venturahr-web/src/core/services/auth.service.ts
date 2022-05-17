@@ -54,19 +54,11 @@ export async function signInUser(credentials: LoginModel) {
 
 export function getCurrentUser() {
   const user = auth.currentUser
-  return user ? formatUser(user) : null
+  return user ? formatUser(user) : undefined
 }
 
 export function onAuthChange(callback: () => Promise<void>) {
-  return auth.onAuthStateChanged(async () => {
-    const currentUser = getCurrentUser()
-    const user = currentUser ? await currentUser : undefined
-    const roleIsSet = user?.roles && user?.roles.length > 0
-
-    if (roleIsSet) {
-      return callback()
-    }
-  })
+  return auth.onAuthStateChanged(callback)
 }
 
 interface SignInWithProviderParams {

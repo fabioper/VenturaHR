@@ -5,6 +5,7 @@ import { LoginModel } from "../../core/dtos/LoginModel"
 import { SignUpModel } from "../../core/dtos/SignUpModel"
 import { UserRole } from "../../core/enums/UserRole"
 import {
+  getCurrentUser,
   onAuthChange,
   ProviderOptions,
   signInUser,
@@ -45,7 +46,11 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => setIsLogged(!!user), [user])
 
   async function loadUser(): Promise<void> {
-    await usingLoader(async () => setUser(user))
+    await usingLoader(async () => {
+      const currentUser = await getCurrentUser()
+      const roleIsSet = currentUser?.roles && currentUser?.roles.length > 0
+      roleIsSet && setUser(currentUser)
+    })
   }
 
   useEffect(() => {
@@ -88,9 +93,9 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       value={{
         user,
         loading,
-        isLogged,
         login,
         logout,
+        isLogged,
         signup,
         signInUserUsingSocialProvider,
       }}
