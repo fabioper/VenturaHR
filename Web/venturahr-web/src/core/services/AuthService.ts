@@ -16,6 +16,10 @@ import { LoginModel } from "../dtos/login/LoginModel"
 import { UserRole } from "../enums/UserRole"
 import { getFunctions, httpsCallable } from "firebase/functions"
 import { AuthUser } from "../models/AuthUser"
+import { SignUpApplicantModel } from "../dtos/signup/SignUpApplicantModel"
+import { createApplicantUser } from "./ApplicantsService"
+import { SignUpCompanyModel } from "../dtos/signup/SignUpCompanyModel"
+import { createCompanyUser } from "./CompaniesService"
 
 export type ProviderOptions = keyof typeof availableProviders
 
@@ -47,6 +51,39 @@ export async function getToken() {
   return idTokenResult?.token
 }
 
+async function saveCompanyDetails(
+  user: User,
+  data: SignUpCompanyModel
+): Promise<void> {
+  await createCompanyUser({
+    identifier: user.uid,
+    name: data.name,
+    email: data.email,
+    phoneNumber: data.phoneNumber,
+    registration: data.registration,
+  })
+}
+
+async function saveApplicantDetails(
+  user: User,
+  data: SignUpModel
+): Promise<void> {
+  await createApplicantUser({
+    identifier: user.uid,
+    name: data.name,
+    email: data.email,
+  })
+}
+
+async function saveUserDetails(user: User, signUpData: SignUpModel) {
+  if (signUpData.role === UserRole.Applicant) {
+    return await saveApplicantDetails(user, signUpData as SignUpApplicantModel)
+  }
+  if (signUpData.role === UserRole.Company) {
+    return await saveCompanyDetails(user, signUpData as SignUpCompanyModel)
+  }
+}
+
 export async function signUp<T extends SignUpModel>(model: T) {
   const { user } = await createUserWithEmailAndPassword(
     auth,
@@ -54,6 +91,7 @@ export async function signUp<T extends SignUpModel>(model: T) {
     model.password
   )
 
+  await saveUserDetails(user, model)
   await setUserRoles(user.uid, model.role)
   await updateProfile(user, { displayName: model.name })
 }
@@ -67,14 +105,15 @@ export async function login(credentials: LoginModel) {
 }
 
 export async function loginUsingProvider(params: SignInWithProviderParams) {
-  const selectedProvider = {
-    twitter: () => new TwitterAuthProvider(),
-    github: () => new GithubAuthProvider(),
-    google: () => new GoogleAuthProvider(),
-  }[params.providerId]
+  const selectedProvider = availableProviders[params.providerId]
   const { user } = await signInWithPopup(auth, selectedProvider())
   if (isNewUser(user)) {
     await setUserRoles(user.uid, params.role)
+    await createApplicantUser({
+      identifier: user.uid,
+      name: user.displayName || "",
+      email: user.email || "",
+    })
   }
 }
 
