@@ -25,7 +25,6 @@ interface SignInWithProviderParams {
 }
 
 const auth = getAuth(firebaseApp)
-
 auth.useDeviceLanguage()
 
 const availableProviders = {
@@ -48,7 +47,7 @@ export async function getToken() {
   return idTokenResult?.token
 }
 
-export async function signUpUser<T extends SignUpModel>(model: T) {
+export async function signUp<T extends SignUpModel>(model: T) {
   const { user } = await createUserWithEmailAndPassword(
     auth,
     model.email,
@@ -59,7 +58,7 @@ export async function signUpUser<T extends SignUpModel>(model: T) {
   await updateProfile(user, { displayName: model.name })
 }
 
-export async function signInUser(credentials: LoginModel) {
+export async function login(credentials: LoginModel) {
   await signInWithEmailAndPassword(
     auth,
     credentials.email,
@@ -67,7 +66,7 @@ export async function signInUser(credentials: LoginModel) {
   )
 }
 
-export async function signInWithProvider(params: SignInWithProviderParams) {
+export async function loginUsingProvider(params: SignInWithProviderParams) {
   const selectedProvider = {
     twitter: () => new TwitterAuthProvider(),
     github: () => new GithubAuthProvider(),
@@ -79,7 +78,7 @@ export async function signInWithProvider(params: SignInWithProviderParams) {
   }
 }
 
-export async function signOutUser() {
+export async function logout() {
   return await signOut(auth)
 }
 

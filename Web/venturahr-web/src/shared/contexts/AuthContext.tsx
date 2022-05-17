@@ -4,15 +4,7 @@ import { useLoader } from "../hooks/useLoader"
 import { LoginModel } from "../../core/dtos/login/LoginModel"
 import { SignUpModel } from "../../core/dtos/signup/SignUpModel"
 import { UserRole } from "../../core/enums/UserRole"
-import {
-  getCurrentUser,
-  onAuthChange,
-  ProviderOptions,
-  signInUser,
-  signInWithProvider,
-  signOutUser,
-  signUpUser,
-} from "../../core/services/FirebaseAuthService"
+import * as firebaseService from "../../core/services/FirebaseAuthService"
 
 export interface AuthContextProps {
   user?: AuthUser
@@ -21,8 +13,8 @@ export interface AuthContextProps {
   login: (credentials: LoginModel) => Promise<any>
   logout: () => Promise<any>
   signup: (credentials: SignUpModel) => Promise<void>
-  signInUserUsingSocialProvider: (
-    providerId: ProviderOptions,
+  loginUsingProvider: (
+    providerId: firebaseService.ProviderOptions,
     role: UserRole
   ) => Promise<void>
 }
@@ -33,7 +25,7 @@ export const AuthContext = createContext<AuthContextProps>({
   login: async () => {},
   logout: async () => {},
   signup: async () => {},
-  signInUserUsingSocialProvider: async () => {},
+  loginUsingProvider: async () => {},
 })
 
 const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -47,43 +39,43 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   async function loadUser(): Promise<void> {
     await usingLoader(async () => {
-      const currentUser = await getCurrentUser()
+      const currentUser = await firebaseService.getCurrentUser()
       const roleIsSet = currentUser?.roles && currentUser?.roles.length > 0
       roleIsSet && setUser(currentUser)
     })
   }
 
   useEffect(() => {
-    const unsubscribe = onAuthChange(loadUser)
+    const unsubscribe = firebaseService.onAuthChange(loadUser)
     return () => unsubscribe()
   }, [])
 
   const login = async (credentials: LoginModel) => {
     await usingLoader(async () => {
-      return signInUser(credentials)
+      return firebaseService.login(credentials)
     }, true)
   }
 
   const logout = async () => {
     await usingLoader(async () => {
-      await signOutUser()
+      await firebaseService.logout()
       setUser(undefined)
     })
   }
 
   const signup = async (credentials: SignUpModel) => {
     await usingLoader(async () => {
-      await signUpUser(credentials)
+      await firebaseService.signUp(credentials)
       await loadUser()
     }, true)
   }
 
-  const signInUserUsingSocialProvider = async (
-    providerId: ProviderOptions,
+  const loginUsingProvider = async (
+    providerId: firebaseService.ProviderOptions,
     role: UserRole
   ) => {
     await usingLoader(async () => {
-      await signInWithProvider({ providerId, role })
+      await firebaseService.loginUsingProvider({ providerId, role })
       await loadUser()
     }, true)
   }
@@ -97,7 +89,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         logout,
         isLogged,
         signup,
-        signInUserUsingSocialProvider,
+        loginUsingProvider,
       }}
     >
       {children}

@@ -14,7 +14,7 @@ const SocialProviders: React.FC<SocialProvidersProps> = ({
   onError,
   onUserCancelError,
 }) => {
-  const { signInUserUsingSocialProvider } = useAuth()
+  const { loginUsingProvider } = useAuth()
 
   function handleFirebaseErrors(e: FirebaseError): void {
     if (e.code === "auth/user-cancelled") {
@@ -26,7 +26,7 @@ const SocialProviders: React.FC<SocialProvidersProps> = ({
 
   const handleProviderLogin = async (providerId: ProviderOptions) => {
     try {
-      await signInUserUsingSocialProvider(providerId, UserRole.Applicant)
+      await loginUsingProvider(providerId, UserRole.Applicant)
     } catch (e) {
       if (e instanceof FirebaseError) {
         handleFirebaseErrors(e)
