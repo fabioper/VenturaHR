@@ -17,7 +17,15 @@ import { UserRole } from "../enums/UserRole"
 import { getFunctions, httpsCallable } from "firebase/functions"
 import { AuthUser } from "../models/AuthUser"
 
+export type ProviderOptions = keyof typeof availableProviders
+
+interface SignInWithProviderParams {
+  providerId: ProviderOptions
+  role: UserRole
+}
+
 const auth = getAuth(firebaseApp)
+
 auth.useDeviceLanguage()
 
 const availableProviders = {
@@ -26,7 +34,14 @@ const availableProviders = {
   google: () => new GoogleAuthProvider(),
 }
 
-export type ProviderOptions = keyof typeof availableProviders
+export function onAuthChange(callback: () => Promise<void>) {
+  return auth.onAuthStateChanged(callback)
+}
+
+export function getCurrentUser() {
+  const user = auth.currentUser
+  return user ? formatUser(user) : undefined
+}
 
 export async function getToken() {
   const idTokenResult = await auth.currentUser?.getIdTokenResult()
@@ -50,20 +65,6 @@ export async function signInUser(credentials: LoginModel) {
     credentials.email,
     credentials.password
   )
-}
-
-export function getCurrentUser() {
-  const user = auth.currentUser
-  return user ? formatUser(user) : undefined
-}
-
-export function onAuthChange(callback: () => Promise<void>) {
-  return auth.onAuthStateChanged(callback)
-}
-
-interface SignInWithProviderParams {
-  providerId: ProviderOptions
-  role: UserRole
 }
 
 export async function signInWithProvider(params: SignInWithProviderParams) {
