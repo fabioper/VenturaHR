@@ -9,7 +9,7 @@ import { PrimeIcons } from "primereact/api"
 import Head from "next/head"
 import Link from "next/link"
 import useForm from "../shared/hooks/useForm"
-import { LoginDto } from "../core/dtos/LoginDto"
+import { LoginModel } from "../core/dtos/LoginModel"
 import { loginValidator } from "../core/validations/login.validator"
 import { Message } from "primereact/message"
 import SocialProviders from "../shared/components/SocialProviders"
@@ -21,7 +21,7 @@ const Login: NextPage = () => {
   const { login, loading } = useAuth()
   const [error, setError] = useState<string | null>(null)
 
-  const handleLogin = async ({ email, password }: LoginDto): Promise<any> => {
+  const handleLogin = async ({ email, password }: LoginModel): Promise<any> => {
     setError(null)
     try {
       await login({ email, password })
@@ -30,7 +30,7 @@ const Login: NextPage = () => {
     }
   }
 
-  const { form, renderError, isValid } = useForm<LoginDto>(
+  const { form, renderError, isValid } = useForm<LoginModel>(
     {
       email: "",
       password: "",

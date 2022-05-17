@@ -7,7 +7,7 @@ import SectionDivider from "./SectionDivider"
 import SocialProviders from "./SocialProviders"
 import { useAuth } from "../contexts/AuthContext"
 import useForm from "../hooks/useForm"
-import { SignUpApplicantDto } from "../../core/dtos/SignUpDto"
+import { SignUpApplicantModel } from "../../core/dtos/SignUpModel"
 import { UserRole } from "../../core/enums/UserRole"
 import { signupApplicantValidator } from "../../core/validations/signup.validator"
 import { FirebaseError } from "@firebase/util"
@@ -17,11 +17,12 @@ const SignUpApplicant: React.FC = () => {
   const [error, setError] = useState<string | null>(null)
   const { signup, loading } = useAuth()
 
-  const { form, renderError, isValid } = useForm<SignUpApplicantDto>(
+  const { form, renderError, isValid } = useForm<SignUpApplicantModel>(
     {
       name: "",
       email: "",
       password: "",
+      role: UserRole.Applicant,
     },
     signupApplicantValidator,
     handleSignUp
@@ -36,15 +37,10 @@ const SignUpApplicant: React.FC = () => {
     }
   }
 
-  async function handleSignUp(values: SignUpApplicantDto) {
+  async function handleSignUp(values: SignUpApplicantModel) {
     setError(null)
     try {
-      await signup({
-        email: values.email,
-        password: values.password,
-        displayName: values.name,
-        role: UserRole.Applicant,
-      })
+      await signup({ ...values })
     } catch (e) {
       if (e instanceof FirebaseError) {
         return handleFirebaseErrors(e)

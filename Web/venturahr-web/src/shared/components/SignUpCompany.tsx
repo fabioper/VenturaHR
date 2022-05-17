@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { useAuth } from "../contexts/AuthContext"
 import useForm from "../hooks/useForm"
-import { SignUpCompanyDto } from "../../core/dtos/SignUpDto"
+import { SignUpCompanyModel } from "../../core/dtos/SignUpModel"
 import { UserRole } from "../../core/enums/UserRole"
 import { signupCompanyValidator } from "../../core/validations/signup.validator"
 import { FirebaseError } from "@firebase/util"
@@ -15,13 +15,14 @@ const SignUpCompany: React.FC = () => {
   const [error, setError] = useState<string | null>(null)
   const { signup, loading } = useAuth()
 
-  const { form, renderError, isValid } = useForm<SignUpCompanyDto>(
+  const { form, renderError, isValid } = useForm<SignUpCompanyModel>(
     {
       name: "",
       email: "",
       password: "",
       phoneNumber: "",
       registration: "",
+      role: UserRole.Company,
     },
     signupCompanyValidator,
     handleSignUp
@@ -36,15 +37,10 @@ const SignUpCompany: React.FC = () => {
     }
   }
 
-  async function handleSignUp(values: SignUpCompanyDto) {
+  async function handleSignUp(values: SignUpCompanyModel) {
     setError(null)
     try {
-      await signup({
-        email: values.email,
-        password: values.password,
-        displayName: values.name,
-        role: UserRole.Company,
-      })
+      await signup({ ...values })
     } catch (e) {
       if (e instanceof FirebaseError) {
         return handleFirebaseErrors(e)

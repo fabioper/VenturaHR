@@ -1,27 +1,26 @@
 import React, { createContext, useContext, useEffect, useState } from "react"
-import { AuthUser } from "./AuthUser"
+import { AuthUser } from "../../core/models/AuthUser"
 import { useLoader } from "../hooks/useLoader"
-import { LoginDto } from "../../core/dtos/LoginDto"
-import { SignUpDto } from "../../core/dtos/SignUpDto"
+import { LoginModel } from "../../core/dtos/LoginModel"
+import { SignUpModel } from "../../core/dtos/SignUpModel"
 import { UserRole } from "../../core/enums/UserRole"
 import {
-  getCurrentUser,
   onAuthChange,
   ProviderOptions,
   signInUser,
   signInWithProvider,
   signOutUser,
-  signUp,
+  signUpUser,
 } from "../../core/services/auth.service"
 
 export interface AuthContextProps {
   user?: AuthUser
   loading: boolean
   isLogged: boolean
-  login: (credentials: LoginDto) => Promise<any>
+  login: (credentials: LoginModel) => Promise<any>
   logout: () => Promise<any>
-  signup: (credentials: SignUpDto) => Promise<void>
-  loginWithProvider: (
+  signup: (credentials: SignUpModel) => Promise<void>
+  signInUserUsingSocialProvider: (
     providerId: ProviderOptions,
     role: UserRole
   ) => Promise<void>
@@ -33,7 +32,7 @@ export const AuthContext = createContext<AuthContextProps>({
   login: async () => {},
   logout: async () => {},
   signup: async () => {},
-  loginWithProvider: async () => {},
+  signInUserUsingSocialProvider: async () => {},
 })
 
 const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -41,18 +40,12 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [user, setUser] = useState<AuthUser>()
   const [isLogged, setIsLogged] = useState(false)
-  const { loading, withLoader } = useLoader()
+  const { loading, usingLoader } = useLoader()
 
   useEffect(() => setIsLogged(!!user), [user])
 
   async function loadUser(): Promise<void> {
-    await withLoader(async () => {
-      const currentUser = getCurrentUser()
-      const user = currentUser ? await currentUser : undefined
-      if (user?.roles && user?.roles.length > 0) {
-        setUser(user)
-      }
-    })
+    await usingLoader(async () => setUser(user))
   }
 
   useEffect(() => {
@@ -60,29 +53,31 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     return () => unsubscribe()
   }, [])
 
-  const login = async (credentials: LoginDto) => {
-    await withLoader(async () => signInUser(credentials), true)
+  const login = async (credentials: LoginModel) => {
+    await usingLoader(async () => {
+      return signInUser(credentials)
+    }, true)
   }
 
   const logout = async () => {
-    await withLoader(async () => {
+    await usingLoader(async () => {
       await signOutUser()
       setUser(undefined)
     })
   }
 
-  const signup = async (credentials: SignUpDto) => {
-    await withLoader(async () => {
-      await signUp(credentials)
+  const signup = async (credentials: SignUpModel) => {
+    await usingLoader(async () => {
+      await signUpUser(credentials)
       await loadUser()
     }, true)
   }
 
-  const loginWithProvider = async (
+  const signInUserUsingSocialProvider = async (
     providerId: ProviderOptions,
     role: UserRole
   ) => {
-    await withLoader(async () => {
+    await usingLoader(async () => {
       await signInWithProvider({ providerId, role })
       await loadUser()
     }, true)
@@ -93,11 +88,11 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       value={{
         user,
         loading,
+        isLogged,
         login,
         logout,
-        isLogged,
         signup,
-        loginWithProvider,
+        signInUserUsingSocialProvider,
       }}
     >
       {children}

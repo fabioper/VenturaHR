@@ -11,11 +11,11 @@ import {
   User,
 } from "firebase/auth"
 import { firebaseApp } from "../config/firebase/firebase.config"
-import { SignUpDto } from "../dtos/SignUpDto"
-import { LoginDto } from "../dtos/LoginDto"
+import { SignUpModel } from "../dtos/SignUpModel"
+import { LoginModel } from "../dtos/LoginModel"
 import { UserRole } from "../enums/UserRole"
 import { getFunctions, httpsCallable } from "firebase/functions"
-import { AuthUser } from "../../shared/contexts/AuthUser"
+import { AuthUser } from "../models/AuthUser"
 
 const auth = getAuth(firebaseApp)
 auth.useDeviceLanguage()
@@ -33,18 +33,18 @@ export async function getToken() {
   return idTokenResult?.token
 }
 
-export async function signUp(credentials: SignUpDto) {
+export async function signUpUser<T extends SignUpModel>(model: T) {
   const { user } = await createUserWithEmailAndPassword(
     auth,
-    credentials.email,
-    credentials.password
+    model.email,
+    model.password
   )
 
-  await finishUserProfile(user.uid, credentials.role)
-  await updateProfile(user, { displayName: credentials.displayName })
+  await finishUserProfile(user.uid, model.role)
+  await updateProfile(user, { displayName: model.name })
 }
 
-export async function signInUser(credentials: LoginDto) {
+export async function signInUser(credentials: LoginModel) {
   await signInWithEmailAndPassword(
     auth,
     credentials.email,
@@ -58,7 +58,15 @@ export function getCurrentUser() {
 }
 
 export function onAuthChange(callback: () => Promise<void>) {
-  return auth.onAuthStateChanged(async () => callback())
+  return auth.onAuthStateChanged(async () => {
+    const currentUser = getCurrentUser()
+    const user = currentUser ? await currentUser : undefined
+    const roleIsSet = user?.roles && user?.roles.length > 0
+
+    if (roleIsSet) {
+      return callback()
+    }
+  })
 }
 
 interface SignInWithProviderParams {

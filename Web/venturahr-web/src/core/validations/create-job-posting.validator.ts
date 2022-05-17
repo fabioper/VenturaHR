@@ -1,8 +1,8 @@
 import * as yup from "yup"
 import { SchemaOf } from "yup"
-import { CreateJobPostingDto } from "../dtos/CreateJobPostingDto"
+import { CreateJobPostingModel } from "../dtos/CreateJobPostingModel"
 
-export const createJobPostingValidator: SchemaOf<CreateJobPostingDto> = yup
+export const createJobPostingValidator: SchemaOf<CreateJobPostingModel> = yup
   .object()
   .shape({
     role: yup.string().required("Campo obrigatório"),

@@ -7,7 +7,7 @@ import { Dialog } from "primereact/dialog"
 import { PrimeIcons } from "primereact/api"
 import InputCurrency from "./InputCurrency"
 import useForm from "../hooks/useForm"
-import { CreateJobPostingDto } from "../../core/dtos/CreateJobPostingDto"
+import { CreateJobPostingModel } from "../../core/dtos/CreateJobPostingModel"
 import { createJobPostingValidator } from "../../core/validations/create-job-posting.validator"
 
 interface PublishJobDialogProps {
@@ -27,7 +27,7 @@ const PublishJobDialog: React.FC<PublishJobDialogProps> = ({
   visible,
   onHide,
 }) => {
-  const { form, renderError, isValid } = useForm<CreateJobPostingDto>(
+  const { form, renderError, isValid } = useForm<CreateJobPostingModel>(
     initialValues,
     createJobPostingValidator,
     values => {

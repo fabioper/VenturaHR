@@ -15,5 +15,5 @@ export function useLoader() {
       setLoading(false)
     }
   }
-  return { loading, withLoader }
+  return { loading, usingLoader: withLoader }
 }

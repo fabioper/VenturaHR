@@ -1,11 +1,11 @@
-export class CreateJobPostingDto {
+export class CreateJobPostingModel {
   role: string
   compensation: number
   location: string
   endDate: Date
   description: string
 
-  constructor(props: Partial<CreateJobPostingDto>) {
+  constructor(props: Partial<CreateJobPostingModel>) {
     Object.assign(this, props)
   }
 }
