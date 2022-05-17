@@ -14,5 +14,9 @@ public class ApplicantConfiguration : IEntityTypeConfiguration<Applicant>
 
         builder.Property(x => x.Name);
         builder.Property(x => x.Email);
+        builder.Property(x => x.ExternalId)
+               .IsRequired();
+
+        builder.HasIndex(x => x.ExternalId).IsUnique();
     }
 }

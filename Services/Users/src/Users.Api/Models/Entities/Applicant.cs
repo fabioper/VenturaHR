@@ -8,13 +8,18 @@ public class Applicant : Entity, IAggregateRoot
 {
     public string Name { get; private set; }
     public string Email { get; private set; }
+    public string ExternalId { get; private set; }
 
-    public Applicant(string id, string name, string email)
+    public Applicant(
+        string name,
+        string email,
+        string externalId)
     {
-        Id = Guid.Parse(id);
+        Id = Guid.NewGuid();
         Name = name;
         Email = email;
+        ExternalId = externalId;
     }
 
-    public Applicant() { }
+    public Applicant(string externalId) => ExternalId = externalId;
 }

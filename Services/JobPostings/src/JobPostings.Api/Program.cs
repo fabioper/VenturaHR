@@ -34,6 +34,18 @@ builder.Services.AddSwaggerConfiguration();
 builder.Services.AddJwtAuthentication(builder.Configuration);
 builder.Services.AddAuthorizationPolicies();
 
+const string corsConfig = "_corsConfig";
+
+builder.Services.AddCors(config =>
+{
+    config.AddPolicy(corsConfig, policyBuilder =>
+    {
+        policyBuilder.AllowAnyOrigin()
+                     .AllowAnyHeader()
+                     .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 app.UseSwagger();
@@ -41,6 +53,7 @@ app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
+app.UseCors(corsConfig);
 app.UseAuthentication();
 app.UseAuthorization();
 

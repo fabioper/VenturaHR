@@ -21,15 +21,13 @@ public class CreateApplicantCommandHandler : IRequestHandler<CreateApplicantComm
 
     public async Task<Unit> Handle(CreateApplicantCommand request, CancellationToken cancellationToken)
     {
-        var newApplicant = new Applicant(request.Identifier, request.Name, request.Email);
+        var newApplicant = new Applicant(request.Name, request.Email, request.Identifier);
 
         await _repository.Add(newApplicant);
 
-        var userCreatedEvent = new ApplicantCreatedEvent(
-            newApplicant.Name,
+        var userCreatedEvent = new ApplicantCreatedEvent(newApplicant.Name,
             newApplicant.Email,
-            newApplicant.Id.ToString()
-        );
+            newApplicant.ExternalId);
 
         await _publishEndpoint.Publish(userCreatedEvent, cancellationToken);
 

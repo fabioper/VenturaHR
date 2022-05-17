@@ -14,15 +14,14 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
 
         builder.Property(x => x.Name);
         builder.Property(x => x.Email);
+        builder.Property(x => x.ExternalId);
 
-        builder.OwnsOne(
-            x => x.Registration,
-            b => b.Property(ad => ad.Number).HasColumnName("Registration")
-        );
+        builder.HasIndex(x => x.ExternalId).IsUnique();
 
-        builder.OwnsOne(
-            x => x.PhoneNumber,
-            b => b.Property(x => x.Value).HasColumnName("PhoneNumber")
-        );
+        builder.OwnsOne(x => x.Registration,
+            b => b.Property(ad => ad.Number).HasColumnName("Registration"));
+
+        builder.OwnsOne(x => x.PhoneNumber,
+            b => b.Property(x => x.Value).HasColumnName("PhoneNumber"));
     }
 }

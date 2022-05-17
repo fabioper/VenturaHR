@@ -37,12 +37,25 @@ builder.Services.AddMassTransit(x =>
 builder.Services.AddMediatR(typeof(CreateCompanyCommand));
 builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
 
+const string corsConfig = "_corsConfig";
+
+builder.Services.AddCors(config =>
+{
+    config.AddPolicy(corsConfig, policyBuilder =>
+    {
+        policyBuilder.AllowAnyOrigin()
+                     .AllowAnyHeader()
+                     .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
+app.UseCors(corsConfig);
 
 app.UseAuthorization();
 

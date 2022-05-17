@@ -11,19 +11,21 @@ public class Company : Entity, IAggregateRoot
     public string Email { get; private set; }
     public PhoneNumber PhoneNumber { get; private set; }
     public Registration Registration { get; private set; }
+    public string ExternalId { get; private set; }
 
     public Company(
-        string id,
         string name,
         string email,
         PhoneNumber phoneNumber,
-        Registration registration)
+        Registration registration,
+        string externalId)
     {
-        Id = Guid.Parse(id);
+        Id = Guid.NewGuid();
         Name = name;
         Email = email;
         PhoneNumber = phoneNumber;
         Registration = registration;
+        ExternalId = externalId;
     }
 
     public Company() { }
