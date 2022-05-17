@@ -3,7 +3,7 @@ import { Button } from "primereact/button"
 import { UserRole } from "../../core/enums/UserRole"
 import { FirebaseError } from "@firebase/util"
 import { useAuth } from "../contexts/AuthContext"
-import { ProviderOptions } from "../../core/services/FirebaseAuthService"
+import { ProviderOptions } from "../../core/services/AuthService"
 
 interface SocialProvidersProps {
   onUserCancelError: () => any

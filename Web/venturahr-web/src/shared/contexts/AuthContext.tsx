@@ -4,7 +4,7 @@ import { useLoader } from "../hooks/useLoader"
 import { LoginModel } from "../../core/dtos/login/LoginModel"
 import { SignUpModel } from "../../core/dtos/signup/SignUpModel"
 import { UserRole } from "../../core/enums/UserRole"
-import * as firebaseService from "../../core/services/FirebaseAuthService"
+import * as authService from "../../core/services/AuthService"
 
 export interface AuthContextProps {
   user?: AuthUser
@@ -14,7 +14,7 @@ export interface AuthContextProps {
   logout: () => Promise<any>
   signup: (credentials: SignUpModel) => Promise<void>
   loginUsingProvider: (
-    providerId: firebaseService.ProviderOptions,
+    providerId: authService.ProviderOptions,
     role: UserRole
   ) => Promise<void>
 }
@@ -39,43 +39,43 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   async function loadUser(): Promise<void> {
     await usingLoader(async () => {
-      const currentUser = await firebaseService.getCurrentUser()
+      const currentUser = await authService.getCurrentUser()
       const roleIsSet = currentUser?.roles && currentUser?.roles.length > 0
       roleIsSet && setUser(currentUser)
     })
   }
 
   useEffect(() => {
-    const unsubscribe = firebaseService.onAuthChange(loadUser)
+    const unsubscribe = authService.onAuthChange(loadUser)
     return () => unsubscribe()
   }, [])
 
   const login = async (credentials: LoginModel) => {
     await usingLoader(async () => {
-      return firebaseService.login(credentials)
+      return authService.login(credentials)
     }, true)
   }
 
   const logout = async () => {
     await usingLoader(async () => {
-      await firebaseService.logout()
+      await authService.logout()
       setUser(undefined)
     })
   }
 
   const signup = async (credentials: SignUpModel) => {
     await usingLoader(async () => {
-      await firebaseService.signUp(credentials)
+      await authService.signUp(credentials)
       await loadUser()
     }, true)
   }
 
   const loginUsingProvider = async (
-    providerId: firebaseService.ProviderOptions,
+    providerId: authService.ProviderOptions,
     role: UserRole
   ) => {
     await usingLoader(async () => {
-      await firebaseService.loginUsingProvider({ providerId, role })
+      await authService.loginUsingProvider({ providerId, role })
       await loadUser()
     }, true)
   }
