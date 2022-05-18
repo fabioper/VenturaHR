@@ -1,7 +1,8 @@
 using Common.Abstractions;
+using JobPostings.Infra.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace JobPostings.Infra.Data;
+namespace JobPostings.Infra.Repositories;
 
 public class BaseRepository<T> : IRepository<T> where T : Entity, IAggregateRoot
 {

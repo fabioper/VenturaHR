@@ -1,5 +1,6 @@
 using Common.Abstractions;
 using Common.Guards;
+using JobPostings.Domain.CompanyAggregate;
 
 namespace JobPostings.Domain.JobPostingAggregate;
 
@@ -17,7 +18,8 @@ public class JobPosting : Entity, IAggregateRoot
 
     public Location Location { get; private set; }
 
-    public CompanyId CompanyId { get; private set; }
+    private readonly string _companyExternalId;
+    public Company Company { get; private set; }
 
     public JobPosting(
         string role,
@@ -36,7 +38,7 @@ public class JobPosting : Entity, IAggregateRoot
         Salary = new(salary);
         ExpireAt = new(expiration);
         Location = new(location);
-        CompanyId = new(companyId);
+        _companyExternalId = companyId;
     }
 
     public JobPosting() { } // Ef required

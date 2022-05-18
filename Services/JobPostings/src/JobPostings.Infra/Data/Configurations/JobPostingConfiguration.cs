@@ -14,6 +14,11 @@ public class JobPostingConfiguration : IEntityTypeConfiguration<JobPosting>
 
         builder.Property(x => x.Description).IsRequired();
 
+        builder.HasOne(x => x.Company)
+               .WithMany(x => x.JobPostings)
+               .HasForeignKey("_companyId")
+               .HasPrincipalKey(x => x.ExternalId);
+
         builder.OwnsOne(x => x.Role,
             x => x.Property(r => r.Title).HasColumnName("Role"));
 
@@ -25,8 +30,5 @@ public class JobPostingConfiguration : IEntityTypeConfiguration<JobPosting>
 
         builder.OwnsOne(x => x.ExpireAt,
             x => x.Property(e => e.Date).HasColumnName("ExpireAt"));
-
-        builder.OwnsOne(x => x.CompanyId,
-            x => x.Property(c => c.Id).HasColumnName("CompanyId"));
     }
 }

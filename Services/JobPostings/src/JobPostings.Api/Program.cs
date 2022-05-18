@@ -1,14 +1,18 @@
 using Common.Abstractions;
 using JobPostings.Api.Extensions;
 using JobPostings.Application.Commands.PostJob;
+using JobPostings.Domain.CompanyAggregate;
+using JobPostings.Domain.JobPostingAggregate;
 using JobPostings.Infra.Data;
+using JobPostings.Infra.Repositories;
 using MassTransit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
+builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+builder.Services.AddScoped<IJobPostingRepository, JobPostingRepository>();
 
 var dbConnection = builder.Configuration.GetConnectionString("Database");
 builder.Services.AddDbContext<ModelContext>(cfg => cfg.UseNpgsql(dbConnection));

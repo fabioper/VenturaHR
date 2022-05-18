@@ -1,4 +1,3 @@
-using Common.Abstractions;
 using JobPostings.Domain.JobPostingAggregate;
 using MediatR;
 
@@ -6,9 +5,9 @@ namespace JobPostings.Application.Commands.PostJob;
 
 public class PostJobCommandHandler : IRequestHandler<PostJobCommand>
 {
-    private readonly IRepository<JobPosting> _jobPostingsRepository;
+    private readonly IJobPostingRepository _jobPostingsRepository;
 
-    public PostJobCommandHandler(IRepository<JobPosting> jobPostingsRepository) =>
+    public PostJobCommandHandler(IJobPostingRepository jobPostingsRepository) =>
         _jobPostingsRepository = jobPostingsRepository;
 
     public async Task<Unit> Handle(PostJobCommand request, CancellationToken cancellationToken)
