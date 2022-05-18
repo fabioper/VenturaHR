@@ -1,6 +1,8 @@
 using Common.Abstractions;
 using JobPostings.Domain.JobPostingAggregate;
 
+#nullable disable
+
 namespace JobPostings.Domain.CompanyAggregate;
 
 public class Company : Entity, IAggregateRoot
@@ -11,7 +13,12 @@ public class Company : Entity, IAggregateRoot
     private readonly List<JobPosting> _jobPostings;
     public IReadOnlyCollection<JobPosting> JobPostings => _jobPostings;
 
-    public Company(string name) => Name = name;
+    public Company(string name, string externalId)
+    {
+        Name = name;
+        ExternalId = externalId;
+        _jobPostings = new List<JobPosting>();
+    }
 
     public Company() { }
 }

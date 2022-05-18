@@ -1,6 +1,7 @@
 using Common.Abstractions;
 using JobPostings.Api.Extensions;
 using JobPostings.Application.Commands.PostJob;
+using JobPostings.Application.Consumers;
 using JobPostings.Domain.CompanyAggregate;
 using JobPostings.Domain.JobPostingAggregate;
 using JobPostings.Infra.Data;
@@ -20,6 +21,7 @@ builder.Services.AddDbContext<ModelContext>(cfg => cfg.UseNpgsql(dbConnection));
 var rabbitMqConnection = builder.Configuration.GetConnectionString("RabbitMq");
 builder.Services.AddMassTransit(x =>
 {
+    x.AddConsumer<CompanyCreatedConsumer>();
     x.UsingRabbitMq((context, config) =>
     {
         config.ConfigureEndpoints(context);
