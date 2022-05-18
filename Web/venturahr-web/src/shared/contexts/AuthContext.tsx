@@ -1,13 +1,13 @@
 import React, { createContext, useContext, useEffect, useState } from "react"
-import { AuthUser } from "../../core/models/AuthUser"
 import { useLoader } from "../hooks/useLoader"
 import { LoginModel } from "../../core/dtos/login/LoginModel"
 import { SignUpModel } from "../../core/dtos/signup/SignUpModel"
 import { UserRole } from "../../core/enums/UserRole"
 import * as authService from "../../core/services/AuthService"
+import { UserProfile } from "../../core/models/UserProfile"
 
 export interface AuthContextProps {
-  user?: AuthUser
+  user?: UserProfile
   loading: boolean
   isLogged: boolean
   login: (credentials: LoginModel) => Promise<any>
@@ -31,7 +31,7 @@ export const AuthContext = createContext<AuthContextProps>({
 const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [user, setUser] = useState<AuthUser>()
+  const [user, setUser] = useState<UserProfile>()
   const [isLogged, setIsLogged] = useState(false)
   const { loading, usingLoader } = useLoader()
 

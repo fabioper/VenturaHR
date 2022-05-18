@@ -1,15 +1,13 @@
-import { CompanyProfile } from "./CompanyProfile"
-import { ApplicantProfile } from "./ApplicantProfile"
-
-export class AuthUser {
+export class UserProfile {
   id: string
+  name: string
+  email: string
   externalId: string
   jwt: string
   photoUrl?: string
   roles: string[]
-  details: CompanyProfile | ApplicantProfile
 
-  constructor(props: Partial<AuthUser>) {
+  constructor(props: Partial<UserProfile>) {
     Object.assign(this, props)
   }
 

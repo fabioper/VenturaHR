@@ -15,11 +15,11 @@ import { SignUpModel } from "../dtos/signup/SignUpModel"
 import { LoginModel } from "../dtos/login/LoginModel"
 import { UserRole } from "../enums/UserRole"
 import { getFunctions, httpsCallable } from "firebase/functions"
-import { AuthUser } from "../models/AuthUser"
 import { SignUpApplicantModel } from "../dtos/signup/SignUpApplicantModel"
 import { createApplicantUser } from "./ApplicantsService"
 import { SignUpCompanyModel } from "../dtos/signup/SignUpCompanyModel"
 import { createCompanyUser } from "./CompaniesService"
+import { UserProfile } from "../models/UserProfile"
 
 export type ProviderOptions = keyof typeof availableProviders
 
@@ -130,9 +130,9 @@ async function setUserRoles(id: string, role: UserRole): Promise<void> {
 const isNewUser = (user: User): boolean =>
   user.metadata.creationTime === user.metadata.lastSignInTime
 
-const formatUser = async (user: User): Promise<AuthUser> => {
+const formatUser = async (user: User): Promise<UserProfile> => {
   const token = await user.getIdTokenResult(true)
-  return new AuthUser({
+  return new UserProfile({
     id: user.uid,
     name: user.displayName || "",
     email: user.email || "",
