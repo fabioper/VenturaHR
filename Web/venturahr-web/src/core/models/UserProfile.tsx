@@ -2,7 +2,6 @@ export class UserProfile {
   id: string
   name: string
   email: string
-  externalId: string
   jwt: string
   photoUrl?: string
   roles: string[]
