@@ -1,8 +1,6 @@
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Users.Api.Commands;
-using Users.Api.Commands.CreateCompany;
-using Users.Api.DTOs;
+using Users.Api.DTOs.Requests;
+using Users.Api.Services.Contracts;
 
 namespace Users.Api.Controllers;
 
@@ -10,23 +8,22 @@ namespace Users.Api.Controllers;
 [Route("/companies")]
 public class CompaniesController : ControllerBase
 {
-    private readonly IMediator _mediator;
+    private readonly ICompanyService _companyService;
 
-    public CompaniesController(IMediator mediator) => _mediator = mediator;
+    public CompaniesController(ICompanyService companyService) =>
+        _companyService = companyService;
 
     [HttpPost]
     public async Task<IActionResult> CreateCompany([FromBody] CreateCompanyProfileRequest request)
     {
-        var command = new CreateCompanyCommand
-        {
-            Email = request.Email,
-            Identifier = request.Identifier,
-            Name = request.Email,
-            Registration = request.Registration,
-            PhoneNumber = request.PhoneNumber,
-        };
-
-        await _mediator.Send(command);
+        await _companyService.CreateCompanyProfile(request);
         return Ok();
+    }
+
+    [HttpGet("{companyId}")]
+    public async Task<IActionResult> GetByExternalId([FromRoute] string companyId)
+    {
+        var applicant = await _companyService.FindCompanyByExternalId(companyId);
+        return Ok(applicant);
     }
 }

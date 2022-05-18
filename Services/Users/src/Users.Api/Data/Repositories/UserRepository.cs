@@ -1,14 +1,15 @@
 using Common.Abstractions;
 using Microsoft.EntityFrameworkCore;
+using Users.Api.Models.Entities;
 
 namespace Users.Api.Data.Repositories;
 
-public class BaseRepository<T> : IRepository<T> where T : Entity, IAggregateRoot
+public class UserRepository<T> : IUserRepository<T> where T : BaseUser
 {
     private readonly DbContext _context;
     private readonly DbSet<T> _entity;
 
-    public BaseRepository(UsersContext context)
+    public UserRepository(UsersContext context)
     {
         _context = context;
         _entity = context.Set<T>();
@@ -53,5 +54,10 @@ public class BaseRepository<T> : IRepository<T> where T : Entity, IAggregateRoot
     {
         _entity.Remove(entity);
         await _context.SaveChangesAsync();
+    }
+
+    public async Task<T?> FindByExternalId(string externalId)
+    {
+        return await _entity.FirstOrDefaultAsync(x => x.ExternalId == externalId);
     }
 }

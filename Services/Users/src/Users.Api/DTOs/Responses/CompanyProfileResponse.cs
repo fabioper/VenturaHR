@@ -1,14 +1,11 @@
-#nullable disable
+namespace Users.Api.DTOs.Responses;
 
-using MediatR;
-
-namespace Users.Api.Commands.CreateCompany;
-
-public record CreateCompanyCommand : IRequest
+public record CompanyProfileResponse
 {
-    public string Identifier { get; init; }
+    public Guid Id { get; set; }
     public string Name { get; init; }
     public string Email { get; init; }
     public string PhoneNumber { get; init; }
     public string Registration { get; init; }
+    public string ExternalId { get; init; }
 }

@@ -1,11 +1,10 @@
 #nullable disable
 
-using Common.Abstractions;
 using Users.Api.Models.ValueObjects;
 
 namespace Users.Api.Models.Entities;
 
-public class Company : Entity, IAggregateRoot
+public class Company : BaseUser
 {
     public string Name { get; private set; }
     public string Email { get; private set; }

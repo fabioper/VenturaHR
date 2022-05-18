@@ -1,15 +1,9 @@
 #nullable disable
 
-using Common.Abstractions;
-
 namespace Users.Api.Models.Entities;
 
-public class Applicant : Entity, IAggregateRoot
+public class Applicant : BaseUser
 {
-    public string Name { get; private set; }
-    public string Email { get; private set; }
-    public string ExternalId { get; private set; }
-
     public Applicant(
         string name,
         string email,

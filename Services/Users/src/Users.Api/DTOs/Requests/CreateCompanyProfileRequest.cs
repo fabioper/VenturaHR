@@ -1,10 +1,10 @@
-namespace Users.Api.DTOs;
+namespace Users.Api.DTOs.Requests;
 
 #nullable disable
 
 public record CreateCompanyProfileRequest
 {
-    public string Identifier { get; set; }
+    public string ExternalId { get; set; }
     public string Name { get; set; }
     public string Email { get; set; }
     public string Registration { get; set; }

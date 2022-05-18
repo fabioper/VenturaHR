@@ -4,19 +4,10 @@ using Users.Api.Models.Entities;
 
 namespace Users.Api.Data.Configurations;
 
-public class ApplicantConfiguration : IEntityTypeConfiguration<Applicant>
+public class ApplicantConfiguration : BaseUserConfiguration<Applicant>
 {
-    public void Configure(EntityTypeBuilder<Applicant> builder)
+    public override void Configure(EntityTypeBuilder<Applicant> builder)
     {
         builder.ToTable("Applicants");
-
-        builder.HasKey(x => x.Id);
-
-        builder.Property(x => x.Name);
-        builder.Property(x => x.Email);
-        builder.Property(x => x.ExternalId)
-               .IsRequired();
-
-        builder.HasIndex(x => x.ExternalId).IsUnique();
     }
 }

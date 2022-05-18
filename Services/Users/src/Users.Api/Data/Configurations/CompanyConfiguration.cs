@@ -4,19 +4,11 @@ using Users.Api.Models.Entities;
 
 namespace Users.Api.Data.Configurations;
 
-public class CompanyConfiguration : IEntityTypeConfiguration<Company>
+public class CompanyConfiguration : BaseUserConfiguration<Company>
 {
-    public void Configure(EntityTypeBuilder<Company> builder)
+    public override void Configure(EntityTypeBuilder<Company> builder)
     {
         builder.ToTable("Companies");
-
-        builder.HasKey(x => x.Id);
-
-        builder.Property(x => x.Name);
-        builder.Property(x => x.Email);
-        builder.Property(x => x.ExternalId);
-
-        builder.HasIndex(x => x.ExternalId).IsUnique();
 
         builder.OwnsOne(x => x.Registration,
             b => b.Property(ad => ad.Number).HasColumnName("Registration"));

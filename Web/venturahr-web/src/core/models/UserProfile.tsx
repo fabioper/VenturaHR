@@ -1,10 +1,13 @@
+import { CompanyProfile } from "./CompanyProfile"
+import { ApplicantProfile } from "./ApplicantProfile"
+
 export class AuthUser {
   id: string
-  name?: string
-  email?: string
+  externalId: string
   jwt: string
   photoUrl?: string
   roles: string[]
+  details: CompanyProfile | ApplicantProfile
 
   constructor(props: Partial<AuthUser>) {
     Object.assign(this, props)

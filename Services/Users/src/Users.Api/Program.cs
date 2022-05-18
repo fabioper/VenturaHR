@@ -1,12 +1,12 @@
 using System.Reflection;
-using Common.Abstractions;
 using FluentValidation.AspNetCore;
 using MassTransit;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Users.Api.Commands.CreateCompany;
+using Users.Api.Common.ErrorHandler;
 using Users.Api.Data;
 using Users.Api.Data.Repositories;
+using Users.Api.Services.Concretes;
+using Users.Api.Services.Contracts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,8 +34,12 @@ builder.Services.AddMassTransit(x =>
     });
 });
 
-builder.Services.AddMediatR(typeof(CreateCompanyCommand));
-builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+builder.Services.AddScoped(typeof(IUserRepository<>), typeof(UserRepository<>));
+
+builder.Services.AddScoped<ICompanyService, CompanyService>();
+builder.Services.AddScoped<IApplicantService, ApplicantService>();
 
 const string corsConfig = "_corsConfig";
 
@@ -50,6 +54,8 @@ builder.Services.AddCors(config =>
 });
 
 var app = builder.Build();
+
+app.UseMiddleware<ApiExceptionMiddleware>();
 
 app.UseSwagger();
 app.UseSwaggerUI();
