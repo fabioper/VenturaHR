@@ -12,11 +12,8 @@ public class CompaniesConfiguration : IEntityTypeConfiguration<Company>
 
         builder.HasKey(x => x.Id);
 
-        builder.Property(x => x.Name);
-        builder.Property(x => x.ExternalId);
+        builder.Property(x => x.Name).IsRequired();
+        builder.Property(x => x.ExternalId).IsRequired();
         builder.HasIndex(x => x.ExternalId).IsUnique();
-
-        var jobNavigation = builder.Metadata.FindNavigation(nameof(Company.JobPostings));
-        jobNavigation?.SetPropertyAccessMode(PropertyAccessMode.Field);
     }
 }

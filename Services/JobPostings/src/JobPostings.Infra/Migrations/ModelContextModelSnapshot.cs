@@ -71,7 +71,7 @@ namespace JobPostings.Infra.Migrations
                         .HasForeignKey("_companyId")
                         .HasPrincipalKey("ExternalId");
 
-                    b.OwnsOne("JobPostings.Domain.JobPostingAggregate.ExpirationDate", "ExpireAt", b1 =>
+                    b.OwnsOne("JobPostings.Domain.JobPostingAggregate.JobPosting.ExpireAt#JobPostings.Domain.JobPostingAggregate.ExpirationDate", "ExpireAt", b1 =>
                         {
                             b1.Property<Guid>("JobPostingId")
                                 .HasColumnType("uuid");
@@ -82,13 +82,13 @@ namespace JobPostings.Infra.Migrations
 
                             b1.HasKey("JobPostingId");
 
-                            b1.ToTable("JobPostings");
+                            b1.ToTable("JobPostings", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("JobPostingId");
                         });
 
-                    b.OwnsOne("JobPostings.Domain.JobPostingAggregate.Location", "Location", b1 =>
+                    b.OwnsOne("JobPostings.Domain.JobPostingAggregate.JobPosting.Location#JobPostings.Domain.JobPostingAggregate.Location", "Location", b1 =>
                         {
                             b1.Property<Guid>("JobPostingId")
                                 .HasColumnType("uuid");
@@ -99,13 +99,13 @@ namespace JobPostings.Infra.Migrations
 
                             b1.HasKey("JobPostingId");
 
-                            b1.ToTable("JobPostings");
+                            b1.ToTable("JobPostings", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("JobPostingId");
                         });
 
-                    b.OwnsOne("JobPostings.Domain.JobPostingAggregate.Role", "Role", b1 =>
+                    b.OwnsOne("JobPostings.Domain.JobPostingAggregate.JobPosting.Role#JobPostings.Domain.JobPostingAggregate.Role", "Role", b1 =>
                         {
                             b1.Property<Guid>("JobPostingId")
                                 .HasColumnType("uuid");
@@ -117,13 +117,13 @@ namespace JobPostings.Infra.Migrations
 
                             b1.HasKey("JobPostingId");
 
-                            b1.ToTable("JobPostings");
+                            b1.ToTable("JobPostings", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("JobPostingId");
                         });
 
-                    b.OwnsOne("JobPostings.Domain.JobPostingAggregate.Salary", "Salary", b1 =>
+                    b.OwnsOne("JobPostings.Domain.JobPostingAggregate.JobPosting.Salary#JobPostings.Domain.JobPostingAggregate.Salary", "Salary", b1 =>
                         {
                             b1.Property<Guid>("JobPostingId")
                                 .HasColumnType("uuid");
@@ -134,7 +134,7 @@ namespace JobPostings.Infra.Migrations
 
                             b1.HasKey("JobPostingId");
 
-                            b1.ToTable("JobPostings");
+                            b1.ToTable("JobPostings", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("JobPostingId");

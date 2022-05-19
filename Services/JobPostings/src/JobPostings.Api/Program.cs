@@ -1,4 +1,6 @@
+using System.Reflection;
 using Common.Abstractions;
+using FluentValidation.AspNetCore;
 using JobPostings.Api.Extensions;
 using JobPostings.Application.Commands.PostJob;
 using JobPostings.Application.Consumers;
@@ -31,7 +33,10 @@ builder.Services.AddMassTransit(x =>
 
 builder.Services.AddMediatR(typeof(PostJobCommand));
 
-builder.Services.AddControllers();
+builder.Services
+       .AddControllers()
+       .AddFluentValidation(opts =>
+           opts.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
 
 builder.Services.AddEndpointsApiExplorer();
 
