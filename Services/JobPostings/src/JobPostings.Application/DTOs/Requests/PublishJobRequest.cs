@@ -1,10 +1,8 @@
-using MediatR;
-
-namespace JobPostings.Application.Commands.PostJob;
+namespace JobPostings.Application.DTOs.Requests;
 
 #nullable disable
 
-public record PostJobCommand : IRequest
+public record PublishJobRequest
 {
     public string Role { get; init; }
     public string Description { get; init; }

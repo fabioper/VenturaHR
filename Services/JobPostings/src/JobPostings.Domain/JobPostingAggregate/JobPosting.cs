@@ -18,7 +18,6 @@ public class JobPosting : Entity, IAggregateRoot
 
     public Location Location { get; private set; }
 
-    private readonly string _companyExternalId;
     public Company Company { get; private set; }
 
     public JobPosting(
@@ -27,7 +26,7 @@ public class JobPosting : Entity, IAggregateRoot
         string location,
         decimal salary,
         DateTime expiration,
-        string companyId)
+        Company company)
     {
         Guard.Against.NullOrEmpty(role, nameof(role));
         Guard.Against.NullOrEmpty(description, nameof(description));
@@ -38,7 +37,7 @@ public class JobPosting : Entity, IAggregateRoot
         Salary = new(salary);
         ExpireAt = new(expiration);
         Location = new(location);
-        _companyExternalId = companyId;
+        Company = company;
     }
 
     public JobPosting() { } // Ef required

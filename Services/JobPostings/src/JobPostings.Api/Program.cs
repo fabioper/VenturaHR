@@ -1,21 +1,21 @@
 using System.Reflection;
-using Common.Abstractions;
 using FluentValidation.AspNetCore;
 using JobPostings.Api.Extensions;
-using JobPostings.Application.Commands.PostJob;
 using JobPostings.Application.Consumers;
+using JobPostings.Application.Services.Concretes;
+using JobPostings.Application.Services.Contracts;
 using JobPostings.Domain.CompanyAggregate;
 using JobPostings.Domain.JobPostingAggregate;
 using JobPostings.Infra.Data;
 using JobPostings.Infra.Repositories;
 using MassTransit;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<IJobPostingRepository, JobPostingRepository>();
+builder.Services.AddScoped<IJobPostingsService, JobPostingsService>();
 
 var dbConnection = builder.Configuration.GetConnectionString("Database");
 builder.Services.AddDbContext<ModelContext>(cfg => cfg.UseNpgsql(dbConnection));
@@ -30,8 +30,6 @@ builder.Services.AddMassTransit(x =>
         config.Host(new Uri(rabbitMqConnection));
     });
 });
-
-builder.Services.AddMediatR(typeof(PostJobCommand));
 
 builder.Services
        .AddControllers()

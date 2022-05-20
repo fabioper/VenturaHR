@@ -1,8 +1,8 @@
 using JobPostings.Api.Constants;
 using JobPostings.Api.DTOs.Requests;
 using JobPostings.Api.Extensions;
-using JobPostings.Application.Commands.PostJob;
-using MediatR;
+using JobPostings.Application.DTOs.Requests;
+using JobPostings.Application.Services.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,15 +12,18 @@ namespace JobPostings.Api.Controllers;
 [Route("job-postings")]
 public class JobPostingsController : ControllerBase
 {
-    private readonly IMediator _mediator;
+    private readonly IJobPostingsService _jobPostingsService;
 
-    public JobPostingsController(IMediator mediator) => _mediator = mediator;
+    public JobPostingsController(IJobPostingsService jobPostingsService)
+    {
+        _jobPostingsService = jobPostingsService;
+    }
 
     [HttpPost]
     [Authorize(Policy = Policy.CompanyOnly)]
     public async Task<IActionResult> PostJob([FromBody] PostJobRequest request)
     {
-        var command = new PostJobCommand
+        var dto = new PublishJobRequest
         {
             Role = request.Role,
             Description = request.Description,
@@ -30,8 +33,15 @@ public class JobPostingsController : ControllerBase
             CompanyId = User.GetId(),
         };
 
-        await _mediator.Send(command);
-
+        await _jobPostingsService.PublishJob(dto);
         return Ok();
+    }
+
+    [HttpGet]
+    [Authorize(Policy = Policy.CompanyOnly)]
+    public async Task<IActionResult> GetPublishedJobsBy()
+    {
+        var jobPostings = await _jobPostingsService.GetPublishedJobsBy(User.GetId());
+        return Ok(jobPostings);
     }
 }
