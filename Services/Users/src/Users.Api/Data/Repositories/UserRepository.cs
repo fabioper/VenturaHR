@@ -1,6 +1,7 @@
 using Common.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using Users.Api.Models.Entities;
+using Users.Api.Models.ValueObjects;
 
 namespace Users.Api.Data.Repositories;
 
@@ -33,7 +34,7 @@ public class UserRepository<T> : IUserRepository<T> where T : BaseUser
         return await query.ToListAsync();
     }
 
-    public async Task<T?> FindById(Guid id)
+    public async Task<T?> FindById(UserId id)
     {
         return await _entity.FirstOrDefaultAsync(x => x.Id == id);
     }
@@ -54,10 +55,5 @@ public class UserRepository<T> : IUserRepository<T> where T : BaseUser
     {
         _entity.Remove(entity);
         await _context.SaveChangesAsync();
-    }
-
-    public async Task<T?> FindByExternalId(string externalId)
-    {
-        return await _entity.FirstOrDefaultAsync(x => x.ExternalId == externalId);
     }
 }

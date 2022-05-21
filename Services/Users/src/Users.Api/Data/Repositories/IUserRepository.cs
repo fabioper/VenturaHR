@@ -1,9 +1,9 @@
 using Common.Abstractions;
 using Users.Api.Models.Entities;
+using Users.Api.Models.ValueObjects;
 
 namespace Users.Api.Data.Repositories;
 
-public interface IUserRepository<T> : IRepository<T> where T : BaseUser
+public interface IUserRepository<T> : IBaseRepository<T, UserId> where T : BaseUser
 {
-    Task<T?> FindByExternalId(string externalId);
 }

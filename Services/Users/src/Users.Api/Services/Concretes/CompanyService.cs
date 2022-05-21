@@ -7,8 +7,9 @@ using Users.Api.DTOs.Requests;
 using Users.Api.DTOs.Responses;
 using Users.Api.Models.Entities;
 using Users.Api.Models.ValueObjects;
+using Users.Api.Services.Contracts;
 
-namespace Users.Api.Services.Contracts;
+namespace Users.Api.Services.Concretes;
 
 public class CompanyService : ICompanyService
 {
@@ -33,20 +34,20 @@ public class CompanyService : ICompanyService
             request.Email,
             new PhoneNumber(request.PhoneNumber),
             new Registration(request.Registration),
-            request.ExternalId
+            new UserId(request.ExternalId)
         );
 
         await _repository.Add(newCompany);
 
         var userCreatedEvent = new CompanyCreatedEvent(
-            newCompany.Name, newCompany.Email, newCompany.ExternalId);
+            newCompany.Name, newCompany.Email, newCompany.Id.Value);
 
         await _publishEndpoint.Publish(userCreatedEvent);
     }
 
     public async Task<CompanyProfileResponse> FindCompanyByExternalId(string externalId)
     {
-        var company = await _repository.FindByExternalId(externalId);
+        var company = await _repository.FindById(new UserId(externalId));
 
         if (company is null)
             throw new EntityNotFoundException(nameof(Company));

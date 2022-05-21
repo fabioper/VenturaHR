@@ -1,19 +1,17 @@
 #nullable disable
 
+using Users.Api.Models.ValueObjects;
+
 namespace Users.Api.Models.Entities;
 
 public class Applicant : BaseUser
 {
-    public Applicant(
-        string name,
-        string email,
-        string externalId)
+    public Applicant(string name, string email, UserId applicantId)
     {
-        Id = Guid.NewGuid();
+        Id = applicantId;
         Name = name;
         Email = email;
-        ExternalId = externalId;
     }
 
-    public Applicant(string externalId) => ExternalId = externalId;
+    public Applicant() { }
 }

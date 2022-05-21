@@ -10,21 +10,19 @@ public class Company : BaseUser
     public string Email { get; private set; }
     public PhoneNumber PhoneNumber { get; private set; }
     public Registration Registration { get; private set; }
-    public string ExternalId { get; private set; }
 
     public Company(
         string name,
         string email,
         PhoneNumber phoneNumber,
         Registration registration,
-        string externalId)
+        UserId companyId)
     {
-        Id = Guid.NewGuid();
+        Id = companyId;
         Name = name;
         Email = email;
         PhoneNumber = phoneNumber;
         Registration = registration;
-        ExternalId = externalId;
     }
 
     public Company() { }

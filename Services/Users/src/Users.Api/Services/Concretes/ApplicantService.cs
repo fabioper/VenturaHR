@@ -6,6 +6,7 @@ using Users.Api.Data.Repositories;
 using Users.Api.DTOs.Requests;
 using Users.Api.DTOs.Responses;
 using Users.Api.Models.Entities;
+using Users.Api.Models.ValueObjects;
 using Users.Api.Services.Contracts;
 
 namespace Users.Api.Services.Concretes;
@@ -28,20 +29,26 @@ public class ApplicantService : IApplicantService
 
     public async Task CreateApplicantProfile(CreateApplicantProfileRequest request)
     {
-        var newApplicant = new Applicant(request.Name, request.Email, request.ExternalId);
+        var newApplicant = new Applicant(
+            request.Name,
+            request.Email,
+            new UserId(request.ExternalId)
+        );
 
         await _repository.Add(newApplicant);
 
-        var userCreatedEvent = new ApplicantCreatedEvent(newApplicant.Name,
+        var userCreatedEvent = new ApplicantCreatedEvent(
+            newApplicant.Name,
             newApplicant.Email,
-            newApplicant.ExternalId);
+            newApplicant.Id.Value
+        );
 
         await _publishEndpoint.Publish(userCreatedEvent);
     }
 
     public async Task<ApplicantProfileResponse> FindApplicantByExternalId(string externalId)
     {
-        var applicant = await _repository.FindByExternalId(externalId);
+        var applicant = await _repository.FindById(new UserId(externalId));
 
         if (applicant is null)
             throw new EntityNotFoundException(nameof(Applicant));
