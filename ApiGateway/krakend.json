@@ -8,23 +8,57 @@
   "port": 8080,
   "endpoints": [
     {
-      "endpoint": "/webhooks/user-created",
+      "endpoint": "/companies",
       "method": "POST",
-      "output_encoding": "json",
       "backend": [
         {
-          "url_pattern": "/webhooks/user-created",
-          "encoding": "json",
-          "sd": "static",
+          "url_pattern": "/companies",
           "method": "POST",
-          "disable_host_sanitize": false,
-          "host": [
-            "https://venturahr-webhooks.herokuapp.com"
-          ],
-          "is_collection": false,
-          "target": ""
+          "host": ["https://venturahr-users.herokuapp.com"]
         }
       ]
+    },
+    {
+      "endpoint": "/job-postings",
+      "method": "POST",
+      "backend": [
+        {
+          "url_pattern": "/job-postings",
+          "method": "POST",
+          "host": ["https://venturahr-job-postings.herokuapp.com"]
+        }
+      ],
+      "extra_config": {
+        "auth/validator": {
+          "alg": "RS256",
+          "issuer": "https://securetoken.google.com/venturahr-93abd",
+          "audience": ["venturahr-93abd"],
+          "roles_key": "role",
+          "roles": ["company"],
+          "cache": true
+        }
+      }
+    },
+    {
+      "endpoint": "/job-postings",
+      "method": "GET",
+      "backend": [
+        {
+          "url_pattern": "/job-postings",
+          "method": "POST",
+          "host": ["https://venturahr-job-postings.herokuapp.com"]
+        }
+      ],
+      "extra_config": {
+        "auth/validator": {
+          "alg": "RS256",
+          "issuer": "https://securetoken.google.com/venturahr-93abd",
+          "audience": ["venturahr-93abd"],
+          "roles_key": "role",
+          "roles": ["company"],
+          "cache": true
+        }
+      }
     }
   ]
 }
