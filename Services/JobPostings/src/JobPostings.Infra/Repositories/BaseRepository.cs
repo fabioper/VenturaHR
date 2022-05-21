@@ -4,7 +4,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace JobPostings.Infra.Repositories;
 
-public class BaseRepository<T> : IRepository<T> where T : Entity, IAggregateRoot
+public class BaseRepository<T, TId> : IBaseRepository<T, TId>
+    where T : BaseEntity<TId>, IAggregateRoot where TId : EntityId
 {
     private readonly DbContext _context;
     private readonly DbSet<T> _entity;
@@ -32,8 +33,8 @@ public class BaseRepository<T> : IRepository<T> where T : Entity, IAggregateRoot
 
         return await query.ToListAsync();
     }
-
-    public async Task<T?> FindById(Guid id)
+    
+    public async Task<T?> FindById(TId id)
     {
         return await _entity.FirstOrDefaultAsync(x => x.Id == id);
     }

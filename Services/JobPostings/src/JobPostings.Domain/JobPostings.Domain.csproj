@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="VenturaHRCommon" Version="1.2.7" />
+      <PackageReference Include="VenturaHRCommon" Version="1.2.9" />
     </ItemGroup>
 
 </Project>

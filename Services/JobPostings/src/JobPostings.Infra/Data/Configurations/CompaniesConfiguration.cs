@@ -12,8 +12,9 @@ public class CompaniesConfiguration : IEntityTypeConfiguration<Company>
 
         builder.HasKey(x => x.Id);
 
+        builder.Property(x => x.Id)
+               .HasConversion(value => value.Id, v => new CompanyId(v));
+
         builder.Property(x => x.Name).IsRequired();
-        builder.Property(x => x.ExternalId).IsRequired();
-        builder.HasIndex(x => x.ExternalId).IsUnique();
     }
 }

@@ -6,7 +6,7 @@ namespace JobPostings.Domain.JobPostingAggregate;
 
 #nullable disable
 
-public class JobPosting : Entity, IAggregateRoot
+public class JobPosting : BaseEntity<JobPostingId>, IAggregateRoot
 {
     public string Description { get; private set; }
 
@@ -31,12 +31,12 @@ public class JobPosting : Entity, IAggregateRoot
         Guard.Against.NullOrEmpty(role, nameof(role));
         Guard.Against.NullOrEmpty(description, nameof(description));
 
-        Id = Guid.NewGuid();
+        Id = new JobPostingId();
         Description = description;
-        Role = new(role);
-        Salary = new(salary);
-        ExpireAt = new(expiration);
-        Location = new(location);
+        Role = new Role(role);
+        Salary = new Salary(salary);
+        ExpireAt = new ExpirationDate(expiration);
+        Location = new Location(location);
         Company = company;
     }
 

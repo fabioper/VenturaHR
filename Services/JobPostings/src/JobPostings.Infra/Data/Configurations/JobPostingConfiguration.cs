@@ -12,12 +12,14 @@ public class JobPostingConfiguration : IEntityTypeConfiguration<JobPosting>
 
         builder.HasKey(x => x.Id);
 
+        builder.Property(x => x.Id)
+               .HasConversion(x => x.Id, x => new JobPostingId(x));
+
         builder.Property(x => x.Description).IsRequired();
 
         builder.HasOne(x => x.Company)
                .WithMany()
-               .HasForeignKey("_companyId")
-               .HasPrincipalKey(x => x.ExternalId);
+               .HasForeignKey("_companyId");
 
         builder.OwnsOne(x => x.Role,
             x => x.Property(r => r.Title).HasColumnName("Role"));

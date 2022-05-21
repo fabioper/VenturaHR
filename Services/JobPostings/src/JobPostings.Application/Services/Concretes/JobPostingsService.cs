@@ -18,7 +18,7 @@ public class JobPostingsService : IJobPostingsService
 
     public async Task PublishJob(PublishJobRequest request)
     {
-        var company = await _companyRepository.FindByExternalId(request.CompanyId);
+        var company = await _companyRepository.FindById(new CompanyId(request.CompanyId));
 
         var newJob = new JobPosting(request.Role,
             request.Description,
@@ -32,6 +32,6 @@ public class JobPostingsService : IJobPostingsService
 
     public async Task<IEnumerable<JobPosting>> GetPublishedJobsBy(string companyId)
     {
-        return await _jobPostingsRepository.FindByCompanyOfId(companyId);
+        return await _jobPostingsRepository.FindByCompanyOfId(new CompanyId(companyId));
     }
 }

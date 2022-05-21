@@ -2,7 +2,6 @@ using Common.Abstractions;
 
 namespace JobPostings.Domain.CompanyAggregate;
 
-public interface ICompanyRepository : IRepository<Company>
+public interface ICompanyRepository : IBaseRepository<Company, CompanyId>
 {
-    Task<Company?> FindByExternalId(string externalId);
 }
