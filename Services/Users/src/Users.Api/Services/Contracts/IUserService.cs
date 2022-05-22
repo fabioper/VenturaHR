@@ -7,4 +7,5 @@ public interface IUserService
 {
     Task CreateUser(CreateUserRequest request);
     Task<UserProfileResponse> FindUserOfId(string userId);
+    Task<TokenResponse> Authenticate(LoginRequest request);
 }

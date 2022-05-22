@@ -4,6 +4,7 @@ using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Users.Api.Common.ErrorHandler;
 using Users.Api.Data;
+using Users.Api.Data.Repositories;
 using Users.Api.Services.Concretes;
 using Users.Api.Services.Contracts;
 
@@ -35,6 +36,8 @@ builder.Services.AddMassTransit(x =>
 
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IUserService, UserService>();
 
 const string corsConfig = "_corsConfig";

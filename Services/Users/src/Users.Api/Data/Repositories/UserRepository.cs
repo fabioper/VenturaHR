@@ -56,4 +56,7 @@ public class UserRepository : IUserRepository
         _entity.Remove(entity);
         await _context.SaveChangesAsync();
     }
+
+    public async Task<User?> FindByEmail(string email) =>
+        await _entity.FirstOrDefaultAsync(x => x.Email == email);
 }

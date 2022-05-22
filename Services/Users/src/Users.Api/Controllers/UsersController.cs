@@ -20,10 +20,10 @@ public class UsersController : ControllerBase
         return Ok();
     }
 
-    [HttpGet("{userId}")]
-    public async Task<IActionResult> GetByExternalId([FromRoute] string userId)
+    [HttpPost("login")]
+    public async Task<IActionResult> Authenticate([FromBody] LoginRequest request)
     {
-        var applicant = await _userService.FindUserOfId(userId);
-        return Ok(applicant);
+        var tokenResponse = await _userService.Authenticate(request);
+        return Ok(tokenResponse);
     }
 }

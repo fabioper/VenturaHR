@@ -8,23 +8,27 @@ using Users.Api.DTOs.Responses;
 using Users.Api.Models.Entities;
 using Users.Api.Models.ValueObjects;
 using Users.Api.Services.Contracts;
+using static BCrypt.Net.BCrypt;
 
 namespace Users.Api.Services.Concretes;
 
 public class UserService : IUserService
 {
     private readonly IUserRepository _repository;
+    private readonly ITokenService _tokenService;
     private readonly IPublishEndpoint _publishEndpoint;
     private readonly IMapper _mapper;
 
     public UserService(
         IUserRepository repository,
         IPublishEndpoint publishEndpoint,
-        IMapper mapper)
+        IMapper mapper,
+        ITokenService tokenService)
     {
         _repository = repository;
         _publishEndpoint = publishEndpoint;
         _mapper = mapper;
+        _tokenService = tokenService;
     }
 
     public async Task CreateUser(CreateUserRequest request)
@@ -33,8 +37,10 @@ public class UserService : IUserService
             new UserId(request.ExternalId),
             request.Name,
             request.Email,
+            HashPassword(request.Password),
             new PhoneNumber(request.PhoneNumber),
-            new Registration(request.Registration)
+            new Registration(request.Registration),
+            request.UserType
         );
 
         await _repository.Add(newCompany);
@@ -53,5 +59,18 @@ public class UserService : IUserService
             throw new EntityNotFoundException(nameof(User));
         
         return _mapper.Map<UserProfileResponse>(user);
+    }
+
+    public async Task<TokenResponse> Authenticate(LoginRequest request)
+    {
+        var user = await _repository.FindByEmail(request.Email);
+
+        if (user is null)
+            throw new EntityNotFoundException(nameof(User));
+
+        if (!Verify(request.Password, user.Password))
+            throw new EntityNotFoundException(nameof(User));
+
+        return _tokenService.GenerateToken(user);
     }
 }

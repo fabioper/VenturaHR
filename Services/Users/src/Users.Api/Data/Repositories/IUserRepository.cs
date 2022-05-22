@@ -6,4 +6,5 @@ namespace Users.Api.Data.Repositories;
 
 public interface IUserRepository : IBaseRepository<User, UserId>
 {
+    Task<User?> FindByEmail(string email);
 }

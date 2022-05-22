@@ -16,9 +16,11 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(x => x.Id)
                .HasConversion(x => x.Value, value => new UserId(value));
 
-        builder.Property(x => x.Name);
-        builder.Property(x => x.Email);
-        
+        builder.Property(x => x.Name).IsRequired();
+        builder.Property(x => x.Email).IsRequired();
+        builder.Property(x => x.UserType).IsRequired();
+        builder.Property(x => x.Password).IsRequired();
+
         builder.OwnsOne(x => x.Registration,
             b => b.Property(ad => ad.Number).HasColumnName("Registration"));
 

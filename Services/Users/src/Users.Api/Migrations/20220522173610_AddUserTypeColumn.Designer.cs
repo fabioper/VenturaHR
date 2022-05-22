@@ -11,8 +11,8 @@ using Users.Api.Data;
 namespace Users.Api.Migrations
 {
     [DbContext(typeof(UsersContext))]
-    [Migration("20220521180137_AddCustomValuesForId")]
-    partial class AddCustomValuesForId
+    [Migration("20220522173610_AddUserTypeColumn")]
+    partial class AddUserTypeColumn
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,7 +23,7 @@ namespace Users.Api.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Users.Api.Models.Entities.Applicant", b =>
+            modelBuilder.Entity("Users.Api.Models.Entities.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
@@ -36,32 +36,19 @@ namespace Users.Api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("Id");
-
-                    b.ToTable("Applicants", (string)null);
-                });
-
-            modelBuilder.Entity("Users.Api.Models.Entities.Company", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
+                    b.Property<int>("UserType")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Companies", (string)null);
+                    b.ToTable("Users", (string)null);
                 });
 
-            modelBuilder.Entity("Users.Api.Models.Entities.Company", b =>
+            modelBuilder.Entity("Users.Api.Models.Entities.User", b =>
                 {
                     b.OwnsOne("Users.Api.Models.ValueObjects.PhoneNumber", "PhoneNumber", b1 =>
                         {
-                            b1.Property<string>("CompanyId")
+                            b1.Property<string>("UserId")
                                 .HasColumnType("text");
 
                             b1.Property<string>("Value")
@@ -69,29 +56,29 @@ namespace Users.Api.Migrations
                                 .HasColumnType("text")
                                 .HasColumnName("PhoneNumber");
 
-                            b1.HasKey("CompanyId");
+                            b1.HasKey("UserId");
 
-                            b1.ToTable("Companies");
+                            b1.ToTable("Users");
 
                             b1.WithOwner()
-                                .HasForeignKey("CompanyId");
+                                .HasForeignKey("UserId");
                         });
 
                     b.OwnsOne("Users.Api.Models.ValueObjects.Registration", "Registration", b1 =>
                         {
-                            b1.Property<string>("CompanyId")
+                            b1.Property<string>("UserId")
                                 .HasColumnType("text");
 
                             b1.Property<string>("Number")
                                 .HasColumnType("text")
                                 .HasColumnName("Registration");
 
-                            b1.HasKey("CompanyId");
+                            b1.HasKey("UserId");
 
-                            b1.ToTable("Companies");
+                            b1.ToTable("Users");
 
                             b1.WithOwner()
-                                .HasForeignKey("CompanyId");
+                                .HasForeignKey("UserId");
                         });
 
                     b.Navigation("PhoneNumber");
