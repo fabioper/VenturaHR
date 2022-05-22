@@ -56,7 +56,7 @@ async function saveCompanyDetails(
   data: SignUpCompanyModel
 ): Promise<void> {
   await createCompanyUser({
-    identifier: user.uid,
+    externalId: user.uid,
     name: data.name,
     email: data.email,
     phoneNumber: data.phoneNumber,
@@ -69,7 +69,7 @@ async function saveApplicantDetails(
   data: SignUpModel
 ): Promise<void> {
   await createApplicantUser({
-    identifier: user.uid,
+    externalId: user.uid,
     name: data.name,
     email: data.email,
   })
@@ -110,7 +110,7 @@ export async function loginUsingProvider(params: SignInWithProviderParams) {
   if (isNewUser(user)) {
     await setUserRoles(user.uid, params.role)
     await createApplicantUser({
-      identifier: user.uid,
+      externalId: user.uid,
       name: user.displayName || "",
       email: user.email || "",
     })
@@ -132,6 +132,7 @@ const isNewUser = (user: User): boolean =>
 
 const formatUser = async (user: User): Promise<UserProfile> => {
   const token = await user.getIdTokenResult(true)
+  console.log(token.token)
   return new UserProfile({
     id: user.uid,
     name: user.displayName || "",

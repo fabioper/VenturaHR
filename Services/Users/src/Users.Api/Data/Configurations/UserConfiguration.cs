@@ -5,11 +5,11 @@ using Users.Api.Models.ValueObjects;
 
 namespace Users.Api.Data.Configurations;
 
-public class ApplicantConfiguration : IEntityTypeConfiguration<Applicant>
+public class UserConfiguration : IEntityTypeConfiguration<User>
 {
-    public void Configure(EntityTypeBuilder<Applicant> builder)
+    public void Configure(EntityTypeBuilder<User> builder)
     {
-        builder.ToTable("Applicants");
+        builder.ToTable("Users");
         
         builder.HasKey(x => x.Id);
 
@@ -18,5 +18,11 @@ public class ApplicantConfiguration : IEntityTypeConfiguration<Applicant>
 
         builder.Property(x => x.Name);
         builder.Property(x => x.Email);
+        
+        builder.OwnsOne(x => x.Registration,
+            b => b.Property(ad => ad.Number).HasColumnName("Registration"));
+
+        builder.OwnsOne(x => x.PhoneNumber,
+            b => b.Property(x => x.Value).HasColumnName("PhoneNumber"));
     }
 }

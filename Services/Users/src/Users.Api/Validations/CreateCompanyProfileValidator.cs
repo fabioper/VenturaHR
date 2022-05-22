@@ -4,7 +4,7 @@ using Users.Api.DTOs.Requests;
 
 namespace Users.Api.Validations;
 
-public class CreateCompanyProfileValidator : AbstractValidator<CreateCompanyProfileRequest>
+public class CreateCompanyProfileValidator : AbstractValidator<CreateUserRequest>
 {
     public CreateCompanyProfileValidator()
     {

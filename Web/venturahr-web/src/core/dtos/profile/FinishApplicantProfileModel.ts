@@ -1,5 +1,5 @@
 export class FinishApplicantProfileModel {
-  identifier: string
+  externalId: string
   name: string
   email: string
 }

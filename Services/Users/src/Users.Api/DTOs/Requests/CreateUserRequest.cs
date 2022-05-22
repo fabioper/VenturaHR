@@ -2,7 +2,7 @@ namespace Users.Api.DTOs.Requests;
 
 #nullable disable
 
-public record CreateCompanyProfileRequest
+public record CreateUserRequest
 {
     public string ExternalId { get; set; }
     public string Name { get; set; }

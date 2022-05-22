@@ -11,14 +11,14 @@ using Users.Api.Services.Contracts;
 
 namespace Users.Api.Services.Concretes;
 
-public class CompanyService : ICompanyService
+public class UserService : IUserService
 {
-    private readonly IUserRepository<Company> _repository;
+    private readonly IUserRepository _repository;
     private readonly IPublishEndpoint _publishEndpoint;
     private readonly IMapper _mapper;
 
-    public CompanyService(
-        IUserRepository<Company> repository,
+    public UserService(
+        IUserRepository repository,
         IPublishEndpoint publishEndpoint,
         IMapper mapper)
     {
@@ -27,14 +27,14 @@ public class CompanyService : ICompanyService
         _mapper = mapper;
     }
 
-    public async Task CreateCompanyProfile(CreateCompanyProfileRequest request)
+    public async Task CreateUser(CreateUserRequest request)
     {
-        var newCompany = new Company(
+        var newCompany = new User(
+            new UserId(request.ExternalId),
             request.Name,
             request.Email,
             new PhoneNumber(request.PhoneNumber),
-            new Registration(request.Registration),
-            new UserId(request.ExternalId)
+            new Registration(request.Registration)
         );
 
         await _repository.Add(newCompany);
@@ -45,13 +45,13 @@ public class CompanyService : ICompanyService
         await _publishEndpoint.Publish(userCreatedEvent);
     }
 
-    public async Task<CompanyProfileResponse> FindCompanyByExternalId(string externalId)
+    public async Task<UserProfileResponse> FindUserOfId(string userId)
     {
-        var company = await _repository.FindById(new UserId(externalId));
+        var user = await _repository.FindById(new UserId(userId));
 
-        if (company is null)
-            throw new EntityNotFoundException(nameof(Company));
+        if (user is null)
+            throw new EntityNotFoundException(nameof(User));
         
-        return _mapper.Map<CompanyProfileResponse>(company);
+        return _mapper.Map<UserProfileResponse>(user);
     }
 }

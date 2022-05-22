@@ -1,5 +1,5 @@
 export class FinishCompanyProfileModel {
-  identifier: string
+  externalId: string
   name: string
   email: string
   registration: string

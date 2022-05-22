@@ -8,7 +8,6 @@ public class UserProfile : Profile
 {
     public UserProfile()
     {
-        CreateMap<Company, CompanyProfileResponse>();
-        CreateMap<Applicant, ApplicantProfileResponse>();
+        CreateMap<User, UserProfileResponse>();
     }
 }

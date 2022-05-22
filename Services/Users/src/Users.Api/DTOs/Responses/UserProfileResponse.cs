@@ -1,6 +1,6 @@
 namespace Users.Api.DTOs.Responses;
 
-public record CompanyProfileResponse
+public record UserProfileResponse
 {
     public Guid Id { get; set; }
     public string Name { get; init; }
