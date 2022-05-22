@@ -1,6 +1,7 @@
 #nullable disable
 
 using Common.Abstractions;
+using Common.Guards;
 using Users.Api.Models.Enums;
 using Users.Api.Models.ValueObjects;
 
@@ -24,6 +25,10 @@ public class User : BaseEntity<UserId>, IAggregateRoot
         Registration registration,
         UserType userType)
     {
+        Guard.Against.NullOrEmpty(name, nameof(name));
+        Guard.Against.NullOrEmpty(email, nameof(email));
+        Guard.Against.NullOrEmpty(password, nameof(password));
+
         Id = id;
         Name = name;
         Email = email;

@@ -1,9 +1,11 @@
-using Users.Api.DTOs.Responses;
 using Users.Api.Models.Entities;
 
 namespace Users.Api.Services.Contracts;
 
 public interface ITokenService
 {
-    TokenResponse GenerateToken(User user);
+    string GenerateToken(User user);
+    string GenerateRefreshToken();
+    Task SaveRefreshToken(User user, string refreshToken);
+    Task<string?> GetUserIdFromRefreshToken(string token);
 }

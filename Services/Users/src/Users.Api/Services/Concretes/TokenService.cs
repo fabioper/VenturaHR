@@ -1,20 +1,31 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
-using Users.Api.DTOs.Responses;
+using Users.Api.Common.Options;
 using Users.Api.Models.Entities;
 using Users.Api.Models.Enums;
 using Users.Api.Services.Contracts;
+using static Microsoft.IdentityModel.Tokens.SecurityAlgorithms;
 
 namespace Users.Api.Services.Concretes;
 
 public class TokenService : ITokenService
 {
-    public TokenResponse GenerateToken(User user)
+    private readonly IRedisClient _redis;
+    private readonly TokenSettings _tokenSettings;
+
+    public TokenService(IRedisClient redis, TokenSettings tokenSettings)
+    {
+        _redis = redis;
+        _tokenSettings = tokenSettings;
+    }
+
+    public string GenerateToken(User user)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes(@"?vb*Vvk-tRmgB8za$Z^as*WP@%?SdA45rG*x+WqJC9UC@x&hHZ3k@LKt?$65+Sk^?wnQtu$Et@$TN*g84YVqm");
+        var key = Encoding.ASCII.GetBytes(_tokenSettings.Secret);
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(new[]
@@ -23,15 +34,27 @@ public class TokenService : ITokenService
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Role, Enum.GetName(typeof(UserType), user.UserType) ?? string.Empty),
             }),
-            Expires = DateTime.UtcNow.AddMinutes(15),
-            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+            Issuer = _tokenSettings.Issuer,
+            Audience = _tokenSettings.Audience,
+            Expires = DateTime.UtcNow.AddMinutes(_tokenSettings.ExpirationInMinutes),
+            SigningCredentials = new(new SymmetricSecurityKey(key), HmacSha256Signature),
         };
 
         var token = tokenHandler.CreateToken(tokenDescriptor);
-
-        return new()
-        {
-            AccessToken = tokenHandler.WriteToken(token),
-        };
+        return tokenHandler.WriteToken(token);
     }
+
+    public string GenerateRefreshToken()
+    {
+        var randomNumber = new byte[32];
+        using var rng = RandomNumberGenerator.Create();
+        rng.GetBytes(randomNumber);
+        return Convert.ToBase64String(randomNumber);
+    }
+
+    public async Task SaveRefreshToken(User user, string refreshToken)
+        => await _redis.Set(refreshToken, user.Id.Value);
+
+    public async Task<string?> GetUserIdFromRefreshToken(string token)
+        => await _redis.Get(token);
 }

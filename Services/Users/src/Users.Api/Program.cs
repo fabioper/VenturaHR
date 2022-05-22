@@ -1,8 +1,11 @@
 using System.Reflection;
 using FluentValidation.AspNetCore;
 using MassTransit;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using StackExchange.Redis;
 using Users.Api.Common.ErrorHandler;
+using Users.Api.Common.Options;
 using Users.Api.Data;
 using Users.Api.Data.Repositories;
 using Users.Api.Services.Concretes;
@@ -20,6 +23,13 @@ builder.Services.AddControllers()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+var tokenSettings = builder.Configuration.GetSection(nameof(TokenSettings)).Get<TokenSettings>();
+builder.Services.AddScoped(_ => tokenSettings);
+
+var redisConnection = builder.Configuration.GetConnectionString("Redis");
+var multiplexer = ConnectionMultiplexer.Connect(redisConnection);
+builder.Services.AddSingleton<IConnectionMultiplexer>(multiplexer);
+
 var dbConnection = builder.Configuration.GetConnectionString("Database");
 var rabbitMqConnection = builder.Configuration.GetConnectionString("RabbitMq");
 
@@ -36,6 +46,7 @@ builder.Services.AddMassTransit(x =>
 
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
+builder.Services.AddScoped<IRedisClient, RedisClient>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IUserService, UserService>();

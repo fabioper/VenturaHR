@@ -1,6 +1,6 @@
 using System.Net;
-using System.Security.Authentication;
 using Common.Exceptions;
+using Users.Api.Common.Exceptions;
 
 namespace Users.Api.Common.ErrorHandler;
 
@@ -8,6 +8,16 @@ public static class ErrorDetailsFactory
 {
     public static ErrorDetails Create(Exception exception) => exception switch
     {
+        InvalidRefreshToken e => new ErrorDetails
+        {
+          Message  = e.Message,
+          Status = HttpStatusCode.Forbidden,
+        },
+        UnrecognizedUserType e => new ErrorDetails
+        {
+          Message  = e.Message,
+          Status = HttpStatusCode.BadRequest,
+        },
         InvalidCredentialException e => new ErrorDetails
         {
           Message  = e.Message,
@@ -18,6 +28,6 @@ public static class ErrorDetailsFactory
             Message = e.Message,
             Status = HttpStatusCode.NotFound,
         },
-        _ => new ErrorDetails()
+        _ => new ErrorDetails(),
     };
 }

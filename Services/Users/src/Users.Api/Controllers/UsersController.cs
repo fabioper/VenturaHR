@@ -26,4 +26,11 @@ public class UsersController : ControllerBase
         var tokenResponse = await _userService.Authenticate(request);
         return Ok(tokenResponse);
     }
+
+    [HttpPost("refresh")]
+    public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
+    {
+        var tokenResponse = await _userService.RefreshToken(request);
+        return Ok(tokenResponse);
+    }
 }
