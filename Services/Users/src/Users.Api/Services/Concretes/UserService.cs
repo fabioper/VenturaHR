@@ -2,6 +2,8 @@ using AutoMapper;
 using Common.Events;
 using Common.Exceptions;
 using MassTransit;
+using Users.Api.Common.Exceptions;
+using Users.Api.Common.Extensions;
 using Users.Api.Data.Repositories;
 using Users.Api.DTOs.Requests;
 using Users.Api.DTOs.Responses;
@@ -65,11 +67,8 @@ public class UserService : IUserService
     {
         var user = await _repository.FindByEmail(request.Email);
 
-        if (user is null)
-            throw new EntityNotFoundException(nameof(User));
-
-        if (!Verify(request.Password, user.Password))
-            throw new EntityNotFoundException(nameof(User));
+        if (user is null || request.Password.IsEqualToHash(user.Password))
+            throw new InvalidCredentialException();
 
         return _tokenService.GenerateToken(user);
     }

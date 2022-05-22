@@ -2,7 +2,7 @@ using System.Net;
 
 namespace Users.Api.Common.ErrorHandler;
 
-public class ErrorDetails
+public record ErrorDetails
 {
     public ErrorDetails() { }
     public ErrorDetails(IDictionary<string, string> errors, HttpStatusCode status)
