@@ -1,50 +1,37 @@
 import React, { useState } from "react"
 import { useAuth } from "../contexts/AuthContext"
 import useForm from "../hooks/useForm"
-import { UserRole } from "../../core/enums/UserRole"
-import { signupCompanyValidator } from "../../core/validations/signup.validator"
-import { FirebaseError } from "@firebase/util"
+import { UserType } from "../../core/enums/UserType"
+import { signUpValidator } from "../../core/validations/signup.validator"
 import { Message } from "primereact/message"
 import { InputText } from "primereact/inputtext"
 import { Password } from "primereact/password"
 import { Button } from "primereact/button"
 import { PrimeIcons } from "primereact/api"
-import { SignUpCompanyModel } from "../../core/dtos/signup/SignUpCompanyModel"
+import { SignUpModel } from "../../core/dtos/auth/SignUpModel"
 
 const SignUpCompany: React.FC = () => {
   const [error, setError] = useState<string | null>(null)
   const { signup, loading } = useAuth()
 
-  const { form, renderError, isValid } = useForm<SignUpCompanyModel>(
+  const { form, renderError, isValid } = useForm<SignUpModel>(
     {
       name: "",
       email: "",
       password: "",
       phoneNumber: "",
       registration: "",
-      role: UserRole.Company,
+      role: UserType.Company,
     },
-    signupCompanyValidator,
+    signUpValidator,
     handleSignUp
   )
 
-  function handleFirebaseErrors(e: FirebaseError): void {
-    if (e.code === "auth/email-already-in-use") {
-      setError(null)
-      form.setFieldError("email", "E-mail não disponível")
-    } else {
-      console.log(e.code)
-    }
-  }
-
-  async function handleSignUp(values: SignUpCompanyModel) {
+  async function handleSignUp(values: SignUpModel) {
     setError(null)
     try {
       await signup({ ...values })
     } catch (e) {
-      if (e instanceof FirebaseError) {
-        return handleFirebaseErrors(e)
-      }
       console.log(e)
     }
   }

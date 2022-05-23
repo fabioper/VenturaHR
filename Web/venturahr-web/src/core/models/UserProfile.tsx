@@ -1,26 +1,27 @@
+import { UserType } from "../enums/UserType"
+
 export class UserProfile {
   id: string
   name: string
   email: string
-  jwt: string
-  photoUrl?: string
-  roles: string[]
+  phoneNumber: string
+  registration: string
+  userType: UserType
 
   constructor(props: Partial<UserProfile>) {
     Object.assign(this, props)
   }
 
-  public hasRole(...roles: string[]) {
-    const hasAnyRole = !!roles && roles.length > 0
-    return hasAnyRole && roles.every(role => this.roles.includes(role))
+  public hasRole(...roles: UserType[]) {
+    return roles.includes(this.userType)
   }
 
   get redirectPage() {
-    if (this.hasRole("applicant")) {
+    if (this.hasRole(UserType.Applicant)) {
       return "/applicant/dashboard"
     }
 
-    if (this.hasRole("company")) {
+    if (this.hasRole(UserType.Company)) {
       return "/company/dashboard"
     }
 

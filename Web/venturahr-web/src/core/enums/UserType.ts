@@ -1,4 +1,5 @@
-export enum UserRole {
-  Applicant = "applicant",
-  Company = "company",
+export enum UserType {
+  Applicant,
+  Company,
+  Admin,
 }

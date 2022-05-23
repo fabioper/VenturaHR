@@ -62,7 +62,7 @@ const Header: React.FC = () => {
                 </Link>
               </li>
             )}
-            {router.pathname !== "/signup" && (
+            {router.pathname !== "/auth" && (
               <li>
                 <Link href="/signup" passHref>
                   <Button
@@ -81,8 +81,7 @@ const Header: React.FC = () => {
             onClick={menu.current?.toggle}
           >
             <Avatar
-              image={user?.photoUrl}
-              label={!user?.photoUrl ? user?.name?.[0] : undefined}
+              label={user?.name?.[0]}
               shape="circle"
               size="normal"
               imageAlt={`Imagem do usuário ${user?.name}`}

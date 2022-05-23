@@ -1,23 +1,23 @@
 import React from "react"
 import { useAuth } from "../contexts/AuthContext"
 import { useGuardAgainst } from "../hooks/useGuardAgainst"
+import { UserType } from "../../core/enums/UserType"
 
 interface ProtectedPageProps {
-  onlyRoles?: string[]
+  role?: UserType
   children: React.ReactNode
   loader?: JSX.Element
 }
 
 const ProtectedPage: React.FC<ProtectedPageProps> = ({
-  onlyRoles = [],
+  role,
   loader,
   children,
 }) => {
-  if (onlyRoles.length > 0) {
-    useGuardAgainst(
-      async ({ isLogged, user }) =>
-        isLogged && !(await user?.hasRole(...onlyRoles))
-    )
+  if (role) {
+    useGuardAgainst(async ({ isLogged, user }) => {
+      return isLogged && !(await user?.hasRole(role))
+    })
   }
 
   const { loading } = useAuth()

@@ -9,11 +9,9 @@ import { PrimeIcons } from "primereact/api"
 import Head from "next/head"
 import Link from "next/link"
 import useForm from "../shared/hooks/useForm"
-import { LoginModel } from "../core/dtos/login/LoginModel"
+import { LoginModel } from "../core/dtos/signup/LoginModel"
 import { loginValidator } from "../core/validations/login.validator"
 import { Message } from "primereact/message"
-import SocialProviders from "../shared/components/SocialProviders"
-import SectionDivider from "../shared/components/SectionDivider"
 
 const Login: NextPage = () => {
   useGuardAgainst(async ({ isLogged }) => isLogged)
@@ -107,13 +105,6 @@ const Login: NextPage = () => {
               />
             </div>
           </form>
-
-          <SectionDivider>ou</SectionDivider>
-
-          <SocialProviders
-            onUserCancelError={() => setError("Não autorizado")}
-            onError={() => setError("Ocorreu um erro")}
-          />
 
           <div className="flex flex-col items-center">
             <Link href="/signup">

@@ -3,48 +3,35 @@ import { InputText } from "primereact/inputtext"
 import { Password } from "primereact/password"
 import { Button } from "primereact/button"
 import { PrimeIcons } from "primereact/api"
-import SectionDivider from "./SectionDivider"
-import SocialProviders from "./SocialProviders"
 import { useAuth } from "../contexts/AuthContext"
 import useForm from "../hooks/useForm"
-import { UserRole } from "../../core/enums/UserRole"
-import { signupApplicantValidator } from "../../core/validations/signup.validator"
-import { FirebaseError } from "@firebase/util"
+import { UserType } from "../../core/enums/UserType"
+import { signUpValidator } from "../../core/validations/signup.validator"
 import { Message } from "primereact/message"
-import { SignUpApplicantModel } from "../../core/dtos/signup/SignUpApplicantModel"
+import { SignUpModel } from "../../core/dtos/auth/SignUpModel"
 
 const SignUpApplicant: React.FC = () => {
   const [error, setError] = useState<string | null>(null)
   const { signup, loading } = useAuth()
 
-  const { form, renderError, isValid } = useForm<SignUpApplicantModel>(
+  const { form, renderError, isValid } = useForm<SignUpModel>(
     {
       name: "",
       email: "",
       password: "",
-      role: UserRole.Applicant,
+      role: UserType.Applicant,
+      phoneNumber: "",
+      registration: "",
     },
-    signupApplicantValidator,
+    signUpValidator,
     handleSignUp
   )
 
-  function handleFirebaseErrors(e: FirebaseError): void {
-    if (e.code === "auth/email-already-in-use") {
-      setError(null)
-      form.setFieldError("email", "E-mail não disponível")
-    } else {
-      console.log(e.code)
-    }
-  }
-
-  async function handleSignUp(values: SignUpApplicantModel) {
+  async function handleSignUp(values: SignUpModel) {
     setError(null)
     try {
       await signup({ ...values })
     } catch (e) {
-      if (e instanceof FirebaseError) {
-        return handleFirebaseErrors(e)
-      }
       console.log(e)
     }
   }
@@ -71,6 +58,38 @@ const SignUpApplicant: React.FC = () => {
             className={`w-full ${!isValid("name") ? "p-invalid" : ""}`}
           />
           {renderError("name")}
+        </div>
+
+        <div>
+          <label className="block mb-1.5" htmlFor="registration">
+            CNPJ:
+          </label>
+          <InputText
+            autoFocus
+            id="registration"
+            placeholder="John Doe"
+            value={form.values.registration}
+            onChange={form.handleChange}
+            onBlur={form.handleBlur}
+            className={`w-full ${!isValid("registration") ? "p-invalid" : ""}`}
+          />
+          {renderError("registration")}
+        </div>
+
+        <div>
+          <label className="block mb-1.5" htmlFor="phoneNumber">
+            Telefone:
+          </label>
+          <InputText
+            autoFocus
+            id="phoneNumber"
+            placeholder="John Doe"
+            value={form.values.phoneNumber}
+            onChange={form.handleChange}
+            onBlur={form.handleBlur}
+            className={`w-full ${!isValid("phoneNumber") ? "p-invalid" : ""}`}
+          />
+          {renderError("phoneNumber")}
         </div>
 
         <div>
@@ -118,13 +137,6 @@ const SignUpApplicant: React.FC = () => {
           />
         </div>
       </form>
-
-      <SectionDivider>ou</SectionDivider>
-
-      <SocialProviders
-        onUserCancelError={() => setError("Não autorizado")}
-        onError={() => setError("Ocorreu um erro")}
-      />
     </>
   )
 }

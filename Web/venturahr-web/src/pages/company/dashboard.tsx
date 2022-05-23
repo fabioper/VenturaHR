@@ -8,7 +8,7 @@ import { Skeleton } from "primereact/skeleton"
 import { useMemo, useState } from "react"
 import { useRouter } from "next/router"
 import Head from "next/head"
-import { UserRole } from "../../core/enums/UserRole"
+import { UserType } from "../../core/enums/UserType"
 import PublishJobDialog from "../../shared/components/PublishJobDialog"
 
 const dashboard: NextPage = () => {
@@ -34,7 +34,7 @@ const dashboard: NextPage = () => {
   )
 
   return (
-    <ProtectedPage onlyRoles={[UserRole.Company]} loader={contentSkeleton}>
+    <ProtectedPage role={[UserType.Company]} loader={contentSkeleton}>
       <Head>
         <title>{user?.name} | VenturaHR</title>
       </Head>

@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
-import { UserRole } from "../../enums/UserRole"
+import { UserType } from "../../enums/UserType"
 
 export interface SignUpModel {
   email: string
   password: string
-  role: UserRole
+  role: UserType
   name: string
+  registration: string
+  phoneNumber: string
 }
