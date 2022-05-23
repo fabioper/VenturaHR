@@ -1,6 +1,6 @@
 using JobPostings.Api.Constants;
 using JobPostings.Api.DTOs.Requests;
-using JobPostings.Api.Extensions;
+using JobPostings.Api.Extensions.Principal;
 using JobPostings.Application.DTOs.Requests;
 using JobPostings.Application.Services.Contracts;
 using Microsoft.AspNetCore.Authorization;

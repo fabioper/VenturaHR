@@ -1,24 +1,14 @@
 using System.Reflection;
 using FluentValidation.AspNetCore;
-using JobPostings.Api.Extensions;
+using JobPostings.Api.Extensions.DI;
 using JobPostings.Application.Consumers;
-using JobPostings.Application.Services.Concretes;
-using JobPostings.Application.Services.Contracts;
-using JobPostings.Domain.CompanyAggregate;
-using JobPostings.Domain.JobPostingAggregate;
-using JobPostings.Infra.Data;
-using JobPostings.Infra.Repositories;
 using MassTransit;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
-builder.Services.AddScoped<IJobPostingRepository, JobPostingRepository>();
-builder.Services.AddScoped<IJobPostingsService, JobPostingsService>();
-
-var dbConnection = builder.Configuration.GetConnectionString("Database");
-builder.Services.AddDbContext<ModelContext>(cfg => cfg.UseNpgsql(dbConnection));
+builder.Services.AddRepositories();
+builder.Services.AddServices();
+builder.Services.AddDbContext(builder.Configuration);
 
 var rabbitMqConnection = builder.Configuration.GetConnectionString("RabbitMq");
 builder.Services.AddMassTransit(x =>
@@ -31,29 +21,16 @@ builder.Services.AddMassTransit(x =>
     });
 });
 
-builder.Services
-       .AddControllers()
-       .AddFluentValidation(opts =>
-           opts.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
+builder.Services.AddControllers()
+       .AddFluentValidation(opts => opts.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
 
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwagger();
 
-builder.Services.AddSwaggerConfiguration();
+builder.Services.ConfigureAuthentication(builder.Configuration);
+builder.Services.ConfigureAuthorizationPolicies();
 
-builder.Services.AddJwtAuthentication(builder.Configuration);
-builder.Services.AddAuthorizationPolicies();
-
-const string corsConfig = "_corsConfig";
-
-builder.Services.AddCors(config =>
-{
-    config.AddPolicy(corsConfig, policyBuilder =>
-    {
-        policyBuilder.AllowAnyOrigin()
-                     .AllowAnyHeader()
-                     .AllowAnyMethod();
-    });
-});
+builder.Services.AddCorsPolicy(out var policy);
 
 var app = builder.Build();
 
@@ -62,7 +39,7 @@ app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
-app.UseCors(corsConfig);
+app.UseCors(policy);
 app.UseAuthentication();
 app.UseAuthorization();
 
