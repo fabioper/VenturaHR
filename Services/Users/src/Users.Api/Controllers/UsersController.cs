@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Users.Api.Common.Extensions;
 using Users.Api.DTOs.Requests;
 using Users.Api.Services.Contracts;
 
@@ -32,5 +34,13 @@ public class UsersController : ControllerBase
     {
         var tokenResponse = await _userService.RefreshToken(request);
         return Ok(tokenResponse);
+    }
+
+    [HttpGet("profile")]
+    [Authorize]
+    public async Task<IActionResult> GetCurrentUser()
+    {
+        var currentUser = await _userService.GetUserProfile(User.GetId());
+        return Ok(currentUser);
     }
 }

@@ -1,3 +1,6 @@
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using AutoMapper;
 using Common.Events;
 using Common.Exceptions;
 using MassTransit;
@@ -19,21 +22,26 @@ public class UserService : IUserService
     private readonly IUserRepository _repository;
     private readonly ITokenService _tokenService;
     private readonly IPublishEndpoint _publishEndpoint;
+    private readonly IRedisClient _redis;
+    private readonly IMapper _mapper;
 
     public UserService(
         IUserRepository repository,
         ITokenService tokenService,
-        IPublishEndpoint publishEndpoint)
+        IPublishEndpoint publishEndpoint,
+        IMapper mapper,
+        IRedisClient redis)
     {
         _repository = repository;
         _tokenService = tokenService;
         _publishEndpoint = publishEndpoint;
+        _mapper = mapper;
+        _redis = redis;
     }
 
     public async Task CreateUser(CreateUserRequest request)
     {
         var newCompany = new User(
-            new UserId(request.ExternalId),
             request.Name,
             request.Email,
             request.Password.ToHash(),
@@ -51,9 +59,9 @@ public class UserService : IUserService
         object userCreatedEvent = request.UserType switch
         {
             UserType.Company => new CompanyCreatedEvent(
-                newCompany.Name, newCompany.Email, newCompany.Id.Value),
+                newCompany.Name, newCompany.Email, newCompany.Id.ToString()),
             UserType.Applicant => new ApplicantCreatedEvent(
-                newCompany.Name, newCompany.Email, newCompany.Id.Value),
+                newCompany.Name, newCompany.Email, newCompany.Id.ToString()),
             _ => throw new UnrecognizedUserType(request.UserType.ToString()),
         };
 
@@ -96,5 +104,22 @@ public class UserService : IUserService
             AccessToken = accessToken,
             RefreshToken = refreshToken,
         };
+    }
+
+    public async Task<UserProfileResponse> GetUserProfile(string anId)
+    {
+        var cachedUser = await _redis.GetAs<UserProfileResponse>(anId);
+        if (cachedUser != null)
+            return cachedUser;
+
+        var user = await _repository.FindById(new UserId(anId));
+
+        if (user is null)
+            throw new EntityNotFoundException(nameof(user));
+
+        var profile = _mapper.Map<UserProfileResponse>(user);
+        await _redis.Set(anId, profile);
+
+        return profile;
     }
 }

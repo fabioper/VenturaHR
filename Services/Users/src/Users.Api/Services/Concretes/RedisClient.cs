@@ -1,3 +1,4 @@
+using System.Text.Json;
 using StackExchange.Redis;
 using Users.Api.Services.Contracts;
 
@@ -16,8 +17,17 @@ public class RedisClient : IRedisClient
     public async Task<string?> Get(string key)
     {
         var value = await _redis.StringGetAsync(key);
-        if (value.HasValue)
-            return value.ToString();
-        return null;
+        return value.HasValue ? value.ToString() : null;
     }
+
+    public async Task<T?> GetAs<T>(string anId)
+    {
+        var value = await _redis.StringGetAsync(anId);
+        return value.HasValue
+            ? JsonSerializer.Deserialize<T>(value.ToString())
+            : default;
+    }
+
+    public async Task Set(string key, object value)
+        => await _redis.StringSetAsync(key, JsonSerializer.Serialize(value), TimeSpan.FromHours(2));
 }

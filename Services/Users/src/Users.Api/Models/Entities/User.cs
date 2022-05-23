@@ -17,7 +17,6 @@ public class User : BaseEntity<UserId>, IAggregateRoot
     public UserType UserType { get; private set; }
 
     public User(
-        UserId id,
         string name,
         string email,
         string password,
@@ -29,7 +28,7 @@ public class User : BaseEntity<UserId>, IAggregateRoot
         Guard.Against.NullOrEmpty(email, nameof(email));
         Guard.Against.NullOrEmpty(password, nameof(password));
 
-        Id = id;
+        Id = new UserId();
         Name = name;
         Email = email;
         Password = password;

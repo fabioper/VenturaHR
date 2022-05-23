@@ -6,7 +6,6 @@ namespace Users.Api.DTOs.Requests;
 
 public record CreateUserRequest
 {
-    public string ExternalId { get; set; }
     public string Name { get; set; }
     public string Email { get; set; }
     public string Registration { get; set; }

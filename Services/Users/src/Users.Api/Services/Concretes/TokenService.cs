@@ -30,13 +30,16 @@ public class TokenService : ITokenService
         {
             Subject = new ClaimsIdentity(new[]
             {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.Name),
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Role, Enum.GetName(typeof(UserType), user.UserType) ?? string.Empty),
             }),
             Issuer = _tokenSettings.Issuer,
             Audience = _tokenSettings.Audience,
-            Expires = DateTime.UtcNow.AddMinutes(_tokenSettings.ExpirationInMinutes),
+            IssuedAt = DateTime.Now,
+            NotBefore = DateTime.Now,
+            Expires = DateTime.UtcNow.AddMinutes(1),
             SigningCredentials = new(new SymmetricSecurityKey(key), HmacSha256Signature),
         };
 
@@ -53,7 +56,7 @@ public class TokenService : ITokenService
     }
 
     public async Task SaveRefreshToken(User user, string refreshToken)
-        => await _redis.Set(refreshToken, user.Id.Value);
+        => await _redis.Set(refreshToken, user.Id.ToString());
 
     public async Task<string?> GetUserIdFromRefreshToken(string token)
         => await _redis.Get(token);
