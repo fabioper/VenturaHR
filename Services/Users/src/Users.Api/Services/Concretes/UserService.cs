@@ -73,15 +73,7 @@ public class UserService : IUserService
         if (user is null || !request.Password.IsEqualToHash(user.Password))
             throw new InvalidCredentialException();
 
-        var accessToken = _tokenService.GenerateToken(user);
-        var refreshToken = _tokenService.GenerateRefreshToken();
-        await _tokenService.SaveRefreshToken(user, refreshToken);
-        
-        return new TokenResponse
-        {
-            AccessToken = accessToken,
-            RefreshToken = refreshToken,
-        };
+        return await _tokenService.GenerateToken(user);
     }
 
     public async Task<TokenResponse> RefreshToken(RefreshTokenRequest request)
@@ -94,30 +86,30 @@ public class UserService : IUserService
         if (user is null)
             throw new EntityNotFoundException(nameof(user));
 
-        var accessToken = _tokenService.GenerateToken(user);
-        var refreshToken = _tokenService.GenerateRefreshToken();
-
-        return new TokenResponse
-        {
-            AccessToken = accessToken,
-            RefreshToken = refreshToken,
-        };
+        return await _tokenService.GenerateToken(user);
     }
 
-    public async Task<UserProfileResponse> GetUserProfile(string anId)
+    public async Task<UserProfileResponse> GetUserProfile(string userId)
     {
-        var cachedUser = await _cache.GetAs<UserProfileResponse>(anId);
+        var cachedUser = await _cache.GetAs<UserProfileResponse>(userId);
         if (cachedUser != null)
             return cachedUser;
 
+        var user = await GetUserOfId(userId);
+
+        var profile = _mapper.Map<UserProfileResponse>(user);
+        await _cache.Set(userId, profile);
+
+        return profile;
+    }
+
+    private async Task<User?> GetUserOfId(string anId)
+    {
         var user = await _repository.FindById(new UserId(anId));
 
         if (user is null)
             throw new EntityNotFoundException(nameof(user));
 
-        var profile = _mapper.Map<UserProfileResponse>(user);
-        await _cache.Set(anId, profile);
-
-        return profile;
+        return user;
     }
 }

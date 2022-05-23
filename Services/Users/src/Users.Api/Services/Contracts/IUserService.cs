@@ -9,5 +9,5 @@ public interface IUserService
     Task CreateUser(CreateUserRequest request);
     Task<TokenResponse> Authenticate(LoginRequest request);
     Task<TokenResponse> RefreshToken(RefreshTokenRequest request);
-    Task<UserProfileResponse> GetUserProfile(string anId);
+    Task<UserProfileResponse> GetUserProfile(string userId);
 }

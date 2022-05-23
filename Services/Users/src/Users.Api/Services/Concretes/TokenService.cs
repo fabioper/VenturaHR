@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Users.Api.Common.Options;
+using Users.Api.DTOs.Responses;
 using Users.Api.Models.Entities;
 using Users.Api.Models.Enums;
 using Users.Api.Services.Contracts;
@@ -22,7 +23,20 @@ public class TokenService : ITokenService
         _tokenSettings = tokenSettings;
     }
 
-    public string GenerateToken(User user)
+    public async Task<TokenResponse> GenerateToken(User user)
+    {
+        var accessToken = GenerateAccessToken(user);
+        var refreshToken = GenerateRefreshToken();
+        await SaveRefreshToken(user, refreshToken);
+
+        return new TokenResponse
+        {
+            AccessToken = accessToken,
+            RefreshToken = refreshToken,
+        };
+    }
+
+    private string GenerateAccessToken(User user)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(_tokenSettings.Secret);
@@ -44,10 +58,11 @@ public class TokenService : ITokenService
         };
 
         var token = tokenHandler.CreateToken(tokenDescriptor);
-        return tokenHandler.WriteToken(token);
+        var accessToken = tokenHandler.WriteToken(token);
+        return accessToken;
     }
 
-    public string GenerateRefreshToken()
+    private static string GenerateRefreshToken()
     {
         var randomNumber = new byte[32];
         using var rng = RandomNumberGenerator.Create();
@@ -55,7 +70,7 @@ public class TokenService : ITokenService
         return Convert.ToBase64String(randomNumber);
     }
 
-    public async Task SaveRefreshToken(User user, string refreshToken)
+    private async Task SaveRefreshToken(User user, string refreshToken)
         => await _redis.Set(refreshToken, user.Id.ToString());
 
     public async Task<string?> GetUserIdFromRefreshToken(string token)
