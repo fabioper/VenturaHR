@@ -2,7 +2,8 @@ using System.Reflection;
 using FluentValidation.AspNetCore;
 using Users.Api.Common.ErrorHandler;
 using Users.Api.Common.Extensions;
-using Users.Api.Common.Options;
+using Users.Application.MappingProfiles;
+using Users.CrossCutting.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,7 +24,7 @@ builder.Services.ConfigureSwagger();
 builder.Services.ConfigureRedis(builder.Configuration);
 builder.Services.ConfigureDbContext(builder.Configuration);
 builder.Services.ConfigureMassTransit(builder.Configuration);
-builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+builder.Services.AddAutoMapper(x => x.AddProfile<UserProfile>());
 
 builder.Services.AddRepositories();
 builder.Services.AddServices();

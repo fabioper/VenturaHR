@@ -1,5 +1,5 @@
 using FluentValidation;
-using Users.Api.DTOs.Requests;
+using Users.Application.DTOs.Requests;
 
 namespace Users.Api.Validations;
 

@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Users.Api.Common.Extensions;
-using Users.Api.DTOs.Requests;
-using Users.Api.Services.Contracts;
+using Users.Application.DTOs.Requests;
+using Users.Application.Services.Contracts;
 
 namespace Users.Api.Controllers;
 
