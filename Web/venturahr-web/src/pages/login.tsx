@@ -9,9 +9,9 @@ import { PrimeIcons } from "primereact/api"
 import Head from "next/head"
 import Link from "next/link"
 import useForm from "../shared/hooks/useForm"
-import { LoginModel } from "../core/dtos/signup/LoginModel"
 import { loginValidator } from "../core/validations/login.validator"
 import { Message } from "primereact/message"
+import { LoginModel } from "../core/dtos/auth/LoginModel"
 
 const Login: NextPage = () => {
   useGuardAgainst(async ({ isLogged }) => isLogged)
