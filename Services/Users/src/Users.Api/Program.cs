@@ -2,8 +2,8 @@ using System.Reflection;
 using FluentValidation.AspNetCore;
 using Users.Api.Common.ErrorHandler;
 using Users.Api.Common.Extensions;
-using Users.Application.MappingProfiles;
-using Users.CrossCutting.Options;
+using Users.Application.Mappings;
+using Users.Application.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 

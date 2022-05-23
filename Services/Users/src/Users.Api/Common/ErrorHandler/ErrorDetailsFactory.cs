@@ -1,6 +1,6 @@
 using System.Net;
 using Common.Exceptions;
-using Users.Api.Common.Exceptions;
+using Users.Application.Exceptions;
 
 namespace Users.Api.Common.ErrorHandler;
 

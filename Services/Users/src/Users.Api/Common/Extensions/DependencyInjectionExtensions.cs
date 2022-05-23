@@ -5,14 +5,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using StackExchange.Redis;
+using Users.Application.Contracts.Infrastructure;
+using Users.Application.Options;
 using Users.Application.Services.Concretes;
 using Users.Application.Services.Contracts;
-using Users.CrossCutting.Options;
 using Users.Domain.Repositories;
-using Users.Infra.Data;
-using Users.Infra.Interfaces;
+using Users.Infra.Caching;
+using Users.Infra.Persistence;
 using Users.Infra.Repositories;
-using Users.Infra.Services;
 
 namespace Users.Api.Common.Extensions;
 

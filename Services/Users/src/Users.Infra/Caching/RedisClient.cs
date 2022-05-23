@@ -1,8 +1,8 @@
 using System.Text.Json;
 using StackExchange.Redis;
-using Users.Infra.Interfaces;
+using Users.Application.Contracts.Infrastructure;
 
-namespace Users.Infra.Services;
+namespace Users.Infra.Caching;
 
 public class RedisClient : ICacheService
 {

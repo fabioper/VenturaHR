@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Users.Domain.Models.Entities;
 using Users.Domain.Models.ValueObjects;
 
-namespace Users.Infra.Data.Configurations;
+namespace Users.Infra.Persistence.Configurations;
 
 public class UserConfiguration : IEntityTypeConfiguration<User>
 {

@@ -4,7 +4,7 @@ using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Users.Domain.Models.Entities;
 
-namespace Users.Infra.Data;
+namespace Users.Infra.Persistence;
 
 public class UsersContext : DbContext
 {

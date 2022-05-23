@@ -1,4 +1,4 @@
-namespace Users.CrossCutting.Options;
+namespace Users.Application.Options;
 
 #nullable disable
 

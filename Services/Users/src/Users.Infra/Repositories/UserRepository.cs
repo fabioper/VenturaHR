@@ -4,6 +4,7 @@ using Users.Domain.Models.Entities;
 using Users.Domain.Models.ValueObjects;
 using Users.Domain.Repositories;
 using Users.Infra.Data;
+using Users.Infra.Persistence;
 
 namespace Users.Infra.Repositories;
 

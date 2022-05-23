@@ -1,4 +1,4 @@
-namespace Users.Api.Common.Exceptions;
+namespace Users.Application.Exceptions;
 
 public class InvalidCredentialException : Exception
 {

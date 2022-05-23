@@ -1,4 +1,4 @@
-namespace Users.CrossCutting.Extensions;
+namespace Users.Application.Extensions;
 
 public static class StringExtensions
 {

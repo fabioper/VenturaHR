@@ -3,12 +3,12 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using Users.Application.Contracts.Infrastructure;
 using Users.Application.DTOs.Responses;
+using Users.Application.Options;
 using Users.Application.Services.Contracts;
-using Users.CrossCutting.Options;
 using Users.Domain.Models.Entities;
 using Users.Domain.Models.Enums;
-using Users.Infra.Interfaces;
 
 namespace Users.Application.Services.Concretes;
 

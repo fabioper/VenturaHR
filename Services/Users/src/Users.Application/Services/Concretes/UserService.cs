@@ -2,16 +2,16 @@ using AutoMapper;
 using Common.Events;
 using Common.Exceptions;
 using MassTransit;
-using Users.Api.Common.Exceptions;
+using Users.Application.Contracts.Infrastructure;
 using Users.Application.DTOs.Requests;
 using Users.Application.DTOs.Responses;
+using Users.Application.Exceptions;
+using Users.Application.Extensions;
 using Users.Application.Services.Contracts;
-using Users.CrossCutting.Extensions;
 using Users.Domain.Models.Entities;
 using Users.Domain.Models.Enums;
 using Users.Domain.Models.ValueObjects;
 using Users.Domain.Repositories;
-using Users.Infra.Interfaces;
 
 namespace Users.Application.Services.Concretes;
 
