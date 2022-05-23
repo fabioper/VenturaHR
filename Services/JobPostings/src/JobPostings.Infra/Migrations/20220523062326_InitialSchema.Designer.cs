@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace JobPostings.Infra.Migrations
 {
     [DbContext(typeof(ModelContext))]
-    [Migration("20220515215803_RemoveCompaniesTable")]
-    partial class RemoveCompaniesTable
+    [Migration("20220523062326_InitialSchema")]
+    partial class InitialSchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,43 +24,44 @@ namespace JobPostings.Infra.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("JobPostings.Domain.CompanyAggregate.Company", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Companies", (string)null);
+                });
+
             modelBuilder.Entity("JobPostings.Domain.JobPostingAggregate.JobPosting", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<Guid?>("_companyId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("_companyId");
 
                     b.ToTable("JobPostings", (string)null);
                 });
 
             modelBuilder.Entity("JobPostings.Domain.JobPostingAggregate.JobPosting", b =>
                 {
-                    b.OwnsOne("JobPostings.Domain.JobPostingAggregate.CompanyId", "CompanyId", b1 =>
-                        {
-                            b1.Property<Guid>("JobPostingId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<Guid>("Id")
-                                .HasColumnType("uuid")
-                                .HasColumnName("CompanyId");
-
-                            b1.HasKey("JobPostingId");
-
-                            b1.ToTable("JobPostings");
-
-                            b1.WithOwner()
-                                .HasForeignKey("JobPostingId");
-                        });
+                    b.HasOne("JobPostings.Domain.CompanyAggregate.Company", "Company")
+                        .WithMany()
+                        .HasForeignKey("_companyId");
 
                     b.OwnsOne("JobPostings.Domain.JobPostingAggregate.ExpirationDate", "ExpireAt", b1 =>
                         {
@@ -96,6 +97,24 @@ namespace JobPostings.Infra.Migrations
                                 .HasForeignKey("JobPostingId");
                         });
 
+                    b.OwnsOne("JobPostings.Domain.JobPostingAggregate.Role", "Role", b1 =>
+                        {
+                            b1.Property<Guid>("JobPostingId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("Title")
+                                .IsRequired()
+                                .HasColumnType("text")
+                                .HasColumnName("Role");
+
+                            b1.HasKey("JobPostingId");
+
+                            b1.ToTable("JobPostings");
+
+                            b1.WithOwner()
+                                .HasForeignKey("JobPostingId");
+                        });
+
                     b.OwnsOne("JobPostings.Domain.JobPostingAggregate.Salary", "Salary", b1 =>
                         {
                             b1.Property<Guid>("JobPostingId")
@@ -113,11 +132,13 @@ namespace JobPostings.Infra.Migrations
                                 .HasForeignKey("JobPostingId");
                         });
 
-                    b.Navigation("CompanyId");
+                    b.Navigation("Company");
 
                     b.Navigation("ExpireAt");
 
                     b.Navigation("Location");
+
+                    b.Navigation("Role");
 
                     b.Navigation("Salary");
                 });

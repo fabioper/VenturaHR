@@ -26,12 +26,12 @@ namespace JobPostings.Infra.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Role = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
+                    Role = table.Column<string>(type: "text", nullable: true),
                     Compensation = table.Column<decimal>(type: "numeric", nullable: true),
                     ExpireAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     Location = table.Column<string>(type: "text", nullable: true),
-                    _companyId = table.Column<Guid>(type: "uuid", nullable: false)
+                    _companyId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -40,8 +40,7 @@ namespace JobPostings.Infra.Migrations
                         name: "FK_JobPostings_Companies__companyId",
                         column: x => x._companyId,
                         principalTable: "Companies",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(

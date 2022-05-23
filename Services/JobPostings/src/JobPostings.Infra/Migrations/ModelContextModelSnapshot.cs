@@ -24,8 +24,8 @@ namespace JobPostings.Infra.Migrations
 
             modelBuilder.Entity("JobPostings.Domain.CompanyAggregate.Company", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -45,8 +45,8 @@ namespace JobPostings.Infra.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("_companyId")
-                        .HasColumnType("text");
+                    b.Property<Guid?>("_companyId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
