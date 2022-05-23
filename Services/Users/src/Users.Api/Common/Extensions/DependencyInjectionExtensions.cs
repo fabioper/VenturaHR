@@ -8,9 +8,9 @@ using StackExchange.Redis;
 using Users.Application.Services.Concretes;
 using Users.Application.Services.Contracts;
 using Users.CrossCutting.Options;
-using Users.CrossCutting.Services;
 using Users.Domain.Repositories;
 using Users.Infra.Data;
+using Users.Infra.Interfaces;
 using Users.Infra.Repositories;
 using Users.Infra.Services;
 

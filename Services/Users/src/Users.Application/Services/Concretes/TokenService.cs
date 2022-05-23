@@ -6,9 +6,9 @@ using Microsoft.IdentityModel.Tokens;
 using Users.Application.DTOs.Responses;
 using Users.Application.Services.Contracts;
 using Users.CrossCutting.Options;
-using Users.CrossCutting.Services;
 using Users.Domain.Models.Entities;
 using Users.Domain.Models.Enums;
+using Users.Infra.Interfaces;
 
 namespace Users.Application.Services.Concretes;
 

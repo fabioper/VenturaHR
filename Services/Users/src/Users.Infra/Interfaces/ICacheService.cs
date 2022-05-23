@@ -1,4 +1,4 @@
-namespace Users.CrossCutting.Services;
+namespace Users.Infra.Interfaces;
 
 public interface ICacheService
 {

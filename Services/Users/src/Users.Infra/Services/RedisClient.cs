@@ -1,6 +1,6 @@
 using System.Text.Json;
 using StackExchange.Redis;
-using Users.CrossCutting.Services;
+using Users.Infra.Interfaces;
 
 namespace Users.Infra.Services;
 
