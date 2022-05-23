@@ -4,7 +4,7 @@ using Users.Api.Services.Contracts;
 
 namespace Users.Api.Services.Concretes;
 
-public class RedisClient : IRedisClient
+public class RedisClient : ICacheService
 {
     private readonly IDatabase _redis;
 

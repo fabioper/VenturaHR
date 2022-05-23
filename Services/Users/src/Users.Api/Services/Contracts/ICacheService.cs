@@ -2,7 +2,7 @@ using Users.Api.DTOs.Responses;
 
 namespace Users.Api.Services.Contracts;
 
-public interface IRedisClient
+public interface ICacheService
 {
     Task Set(string key, string value);
     Task<string?> Get(string key);

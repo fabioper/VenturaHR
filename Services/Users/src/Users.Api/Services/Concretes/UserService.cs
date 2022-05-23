@@ -1,5 +1,3 @@
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using AutoMapper;
 using Common.Events;
 using Common.Exceptions;
@@ -22,7 +20,7 @@ public class UserService : IUserService
     private readonly IUserRepository _repository;
     private readonly ITokenService _tokenService;
     private readonly IPublishEndpoint _publishEndpoint;
-    private readonly IRedisClient _redis;
+    private readonly ICacheService _cache;
     private readonly IMapper _mapper;
 
     public UserService(
@@ -30,13 +28,13 @@ public class UserService : IUserService
         ITokenService tokenService,
         IPublishEndpoint publishEndpoint,
         IMapper mapper,
-        IRedisClient redis)
+        ICacheService cache)
     {
         _repository = repository;
         _tokenService = tokenService;
         _publishEndpoint = publishEndpoint;
         _mapper = mapper;
-        _redis = redis;
+        _cache = cache;
     }
 
     public async Task CreateUser(CreateUserRequest request)
@@ -108,7 +106,7 @@ public class UserService : IUserService
 
     public async Task<UserProfileResponse> GetUserProfile(string anId)
     {
-        var cachedUser = await _redis.GetAs<UserProfileResponse>(anId);
+        var cachedUser = await _cache.GetAs<UserProfileResponse>(anId);
         if (cachedUser != null)
             return cachedUser;
 
@@ -118,7 +116,7 @@ public class UserService : IUserService
             throw new EntityNotFoundException(nameof(user));
 
         var profile = _mapper.Map<UserProfileResponse>(user);
-        await _redis.Set(anId, profile);
+        await _cache.Set(anId, profile);
 
         return profile;
     }

@@ -100,7 +100,7 @@ builder.Services.AddMassTransit(x =>
 
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
-builder.Services.AddScoped<IRedisClient, RedisClient>();
+builder.Services.AddScoped<ICacheService, RedisClient>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IUserService, UserService>();

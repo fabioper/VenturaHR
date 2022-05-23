@@ -13,10 +13,10 @@ namespace Users.Api.Services.Concretes;
 
 public class TokenService : ITokenService
 {
-    private readonly IRedisClient _redis;
+    private readonly ICacheService _redis;
     private readonly TokenSettings _tokenSettings;
 
-    public TokenService(IRedisClient redis, TokenSettings tokenSettings)
+    public TokenService(ICacheService redis, TokenSettings tokenSettings)
     {
         _redis = redis;
         _tokenSettings = tokenSettings;
