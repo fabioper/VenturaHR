@@ -34,7 +34,7 @@ const dashboard: NextPage = () => {
   )
 
   return (
-    <ProtectedPage role={[UserType.Company]} loader={contentSkeleton}>
+    <ProtectedPage role={UserType.Company} loader={contentSkeleton}>
       <Head>
         <title>{user?.name} | VenturaHR</title>
       </Head>

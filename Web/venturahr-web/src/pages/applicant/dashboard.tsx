@@ -4,7 +4,7 @@ import { UserType } from "../../core/enums/UserType"
 
 const dashboard: NextPage = () => {
   return (
-    <ProtectedPage role={[UserType.Applicant]}>
+    <ProtectedPage role={UserType.Applicant}>
       <div className="container">Área do candidato</div>
     </ProtectedPage>
   )
