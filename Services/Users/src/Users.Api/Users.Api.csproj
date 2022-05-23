@@ -36,7 +36,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Users.Application\Users.Application.csproj" />
-      <ProjectReference Include="..\Users.CrossCutting\Users.CrossCutting.csproj" />
       <ProjectReference Include="..\Users.Infra\Users.Infra.csproj" />
     </ItemGroup>
 </Project>
