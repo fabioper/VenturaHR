@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react"
 import { useLoader } from "../hooks/useLoader"
 import * as authService from "../../core/services/AuthService"
-import { hasAccessToken, onAuthChange } from "../../core/services/AuthService"
+import { onAuthChange } from "../../core/services/AuthService"
 import { UserProfile } from "../../core/models/UserProfile"
 import { LoginModel } from "../../core/dtos/auth/LoginModel"
 import { SignUpModel } from "../../core/dtos/auth/SignUpModel"
@@ -38,9 +38,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   }, [])
 
   async function loadUser(): Promise<void> {
-    const currentUser = hasAccessToken()
-      ? await authService.getCurrentUser()
-      : undefined
+    const currentUser = await authService.getCurrentUser()
     setUser(currentUser)
   }
 

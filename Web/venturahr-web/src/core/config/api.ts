@@ -1,9 +1,6 @@
 import axios, { AxiosError, AxiosRequestConfig } from "axios"
-import {
-  getAccessToken,
-  hasAccessToken,
-  refreshToken,
-} from "../services/AuthService"
+import { refresh } from "../services/AuthService"
+import { getAccessToken, hasAccessToken } from "../services/TokenService"
 
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -21,7 +18,7 @@ const authTokenInterceptor = (config: AxiosRequestConfig) => {
 
 async function expiredTokenInterceptor(error: AxiosError) {
   if (error.response?.status === 401 && hasAccessToken()) {
-    return await refreshToken()
+    return await refresh()
   }
   return Promise.reject(error)
 }

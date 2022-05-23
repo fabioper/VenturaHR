@@ -7,9 +7,10 @@ import { Avatar } from "primereact/avatar"
 import { Menu } from "primereact/menu"
 import { MenuItem } from "primereact/menuitem"
 import { useRouter } from "next/router"
+import { Skeleton } from "primereact/skeleton"
 
 const Header: React.FC = () => {
-  const { isLogged, logout, user } = useAuth()
+  const { isLogged, logout, user, loading } = useAuth()
   const router = useRouter()
   const menu = useRef<Menu>(null)
   const header = useRef<HTMLDivElement>(null)
@@ -49,7 +50,16 @@ const Header: React.FC = () => {
           </h1>
         </Link>
 
-        {!isLogged ? (
+        {loading ? (
+          <ul className="list-none m-0 p-0 flex gap-5">
+            <li>
+              <Skeleton width="80px" height="25px" />
+            </li>
+            <li>
+              <Skeleton width="80px" height="25px" />
+            </li>
+          </ul>
+        ) : !isLogged ? (
           <ul className="list-none m-0 p-0 flex gap-2">
             {router.pathname !== "/login" && (
               <li>

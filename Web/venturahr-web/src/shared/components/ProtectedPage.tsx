@@ -16,14 +16,20 @@ const ProtectedPage: React.FC<ProtectedPageProps> = ({
 }) => {
   if (role) {
     useGuardAgainst(async ({ isLogged, user }) => {
-      return isLogged && !(await user?.hasRole(role))
+      return !isLogged || !(await user?.hasRole(role))
     })
   }
 
   const { loading } = useAuth()
 
   if (loading) {
-    return loader || <div className="loader">Carregando...</div>
+    return (
+      loader || (
+        <div className="container text-center h-1/2 w-screen flex justify-center items-center">
+          <div className="loader text-slate-700">Carregando...</div>
+        </div>
+      )
+    )
   }
 
   return <>{children}</>
