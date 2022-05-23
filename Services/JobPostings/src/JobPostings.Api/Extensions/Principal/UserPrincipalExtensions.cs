@@ -1,6 +1,6 @@
 using System.Security.Claims;
 
-namespace JobPostings.Api.Extensions;
+namespace JobPostings.Api.Extensions.Principal;
 
 public static class UserPrincipalExtensions
 {
