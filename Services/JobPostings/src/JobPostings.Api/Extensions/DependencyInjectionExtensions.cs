@@ -1,3 +1,4 @@
+using System.Text;
 using JobPostings.Api.Config;
 using JobPostings.Api.Constants;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -12,18 +13,23 @@ public static class DependencyInjectionExtensions
     {
         var jwtConfig = configuration.GetSection(nameof(JwtConfig)).Get<JwtConfig>();
 
+        var key = Encoding.ASCII.GetBytes(jwtConfig.Secret);
         services
             .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
-                options.Authority = jwtConfig.Authority;
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = false;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = true,
                     ValidIssuer = jwtConfig.Issuer,
                     ValidateAudience = true,
                     ValidAudience = jwtConfig.Audience,
                     ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero,
                 };
             });
     }

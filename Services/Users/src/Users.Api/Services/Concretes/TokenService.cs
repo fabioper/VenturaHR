@@ -53,7 +53,7 @@ public class TokenService : ITokenService
             Audience = _tokenSettings.Audience,
             IssuedAt = DateTime.Now,
             NotBefore = DateTime.Now,
-            Expires = DateTime.UtcNow.AddMinutes(1),
+            Expires = DateTime.UtcNow.AddMinutes(_tokenSettings.ExpirationInMinutes),
             SigningCredentials = new(new SymmetricSecurityKey(key), HmacSha256Signature),
         };
 
