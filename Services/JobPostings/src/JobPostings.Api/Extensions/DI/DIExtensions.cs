@@ -14,7 +14,7 @@ public static class DIExtensions
     {
         services.AddScoped<IJobPostingsService, JobPostingsService>();
     }
-    
+
     public static void AddRepositories(this IServiceCollection services)
     {
         services.AddScoped<ICompanyRepository, CompanyRepository>();
@@ -31,15 +31,12 @@ public static class DIExtensions
     {
         const string corsConfig = "_corsConfig";
 
-        services.AddCors(config =>
+        services.AddCors(config => config.AddPolicy(corsConfig, policy =>
         {
-            config.AddPolicy(corsConfig, policyBuilder =>
-            {
-                policyBuilder.AllowAnyOrigin()
-                             .AllowAnyHeader()
-                             .AllowAnyMethod();
-            });
-        });
+            policy.AllowAnyOrigin()
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        }));
 
         policyName = corsConfig;
     }
