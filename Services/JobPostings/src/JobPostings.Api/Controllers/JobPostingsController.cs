@@ -39,7 +39,7 @@ public class JobPostingsController : ControllerBase
 
     [HttpGet]
     [Authorize(Policy = Policy.CompanyOnly)]
-    public async Task<IActionResult> GetPublishedJobsBy()
+    public async Task<IActionResult> GetCompanyPublishedJobs()
     {
         var jobPostings = await _jobPostingsService.GetPublishedJobsBy(User.GetId());
         return Ok(jobPostings);
