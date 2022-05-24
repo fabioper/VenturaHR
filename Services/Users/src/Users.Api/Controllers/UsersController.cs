@@ -36,8 +36,8 @@ public class UsersController : ControllerBase
         return Ok(tokenResponse);
     }
 
-    [HttpGet("profile")]
     [Authorize]
+    [HttpGet("profile")]
     public async Task<IActionResult> GetCurrentUser()
     {
         var currentUser = await _userService.GetUserProfile(User.GetId());
