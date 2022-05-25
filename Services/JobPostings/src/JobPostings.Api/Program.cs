@@ -30,13 +30,10 @@ builder.Services.AddControllers()
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwagger();
-
 builder.Services.AddAutoMapper(typeof(JobPostingProfile));
 
-builder.Services.ConfigureAuthentication(builder.Configuration);
-builder.Services.ConfigureAuthorizationPolicies();
-
-builder.Services.AddCorsPolicy(out var policy);
+builder.Services.AddJwtAuthentication(builder.Configuration);
+builder.Services.AddPolicies();
 
 var app = builder.Build();
 
@@ -45,12 +42,16 @@ app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
-app.UseCors(policy);
+app.UseCors(policy =>
+{
+    policy.AllowAnyOrigin()
+          .AllowAnyHeader()
+          .AllowAnyMethod();
+});
+
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
 app.Run();
-
-public partial class Program { }

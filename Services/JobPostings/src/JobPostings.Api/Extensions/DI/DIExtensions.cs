@@ -1,7 +1,5 @@
 using JobPostings.Application.Services.Concretes;
 using JobPostings.Application.Services.Contracts;
-using JobPostings.Domain.Aggregates.Companies;
-using JobPostings.Domain.Aggregates.JobPostings;
 using JobPostings.Domain.Repositories;
 using JobPostings.Infra.Data;
 using JobPostings.Infra.Repositories;
@@ -26,21 +24,10 @@ public static class DIExtensions
 
     public static void AddDbContext(this IServiceCollection services, ConfigurationManager configuration)
     {
-        var dbConnection = configuration.GetConnectionString("Database");
-        services.AddDbContext<ModelContext>(cfg => cfg.UseNpgsql(dbConnection));
-    }
-
-    public static void AddCorsPolicy(this IServiceCollection services, out string policyName)
-    {
-        const string corsConfig = "_corsConfig";
-
-        services.AddCors(config => config.AddPolicy(corsConfig, policy =>
+        services.AddDbContext<ModelContext>(cfg =>
         {
-            policy.AllowAnyOrigin()
-                  .AllowAnyHeader()
-                  .AllowAnyMethod();
-        }));
-
-        policyName = corsConfig;
+            var dbConnection = configuration.GetConnectionString("Database");
+            cfg.UseNpgsql(dbConnection);
+        });
     }
 }

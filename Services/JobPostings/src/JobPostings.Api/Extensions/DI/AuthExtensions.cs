@@ -8,7 +8,7 @@ namespace JobPostings.Api.Extensions.DI;
 
 public static class AuthExtensions
 {
-    public static void ConfigureAuthentication(this IServiceCollection services, ConfigurationManager configuration)
+    public static void AddJwtAuthentication(this IServiceCollection services, ConfigurationManager configuration)
     {
         var jwtConfig = configuration.GetSection(nameof(JwtConfig)).Get<JwtConfig>();
 
@@ -33,7 +33,7 @@ public static class AuthExtensions
             });
     }
 
-    public static void ConfigureAuthorizationPolicies(this IServiceCollection services)
+    public static void AddPolicies(this IServiceCollection services)
     {
         services.AddAuthorization(options =>
         {
