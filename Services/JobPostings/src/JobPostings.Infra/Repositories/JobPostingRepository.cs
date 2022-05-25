@@ -1,5 +1,6 @@
 using JobPostings.Domain.Aggregates.Companies;
 using JobPostings.Domain.Aggregates.JobPostings;
+using JobPostings.Domain.Repositories;
 using JobPostings.Infra.Data;
 using Microsoft.EntityFrameworkCore;
 

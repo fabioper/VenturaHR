@@ -6,7 +6,7 @@ using JobPostings.Domain.Aggregates.JobPostings;
 
 namespace JobPostings.Domain.Aggregates.JobApplications;
 
-public class JobApplication : BaseEntity<JobApplicationId>
+public class JobApplication : BaseEntity<JobApplicationId>, IAggregateRoot
 {
     public JobPosting JobPosting { get; }
     public Applicant Applicant { get; }

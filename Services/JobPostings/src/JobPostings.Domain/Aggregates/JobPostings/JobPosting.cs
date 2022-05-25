@@ -10,19 +10,18 @@ public class JobPosting : BaseEntity<JobPostingId>, IAggregateRoot
 {
     public string Description { get; }
 
-    public JobTitle Title { get; }
+    public string Title { get; }
+    public string Location { get; private set; }
 
     public Salary Salary { get; }
-
-    public ExpirationDate ExpireAt { get; }
-
-    public Location Location { get; }
 
     public Company Company { get; }
 
     public DateTime CreatedAt { get; }
     
     public DateTime UpdatedAt { get; }
+    
+    public DateTime ExpireAt { get; }
 
     public JobPosting(
         string title,
@@ -34,13 +33,14 @@ public class JobPosting : BaseEntity<JobPostingId>, IAggregateRoot
     {
         Guard.Against.NullOrEmpty(title, nameof(title));
         Guard.Against.NullOrEmpty(description, nameof(description));
+        Guard.Against.NullOrEmpty(location, nameof(location));
 
         Id = new JobPostingId();
         Description = description;
-        Title = new JobTitle(title);
+        Title = title;
+        Location = location;
         Salary = new Salary(salary);
-        ExpireAt = new ExpirationDate(expiration);
-        Location = new Location(location);
+        ExpireAt = expiration;
         Company = company;
         CreatedAt = DateTime.UtcNow;
         UpdatedAt = DateTime.UtcNow;

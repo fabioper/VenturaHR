@@ -1,4 +1,5 @@
 using JobPostings.Domain.Aggregates.Companies;
+using JobPostings.Domain.Repositories;
 using JobPostings.Infra.Data;
 
 namespace JobPostings.Infra.Repositories;

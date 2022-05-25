@@ -2,6 +2,7 @@ using JobPostings.Application.Services.Concretes;
 using JobPostings.Application.Services.Contracts;
 using JobPostings.Domain.Aggregates.Companies;
 using JobPostings.Domain.Aggregates.JobPostings;
+using JobPostings.Domain.Repositories;
 using JobPostings.Infra.Data;
 using JobPostings.Infra.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +20,8 @@ public static class DIExtensions
     {
         services.AddScoped<ICompanyRepository, CompanyRepository>();
         services.AddScoped<IJobPostingRepository, JobPostingRepository>();
+        services.AddScoped<IApplicantRepository, ApplicantRepository>();
+        services.AddScoped<IJobApplicationRepository, JobApplicationRepository>();
     }
 
     public static void AddDbContext(this IServiceCollection services, ConfigurationManager configuration)
