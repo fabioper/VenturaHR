@@ -2,6 +2,7 @@ using System.Reflection;
 using FluentValidation.AspNetCore;
 using JobPostings.Api.Extensions.DI;
 using JobPostings.Application.Consumers;
+using JobPostings.Application.Mapping;
 using MassTransit;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,6 +27,8 @@ builder.Services.AddControllers()
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwagger();
+
+builder.Services.AddAutoMapper(typeof(JobPostingProfile));
 
 builder.Services.ConfigureAuthentication(builder.Configuration);
 builder.Services.ConfigureAuthorizationPolicies();

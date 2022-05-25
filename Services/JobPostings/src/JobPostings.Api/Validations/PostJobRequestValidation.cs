@@ -1,16 +1,17 @@
 using FluentValidation;
-using JobPostings.Api.DTOs.Requests;
+using JobPostings.Application.DTOs.Requests;
 
 namespace JobPostings.Api.Validations;
 
-public class PostJobValidation : AbstractValidator<PostJobRequest>
+public class PostJobRequestValidation : AbstractValidator<PostJobRequest>
 {
-    public PostJobValidation()
+    public PostJobRequestValidation()
     {
-        RuleFor(x => x.Role).NotEmpty();
+        RuleFor(x => x.Title).NotEmpty();
         RuleFor(x => x.Description).NotEmpty();
         RuleFor(x => x.Location).NotEmpty();
         RuleFor(x => x.Salary).NotEmpty().GreaterThan(0);
         RuleFor(x => x.ExpirationDate).NotEmpty();
+        RuleFor(x => x.CompanyId).Empty();
     }
 }

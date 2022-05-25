@@ -1,5 +1,5 @@
 using Common.Events;
-using JobPostings.Domain.CompanyAggregate;
+using JobPostings.Domain.Aggregates.Companies;
 using MassTransit;
 
 namespace JobPostings.Application.Consumers;

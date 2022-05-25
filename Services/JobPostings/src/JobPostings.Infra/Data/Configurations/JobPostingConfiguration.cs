@@ -1,4 +1,4 @@
-using JobPostings.Domain.JobPostingAggregate;
+using JobPostings.Domain.Aggregates.JobPostings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -24,8 +24,8 @@ public class JobPostingConfiguration : IEntityTypeConfiguration<JobPosting>
                .WithMany()
                .HasForeignKey("_companyId");
 
-        builder.OwnsOne(x => x.Role,
-            x => x.Property(r => r.Title).HasColumnName("Role"));
+        builder.OwnsOne(x => x.Title,
+            x => x.Property(r => r.Value).HasColumnName("Title"));
 
         builder.OwnsOne(x => x.Location,
             x => x.Property(l => l.Place).HasColumnName("Location"));

@@ -1,10 +1,11 @@
 using JobPostings.Application.DTOs.Requests;
-using JobPostings.Domain.JobPostingAggregate;
+using JobPostings.Application.DTOs.Responses;
+using JobPostings.Domain.Aggregates.JobPostings;
 
 namespace JobPostings.Application.Services.Contracts;
 
 public interface IJobPostingsService
 {
-    Task PublishJob(PublishJobRequest request);
-    Task<IEnumerable<JobPosting>> GetPublishedJobsBy(string companyId);
+    Task PublishJob(PostJobRequest request);
+    Task<IEnumerable<JobPostingResponse>> GetPublishedJobsBy(string companyId);
 }

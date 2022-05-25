@@ -2,7 +2,7 @@
 
 using Common.Guards;
 
-namespace JobPostings.Domain.JobPostingAggregate;
+namespace JobPostings.Domain.Aggregates.JobPostings;
 
 public record Location
 {

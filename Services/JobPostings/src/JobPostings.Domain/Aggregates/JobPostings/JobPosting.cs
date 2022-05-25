@@ -1,8 +1,8 @@
 using Common.Abstractions;
 using Common.Guards;
-using JobPostings.Domain.CompanyAggregate;
+using JobPostings.Domain.Aggregates.Companies;
 
-namespace JobPostings.Domain.JobPostingAggregate;
+namespace JobPostings.Domain.Aggregates.JobPostings;
 
 #nullable disable
 
@@ -10,7 +10,7 @@ public class JobPosting : BaseEntity<JobPostingId>, IAggregateRoot
 {
     public string Description { get; }
 
-    public Role Role { get; }
+    public JobTitle Title { get; }
 
     public Salary Salary { get; }
 
@@ -25,19 +25,19 @@ public class JobPosting : BaseEntity<JobPostingId>, IAggregateRoot
     public DateTime UpdatedAt { get; }
 
     public JobPosting(
-        string role,
+        string title,
         string description,
         string location,
         decimal salary,
         DateTime expiration,
         Company company)
     {
-        Guard.Against.NullOrEmpty(role, nameof(role));
+        Guard.Against.NullOrEmpty(title, nameof(title));
         Guard.Against.NullOrEmpty(description, nameof(description));
 
         Id = new JobPostingId();
         Description = description;
-        Role = new Role(role);
+        Title = new JobTitle(title);
         Salary = new Salary(salary);
         ExpireAt = new ExpirationDate(expiration);
         Location = new Location(location);

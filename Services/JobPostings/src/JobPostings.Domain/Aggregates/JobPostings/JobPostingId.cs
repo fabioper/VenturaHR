@@ -1,6 +1,6 @@
 using Common.Abstractions;
 
-namespace JobPostings.Domain.JobPostingAggregate;
+namespace JobPostings.Domain.Aggregates.JobPostings;
 
 public record JobPostingId : EntityId
 {

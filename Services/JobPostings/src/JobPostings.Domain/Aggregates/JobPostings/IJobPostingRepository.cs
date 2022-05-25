@@ -1,7 +1,7 @@
 using Common.Abstractions;
-using JobPostings.Domain.CompanyAggregate;
+using JobPostings.Domain.Aggregates.Companies;
 
-namespace JobPostings.Domain.JobPostingAggregate;
+namespace JobPostings.Domain.Aggregates.JobPostings;
 
 public interface IJobPostingRepository : IBaseRepository<JobPosting, JobPostingId>
 {

@@ -2,7 +2,7 @@
 
 using Common.Abstractions;
 
-namespace JobPostings.Domain.CompanyAggregate;
+namespace JobPostings.Domain.Aggregates.Companies;
 
 public class Company : BaseEntity<CompanyId>, IAggregateRoot
 {

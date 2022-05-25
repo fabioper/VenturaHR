@@ -1,4 +1,4 @@
-using JobPostings.Domain.CompanyAggregate;
+using JobPostings.Domain.Aggregates.Companies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

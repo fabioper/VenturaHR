@@ -1,7 +1,7 @@
 using JobPostings.Application.Services.Concretes;
 using JobPostings.Application.Services.Contracts;
-using JobPostings.Domain.CompanyAggregate;
-using JobPostings.Domain.JobPostingAggregate;
+using JobPostings.Domain.Aggregates.Companies;
+using JobPostings.Domain.Aggregates.JobPostings;
 using JobPostings.Infra.Data;
 using JobPostings.Infra.Repositories;
 using Microsoft.EntityFrameworkCore;

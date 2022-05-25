@@ -1,5 +1,4 @@
 using JobPostings.Api.Constants;
-using JobPostings.Api.DTOs.Requests;
 using JobPostings.Api.Extensions.Principal;
 using JobPostings.Application.DTOs.Requests;
 using JobPostings.Application.Services.Contracts;
@@ -15,25 +14,17 @@ public class JobPostingsController : ControllerBase
     private readonly IJobPostingsService _jobPostingsService;
 
     public JobPostingsController(IJobPostingsService jobPostingsService)
-    {
-        _jobPostingsService = jobPostingsService;
-    }
+        => _jobPostingsService = jobPostingsService;
 
     [HttpPost]
     [Authorize(Policy = Policy.CompanyOnly)]
     public async Task<IActionResult> PostJob([FromBody] PostJobRequest request)
     {
-        var dto = new PublishJobRequest
+        await _jobPostingsService.PublishJob(request with
         {
-            Role = request.Role,
-            Description = request.Description,
-            Location = request.Location,
-            Salary = request.Salary,
-            ExpirationDate = request.ExpirationDate,
             CompanyId = User.GetId(),
-        };
+        });
 
-        await _jobPostingsService.PublishJob(dto);
         return Ok();
     }
 

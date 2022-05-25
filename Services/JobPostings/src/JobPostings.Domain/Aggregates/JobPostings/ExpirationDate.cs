@@ -1,4 +1,4 @@
-namespace JobPostings.Domain.JobPostingAggregate;
+namespace JobPostings.Domain.Aggregates.JobPostings;
 
 public record ExpirationDate
 {

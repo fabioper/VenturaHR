@@ -1,8 +1,8 @@
 #nullable disable
 
 using System.Reflection;
-using JobPostings.Domain.CompanyAggregate;
-using JobPostings.Domain.JobPostingAggregate;
+using JobPostings.Domain.Aggregates.Companies;
+using JobPostings.Domain.Aggregates.JobPostings;
 using Microsoft.EntityFrameworkCore;
 
 namespace JobPostings.Infra.Data;

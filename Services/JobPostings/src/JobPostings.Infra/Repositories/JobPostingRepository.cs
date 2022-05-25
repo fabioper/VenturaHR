@@ -1,5 +1,5 @@
-using JobPostings.Domain.CompanyAggregate;
-using JobPostings.Domain.JobPostingAggregate;
+using JobPostings.Domain.Aggregates.Companies;
+using JobPostings.Domain.Aggregates.JobPostings;
 using JobPostings.Infra.Data;
 using Microsoft.EntityFrameworkCore;
 
