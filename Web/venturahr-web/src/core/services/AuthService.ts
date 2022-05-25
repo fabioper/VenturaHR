@@ -1,4 +1,3 @@
-import api from "../config/api"
 import { UserProfile } from "../models/UserProfile"
 import { SignUpModel } from "../dtos/auth/SignUpModel"
 import { LoginModel } from "../dtos/auth/LoginModel"
@@ -9,8 +8,10 @@ import {
   removeToken,
   saveToken,
 } from "./TokenService"
+import usersApi from "../config/api/users"
 
 const endpoint = "/users"
+const api = usersApi
 
 const authListeners = new Set<() => any>()
 

@@ -3,12 +3,12 @@ import { InputText } from "primereact/inputtext"
 import { Password } from "primereact/password"
 import { Button } from "primereact/button"
 import { PrimeIcons } from "primereact/api"
-import { useAuth } from "../contexts/AuthContext"
-import useForm from "../hooks/useForm"
-import { UserType } from "../../core/enums/UserType"
-import { signUpValidator } from "../../core/validations/signup.validator"
+import { useAuth } from "../../contexts/AuthContext"
+import useForm from "../../hooks/useForm"
+import { UserType } from "../../../core/enums/UserType"
+import { signUpValidator } from "../../../core/validations/signup.validator"
 import { Message } from "primereact/message"
-import { SignUpModel } from "../../core/dtos/auth/SignUpModel"
+import { SignUpModel } from "../../../core/dtos/auth/SignUpModel"
 
 const SignUpApplicant: React.FC = () => {
   const [error, setError] = useState<string | null>(null)
@@ -19,7 +19,7 @@ const SignUpApplicant: React.FC = () => {
       name: "",
       email: "",
       password: "",
-      role: UserType.Applicant,
+      userType: UserType.Applicant,
       phoneNumber: "",
       registration: "",
     },

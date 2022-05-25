@@ -5,34 +5,29 @@ import { Calendar } from "primereact/calendar"
 import { Editor } from "primereact/editor"
 import { Dialog } from "primereact/dialog"
 import { PrimeIcons } from "primereact/api"
-import InputCurrency from "./InputCurrency"
-import useForm from "../hooks/useForm"
-import { CreateJobPostingModel } from "../../core/dtos/jobposting/CreateJobPostingModel"
-import { createJobPostingValidator } from "../../core/validations/create-job-posting.validator"
+import InputCurrency from "../../components/InputCurrency"
+import useForm from "../../hooks/useForm"
+import { PostJobModel } from "../../../core/dtos/jobposting/PostJobModel"
+import { postJobValidator } from "../../../core/validations/post-job.validator"
 
-interface PublishJobDialogProps {
+interface PostJobDialogProps {
   visible: boolean
   onHide: () => any
 }
 
-const initialValues = {
-  role: "",
-  compensation: 0,
+const initialValues: PostJobModel = {
+  title: "",
   location: "",
   description: "",
-  endDate: new Date(),
+  expirationDate: new Date(),
+  salary: 0,
 }
 
-const PublishJobDialog: React.FC<PublishJobDialogProps> = ({
-  visible,
-  onHide,
-}) => {
-  const { form, renderError, isValid } = useForm<CreateJobPostingModel>(
+const PostJobDialog: React.FC<PostJobDialogProps> = ({ visible, onHide }) => {
+  const { form, renderError, isValid } = useForm<PostJobModel>(
     initialValues,
-    createJobPostingValidator,
-    values => {
-      console.log(values)
-    }
+    postJobValidator,
+    values => console.log(values)
   )
 
   function handleHide(): void {
@@ -42,7 +37,7 @@ const PublishJobDialog: React.FC<PublishJobDialogProps> = ({
 
   return (
     <Dialog
-      onHide={() => handleHide()}
+      onHide={handleHide}
       visible={visible}
       header="Publicar vaga"
       dismissableMask
@@ -66,38 +61,38 @@ const PublishJobDialog: React.FC<PublishJobDialogProps> = ({
           <div className="flex flex-col col-span-3">
             <label
               className="text-slate-300 text-base font-display mb-2"
-              htmlFor="role"
+              htmlFor="title"
             >
               Cargo
             </label>
             <InputText
-              id="role"
-              value={form.values.role}
+              id="title"
+              value={form.values.title}
               onChange={form.handleChange}
               onBlur={form.handleBlur}
-              className={!isValid("role") ? "p-invalid" : ""}
+              className={!isValid("title") ? "p-invalid" : ""}
             />
-            {renderError("role")}
+            {renderError("title")}
           </div>
 
           <div className="flex flex-col  col-span-2">
             <label
               className="text-slate-300 text-base font-display mb-2"
-              htmlFor="compensation"
+              htmlFor="salary"
             >
               Remuneração
             </label>
             <InputCurrency
-              id="compensation"
-              name="compensation"
-              initialValue={form.values.compensation}
+              id="salary"
+              name="salary"
+              initialValue={form.values.salary}
               onChange={value => {
-                form.setFieldValue("compensation", value)
+                form.setFieldValue("salary", value)
               }}
               onBlur={form.handleBlur}
-              className={!isValid("compensation") ? "p-invalid" : ""}
+              className={!isValid("salary") ? "p-invalid" : ""}
             />
-            {renderError("compensation")}
+            {renderError("salary")}
           </div>
 
           <div className="flex flex-col col-span-3">
@@ -123,21 +118,21 @@ const PublishJobDialog: React.FC<PublishJobDialogProps> = ({
           <div className="flex flex-col col-span-2">
             <label
               className="text-slate-300 text-base font-display mb-2"
-              htmlFor="endDate"
+              htmlFor="expirationDate"
             >
               Data Limite
             </label>
             <Calendar
-              inputId="endDate"
-              value={form.values.endDate}
+              inputId="expirationDate"
+              value={form.values.expirationDate}
               onChange={form.handleChange}
               onBlur={form.handleBlur}
               showButtonBar
               dateFormat="dd/mm/yy"
               minDate={new Date()}
-              inputClassName={!isValid("endDate") ? "p-invalid" : ""}
+              inputClassName={!isValid("expirationDate") ? "p-invalid" : ""}
             />
-            {renderError("endDate")}
+            {renderError("expirationDate")}
           </div>
 
           <div className="flex flex-col col-span-5">
@@ -166,4 +161,4 @@ const PublishJobDialog: React.FC<PublishJobDialogProps> = ({
   )
 }
 
-export default PublishJobDialog
+export default PostJobDialog

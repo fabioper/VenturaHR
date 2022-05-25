@@ -1,14 +1,14 @@
 import React, { useState } from "react"
-import { useAuth } from "../contexts/AuthContext"
-import useForm from "../hooks/useForm"
-import { UserType } from "../../core/enums/UserType"
-import { signUpValidator } from "../../core/validations/signup.validator"
+import { useAuth } from "../../contexts/AuthContext"
+import useForm from "../../hooks/useForm"
+import { UserType } from "../../../core/enums/UserType"
+import { signUpValidator } from "../../../core/validations/signup.validator"
 import { Message } from "primereact/message"
 import { InputText } from "primereact/inputtext"
 import { Password } from "primereact/password"
 import { Button } from "primereact/button"
 import { PrimeIcons } from "primereact/api"
-import { SignUpModel } from "../../core/dtos/auth/SignUpModel"
+import { SignUpModel } from "../../../core/dtos/auth/SignUpModel"
 
 const SignUpCompany: React.FC = () => {
   const [error, setError] = useState<string | null>(null)
@@ -21,7 +21,7 @@ const SignUpCompany: React.FC = () => {
       password: "",
       phoneNumber: "",
       registration: "",
-      role: UserType.Company,
+      userType: UserType.Company,
     },
     signUpValidator,
     handleSignUp

@@ -1,7 +1,8 @@
 import Cookies from "js-cookie"
 import { TokenResponse } from "../dtos/auth/TokenResponse"
-import api from "../config/api"
+import usersApi from "../config/api/users"
 
+const api = usersApi
 const endpoint = "/users"
 
 const accessTokenKey = "@venturahr/accessToken"

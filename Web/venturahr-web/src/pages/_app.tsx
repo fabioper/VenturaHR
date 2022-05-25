@@ -6,7 +6,7 @@ import "../styles/global.scss"
 
 import { AppProps } from "next/app"
 import AuthProvider from "../shared/contexts/AuthContext"
-import Header from "../shared/components/Header"
+import Header from "../shared/layout/sections/Header"
 
 import "@fontsource/inter/300.css"
 import "@fontsource/inter/400.css"

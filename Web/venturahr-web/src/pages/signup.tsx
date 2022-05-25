@@ -6,8 +6,8 @@ import Head from "next/head"
 import { Button } from "primereact/button"
 import { PrimeIcons } from "primereact/api"
 import { TabPanel, TabView } from "primereact/tabview"
-import SignUpApplicant from "../shared/components/SignUpApplicant"
-import SignUpCompany from "../shared/components/SignUpCompany"
+import SignUpApplicant from "../shared/layout/sections/SignUpApplicant"
+import SignUpCompany from "../shared/layout/sections/SignUpCompany"
 
 const Signup: NextPage = () => {
   useGuardAgainst(async ({ isLogged }) => isLogged)

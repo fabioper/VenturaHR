@@ -9,7 +9,7 @@ import { useMemo, useState } from "react"
 import { useRouter } from "next/router"
 import Head from "next/head"
 import { UserType } from "../../core/enums/UserType"
-import PublishJobDialog from "../../shared/components/PublishJobDialog"
+import PostJobDialog from "../../shared/layout/sections/PostJobDialog"
 
 const dashboard: NextPage = () => {
   const { user } = useAuth()
@@ -38,6 +38,7 @@ const dashboard: NextPage = () => {
       <Head>
         <title>{user?.name} | VenturaHR</title>
       </Head>
+
       <header className="py-8">
         <div className="container">
           <div className="flex justify-between items-end">
@@ -66,7 +67,7 @@ const dashboard: NextPage = () => {
         </div>
       </header>
 
-      <PublishJobDialog
+      <PostJobDialog
         visible={showPublishJobModal}
         onHide={() => setShowPublishJobModal(false)}
       />
