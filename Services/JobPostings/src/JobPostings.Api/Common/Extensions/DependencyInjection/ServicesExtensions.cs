@@ -1,7 +1,6 @@
 using JobPostings.Application.Services.Concretes;
 using JobPostings.Application.Services.Contracts;
 using JobPostings.Domain.Repositories;
-using JobPostings.Infra.Data;
 using JobPostings.Infra.Persistence;
 using JobPostings.Infra.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
