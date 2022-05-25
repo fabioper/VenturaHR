@@ -11,7 +11,7 @@ public class JobPosting : BaseEntity<JobPostingId>, IAggregateRoot
     public string Description { get; }
 
     public string Title { get; }
-    public string Location { get; private set; }
+    public string Location { get; }
 
     public Salary Salary { get; }
 

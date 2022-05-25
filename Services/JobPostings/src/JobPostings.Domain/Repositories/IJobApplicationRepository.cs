@@ -1,8 +1,9 @@
 using Common.Abstractions;
-using JobPostings.Domain.Aggregates.JobApplications;
+using JobPostings.Domain.Aggregates.Application;
+using ApplicationId = JobPostings.Domain.Aggregates.Application.ApplicationId;
 
 namespace JobPostings.Domain.Repositories;
 
-public interface IJobApplicationRepository : IBaseRepository<JobApplication, JobApplicationId>
+public interface IJobApplicationRepository : IBaseRepository<Application, ApplicationId>
 {
 }
