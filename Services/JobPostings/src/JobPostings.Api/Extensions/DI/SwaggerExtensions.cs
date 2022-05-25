@@ -1,3 +1,4 @@
+using System.Reflection;
 using Microsoft.OpenApi.Models;
 
 namespace JobPostings.Api.Extensions.DI;
@@ -6,13 +7,21 @@ public static class SwaggerExtensions
 {
     public static void AddSwagger(this IServiceCollection services)
     {
-        services.AddSwaggerGen(c =>
+        services.AddSwaggerGen(options =>
         {
-            c.AddSecurityDefinition("Bearer", SecurityScheme);
-            c.AddSecurityRequirement(SecurityRequirement);
+            options.IncludeXmlComments(GetXmlFilePath());
+            options.AddSecurityDefinition("Bearer", SecurityScheme);
+            options.AddSecurityRequirement(SecurityRequirement);
         });
     }
-    
+
+    private static string GetXmlFilePath()
+    {
+        var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+        var filePath = Path.Combine(AppContext.BaseDirectory, xmlFilename);
+        return filePath;
+    }
+
     private static OpenApiSecurityRequirement SecurityRequirement => new()
     {
         {
@@ -30,10 +39,7 @@ public static class SwaggerExtensions
 
     private static OpenApiSecurityScheme SecurityScheme => new()
     {
-        Description =
-            "JWT Authorization Header - utilizado com Bearer Authentication.\r\n\r\n" +
-            "Digite 'Bearer' [espaço] e então seu token no campo abaixo.\r\n\r\n" +
-            "Exemplo (informar sem as aspas): 'Bearer 12345abcdef'",
+        Description = "JWT Authorization Header - Exemplo: Bearer [TOKEN]",
         Name = "Authorization",
         In = ParameterLocation.Header,
         Type = SecuritySchemeType.ApiKey,
