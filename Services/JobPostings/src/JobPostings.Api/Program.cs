@@ -11,14 +11,17 @@ builder.Services.AddRepositories();
 builder.Services.AddServices();
 builder.Services.AddDbContext(builder.Configuration);
 
-var rabbitMqConnection = builder.Configuration.GetConnectionString("RabbitMq");
 builder.Services.AddMassTransit(x =>
 {
+    var connection = builder.Configuration.GetConnectionString("RabbitMq");
+
     x.AddConsumer<CompanyCreatedConsumer>();
+    x.AddConsumer<ApplicantCreatedConsumer>();
+
     x.UsingRabbitMq((context, config) =>
     {
         config.ConfigureEndpoints(context);
-        config.Host(new Uri(rabbitMqConnection));
+        config.Host(new Uri(connection));
     });
 });
 
