@@ -15,6 +15,9 @@ public class JobPostingConfiguration : IEntityTypeConfiguration<JobPosting>
         builder.Property(x => x.Id)
                .HasConversion(x => x.Id, x => new JobPostingId(x));
 
+        builder.Property(x => x.CreatedAt).IsRequired();
+        builder.Property(x => x.UpdatedAt).IsRequired();
+
         builder.Property(x => x.Description).IsRequired();
 
         builder.HasOne(x => x.Company)

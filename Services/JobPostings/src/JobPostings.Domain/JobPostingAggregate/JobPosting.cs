@@ -8,17 +8,21 @@ namespace JobPostings.Domain.JobPostingAggregate;
 
 public class JobPosting : BaseEntity<JobPostingId>, IAggregateRoot
 {
-    public string Description { get; private set; }
+    public string Description { get; }
 
-    public Role Role { get; private set; }
+    public Role Role { get; }
 
-    public Salary Salary { get; private set; }
+    public Salary Salary { get; }
 
-    public ExpirationDate ExpireAt { get; private set; }
+    public ExpirationDate ExpireAt { get; }
 
-    public Location Location { get; private set; }
+    public Location Location { get; }
 
-    public Company Company { get; private set; }
+    public Company Company { get; }
+
+    public DateTime CreatedAt { get; }
+    
+    public DateTime UpdatedAt { get; }
 
     public JobPosting(
         string role,
@@ -38,7 +42,10 @@ public class JobPosting : BaseEntity<JobPostingId>, IAggregateRoot
         ExpireAt = new ExpirationDate(expiration);
         Location = new Location(location);
         Company = company;
+        CreatedAt = DateTime.UtcNow;
+        UpdatedAt = DateTime.UtcNow;
     }
 
-    public JobPosting() { } // Ef required
+    // Ef required
+    public JobPosting() { }
 }
