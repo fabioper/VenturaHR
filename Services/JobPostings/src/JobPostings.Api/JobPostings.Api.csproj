@@ -35,6 +35,10 @@
         <ProjectReference Include="..\JobPostings.Infra\JobPostings.Infra.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Common" />
+    </ItemGroup>
+
     <PropertyGroup>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <NoWarn>$(NoWarn);1591</NoWarn>

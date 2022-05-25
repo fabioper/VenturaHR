@@ -1,6 +1,7 @@
 using System.Reflection;
 using FluentValidation.AspNetCore;
-using JobPostings.Api.Extensions.DI;
+using JobPostings.Api.Common.Extensions.DependencyInjection;
+using JobPostings.Api.Common.Extensions.ErrorHandler;
 using JobPostings.Application.Consumers;
 using JobPostings.Application.Mapping;
 using MassTransit;
@@ -36,6 +37,8 @@ builder.Services.AddJwtAuthentication(builder.Configuration);
 builder.Services.AddPolicies();
 
 var app = builder.Build();
+
+app.UseMiddleware<ApiExceptionMiddleware>();
 
 app.UseSwagger();
 app.UseSwaggerUI();

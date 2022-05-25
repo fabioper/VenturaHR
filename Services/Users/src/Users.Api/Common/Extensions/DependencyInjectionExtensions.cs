@@ -12,7 +12,7 @@ using Users.Application.Services.Contracts;
 using Users.Domain.Repositories;
 using Users.Infra.Caching;
 using Users.Infra.Persistence;
-using Users.Infra.Repositories;
+using Users.Infra.Persistence.Repositories;
 
 namespace Users.Api.Common.Extensions;
 
