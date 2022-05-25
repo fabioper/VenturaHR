@@ -1,4 +1,5 @@
 using JobPostings.Domain.Aggregates.Applicants;
+using JobPostings.Domain.Common;
 using JobPostings.Domain.Repositories;
 
 namespace JobPostings.Infra.Persistence.Repositories;

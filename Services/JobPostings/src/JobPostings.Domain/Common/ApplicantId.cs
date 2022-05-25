@@ -1,6 +1,6 @@
 using Common.Abstractions;
 
-namespace JobPostings.Domain.Aggregates.Applicants;
+namespace JobPostings.Domain.Common;
 
 public record ApplicantId(Guid Id) : EntityId
 {

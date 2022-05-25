@@ -1,4 +1,5 @@
 using JobPostings.Domain.Aggregates.JobPostings;
+using JobPostings.Domain.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -17,6 +18,7 @@ public class JobPostingConfiguration : IEntityTypeConfiguration<JobPosting>
 
         builder.Property(x => x.Title).IsRequired();
         builder.Property(x => x.Description).IsRequired();
+        builder.Property(x => x.Location).IsRequired();
         builder.Property(x => x.CreatedAt).IsRequired();
         builder.Property(x => x.UpdatedAt).IsRequired();
         builder.Property(x => x.ExpireAt).IsRequired();
@@ -27,5 +29,8 @@ public class JobPostingConfiguration : IEntityTypeConfiguration<JobPosting>
 
         builder.OwnsOne(x => x.Salary,
             x => x.Property(c => c.Value).HasColumnName("Compensation"));
+
+        var criteriaNavigation = builder.Metadata.FindNavigation(nameof(JobPosting.Criterias));
+        criteriaNavigation?.SetPropertyAccessMode(PropertyAccessMode.Field);
     }
 }

@@ -1,6 +1,7 @@
 using Common.Abstractions;
 using JobPostings.Domain.Aggregates.Companies;
 using JobPostings.Domain.Aggregates.JobPostings;
+using JobPostings.Domain.Common;
 
 namespace JobPostings.Domain.Repositories;
 

@@ -1,4 +1,5 @@
 using JobPostings.Domain.Aggregates.Applicants;
+using JobPostings.Domain.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

@@ -1,7 +1,7 @@
 using JobPostings.Domain.Aggregates.Application;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using ApplicationId = JobPostings.Domain.Aggregates.Application.ApplicationId;
+using ApplicationId = JobPostings.Domain.Common.ApplicationId;
 
 namespace JobPostings.Infra.Persistence.Configurations;
 

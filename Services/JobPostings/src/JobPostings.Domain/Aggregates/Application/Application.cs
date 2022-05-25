@@ -3,6 +3,7 @@
 using Common.Abstractions;
 using JobPostings.Domain.Aggregates.Applicants;
 using JobPostings.Domain.Aggregates.JobPostings;
+using ApplicationId = JobPostings.Domain.Common.ApplicationId;
 
 namespace JobPostings.Domain.Aggregates.Application;
 

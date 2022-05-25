@@ -4,6 +4,7 @@ using JobPostings.Application.DTOs.Responses;
 using JobPostings.Application.Services.Contracts;
 using JobPostings.Domain.Aggregates.Companies;
 using JobPostings.Domain.Aggregates.JobPostings;
+using JobPostings.Domain.Common;
 using JobPostings.Domain.Repositories;
 
 namespace JobPostings.Application.Services.Concretes;

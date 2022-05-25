@@ -1,6 +1,7 @@
 #nullable disable
 
 using Common.Abstractions;
+using JobPostings.Domain.Common;
 
 namespace JobPostings.Domain.Aggregates.Companies;
 

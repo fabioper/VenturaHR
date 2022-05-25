@@ -1,6 +1,7 @@
 using Common.Abstractions;
 using Common.Guards;
 using JobPostings.Domain.Aggregates.Companies;
+using JobPostings.Domain.Common;
 
 namespace JobPostings.Domain.Aggregates.JobPostings;
 
@@ -11,6 +12,7 @@ public class JobPosting : BaseEntity<JobPostingId>, IAggregateRoot
     public string Description { get; }
 
     public string Title { get; }
+
     public string Location { get; }
 
     public Salary Salary { get; }
@@ -22,6 +24,8 @@ public class JobPosting : BaseEntity<JobPostingId>, IAggregateRoot
     public DateTime UpdatedAt { get; }
     
     public DateTime ExpireAt { get; }
+
+    public IReadOnlyCollection<Criteria> Criterias { get; }
 
     public JobPosting(
         string title,
@@ -40,10 +44,11 @@ public class JobPosting : BaseEntity<JobPostingId>, IAggregateRoot
         Title = title;
         Location = location;
         Salary = new Salary(salary);
-        ExpireAt = expiration;
         Company = company;
         CreatedAt = DateTime.UtcNow;
         UpdatedAt = DateTime.UtcNow;
+        ExpireAt = expiration;
+        Criterias = new List<Criteria>();
     }
 
     // Ef required
