@@ -49,6 +49,7 @@ const Login: NextPage = () => {
             Entre no seu perfil
           </h2>
         </header>
+
         <div className="sm:w-full md:w-10/12 lg:w-4/12 bg-[#0d1424] mx-auto mb-10 p-10 rounded-xl shadow-xl">
           {error && (
             <div className="mb-5 flex flex-col gap-4">

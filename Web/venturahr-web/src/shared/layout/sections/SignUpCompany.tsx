@@ -9,6 +9,7 @@ import { Password } from "primereact/password"
 import { Button } from "primereact/button"
 import { PrimeIcons } from "primereact/api"
 import { SignUpModel } from "../../../core/dtos/auth/SignUpModel"
+import { InputMask } from "primereact/inputmask"
 
 const SignUpCompany: React.FC = () => {
   const [error, setError] = useState<string | null>(null)
@@ -49,9 +50,7 @@ const SignUpCompany: React.FC = () => {
             Nome:
           </label>
           <InputText
-            autoFocus
             id="name"
-            placeholder="John Doe"
             value={form.values.name}
             onChange={form.handleChange}
             onBlur={form.handleBlur}
@@ -64,10 +63,12 @@ const SignUpCompany: React.FC = () => {
           <label className="block mb-1.5" htmlFor="registration">
             CNPJ:
           </label>
-          <InputText
-            autoFocus
+          <InputMask
             id="registration"
-            placeholder="John Doe"
+            type="tel"
+            mask="99.999.999/9999-99"
+            autoClear
+            unmask
             value={form.values.registration}
             onChange={form.handleChange}
             onBlur={form.handleBlur}
@@ -80,10 +81,12 @@ const SignUpCompany: React.FC = () => {
           <label className="block mb-1.5" htmlFor="phoneNumber">
             Telefone:
           </label>
-          <InputText
-            autoFocus
+          <InputMask
             id="phoneNumber"
-            placeholder="John Doe"
+            type="tel"
+            mask="(99) 99999-9999"
+            autoClear
+            unmask
             value={form.values.phoneNumber}
             onChange={form.handleChange}
             onBlur={form.handleBlur}
@@ -99,7 +102,6 @@ const SignUpCompany: React.FC = () => {
           <InputText
             id="email"
             type="email"
-            placeholder="usuario@exemplo.com"
             value={form.values.email}
             onChange={form.handleChange}
             onBlur={form.handleBlur}
@@ -117,7 +119,6 @@ const SignUpCompany: React.FC = () => {
             value={form.values.password}
             onChange={form.handleChange}
             onBlur={form.handleBlur}
-            placeholder="Digite sua senha"
             feedback={false}
             className={`w-full ${!isValid("password") ? "p-invalid" : ""}`}
             inputClassName="w-full"

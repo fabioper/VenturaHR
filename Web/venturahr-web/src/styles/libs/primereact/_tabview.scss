@@ -13,3 +13,7 @@
   align-items: center;
   justify-content: center;
 }
+
+.p-tabview .p-tabview-nav li .p-tabview-nav-link:not(.p-disabled):focus {
+  box-shadow: none;
+}

@@ -11,7 +11,7 @@ import Head from "next/head"
 import { UserType } from "../../core/enums/UserType"
 import PostJobDialog from "../../shared/layout/sections/PostJobDialog"
 
-const dashboard: NextPage = () => {
+const Dashboard: NextPage = () => {
   const { user } = useAuth()
   const router = useRouter()
   const [showPublishJobModal, setShowPublishJobModal] = useState(false)
@@ -75,4 +75,4 @@ const dashboard: NextPage = () => {
   )
 }
 
-export default dashboard
+export default Dashboard

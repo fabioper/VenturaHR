@@ -9,6 +9,7 @@ import { UserType } from "../../../core/enums/UserType"
 import { signUpValidator } from "../../../core/validations/signup.validator"
 import { Message } from "primereact/message"
 import { SignUpModel } from "../../../core/dtos/auth/SignUpModel"
+import { InputMask } from "primereact/inputmask"
 
 const SignUpApplicant: React.FC = () => {
   const [error, setError] = useState<string | null>(null)
@@ -49,9 +50,7 @@ const SignUpApplicant: React.FC = () => {
             Nome:
           </label>
           <InputText
-            autoFocus
             id="name"
-            placeholder="John Doe"
             value={form.values.name}
             onChange={form.handleChange}
             onBlur={form.handleBlur}
@@ -62,12 +61,14 @@ const SignUpApplicant: React.FC = () => {
 
         <div>
           <label className="block mb-1.5" htmlFor="registration">
-            CNPJ:
+            CPF:
           </label>
-          <InputText
-            autoFocus
+          <InputMask
             id="registration"
-            placeholder="John Doe"
+            type="tel"
+            mask="999.999.999-99"
+            autoClear
+            unmask
             value={form.values.registration}
             onChange={form.handleChange}
             onBlur={form.handleBlur}
@@ -80,10 +81,12 @@ const SignUpApplicant: React.FC = () => {
           <label className="block mb-1.5" htmlFor="phoneNumber">
             Telefone:
           </label>
-          <InputText
-            autoFocus
+          <InputMask
             id="phoneNumber"
-            placeholder="John Doe"
+            type="tel"
+            mask="(99) 99999-9999"
+            autoClear
+            unmask
             value={form.values.phoneNumber}
             onChange={form.handleChange}
             onBlur={form.handleBlur}
@@ -99,7 +102,6 @@ const SignUpApplicant: React.FC = () => {
           <InputText
             id="email"
             type="email"
-            placeholder="usuario@exemplo.com"
             value={form.values.email}
             onChange={form.handleChange}
             onBlur={form.handleBlur}
@@ -117,7 +119,6 @@ const SignUpApplicant: React.FC = () => {
             value={form.values.password}
             onChange={form.handleChange}
             onBlur={form.handleBlur}
-            placeholder="Digite sua senha"
             feedback={false}
             className={`w-full ${!isValid("password") ? "p-invalid" : ""}`}
             inputClassName="w-full"

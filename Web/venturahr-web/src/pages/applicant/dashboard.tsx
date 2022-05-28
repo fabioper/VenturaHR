@@ -2,7 +2,7 @@ import { NextPage } from "next"
 import ProtectedPage from "../../shared/components/ProtectedPage"
 import { UserType } from "../../core/enums/UserType"
 
-const dashboard: NextPage = () => {
+const Dashboard: NextPage = () => {
   return (
     <ProtectedPage role={UserType.Applicant}>
       <div className="container">Área do candidato</div>
@@ -10,4 +10,4 @@ const dashboard: NextPage = () => {
   )
 }
 
-export default dashboard
+export default Dashboard

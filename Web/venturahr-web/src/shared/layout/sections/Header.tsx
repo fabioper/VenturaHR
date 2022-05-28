@@ -44,7 +44,7 @@ const Header: React.FC = () => {
       className="sticky border-0 border-b border-solid border-b-slate-800 bg-[#0d1424] transition bg-opacity-20 top-0 w-full backdrop-blur bg-transparent"
     >
       <div className="container flex justify-between py-3 items-center">
-        <Link href="">
+        <Link href="/">
           <h1 className="font-extrabold cursor-pointer text-lg m-0 transition-all hover:scale-110">
             venturahr
           </h1>
