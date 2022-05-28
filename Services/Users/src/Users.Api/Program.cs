@@ -24,7 +24,7 @@ builder.Services.ConfigureSwagger();
 builder.Services.ConfigureRedis(builder.Configuration);
 builder.Services.ConfigureDbContext(builder.Configuration);
 builder.Services.ConfigureMassTransit(builder.Configuration);
-builder.Services.AddAutoMapper(x => x.AddProfile<UserProfile>());
+builder.Services.AddAutoMapper(typeof(UserProfile));
 
 builder.Services.AddRepositories();
 builder.Services.AddServices();

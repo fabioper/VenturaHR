@@ -3,13 +3,13 @@ using Users.Application.DTOs.Requests;
 
 namespace Users.Api.Validations;
 
-public class CreateUserValidator : AbstractValidator<CreateUserRequest>
+public class CreateUserRequestValidator : AbstractValidator<CreateUserRequest>
 {
     private const int CpfLength = 11;
     private const int CnpjLength = 14;
     private const int PhoneNumberLength = 11;
     
-    public CreateUserValidator()
+    public CreateUserRequestValidator()
     {
         RuleFor(x => x.Email).EmailAddress().NotEmpty();
 
