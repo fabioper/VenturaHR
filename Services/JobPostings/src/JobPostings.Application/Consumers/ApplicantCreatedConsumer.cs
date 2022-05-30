@@ -15,7 +15,7 @@ public class ApplicantCreatedConsumer : IConsumer<ApplicantCreatedEvent>
     public async Task Consume(ConsumeContext<ApplicantCreatedEvent> context)
     {
         var applicantCreated = context.Message;
-        var applicant = new Applicant(applicantCreated.Identifier, applicantCreated.Name);
+        var applicant = new Applicant(Guid.Parse(applicantCreated.Identifier), applicantCreated.Name);
         await _applicantRepository.Add(applicant);
     }
 }

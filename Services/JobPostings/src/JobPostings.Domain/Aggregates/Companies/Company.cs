@@ -9,9 +9,9 @@ public class Company : BaseEntity<CompanyId>, IAggregateRoot
 {
     public string Name { get; private set; }
 
-    public Company(string name, string externalId)
+    public Company(Guid companyId, string name)
     {
-        Id = new CompanyId(externalId);
+        Id = new CompanyId(companyId);
         Name = name;
     }
 

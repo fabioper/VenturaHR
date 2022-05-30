@@ -14,5 +14,5 @@ public class ApplicationsController : ControllerBase
     public async Task<IActionResult> GetApplications() => Ok();
 
     [HttpPost]
-    public async Task<IActionResult> ApplyToJobPosting([FromBody] ApplyToJobRequest request) => Ok();
+    public async Task<IActionResult> ApplyToJobPosting([FromBody] ApplicationRequest request) => Ok();
 }

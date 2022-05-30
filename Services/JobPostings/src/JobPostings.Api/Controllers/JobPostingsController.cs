@@ -29,9 +29,9 @@ public class JobPostingsController : ControllerBase
     public async Task<IActionResult> GetJobPosting([FromRoute] Guid id) => Ok();
 
     [HttpPost]
-    public async Task<IActionResult> PostJob([FromBody] PostJobRequest request)
+    public async Task<IActionResult> CreateJobPosting([FromBody] CreateJobPostingRequest postingRequest)
     {
-        await _jobPostingsService.PublishJob(request with
+        await _jobPostingsService.PublishJob(postingRequest with
         {
             CompanyId = User.GetId(),
         });

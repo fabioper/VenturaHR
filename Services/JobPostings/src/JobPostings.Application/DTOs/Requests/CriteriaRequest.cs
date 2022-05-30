@@ -4,7 +4,7 @@ using JobPostings.Domain.Aggregates.JobPostings;
 
 namespace JobPostings.Application.DTOs.Requests;
 
-public record PostJobCriteriaRequest
+public record CriteriaRequest
 {
     public string Title { get; set; }
     public Weight Weight { get; set; }

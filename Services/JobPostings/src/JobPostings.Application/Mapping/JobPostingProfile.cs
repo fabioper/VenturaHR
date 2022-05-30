@@ -13,6 +13,6 @@ public class JobPostingProfile : Profile
         CreateMap<JobPosting, JobPostingResponse>()
             .ForMember(dto => dto.Salary, opts => opts.MapFrom(m => m.Salary.Value));
 
-        CreateMap<PostJobCriteriaRequest, Criteria>();
+        CreateMap<CriteriaRequest, Criteria>();
     }
 }

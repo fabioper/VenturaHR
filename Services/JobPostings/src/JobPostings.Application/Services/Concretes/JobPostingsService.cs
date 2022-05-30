@@ -25,23 +25,23 @@ public class JobPostingsService : IJobPostingsService
         _mapper = mapper;
     }
 
-    public async Task PublishJob(PostJobRequest request)
+    public async Task PublishJob(CreateJobPostingRequest postingRequest)
     {
-        var company = await _companyRepository.FindById(new CompanyId(request.CompanyId));
-        var criterias = _mapper.Map<List<Criteria>>(request.Criterias);
+        var company = await _companyRepository.FindById(new CompanyId(postingRequest.CompanyId));
+        var criterias = _mapper.Map<List<Criteria>>(postingRequest.Criterias);
 
-        var newJob = new JobPosting(request.Title,
-            request.Description,
-            request.Location,
-            request.Salary,
-            request.ExpirationDate,
+        var newJob = new JobPosting(postingRequest.Title,
+            postingRequest.Description,
+            postingRequest.Location,
+            postingRequest.Salary,
+            postingRequest.ExpirationDate,
             company,
             criterias);
 
         await _jobPostingsRepository.Add(newJob);
     }
 
-    public async Task<IEnumerable<JobPostingResponse>> GetPublishedJobsBy(string companyId)
+    public async Task<IEnumerable<JobPostingResponse>> GetPublishedJobsBy(Guid companyId)
     {
         var jobPostings = await _jobPostingsRepository.FindByCompanyOfId(new CompanyId(companyId));
         return _mapper.Map<IEnumerable<JobPostingResponse>>(jobPostings);

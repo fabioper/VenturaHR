@@ -2,13 +2,13 @@ namespace JobPostings.Application.DTOs.Requests;
 
 #nullable disable
 
-public record PostJobRequest
+public record CreateJobPostingRequest
 {
     public string Title { get; init; }
     public string Description { get; init; }
     public string Location { get; init; }
     public decimal Salary { get; init; }
     public DateTime ExpirationDate { get; init; }
-    public string CompanyId { get; init; }
-    public List<PostJobCriteriaRequest> Criterias { get; init; }
+    public Guid CompanyId { get; init; }
+    public List<CriteriaRequest> Criterias { get; init; }
 }

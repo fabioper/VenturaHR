@@ -3,9 +3,9 @@ using JobPostings.Application.DTOs.Requests;
 
 namespace JobPostings.Api.Validations;
 
-public class PostJobCriteriaRequestValidator : AbstractValidator<PostJobCriteriaRequest>
+public class CriteriaRequestValidator : AbstractValidator<CriteriaRequest>
 {
-    public PostJobCriteriaRequestValidator()
+    public CriteriaRequestValidator()
     {
         RuleFor(x => x.Title).NotEmpty();
         RuleFor(x => x.Weight).IsInEnum();

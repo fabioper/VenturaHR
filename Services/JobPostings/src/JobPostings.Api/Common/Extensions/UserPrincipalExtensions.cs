@@ -4,6 +4,6 @@ namespace JobPostings.Api.Common.Extensions;
 
 public static class UserPrincipalExtensions
 {
-    public static string GetId(this ClaimsPrincipal principal) =>
-        principal.FindFirstValue(ClaimTypes.NameIdentifier);
+    public static Guid GetId(this ClaimsPrincipal principal) =>
+        Guid.Parse(principal.FindFirstValue(ClaimTypes.NameIdentifier));
 }

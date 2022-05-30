@@ -3,9 +3,9 @@ using JobPostings.Application.DTOs.Requests;
 
 namespace JobPostings.Api.Validations;
 
-public class ApplyToJobRequestValidator : AbstractValidator<ApplyToJobRequest>
+public class ApplicationRequestValidator : AbstractValidator<ApplicationRequest>
 {
-    public ApplyToJobRequestValidator()
+    public ApplicationRequestValidator()
     {
         RuleFor(x => x.ApplicantId).Empty();
         RuleFor(x => x.JobPostingId).NotEmpty();
