@@ -19,7 +19,7 @@ public static class ServicesExtensions
         services.AddScoped<ICompanyRepository, CompanyRepository>();
         services.AddScoped<IJobPostingRepository, JobPostingRepository>();
         services.AddScoped<IApplicantRepository, ApplicantRepository>();
-        services.AddScoped<IJobApplicationRepository, ApplicationRepository>();
+        services.AddScoped<IJobApplicationRepository, JobApplicationRepository>();
     }
 
     public static void AddDbContext(this IServiceCollection services, ConfigurationManager configuration)

@@ -9,13 +9,13 @@ public class Criteria : BaseEntity<CriteriaId>, IAggregateRoot
 {
     public string Title { get; }
     public Weight Weight { get; }
-    public MininumDesiredProfile MininumDesiredProfile { get; }
+    public MinimumDesiredProfile MinimumDesiredProfile { get; }
 
-    public Criteria(string title, Weight weight, MininumDesiredProfile mininumDesiredProfile)
+    public Criteria(string title, Weight weight, MinimumDesiredProfile minimumDesiredProfile)
     {
         Title = title;
         Weight = weight;
-        MininumDesiredProfile = mininumDesiredProfile;
+        MinimumDesiredProfile = minimumDesiredProfile;
     }
 
     public Criteria() { } // Ef required

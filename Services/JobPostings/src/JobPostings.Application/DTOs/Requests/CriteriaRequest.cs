@@ -8,5 +8,5 @@ public record CriteriaRequest
 {
     public string Title { get; set; }
     public Weight Weight { get; set; }
-    public MininumDesiredProfile MininumDesiredProfile { get; set; }
+    public MinimumDesiredProfile MinimumDesiredProfile { get; set; }
 }

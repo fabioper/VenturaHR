@@ -26,7 +26,11 @@ public class JobPostingsController : ControllerBase
 
     [HttpGet("{id:guid}")]
     [AllowAnonymous]
-    public async Task<IActionResult> GetJobPosting([FromRoute] Guid id) => Ok();
+    public async Task<IActionResult> GetJobPosting([FromRoute] Guid id)
+    {
+        var jobPosting = await _jobPostingsService.GetJobPostingOfId(id);
+        return Ok(jobPosting);
+    }
 
     [HttpPost]
     public async Task<IActionResult> CreateJobPosting([FromBody] CreateJobPostingRequest postingRequest)

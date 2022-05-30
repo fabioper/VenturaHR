@@ -1,4 +1,5 @@
 using AutoMapper;
+using Common.Exceptions;
 using JobPostings.Application.DTOs.Requests;
 using JobPostings.Application.DTOs.Responses;
 using JobPostings.Application.Services.Contracts;
@@ -45,5 +46,15 @@ public class JobPostingsService : IJobPostingsService
     {
         var jobPostings = await _jobPostingsRepository.FindByCompanyOfId(new CompanyId(companyId));
         return _mapper.Map<IEnumerable<JobPostingResponse>>(jobPostings);
+    }
+
+    public async Task<JobPostingResponse> GetJobPostingOfId(Guid jobPostingId)
+    {
+        var jobPosting = await _jobPostingsRepository.FindById(new JobPostingId(jobPostingId));
+
+        if (jobPosting is null)
+            throw new EntityNotFoundException(nameof(jobPosting));
+
+        return _mapper.Map<JobPostingResponse>(jobPosting);
     }
 }

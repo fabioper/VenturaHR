@@ -7,4 +7,5 @@ public interface IJobPostingsService
 {
     Task PublishJob(CreateJobPostingRequest postingRequest);
     Task<IEnumerable<JobPostingResponse>> GetPublishedJobsBy(Guid companyId);
+    Task<JobPostingResponse> GetJobPostingOfId(Guid jobPostingId);
 }

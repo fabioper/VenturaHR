@@ -9,6 +9,6 @@ public class CriteriaRequestValidator : AbstractValidator<CriteriaRequest>
     {
         RuleFor(x => x.Title).NotEmpty();
         RuleFor(x => x.Weight).IsInEnum();
-        RuleFor(x => x.MininumDesiredProfile).IsInEnum();
+        RuleFor(x => x.MinimumDesiredProfile).IsInEnum();
     }
 }

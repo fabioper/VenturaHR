@@ -2,12 +2,13 @@
 
 using Common.Abstractions;
 using JobPostings.Domain.Aggregates.Applicants;
+using JobPostings.Domain.Aggregates.Application;
 using JobPostings.Domain.Aggregates.JobPostings;
 using ApplicationId = JobPostings.Domain.Common.ApplicationId;
 
-namespace JobPostings.Domain.Aggregates.Application;
+namespace JobPostings.Domain.Aggregates.Applications;
 
-public class Application : BaseEntity<ApplicationId>, IAggregateRoot
+public class JobApplication : BaseEntity<ApplicationId>, IAggregateRoot
 {
     public JobPosting JobPosting { get; }
 
@@ -20,7 +21,7 @@ public class Application : BaseEntity<ApplicationId>, IAggregateRoot
     public IReadOnlyCollection<CriteriaFullfillment> CriteriasFullfillments
         => _criteriasFullfillments;
 
-    public Application(
+    public JobApplication(
         Applicant applicant,
         JobPosting jobPosting,
         List<CriteriaFullfillment> criteriasFullfillments)
@@ -31,5 +32,5 @@ public class Application : BaseEntity<ApplicationId>, IAggregateRoot
         _criteriasFullfillments = criteriasFullfillments;
     }
 
-    public Application() { } // Ef required
+    public JobApplication() { } // Ef required
 }

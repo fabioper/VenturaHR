@@ -1,5 +1,7 @@
 namespace JobPostings.Application.DTOs.Requests;
 
+#nullable disable
+
 public record UpdateJobRequest
 {
     public Guid Id { get; set; }

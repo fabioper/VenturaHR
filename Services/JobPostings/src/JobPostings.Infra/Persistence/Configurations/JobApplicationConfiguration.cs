@@ -1,13 +1,13 @@
-using JobPostings.Domain.Aggregates.Application;
+using JobPostings.Domain.Aggregates.Applications;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using ApplicationId = JobPostings.Domain.Common.ApplicationId;
 
 namespace JobPostings.Infra.Persistence.Configurations;
 
-public class ApplicationConfiguration : IEntityTypeConfiguration<Application>
+public class JobApplicationConfiguration : IEntityTypeConfiguration<JobApplication>
 {
-    public void Configure(EntityTypeBuilder<Application> builder)
+    public void Configure(EntityTypeBuilder<JobApplication> builder)
     {
         builder.ToTable("Applications");
 
@@ -28,7 +28,7 @@ public class ApplicationConfiguration : IEntityTypeConfiguration<Application>
                .HasForeignKey("_jobPostingId")
                .IsRequired();
 
-        var criterias = builder.Metadata.FindNavigation(nameof(Application.CriteriasFullfillments));
+        var criterias = builder.Metadata.FindNavigation(nameof(JobApplication.CriteriasFullfillments));
         criterias?.SetPropertyAccessMode(PropertyAccessMode.Field);
 
         builder.HasMany(x => x.CriteriasFullfillments)

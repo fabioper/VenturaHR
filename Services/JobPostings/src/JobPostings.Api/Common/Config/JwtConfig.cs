@@ -1,5 +1,7 @@
 namespace JobPostings.Api.Common.Config;
 
+#nullable disable
+
 public class JwtConfig
 {
     public string Issuer { get; set; }
