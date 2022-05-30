@@ -1,7 +1,7 @@
 using FluentValidation;
 using JobPostings.Application.DTOs.Requests;
 
-namespace JobPostings.Api.Validations;
+namespace JobPostings.Application.Validations;
 
 public class CriteriaFullfillmentsRequestValidator : AbstractValidator<CriteriaFullfillmentRequest>
 {

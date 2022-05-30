@@ -4,6 +4,7 @@ using JobPostings.Api.Common.Extensions.DependencyInjection;
 using JobPostings.Api.Common.Extensions.ErrorHandler;
 using JobPostings.Application.Consumers;
 using JobPostings.Application.Mapping;
+using JobPostings.Application.Validations;
 using MassTransit;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,7 +28,11 @@ builder.Services.AddMassTransit(x =>
 });
 
 builder.Services.AddControllers()
-       .AddFluentValidation(opts => opts.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
+       .AddFluentValidation(opts =>
+       {
+           opts.RegisterValidatorsFromAssemblyContaining<CreateJobPostingRequestValidation>();
+           opts.ImplicitlyValidateChildProperties = true;
+       });
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwagger();
