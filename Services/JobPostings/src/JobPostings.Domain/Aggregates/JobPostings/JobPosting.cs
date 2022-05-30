@@ -1,6 +1,7 @@
 using Common.Abstractions;
 using Common.Guards;
 using JobPostings.Domain.Aggregates.Companies;
+using JobPostings.Domain.Aggregates.Criterias;
 using JobPostings.Domain.Common;
 
 namespace JobPostings.Domain.Aggregates.JobPostings;
@@ -25,7 +26,8 @@ public class JobPosting : BaseEntity<JobPostingId>, IAggregateRoot
     
     public DateTime ExpireAt { get; }
 
-    public IReadOnlyCollection<Criteria> Criterias { get; }
+    private List<Criteria> _criterias;
+    public IReadOnlyCollection<Criteria> Criterias => _criterias;
 
     public JobPosting(
         string title,
@@ -33,7 +35,8 @@ public class JobPosting : BaseEntity<JobPostingId>, IAggregateRoot
         string location,
         decimal salary,
         DateTime expiration,
-        Company company)
+        Company company,
+        List<Criteria> criterias)
     {
         Guard.Against.NullOrEmpty(title, nameof(title));
         Guard.Against.NullOrEmpty(description, nameof(description));
@@ -48,7 +51,7 @@ public class JobPosting : BaseEntity<JobPostingId>, IAggregateRoot
         CreatedAt = DateTime.UtcNow;
         UpdatedAt = DateTime.UtcNow;
         ExpireAt = expiration;
-        Criterias = new List<Criteria>();
+        _criterias = new List<Criteria>();
     }
 
     // Ef required

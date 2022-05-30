@@ -25,12 +25,18 @@ public class JobPostingConfiguration : IEntityTypeConfiguration<JobPosting>
 
         builder.HasOne(x => x.Company)
                .WithMany()
-               .HasForeignKey("_companyId");
+               .HasForeignKey("_companyId")
+               .IsRequired();
 
         builder.OwnsOne(x => x.Salary,
             x => x.Property(c => c.Value).HasColumnName("Compensation"));
 
         var criteriaNavigation = builder.Metadata.FindNavigation(nameof(JobPosting.Criterias));
         criteriaNavigation?.SetPropertyAccessMode(PropertyAccessMode.Field);
+
+        builder.HasMany(x => x.Criterias)
+               .WithOne()
+               .HasForeignKey("_jobPostingId")
+               .IsRequired();
     }
 }

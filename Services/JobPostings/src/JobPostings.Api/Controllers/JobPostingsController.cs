@@ -9,6 +9,7 @@ namespace JobPostings.Api.Controllers;
 
 [ApiController]
 [Route("job-postings")]
+[Authorize(Policy = Policy.CompanyOnly)]
 public class JobPostingsController : ControllerBase
 {
     private readonly IJobPostingsService _jobPostingsService;
@@ -16,8 +17,18 @@ public class JobPostingsController : ControllerBase
     public JobPostingsController(IJobPostingsService jobPostingsService)
         => _jobPostingsService = jobPostingsService;
 
+    [HttpGet]
+    public async Task<IActionResult> GetCompanyPublishedJobs()
+    {
+        var jobPostings = await _jobPostingsService.GetPublishedJobsBy(User.GetId());
+        return Ok(jobPostings);
+    }
+
+    [HttpGet("{id:guid}")]
+    [AllowAnonymous]
+    public async Task<IActionResult> GetJobPosting([FromRoute] Guid id) => Ok();
+
     [HttpPost]
-    [Authorize(Policy = Policy.CompanyOnly)]
     public async Task<IActionResult> PostJob([FromBody] PostJobRequest request)
     {
         await _jobPostingsService.PublishJob(request with
@@ -28,11 +39,15 @@ public class JobPostingsController : ControllerBase
         return Ok();
     }
 
-    [HttpGet]
-    [Authorize(Policy = Policy.CompanyOnly)]
-    public async Task<IActionResult> GetCompanyPublishedJobs()
+    [HttpPut("{id:guid}")]
+    public async Task<IActionResult> UpdateJobPosting([FromBody] UpdateJobRequest request, [FromRoute] Guid id)
     {
-        var jobPostings = await _jobPostingsService.GetPublishedJobsBy(User.GetId());
-        return Ok(jobPostings);
+        return Ok();
+    }
+
+    [HttpGet("{id:guid}/applications")]
+    public async Task<IActionResult> GetJobPostingApplications([FromRoute] Guid id)
+    {
+        return Ok();
     }
 }

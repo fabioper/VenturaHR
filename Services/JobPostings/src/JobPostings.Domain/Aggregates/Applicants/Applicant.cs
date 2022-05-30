@@ -1,6 +1,8 @@
 using Common.Abstractions;
 using JobPostings.Domain.Common;
 
+#nullable disable
+
 namespace JobPostings.Domain.Aggregates.Applicants;
 
 public class Applicant : BaseEntity<ApplicantId>, IAggregateRoot
@@ -13,5 +15,7 @@ public class Applicant : BaseEntity<ApplicantId>, IAggregateRoot
         Name = name;
     }
 
-    public Applicant() { } // Ef required
+    public Applicant()
+    {
+    } // Ef required
 }

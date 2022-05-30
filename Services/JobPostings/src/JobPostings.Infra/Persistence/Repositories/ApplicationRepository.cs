@@ -4,8 +4,8 @@ using ApplicationId = JobPostings.Domain.Common.ApplicationId;
 
 namespace JobPostings.Infra.Persistence.Repositories;
 
-public class JobApplicationRepository :
+public class ApplicationRepository :
     BaseRepository<Application, ApplicationId>, IJobApplicationRepository
 {
-    public JobApplicationRepository(ModelContext context) : base(context) { }
+    public ApplicationRepository(ModelContext context) : base(context) { }
 }

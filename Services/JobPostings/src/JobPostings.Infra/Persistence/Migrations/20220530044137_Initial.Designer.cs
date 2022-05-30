@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace JobPostings.Infra.Persistence.Migrations
 {
     [DbContext(typeof(ModelContext))]
-    [Migration("20220525052149_AddCriteria")]
-    partial class AddCriteria
+    [Migration("20220530044137_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -43,13 +43,13 @@ namespace JobPostings.Infra.Persistence.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("ApplicationDate")
+                    b.Property<DateTime>("AppliedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid?>("_applicantId")
+                    b.Property<Guid>("_applicantId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("_jobPostingId")
+                    b.Property<Guid>("_jobPostingId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -59,6 +59,29 @@ namespace JobPostings.Infra.Persistence.Migrations
                     b.HasIndex("_jobPostingId");
 
                     b.ToTable("Applications", (string)null);
+                });
+
+            modelBuilder.Entity("JobPostings.Domain.Aggregates.Application.CriteriaFullfillment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Value")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("_applicationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("_criteriaId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("_applicationId");
+
+                    b.HasIndex("_criteriaId");
+
+                    b.ToTable("CriteriaFullfillments", (string)null);
                 });
 
             modelBuilder.Entity("JobPostings.Domain.Aggregates.Companies.Company", b =>
@@ -75,21 +98,21 @@ namespace JobPostings.Infra.Persistence.Migrations
                     b.ToTable("Companies", (string)null);
                 });
 
-            modelBuilder.Entity("JobPostings.Domain.Aggregates.JobPostings.Criteria", b =>
+            modelBuilder.Entity("JobPostings.Domain.Aggregates.Criterias.Criteria", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid?>("JobPostingId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid>("_jobPostingId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("JobPostingId");
+                    b.HasIndex("_jobPostingId");
 
                     b.ToTable("Criterias", (string)null);
                 });
@@ -120,7 +143,7 @@ namespace JobPostings.Infra.Persistence.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid?>("_companyId")
+                    b.Property<Guid>("_companyId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -134,29 +157,54 @@ namespace JobPostings.Infra.Persistence.Migrations
                 {
                     b.HasOne("JobPostings.Domain.Aggregates.Applicants.Applicant", "Applicant")
                         .WithMany()
-                        .HasForeignKey("_applicantId");
+                        .HasForeignKey("_applicantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("JobPostings.Domain.Aggregates.JobPostings.JobPosting", "JobPosting")
                         .WithMany()
-                        .HasForeignKey("_jobPostingId");
+                        .HasForeignKey("_jobPostingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Applicant");
 
                     b.Navigation("JobPosting");
                 });
 
-            modelBuilder.Entity("JobPostings.Domain.Aggregates.JobPostings.Criteria", b =>
+            modelBuilder.Entity("JobPostings.Domain.Aggregates.Application.CriteriaFullfillment", b =>
+                {
+                    b.HasOne("JobPostings.Domain.Aggregates.Application.Application", null)
+                        .WithMany("CriteriasFullfillments")
+                        .HasForeignKey("_applicationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("JobPostings.Domain.Aggregates.Criterias.Criteria", "Criteria")
+                        .WithMany()
+                        .HasForeignKey("_criteriaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Criteria");
+                });
+
+            modelBuilder.Entity("JobPostings.Domain.Aggregates.Criterias.Criteria", b =>
                 {
                     b.HasOne("JobPostings.Domain.Aggregates.JobPostings.JobPosting", null)
                         .WithMany("Criterias")
-                        .HasForeignKey("JobPostingId");
+                        .HasForeignKey("_jobPostingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("JobPostings.Domain.Aggregates.JobPostings.JobPosting", b =>
                 {
                     b.HasOne("JobPostings.Domain.Aggregates.Companies.Company", "Company")
                         .WithMany()
-                        .HasForeignKey("_companyId");
+                        .HasForeignKey("_companyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.OwnsOne("JobPostings.Domain.Aggregates.JobPostings.Salary", "Salary", b1 =>
                         {
@@ -178,6 +226,11 @@ namespace JobPostings.Infra.Persistence.Migrations
                     b.Navigation("Company");
 
                     b.Navigation("Salary");
+                });
+
+            modelBuilder.Entity("JobPostings.Domain.Aggregates.Application.Application", b =>
+                {
+                    b.Navigation("CriteriasFullfillments");
                 });
 
             modelBuilder.Entity("JobPostings.Domain.Aggregates.JobPostings.JobPosting", b =>

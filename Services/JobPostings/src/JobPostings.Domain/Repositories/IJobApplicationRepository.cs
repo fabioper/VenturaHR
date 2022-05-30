@@ -1,5 +1,6 @@
 using Common.Abstractions;
 using JobPostings.Domain.Aggregates.Application;
+using JobPostings.Domain.Aggregates.JobPostings;
 using ApplicationId = JobPostings.Domain.Common.ApplicationId;
 
 namespace JobPostings.Domain.Repositories;

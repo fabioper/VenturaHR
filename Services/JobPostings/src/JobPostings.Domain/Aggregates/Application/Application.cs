@@ -10,14 +10,25 @@ namespace JobPostings.Domain.Aggregates.Application;
 public class Application : BaseEntity<ApplicationId>, IAggregateRoot
 {
     public JobPosting JobPosting { get; }
-    public Applicant Applicant { get; }
-    public DateTime ApplicationDate { get; }
 
-    public Application(JobPosting jobPosting, Applicant applicant)
+    public Applicant Applicant { get; }
+
+    public DateTime AppliedAt { get; }
+
+    private List<CriteriaFullfillment> _criteriasFullfillments;
+
+    public IReadOnlyCollection<CriteriaFullfillment> CriteriasFullfillments
+        => _criteriasFullfillments;
+
+    public Application(
+        Applicant applicant,
+        JobPosting jobPosting,
+        List<CriteriaFullfillment> criteriasFullfillments)
     {
         JobPosting = jobPosting;
         Applicant = applicant;
-        ApplicationDate = DateTime.UtcNow;
+        AppliedAt = DateTime.UtcNow;
+        _criteriasFullfillments = criteriasFullfillments;
     }
 
     public Application() { } // Ef required

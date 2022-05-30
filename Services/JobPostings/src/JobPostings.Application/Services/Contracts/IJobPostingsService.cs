@@ -1,6 +1,5 @@
 using JobPostings.Application.DTOs.Requests;
 using JobPostings.Application.DTOs.Responses;
-using JobPostings.Domain.Aggregates.JobPostings;
 
 namespace JobPostings.Application.Services.Contracts;
 

@@ -2,7 +2,7 @@ using AutoMapper;
 using JobPostings.Application.DTOs.Requests;
 using JobPostings.Application.DTOs.Responses;
 using JobPostings.Application.Services.Contracts;
-using JobPostings.Domain.Aggregates.Companies;
+using JobPostings.Domain.Aggregates.Criterias;
 using JobPostings.Domain.Aggregates.JobPostings;
 using JobPostings.Domain.Common;
 using JobPostings.Domain.Repositories;
@@ -28,13 +28,15 @@ public class JobPostingsService : IJobPostingsService
     public async Task PublishJob(PostJobRequest request)
     {
         var company = await _companyRepository.FindById(new CompanyId(request.CompanyId));
+        var criterias = _mapper.Map<List<Criteria>>(request.Criterias);
 
         var newJob = new JobPosting(request.Title,
             request.Description,
             request.Location,
             request.Salary,
             request.ExpirationDate,
-            company);
+            company,
+            criterias);
 
         await _jobPostingsRepository.Add(newJob);
     }

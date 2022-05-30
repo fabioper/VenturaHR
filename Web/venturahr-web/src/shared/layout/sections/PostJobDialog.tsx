@@ -9,6 +9,7 @@ import InputCurrency from "../../components/InputCurrency"
 import useForm from "../../hooks/useForm"
 import { PostJobModel } from "../../../core/dtos/jobposting/PostJobModel"
 import { postJobValidator } from "../../../core/validations/post-job.validator"
+import { postJob } from "../../../core/services/JobPostingsService"
 
 interface PostJobDialogProps {
   visible: boolean
@@ -27,8 +28,16 @@ const PostJobDialog: React.FC<PostJobDialogProps> = ({ visible, onHide }) => {
   const { form, renderError, isValid } = useForm<PostJobModel>(
     initialValues,
     postJobValidator,
-    values => console.log(values)
+    onSubmit
   )
+
+  async function onSubmit(values: PostJobModel): Promise<void> {
+    try {
+      await postJob(values)
+    } catch (e) {
+      console.log(e)
+    }
+  }
 
   function handleHide(): void {
     form.resetForm()

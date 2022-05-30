@@ -37,8 +37,8 @@ public static class AuthenticationExtensions
     {
         services.AddAuthorization(options =>
         {
-            options.AddPolicy(Policy.CompanyOnly, policyBuilder => policyBuilder.RequireRole("company"));
-            options.AddPolicy(Policy.ApplicantOnly, policyBuilder => policyBuilder.RequireRole("applicant"));
+            options.AddPolicy(Policy.CompanyOnly, policyBuilder => policyBuilder.RequireRole("Company"));
+            options.AddPolicy(Policy.ApplicantOnly, policyBuilder => policyBuilder.RequireRole("Applicant"));
         });
     }
 }

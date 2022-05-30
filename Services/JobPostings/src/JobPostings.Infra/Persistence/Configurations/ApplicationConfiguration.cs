@@ -5,7 +5,7 @@ using ApplicationId = JobPostings.Domain.Common.ApplicationId;
 
 namespace JobPostings.Infra.Persistence.Configurations;
 
-public class JobApplicationConfiguration : IEntityTypeConfiguration<Application>
+public class ApplicationConfiguration : IEntityTypeConfiguration<Application>
 {
     public void Configure(EntityTypeBuilder<Application> builder)
     {
@@ -16,14 +16,24 @@ public class JobApplicationConfiguration : IEntityTypeConfiguration<Application>
         builder.Property(x => x.Id)
                .HasConversion(x => x.Id, x => new ApplicationId(x));
 
+        builder.Property(x => x.AppliedAt).IsRequired();
+
         builder.HasOne(x => x.Applicant)
                .WithMany()
-               .HasForeignKey("_applicantId");
+               .HasForeignKey("_applicantId")
+               .IsRequired();
 
         builder.HasOne(x => x.JobPosting)
                .WithMany()
-               .HasForeignKey("_jobPostingId");
+               .HasForeignKey("_jobPostingId")
+               .IsRequired();
 
-        builder.Property(x => x.ApplicationDate).IsRequired();
+        var criterias = builder.Metadata.FindNavigation(nameof(Application.CriteriasFullfillments));
+        criterias?.SetPropertyAccessMode(PropertyAccessMode.Field);
+
+        builder.HasMany(x => x.CriteriasFullfillments)
+               .WithOne()
+               .HasForeignKey("_applicationId")
+               .IsRequired();
     }
 }
