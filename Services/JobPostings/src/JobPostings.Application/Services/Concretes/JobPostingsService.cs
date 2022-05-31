@@ -29,9 +29,9 @@ public class JobPostingsService : IJobPostingsService
         _applicationRepository = applicationRepository;
     }
 
-    public async Task PublishJob(CreateJobPostingRequest postingRequest)
+    public async Task CreateJobPostingFor(Guid companyId, CreateJobPostingRequest postingRequest)
     {
-        var company = await _companyRepository.FindById(new CompanyId(postingRequest.CompanyId));
+        var company = await _companyRepository.FindById(new CompanyId(companyId));
         var criterias = _mapper.Map<List<Criteria>>(postingRequest.Criterias);
 
         var newJob = new JobPosting(postingRequest.Title,
@@ -73,9 +73,9 @@ public class JobPostingsService : IJobPostingsService
         return _mapper.Map<List<ApplicationResponse>>(applications);
     }
 
-    public async Task UpdateJob(UpdateJobRequest request)
+    public async Task UpdateJob(Guid jobPostingId, UpdateJobRequest request)
     {
-        var jobPosting = await _jobPostingsRepository.FindById(new JobPostingId(request.Id));
+        var jobPosting = await _jobPostingsRepository.FindById(new JobPostingId(jobPostingId));
         if (jobPosting is null)
             throw new EntityNotFoundException(nameof(JobPosting));
 

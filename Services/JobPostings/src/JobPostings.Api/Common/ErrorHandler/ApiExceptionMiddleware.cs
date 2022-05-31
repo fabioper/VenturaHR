@@ -1,6 +1,6 @@
 using System.Text.Json;
 
-namespace JobPostings.Api.Common.Extensions.ErrorHandler;
+namespace JobPostings.Api.Common.ErrorHandler;
 
 public class ApiExceptionMiddleware
 {

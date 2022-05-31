@@ -17,5 +17,6 @@ public class CriteriaConfiguration : IEntityTypeConfiguration<Criteria>
                .HasConversion(x => x.Id, x => new CriteriaId(x));
 
         builder.Property(x => x.Title).IsRequired();
+        builder.Property(x => x.Weight).IsRequired();
     }
 }

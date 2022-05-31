@@ -7,6 +7,6 @@ namespace JobPostings.Application.DTOs.Responses;
 public record CriteriaResponse
 {
     public string Title { get; init; }
-    public Weight Weight { get; init; }
-    public MinimumDesiredProfile MinimumDesiredProfile { get; init; }
+    public int Weight { get; init; }
+    public DesiredProfile DesiredProfile { get; init; }
 }

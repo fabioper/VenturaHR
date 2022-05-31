@@ -1,7 +1,6 @@
-using System.Reflection;
 using FluentValidation.AspNetCore;
+using JobPostings.Api.Common.ErrorHandler;
 using JobPostings.Api.Common.Extensions.DependencyInjection;
-using JobPostings.Api.Common.Extensions.ErrorHandler;
 using JobPostings.Application.Consumers;
 using JobPostings.Application.Mapping;
 using JobPostings.Application.Validations;
@@ -30,7 +29,7 @@ builder.Services.AddMassTransit(x =>
 builder.Services.AddControllers()
        .AddFluentValidation(opts =>
        {
-           opts.RegisterValidatorsFromAssemblyContaining<CreateJobPostingRequestValidation>();
+           opts.RegisterValidatorsFromAssemblyContaining<CreateJobPostingRequestValidator>();
            opts.ImplicitlyValidateChildProperties = true;
        });
 

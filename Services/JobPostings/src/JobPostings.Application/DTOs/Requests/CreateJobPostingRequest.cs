@@ -9,6 +9,5 @@ public record CreateJobPostingRequest
     public string Location { get; init; }
     public decimal Salary { get; init; }
     public DateTime ExpirationDate { get; init; }
-    public Guid CompanyId { get; init; }
     public List<CriteriaRequest> Criterias { get; init; }
 }

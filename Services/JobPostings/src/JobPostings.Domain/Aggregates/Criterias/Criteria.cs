@@ -8,14 +8,14 @@ namespace JobPostings.Domain.Aggregates.Criterias;
 public class Criteria : BaseEntity<CriteriaId>, IAggregateRoot
 {
     public string Title { get; }
-    public Weight Weight { get; }
-    public MinimumDesiredProfile MinimumDesiredProfile { get; }
+    public int Weight { get; }
+    public DesiredProfile DesiredProfile { get; }
 
-    public Criteria(string title, Weight weight, MinimumDesiredProfile minimumDesiredProfile)
+    public Criteria(string title, int weight, DesiredProfile desiredProfile)
     {
         Title = title;
         Weight = weight;
-        MinimumDesiredProfile = minimumDesiredProfile;
+        DesiredProfile = desiredProfile;
     }
 
     public Criteria() { } // Ef required

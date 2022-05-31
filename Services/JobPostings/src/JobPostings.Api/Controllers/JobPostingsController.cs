@@ -20,44 +20,40 @@ public class JobPostingsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetCompanyPublishedJobs()
     {
-        var jobPostings = await _jobPostingsService.GetPublishedJobsBy(User.GetId());
+        var companyId = User.GetId();
+        var jobPostings = await _jobPostingsService.GetPublishedJobsBy(companyId);
         return Ok(jobPostings);
     }
 
-    [HttpGet("{id:guid}")]
+    [HttpGet("{jobPostingId:guid}")]
     [AllowAnonymous]
-    public async Task<IActionResult> GetJobPosting([FromRoute] Guid id)
+    public async Task<IActionResult> GetJobPosting([FromRoute] Guid jobPostingId)
     {
-        var jobPosting = await _jobPostingsService.GetJobPostingOfId(id);
+        var jobPosting = await _jobPostingsService.GetJobPostingOfId(jobPostingId);
         return Ok(jobPosting);
     }
 
-    [HttpPost]
-    public async Task<IActionResult> CreateJobPosting([FromBody] CreateJobPostingRequest postingRequest)
+    [HttpGet("{jobPostingId:guid}/applications")]
+    public async Task<IActionResult> GetJobPostingApplications([FromRoute] Guid jobPostingId)
     {
-        await _jobPostingsService.PublishJob(postingRequest with
-        {
-            CompanyId = User.GetId(),
-        });
-
-        return Ok();
-    }
-
-    [HttpPut("{id:guid}")]
-    public async Task<IActionResult> UpdateJobPosting([FromBody] UpdateJobRequest request, [FromRoute] Guid id)
-    {
-        await _jobPostingsService.UpdateJob(request with
-        {
-            Id = id,
-        });
-
-        return Ok();
-    }
-
-    [HttpGet("{id:guid}/applications")]
-    public async Task<IActionResult> GetJobPostingApplications([FromRoute] Guid id)
-    {
-        var applications = await _jobPostingsService.GetJobPostingApplications(id);
+        var applications = await _jobPostingsService.GetJobPostingApplications(jobPostingId);
         return Ok(applications);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateJobPosting([FromBody] CreateJobPostingRequest request)
+    {
+        var companyId = User.GetId();
+        await _jobPostingsService.CreateJobPostingFor(companyId, request);
+        return Ok();
+    }
+
+    [HttpPut("{jobPostingId:guid}")]
+    public async Task<IActionResult> UpdateJobPosting(
+        [FromBody] UpdateJobRequest request,
+        [FromRoute] Guid jobPostingId)
+    {
+        await _jobPostingsService.UpdateJob(jobPostingId, request);
+        return Ok();
     }
 }

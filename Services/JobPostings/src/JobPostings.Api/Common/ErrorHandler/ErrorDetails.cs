@@ -1,6 +1,6 @@
 using System.Net;
 
-namespace JobPostings.Api.Common.Extensions.ErrorHandler;
+namespace JobPostings.Api.Common.ErrorHandler;
 
 public record ErrorDetails
 {

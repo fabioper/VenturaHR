@@ -1,7 +1,7 @@
 using System.Net;
 using Common.Exceptions;
 
-namespace JobPostings.Api.Common.Extensions.ErrorHandler;
+namespace JobPostings.Api.Common.ErrorHandler;
 
 public static class ErrorDetailsFactory
 {
