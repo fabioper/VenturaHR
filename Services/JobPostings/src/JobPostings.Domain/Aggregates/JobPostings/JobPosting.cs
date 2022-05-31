@@ -10,21 +10,21 @@ namespace JobPostings.Domain.Aggregates.JobPostings;
 
 public class JobPosting : BaseEntity<JobPostingId>, IAggregateRoot
 {
-    public string Description { get; }
+    public string Description { get; private set; }
 
-    public string Title { get; }
+    public string Title { get; private set; }
 
-    public string Location { get; }
+    public string Location { get; private set; }
 
-    public Salary Salary { get; }
+    public Salary Salary { get; private set; }
+
+    public DateTime CreatedAt { get; private set; }
+    
+    public DateTime UpdatedAt { get; private set; }
+    
+    public DateTime ExpireAt { get; private set; }
 
     public Company Company { get; }
-
-    public DateTime CreatedAt { get; }
-    
-    public DateTime UpdatedAt { get; }
-    
-    public DateTime ExpireAt { get; }
 
     private List<Criteria> _criterias;
     public IReadOnlyCollection<Criteria> Criterias => _criterias;
@@ -56,4 +56,22 @@ public class JobPosting : BaseEntity<JobPostingId>, IAggregateRoot
 
     // Ef required
     public JobPosting() { }
+
+    public void UpdateDescription(string description)
+    {
+        Guard.Against.NullOrEmpty(description, nameof(description));
+        Description = description;
+    }
+
+    public void UpdateTitle(string title)
+    {
+        Guard.Against.NullOrEmpty(title, nameof(title));
+        Title = title;
+    }
+
+    public void UpdateSalary(decimal salary)
+        => Salary = new Salary(salary);
+
+    public void UpdateCriterias(List<Criteria> criterias)
+        => _criterias = criterias;
 }

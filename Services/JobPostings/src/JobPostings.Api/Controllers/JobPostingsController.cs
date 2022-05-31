@@ -46,12 +46,18 @@ public class JobPostingsController : ControllerBase
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> UpdateJobPosting([FromBody] UpdateJobRequest request, [FromRoute] Guid id)
     {
+        await _jobPostingsService.UpdateJob(request with
+        {
+            Id = id,
+        });
+
         return Ok();
     }
 
     [HttpGet("{id:guid}/applications")]
     public async Task<IActionResult> GetJobPostingApplications([FromRoute] Guid id)
     {
-        return Ok();
+        var applications = await _jobPostingsService.GetJobPostingApplications(id);
+        return Ok(applications);
     }
 }
