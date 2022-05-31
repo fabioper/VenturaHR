@@ -1,11 +1,10 @@
 using Common.Abstractions;
-using JobPostings.Domain.Aggregates.Applications;
+using JobPostings.Domain.Aggregates.JobApplications;
 using JobPostings.Domain.Common;
-using ApplicationId = JobPostings.Domain.Common.ApplicationId;
 
 namespace JobPostings.Domain.Repositories;
 
-public interface IJobApplicationRepository : IBaseRepository<JobApplication, ApplicationId>
+public interface IJobApplicationRepository : IBaseRepository<JobApplication, JobApplicationId>
 {
     Task<IEnumerable<JobApplication>> GetAllByJobCompanyOfId(JobPostingId jobPostingId);
 }

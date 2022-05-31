@@ -3,6 +3,7 @@ using Common.Exceptions;
 using JobPostings.Application.DTOs.Requests;
 using JobPostings.Application.DTOs.Responses;
 using JobPostings.Application.Services.Contracts;
+using JobPostings.Domain.Aggregates.Companies;
 using JobPostings.Domain.Aggregates.Criterias;
 using JobPostings.Domain.Aggregates.JobPostings;
 using JobPostings.Domain.Common;
@@ -32,6 +33,9 @@ public class JobPostingsService : IJobPostingsService
     public async Task CreateJobPostingFor(Guid companyId, CreateJobPostingRequest postingRequest)
     {
         var company = await _companyRepository.FindById(new CompanyId(companyId));
+        if (company is null)
+            throw new EntityNotFoundException(nameof(Company));
+
         var criterias = _mapper.Map<List<Criteria>>(postingRequest.Criterias);
 
         var newJob = new JobPosting(postingRequest.Title,
@@ -39,8 +43,8 @@ public class JobPostingsService : IJobPostingsService
             postingRequest.Location,
             postingRequest.Salary,
             postingRequest.ExpirationDate,
-            company,
-            criterias);
+            criterias,
+            company);
 
         await _jobPostingsRepository.Add(newJob);
     }
@@ -53,31 +57,20 @@ public class JobPostingsService : IJobPostingsService
 
     public async Task<JobPostingResponse> GetJobPostingOfId(Guid jobPostingId)
     {
-        var jobPosting = await _jobPostingsRepository.FindById(new JobPostingId(jobPostingId));
-
-        if (jobPosting is null)
-            throw new EntityNotFoundException(nameof(jobPosting));
-
+        var jobPosting = await FindJobPostingOfId(jobPostingId);
         return _mapper.Map<JobPostingResponse>(jobPosting);
     }
 
     public async Task<IEnumerable<ApplicationResponse>> GetJobPostingApplications(Guid id)
     {
-        var jobPostingId = new JobPostingId(id);
-
-        var jobPosting = await _jobPostingsRepository.FindById(jobPostingId);
-        if (jobPosting is null)
-            throw new EntityNotFoundException(nameof(JobPosting));
-
-        var applications = await _applicationRepository.GetAllByJobCompanyOfId(jobPostingId);
+        var jobPosting = await FindJobPostingOfId(id);
+        var applications = await _applicationRepository.GetAllByJobCompanyOfId(jobPosting.Id);
         return _mapper.Map<List<ApplicationResponse>>(applications);
     }
 
     public async Task UpdateJob(Guid jobPostingId, UpdateJobRequest request)
     {
-        var jobPosting = await _jobPostingsRepository.FindById(new JobPostingId(jobPostingId));
-        if (jobPosting is null)
-            throw new EntityNotFoundException(nameof(JobPosting));
+        var jobPosting = await FindJobPostingOfId(jobPostingId);
 
         jobPosting.UpdateDescription(request.Description);
         jobPosting.UpdateTitle(request.Title);
@@ -87,5 +80,11 @@ public class JobPostingsService : IJobPostingsService
         jobPosting.UpdateCriterias(criterias);
 
         await _jobPostingsRepository.Update(jobPosting);
+    }
+
+    private async Task<JobPosting> FindJobPostingOfId(Guid id)
+    {
+        return await _jobPostingsRepository.FindById(new JobPostingId(id)) ??
+               throw new EntityNotFoundException(nameof(JobPosting));
     }
 }

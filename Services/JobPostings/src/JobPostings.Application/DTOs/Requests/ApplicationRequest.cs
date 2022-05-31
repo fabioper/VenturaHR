@@ -6,5 +6,5 @@ public record ApplicationRequest
 {
     public Guid ApplicantId { get; init; }
     public Guid JobPostingId { get; init; }
-    public List<CriteriaFullfillmentRequest> CriteriaFullfillments { get; init; }
+    public List<CriteriaAnswerRequest> CriteriaFullfillments { get; init; }
 }

@@ -1,13 +1,12 @@
-using JobPostings.Domain.Aggregates.Applications;
+using JobPostings.Domain.Aggregates.JobApplications;
 using JobPostings.Domain.Common;
 using JobPostings.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
-using ApplicationId = JobPostings.Domain.Common.ApplicationId;
 
 namespace JobPostings.Infra.Persistence.Repositories;
 
 public class JobApplicationRepository :
-    BaseRepository<JobApplication, ApplicationId>,
+    BaseRepository<JobApplication, JobApplicationId>,
     IJobApplicationRepository
 {
     private readonly ModelContext _context;

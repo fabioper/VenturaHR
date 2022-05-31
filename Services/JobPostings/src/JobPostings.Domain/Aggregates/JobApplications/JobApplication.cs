@@ -2,13 +2,12 @@
 
 using Common.Abstractions;
 using JobPostings.Domain.Aggregates.Applicants;
-using JobPostings.Domain.Aggregates.Application;
 using JobPostings.Domain.Aggregates.JobPostings;
-using ApplicationId = JobPostings.Domain.Common.ApplicationId;
+using JobPostings.Domain.Common;
 
-namespace JobPostings.Domain.Aggregates.Applications;
+namespace JobPostings.Domain.Aggregates.JobApplications;
 
-public class JobApplication : BaseEntity<ApplicationId>, IAggregateRoot
+public class JobApplication : BaseEntity<JobApplicationId>, IAggregateRoot
 {
     public JobPosting JobPosting { get; }
 
@@ -16,20 +15,20 @@ public class JobApplication : BaseEntity<ApplicationId>, IAggregateRoot
 
     public DateTime AppliedAt { get; }
 
-    private List<CriteriaFullfillment> _criteriasFullfillments;
+    private List<CriteriaAnswer> _criteriasAnswers;
 
-    public IReadOnlyCollection<CriteriaFullfillment> CriteriasFullfillments
-        => _criteriasFullfillments;
+    public IReadOnlyCollection<CriteriaAnswer> CriteriasAnswers
+        => _criteriasAnswers;
 
     public JobApplication(
         Applicant applicant,
         JobPosting jobPosting,
-        List<CriteriaFullfillment> criteriasFullfillments)
+        List<CriteriaAnswer> criteriasAnswers)
     {
         JobPosting = jobPosting;
         Applicant = applicant;
         AppliedAt = DateTime.UtcNow;
-        _criteriasFullfillments = criteriasFullfillments;
+        _criteriasAnswers = criteriasAnswers;
     }
 
     public JobApplication() { } // Ef required

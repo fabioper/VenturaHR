@@ -3,6 +3,7 @@ using System;
 using JobPostings.Infra.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace JobPostings.Infra.Persistence.Migrations
 {
     [DbContext(typeof(ModelContext))]
-    partial class ModelContextModelSnapshot : ModelSnapshot
+    [Migration("20220531190144_RenameCriteriaAnswer")]
+    partial class RenameCriteriaAnswer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -207,7 +209,7 @@ namespace JobPostings.Infra.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("JobPostings.Domain.Aggregates.JobPostings.JobPosting.Salary#JobPostings.Domain.Aggregates.JobPostings.Salary", "Salary", b1 =>
+                    b.OwnsOne("JobPostings.Domain.Aggregates.JobPostings.Salary", "Salary", b1 =>
                         {
                             b1.Property<Guid>("JobPostingId")
                                 .HasColumnType("uuid");
@@ -218,7 +220,7 @@ namespace JobPostings.Infra.Persistence.Migrations
 
                             b1.HasKey("JobPostingId");
 
-                            b1.ToTable("JobPostings", (string)null);
+                            b1.ToTable("JobPostings");
 
                             b1.WithOwner()
                                 .HasForeignKey("JobPostingId");

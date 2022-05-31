@@ -2,10 +2,9 @@
 
 using System.Reflection;
 using JobPostings.Domain.Aggregates.Applicants;
-using JobPostings.Domain.Aggregates.Application;
-using JobPostings.Domain.Aggregates.Applications;
 using JobPostings.Domain.Aggregates.Companies;
 using JobPostings.Domain.Aggregates.Criterias;
+using JobPostings.Domain.Aggregates.JobApplications;
 using JobPostings.Domain.Aggregates.JobPostings;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,7 +17,7 @@ public class ModelContext : DbContext
     public DbSet<Applicant> Applicants { get; set; }
     public DbSet<JobApplication> Applications { get; set; }
     public DbSet<Criteria> Criterias { get; set; }
-    public DbSet<CriteriaFullfillment> Type { get; set; }
+    public DbSet<CriteriaAnswer> Type { get; set; }
 
     public ModelContext(DbContextOptions<ModelContext> options) : base(options) { }
 

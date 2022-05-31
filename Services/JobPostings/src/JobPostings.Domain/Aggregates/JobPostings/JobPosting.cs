@@ -35,8 +35,8 @@ public class JobPosting : BaseEntity<JobPostingId>, IAggregateRoot
         string location,
         decimal salary,
         DateTime expiration,
-        Company company,
-        List<Criteria> criterias)
+        List<Criteria> criterias,
+        Company company)
     {
         Guard.Against.NullOrEmpty(title, nameof(title));
         Guard.Against.NullOrEmpty(description, nameof(description));
@@ -51,7 +51,7 @@ public class JobPosting : BaseEntity<JobPostingId>, IAggregateRoot
         CreatedAt = DateTime.UtcNow;
         UpdatedAt = DateTime.UtcNow;
         ExpireAt = expiration;
-        _criterias = new List<Criteria>();
+        _criterias = criterias;
     }
 
     // Ef required

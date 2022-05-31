@@ -1,15 +1,15 @@
-using JobPostings.Domain.Aggregates.Application;
+using JobPostings.Domain.Aggregates.JobApplications;
 using JobPostings.Domain.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace JobPostings.Infra.Persistence.Configurations;
 
-public class CriteriaFullfillmentConfiguration : IEntityTypeConfiguration<CriteriaFullfillment>
+public class CriteriaAnswerConfiguration : IEntityTypeConfiguration<CriteriaAnswer>
 {
-    public void Configure(EntityTypeBuilder<CriteriaFullfillment> builder)
+    public void Configure(EntityTypeBuilder<CriteriaAnswer> builder)
     {
-        builder.ToTable("CriteriaFullfillments");
+        builder.ToTable("CriteriaAnswers");
 
         builder.HasKey(x => x.Id);
 
