@@ -21,8 +21,8 @@ public class JobPostingsService : IJobPostingsService
     public JobPostingsService(
         IJobPostingRepository jobPostingsRepository,
         ICompanyRepository companyRepository,
-        IMapper mapper,
-        IJobApplicationRepository applicationRepository)
+        IJobApplicationRepository applicationRepository,
+        IMapper mapper)
     {
         _jobPostingsRepository = jobPostingsRepository;
         _companyRepository = companyRepository;
@@ -30,20 +30,16 @@ public class JobPostingsService : IJobPostingsService
         _applicationRepository = applicationRepository;
     }
 
-    public async Task CreateJobPostingFor(Guid companyId, CreateJobPostingRequest postingRequest)
+    public async Task CreateJobPosting(Guid companyId, CreateJobPostingRequest request)
     {
-        var company = await _companyRepository.FindById(new CompanyId(companyId));
-        if (company is null)
-            throw new EntityNotFoundException(nameof(Company));
+        var company = await FindCompanyOfId(companyId);
 
-        var criterias = _mapper.Map<List<Criteria>>(postingRequest.Criterias);
-
-        var newJob = new JobPosting(postingRequest.Title,
-            postingRequest.Description,
-            postingRequest.Location,
-            postingRequest.Salary,
-            postingRequest.ExpirationDate,
-            criterias,
+        var newJob = new JobPosting(request.Title,
+            request.Description,
+            request.Location,
+            request.Salary,
+            request.ExpirationDate,
+            MapCriterias(request.Criterias),
             company);
 
         await _jobPostingsRepository.Add(newJob);
@@ -71,12 +67,12 @@ public class JobPostingsService : IJobPostingsService
     public async Task UpdateJob(Guid jobPostingId, UpdateJobRequest request)
     {
         var jobPosting = await FindJobPostingOfId(jobPostingId);
+        var criterias = _mapper.Map<List<Criteria>>(request.Criterias);
 
         jobPosting.UpdateDescription(request.Description);
         jobPosting.UpdateTitle(request.Title);
         jobPosting.UpdateSalary(request.Salary);
-
-        var criterias = _mapper.Map<List<Criteria>>(request.Criterias);
+        jobPosting.UpdateLocation(request.Location);
         jobPosting.UpdateCriterias(criterias);
 
         await _jobPostingsRepository.Update(jobPosting);
@@ -84,7 +80,16 @@ public class JobPostingsService : IJobPostingsService
 
     private async Task<JobPosting> FindJobPostingOfId(Guid id)
     {
-        return await _jobPostingsRepository.FindById(new JobPostingId(id)) ??
-               throw new EntityNotFoundException(nameof(JobPosting));
+        var jobPosting = await _jobPostingsRepository.FindById(new JobPostingId(id));
+        return jobPosting ?? throw new EntityNotFoundException(nameof(JobPosting));
     }
+
+    private async Task<Company> FindCompanyOfId(Guid companyId)
+    {
+        var company = await _companyRepository.FindById(new CompanyId(companyId));
+        return company ?? throw new EntityNotFoundException(nameof(Company));
+    }
+
+    private List<Criteria> MapCriterias(IEnumerable<CriteriaRequest> criterias)
+        => _mapper.Map<List<Criteria>>(criterias);
 }

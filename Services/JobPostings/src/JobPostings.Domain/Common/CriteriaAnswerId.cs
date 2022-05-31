@@ -2,4 +2,4 @@ using Common.Abstractions;
 
 namespace JobPostings.Domain.Common;
 
-public record CriteriaFullfillmentId(Guid Id) : EntityId;
+public record CriteriaAnswerId(Guid Id) : EntityId;

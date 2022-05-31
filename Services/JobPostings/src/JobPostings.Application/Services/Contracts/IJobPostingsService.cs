@@ -5,7 +5,7 @@ namespace JobPostings.Application.Services.Contracts;
 
 public interface IJobPostingsService
 {
-    Task CreateJobPostingFor(Guid companyId, CreateJobPostingRequest postingRequest);
+    Task CreateJobPosting(Guid companyId, CreateJobPostingRequest request);
     Task<IEnumerable<JobPostingResponse>> GetPublishedJobsBy(Guid companyId);
     Task<JobPostingResponse> GetJobPostingOfId(Guid jobPostingId);
     Task<IEnumerable<ApplicationResponse>> GetJobPostingApplications(Guid id);

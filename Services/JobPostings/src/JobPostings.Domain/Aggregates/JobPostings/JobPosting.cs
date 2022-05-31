@@ -61,17 +61,32 @@ public class JobPosting : BaseEntity<JobPostingId>, IAggregateRoot
     {
         Guard.Against.NullOrEmpty(description, nameof(description));
         Description = description;
+        UpdatedAt = DateTime.UtcNow;
     }
 
-    public void UpdateTitle(string title)
+    public void UpdateTitle(string newTitle)
     {
-        Guard.Against.NullOrEmpty(title, nameof(title));
-        Title = title;
+        Guard.Against.NullOrEmpty(newTitle, nameof(newTitle));
+        Title = newTitle;
+        UpdatedAt = DateTime.UtcNow;
     }
 
-    public void UpdateSalary(decimal salary)
-        => Salary = new Salary(salary);
+    public void UpdateSalary(decimal newSalary)
+    {
+        Salary = new Salary(newSalary);
+        UpdatedAt = DateTime.UtcNow;
+    }
 
     public void UpdateCriterias(List<Criteria> criterias)
-        => _criterias = criterias;
+    {
+        _criterias = criterias;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void UpdateLocation(string newLocation)
+    {
+        Guard.Against.NullOrEmpty(newLocation, nameof(newLocation));
+        Location = newLocation;
+        UpdatedAt = DateTime.UtcNow;
+    }
 }

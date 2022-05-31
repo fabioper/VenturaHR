@@ -6,7 +6,7 @@ using JobPostings.Domain.Common;
 
 namespace JobPostings.Domain.Aggregates.JobApplications;
 
-public class CriteriaAnswer : BaseEntity<CriteriaFullfillmentId>
+public class CriteriaAnswer : BaseEntity<CriteriaAnswerId>
 {
     public Criteria Criteria { get; }
     public int Value { get; }

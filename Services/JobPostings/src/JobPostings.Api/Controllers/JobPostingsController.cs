@@ -44,7 +44,7 @@ public class JobPostingsController : ControllerBase
     public async Task<IActionResult> CreateJobPosting([FromBody] CreateJobPostingRequest request)
     {
         var companyId = User.GetId();
-        await _jobPostingsService.CreateJobPostingFor(companyId, request);
+        await _jobPostingsService.CreateJobPosting(companyId, request);
         return Ok();
     }
 

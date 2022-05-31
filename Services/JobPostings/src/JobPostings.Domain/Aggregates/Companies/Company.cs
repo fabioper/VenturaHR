@@ -9,7 +9,7 @@ namespace JobPostings.Domain.Aggregates.Companies;
 
 public class Company : BaseEntity<CompanyId>, IAggregateRoot
 {
-    public string Name { get; private set; }
+    public string Name { get; }
 
     public Company(Guid companyId, string name)
     {
@@ -20,14 +20,14 @@ public class Company : BaseEntity<CompanyId>, IAggregateRoot
     public Company() { }
 
     public JobPosting PublishJob(
-        string title,
-        string description,
-        string location,
-        decimal salary,
-        DateTime expiration,
-        List<Criteria> criterias)
+        string jobTitle,
+        string jobDescription,
+        string jobLocation,
+        decimal jobSalary,
+        DateTime jobExpirationDate,
+        List<Criteria> jobCriterias)
     {
-        return new JobPosting(title, description, location, salary,
-            expiration, criterias, this);
+        return new JobPosting(jobTitle, jobDescription, jobLocation, jobSalary,
+            jobExpirationDate, jobCriterias, this);
     }
 }

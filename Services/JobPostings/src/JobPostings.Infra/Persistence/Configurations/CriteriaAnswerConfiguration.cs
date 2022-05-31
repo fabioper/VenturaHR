@@ -13,7 +13,7 @@ public class CriteriaAnswerConfiguration : IEntityTypeConfiguration<CriteriaAnsw
 
         builder.HasKey(x => x.Id);
 
-        builder.Property(x => x.Id).HasConversion(x => x.Id, x => new CriteriaFullfillmentId(x));
+        builder.Property(x => x.Id).HasConversion(x => x.Id, x => new CriteriaAnswerId(x));
 
         builder.Property(x => x.Value).IsRequired();
 
