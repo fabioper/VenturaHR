@@ -27,4 +27,16 @@ public class JobApplicationRepository :
                              .Where(x => x.JobPosting.Id == jobPostingId)
                              .ToListAsync();
     }
+
+    public async Task<IEnumerable<JobApplication>> GetAllByApplicant(ApplicantId applicantId)
+    {
+        return await _context.Applications
+                             .Include(x => x.Applicant)
+                             .Include(x => x.CriteriasAnswers)
+                             .ThenInclude(x => x.Criteria)
+                             .Include(x => x.JobPosting)
+                             .ThenInclude(x => x.Company)
+                             .Where(x => x.Applicant.Id == applicantId)
+                             .ToListAsync();
+    }
 }

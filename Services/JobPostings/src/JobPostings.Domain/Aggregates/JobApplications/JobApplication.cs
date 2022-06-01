@@ -25,6 +25,7 @@ public class JobApplication : BaseEntity<JobApplicationId>, IAggregateRoot
         JobPosting jobPosting,
         List<CriteriaAnswer> criteriasAnswers)
     {
+        Id = new JobApplicationId();
         JobPosting = jobPosting;
         Applicant = applicant;
         AppliedAt = DateTime.UtcNow;

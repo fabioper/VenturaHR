@@ -3,11 +3,11 @@ using JobPostings.Application.DTOs.Requests;
 
 namespace JobPostings.Application.Validations;
 
-public class ApplicationRequestValidator : AbstractValidator<ApplicationRequest>
+public class JobApplicationRequestValidator : AbstractValidator<JobApplicationRequest>
 {
-    public ApplicationRequestValidator()
+    public JobApplicationRequestValidator()
     {
-        RuleFor(x => x.ApplicantId).Empty();
+        RuleFor(x => x.ApplicantId).NotEmpty();
         RuleFor(x => x.JobPostingId).NotEmpty();
     }
 }

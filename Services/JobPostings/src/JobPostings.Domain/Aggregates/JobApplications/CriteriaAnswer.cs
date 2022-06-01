@@ -8,8 +8,11 @@ namespace JobPostings.Domain.Aggregates.JobApplications;
 
 public class CriteriaAnswer : BaseEntity<CriteriaAnswerId>
 {
+    public int Value { get; set; }
+    
+    public CriteriaId CriteriaId { get; set; }
+
     public Criteria Criteria { get; }
-    public int Value { get; }
 
     public CriteriaAnswer(Criteria criteria, int value)
     {

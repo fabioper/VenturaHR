@@ -19,7 +19,7 @@ public class CriteriaAnswerConfiguration : IEntityTypeConfiguration<CriteriaAnsw
 
         builder.HasOne(x => x.Criteria)
                .WithMany()
-               .HasForeignKey("_criteriaId")
+               .HasForeignKey(x => x.CriteriaId)
                .IsRequired();
     }
 }

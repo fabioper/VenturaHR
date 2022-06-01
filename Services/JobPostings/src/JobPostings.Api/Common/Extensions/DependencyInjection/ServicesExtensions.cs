@@ -12,6 +12,7 @@ public static class ServicesExtensions
     public static void AddServices(this IServiceCollection services)
     {
         services.AddScoped<IJobPostingsService, JobPostingsService>();
+        services.AddScoped<IJobApplicationService, JobApplicationService>();
     }
 
     public static void AddRepositories(this IServiceCollection services)
