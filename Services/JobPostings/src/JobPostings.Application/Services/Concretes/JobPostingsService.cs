@@ -45,6 +45,19 @@ public class JobPostingsService : IJobPostingsService
         await _jobPostingsRepository.Add(newJob);
     }
 
+    public async Task UpdateJob(Guid jobPostingId, UpdateJobRequest request)
+    {
+        var jobPosting = await FindJobPostingOfId(jobPostingId);
+
+        jobPosting.UpdateTitle(request.Title);
+        jobPosting.UpdateDescription(request.Description);
+        jobPosting.UpdateLocation(request.Location);
+        jobPosting.UpdateSalary(request.Salary);
+        jobPosting.UpdateCriterias(MapCriterias(request.Criterias));
+
+        await _jobPostingsRepository.Update(jobPosting);
+    }
+
     public async Task<IEnumerable<JobPostingResponse>> GetPublishedJobsBy(Guid companyId)
     {
         var jobPostings = await _jobPostingsRepository.FindByCompanyOfId(new CompanyId(companyId));
@@ -62,20 +75,6 @@ public class JobPostingsService : IJobPostingsService
         var jobPosting = await FindJobPostingOfId(id);
         var applications = await _applicationRepository.GetAllByJobCompanyOfId(jobPosting.Id);
         return _mapper.Map<List<ApplicationResponse>>(applications);
-    }
-
-    public async Task UpdateJob(Guid jobPostingId, UpdateJobRequest request)
-    {
-        var jobPosting = await FindJobPostingOfId(jobPostingId);
-        var criterias = _mapper.Map<List<Criteria>>(request.Criterias);
-
-        jobPosting.UpdateDescription(request.Description);
-        jobPosting.UpdateTitle(request.Title);
-        jobPosting.UpdateSalary(request.Salary);
-        jobPosting.UpdateLocation(request.Location);
-        jobPosting.UpdateCriterias(criterias);
-
-        await _jobPostingsRepository.Update(jobPosting);
     }
 
     private async Task<JobPosting> FindJobPostingOfId(Guid id)

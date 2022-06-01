@@ -8,6 +8,7 @@ public class CompanyProfile : Profile
 {
     public CompanyProfile()
     {
-        CreateMap<Company, CompanyResponse>();
+        CreateMap<Company, CompanyResponse>()
+            .ForMember(dto => dto.Id, opts => opts.MapFrom(m => m.Id.Id));
     }
 }

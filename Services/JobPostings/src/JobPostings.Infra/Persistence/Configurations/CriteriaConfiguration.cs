@@ -18,5 +18,6 @@ public class CriteriaConfiguration : IEntityTypeConfiguration<Criteria>
 
         builder.Property(x => x.Title).IsRequired();
         builder.Property(x => x.Weight).IsRequired();
+        builder.Property(x => x.DesiredProfile).IsRequired();
     }
 }

@@ -11,6 +11,5 @@ public class UpdateJobRequestValidator : AbstractValidator<UpdateJobRequest>
         RuleFor(x => x.Description).NotEmpty();
         RuleFor(x => x.Location).NotEmpty();
         RuleFor(x => x.Salary).NotEmpty().GreaterThan(0);
-        RuleFor(x => x.ExpirationDate).NotEmpty();
     }
 }

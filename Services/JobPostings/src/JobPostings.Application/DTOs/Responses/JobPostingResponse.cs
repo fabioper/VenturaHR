@@ -9,7 +9,9 @@ public record JobPostingResponse
     public string Description { get; init; }
     public string Location { get; init; }
     public decimal Salary { get; init; }
-    public List<CriteriaResponse> Criterias { get; init; }
-    public DateTime ExpirationDate { get; init; }
+    public DateTime CreatedAt { get; init; }
+    public DateTime UpdatedAt { get; init; }
+    public DateTime ExpireAt { get; init; }
     public CompanyResponse Company { get; init; }
+    public List<CriteriaResponse> Criterias { get; init; }
 }

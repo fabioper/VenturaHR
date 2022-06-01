@@ -15,7 +15,16 @@ public class JobPostingRepository : BaseRepository<JobPosting, JobPostingId>, IJ
     {
         return await _context.JobPostings
                              .Include(x => x.Company)
+                             .Include(x => x.Criterias)
                              .Where(x => x.Company.Id == companyId)
                              .ToListAsync();
+    }
+
+    public new async Task<JobPosting?> FindById(JobPostingId id)
+    {
+        return await _context.JobPostings
+                             .Include(x => x.Company)
+                             .Include(x => x.Criterias)
+                             .FirstOrDefaultAsync(x => x.Id == id);
     }
 }

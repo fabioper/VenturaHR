@@ -13,6 +13,7 @@ public class Criteria : BaseEntity<CriteriaId>, IAggregateRoot
 
     public Criteria(string title, int weight, DesiredProfile desiredProfile)
     {
+        Id = new CriteriaId();
         Title = title;
         Weight = weight;
         DesiredProfile = desiredProfile;
