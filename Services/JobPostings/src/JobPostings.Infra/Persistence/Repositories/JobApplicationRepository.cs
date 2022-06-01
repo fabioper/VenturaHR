@@ -16,10 +16,14 @@ public class JobApplicationRepository :
         _context = context;
     }
 
-    public async Task<IEnumerable<JobApplication>> GetAllByJobCompanyOfId(JobPostingId jobPostingId)
+    public async Task<IEnumerable<JobApplication>> GetAllByJobCompanyOfId(
+        CompanyId companyId,
+        JobPostingId jobPostingId)
     {
         return await _context.Applications
                              .Include(x => x.JobPosting)
+                             .ThenInclude(x => x.Company)
+                             .Where(x => x.JobPosting.Company.Id == companyId)
                              .Where(x => x.JobPosting.Id == jobPostingId)
                              .ToListAsync();
     }

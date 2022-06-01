@@ -6,5 +6,5 @@ namespace JobPostings.Domain.Repositories;
 
 public interface IJobApplicationRepository : IBaseRepository<JobApplication, JobApplicationId>
 {
-    Task<IEnumerable<JobApplication>> GetAllByJobCompanyOfId(JobPostingId jobPostingId);
+    Task<IEnumerable<JobApplication>> GetAllByJobCompanyOfId(CompanyId companyId, JobPostingId jobPostingId);
 }

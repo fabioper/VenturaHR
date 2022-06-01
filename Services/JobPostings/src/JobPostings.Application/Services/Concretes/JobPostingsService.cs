@@ -70,10 +70,13 @@ public class JobPostingsService : IJobPostingsService
         return _mapper.Map<JobPostingResponse>(jobPosting);
     }
 
-    public async Task<IEnumerable<ApplicationResponse>> GetJobPostingApplications(Guid id)
+    public async Task<IEnumerable<ApplicationResponse>> GetJobPostingApplications(Guid companyId, Guid jobPostingId)
     {
-        var jobPosting = await FindJobPostingOfId(id);
-        var applications = await _applicationRepository.GetAllByJobCompanyOfId(jobPosting.Id);
+        var applications = await _applicationRepository.GetAllByJobCompanyOfId(
+            new CompanyId(companyId),
+            new JobPostingId(jobPostingId)
+        );
+
         return _mapper.Map<List<ApplicationResponse>>(applications);
     }
 
