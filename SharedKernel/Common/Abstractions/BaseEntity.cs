@@ -1,10 +1,12 @@
 namespace Common.Abstractions;
 
-public abstract class BaseEntity<TId> where TId : EntityId
+public abstract class BaseEntity
 {
-    public TId Id { get; set; }
+    public Guid Id { get; protected set; }
+    public DateTime CreatedAt { get; protected set; }
+    public DateTime UpdatedAt { get; protected set; }
 
-    public static bool operator ==(BaseEntity<TId>? a, BaseEntity<TId>? b)
+    public static bool operator ==(BaseEntity? a, BaseEntity? b)
     {
         if (a is null && b is null)
             return true;
@@ -15,19 +17,20 @@ public abstract class BaseEntity<TId> where TId : EntityId
         return a.Equals(b);
     }
 
-    public static bool operator !=(BaseEntity<TId> a, BaseEntity<TId> b) => !(a == b);
+    public static bool operator !=(BaseEntity a, BaseEntity b) => !(a == b);
 
-    private bool Equals(BaseEntity<TId> other) => EqualityComparer<TId>.Default.Equals(Id, other.Id);
+    protected bool Equals(BaseEntity other) => Id == other.Id;
 
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj))
             return false;
+
         if (ReferenceEquals(this, obj))
             return true;
 
-        return obj.GetType() == GetType() && Equals((BaseEntity<TId>)obj);
+        return obj.GetType() == GetType() && Equals((BaseEntity)obj);
     }
 
-    public override int GetHashCode() => EqualityComparer<TId>.Default.GetHashCode(Id);
+    public override int GetHashCode() => Id.GetHashCode();
 }
