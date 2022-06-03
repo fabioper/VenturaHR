@@ -1,11 +1,10 @@
 #nullable disable
 
 using Common.Abstractions;
-using JobPostings.Domain.Common;
 
 namespace JobPostings.Domain.Aggregates.Criterias;
 
-public class Criteria : BaseEntity<CriteriaId>, IAggregateRoot
+public class Criteria : BaseEntity, IAggregateRoot
 {
     public string Title { get; }
     public int Weight { get; }
@@ -13,7 +12,7 @@ public class Criteria : BaseEntity<CriteriaId>, IAggregateRoot
 
     public Criteria(string title, int weight, DesiredProfile desiredProfile)
     {
-        Id = new CriteriaId();
+        Id = Guid.NewGuid();
         Title = title;
         Weight = weight;
         DesiredProfile = desiredProfile;

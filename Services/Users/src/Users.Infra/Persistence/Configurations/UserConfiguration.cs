@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Users.Domain.Models.Entities;
-using Users.Domain.Models.ValueObjects;
 
 namespace Users.Infra.Persistence.Configurations;
 
@@ -12,9 +11,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.ToTable("Users");
         
         builder.HasKey(x => x.Id);
-
-        builder.Property(x => x.Id)
-               .HasConversion(x => x.Value, value => new UserId(value));
 
         builder.Property(x => x.Name).IsRequired();
         builder.Property(x => x.Email).IsRequired();

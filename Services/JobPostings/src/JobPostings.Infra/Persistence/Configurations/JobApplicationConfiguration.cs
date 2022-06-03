@@ -1,5 +1,4 @@
 using JobPostings.Domain.Aggregates.JobApplications;
-using JobPostings.Domain.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,9 +11,6 @@ public class JobApplicationConfiguration : IEntityTypeConfiguration<JobApplicati
         builder.ToTable("Applications");
 
         builder.HasKey(x => x.Id);
-
-        builder.Property(x => x.Id)
-               .HasConversion(x => x.Id, x => new JobApplicationId(x));
 
         builder.Property(x => x.AppliedAt).IsRequired();
 

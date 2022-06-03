@@ -6,7 +6,6 @@ using JobPostings.Application.Services.Contracts;
 using JobPostings.Domain.Aggregates.Applicants;
 using JobPostings.Domain.Aggregates.JobApplications;
 using JobPostings.Domain.Aggregates.JobPostings;
-using JobPostings.Domain.Common;
 using JobPostings.Domain.Repositories;
 
 namespace JobPostings.Application.Services.Concretes;
@@ -32,7 +31,7 @@ public class JobApplicationService : IJobApplicationService
 
     public async Task<IEnumerable<JobApplicationResponse>> GetApplicationsFrom(Guid applicantId)
     {
-        var applications = await _applicationRepository.GetAllByApplicant(new ApplicantId(applicantId));
+        var applications = await _applicationRepository.GetAllByApplicant(applicantId);
         return _mapper.Map<List<JobApplicationResponse>>(applications);
     }
 
@@ -51,7 +50,7 @@ public class JobApplicationService : IJobApplicationService
 
     private async Task<Applicant?> FindApplicantOfId(JobApplicationRequest request)
     {
-        var applicant = await _applicantRepository.FindById(new ApplicantId(request.ApplicantId));
+        var applicant = await _applicantRepository.FindById(request.ApplicantId);
         if (applicant is null)
             throw new EntityNotFoundException(nameof(Applicant));
         return applicant;
@@ -59,7 +58,7 @@ public class JobApplicationService : IJobApplicationService
 
     private async Task<JobPosting?> FindJobPostingOfId(JobApplicationRequest request)
     {
-        var jobPosting = await _jobPostingRepository.FindById(new JobPostingId(request.JobPostingId));
+        var jobPosting = await _jobPostingRepository.FindById(request.JobPostingId);
         if (jobPosting is null)
             throw new EntityNotFoundException(nameof(JobPosting));
         return jobPosting;

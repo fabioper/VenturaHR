@@ -2,15 +2,14 @@
 
 using Common.Abstractions;
 using JobPostings.Domain.Aggregates.Criterias;
-using JobPostings.Domain.Common;
 
 namespace JobPostings.Domain.Aggregates.JobApplications;
 
-public class CriteriaAnswer : BaseEntity<CriteriaAnswerId>
+public class CriteriaAnswer : BaseEntity
 {
     public int Value { get; set; }
     
-    public CriteriaId CriteriaId { get; set; }
+    public Guid CriteriaId { get; set; }
 
     public Criteria Criteria { get; }
 

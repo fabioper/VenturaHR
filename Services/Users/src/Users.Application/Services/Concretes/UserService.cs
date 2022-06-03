@@ -82,34 +82,30 @@ public class UserService : IUserService
         if (userId is null)
             throw new InvalidRefreshToken();
 
-        var user = await _repository.FindById(new UserId(userId));
+        var user = await _repository.FindById(Guid.Parse(userId));
         if (user is null)
             throw new EntityNotFoundException(nameof(user));
 
         return await _tokenService.GenerateToken(user);
     }
 
-    public async Task<UserProfileResponse> GetUserProfile(string userId)
+    public async Task<UserProfileResponse> GetUserProfile(Guid userId)
     {
-        var cachedUser = await _cache.GetAs<UserProfileResponse>(userId);
+        var cachedUser = await _cache.GetAs<UserProfileResponse>(userId.ToString());
         if (cachedUser != null)
             return cachedUser;
 
-        var user = await GetUserOfId(userId);
+        var user = await FindUserOfId(userId);
 
         var profile = _mapper.Map<UserProfileResponse>(user);
-        await _cache.Set(userId, profile);
+        await _cache.Set(userId.ToString(), profile);
 
         return profile;
     }
 
-    private async Task<User?> GetUserOfId(string anId)
+    private async Task<User?> FindUserOfId(Guid userId)
     {
-        var user = await _repository.FindById(new UserId(anId));
-
-        if (user is null)
-            throw new EntityNotFoundException(nameof(user));
-
-        return user;
+        var user = await _repository.FindById(userId);
+        return user ?? throw new EntityNotFoundException(nameof(user));
     }
 }

@@ -1,5 +1,4 @@
 using JobPostings.Domain.Aggregates.JobPostings;
-using JobPostings.Domain.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,9 +11,6 @@ public class JobPostingConfiguration : IEntityTypeConfiguration<JobPosting>
         builder.ToTable("JobPostings");
 
         builder.HasKey(x => x.Id);
-
-        builder.Property(x => x.Id)
-               .HasConversion(x => x.Id, x => new JobPostingId(x));
 
         builder.Property(x => x.Title).IsRequired();
         builder.Property(x => x.Description).IsRequired();

@@ -2,13 +2,12 @@ using Common.Abstractions;
 using Common.Guards;
 using JobPostings.Domain.Aggregates.Companies;
 using JobPostings.Domain.Aggregates.Criterias;
-using JobPostings.Domain.Common;
 
 namespace JobPostings.Domain.Aggregates.JobPostings;
 
 #nullable disable
 
-public class JobPosting : BaseEntity<JobPostingId>, IAggregateRoot
+public class JobPosting : BaseEntity, IAggregateRoot
 {
     public string Description { get; private set; }
 
@@ -42,7 +41,7 @@ public class JobPosting : BaseEntity<JobPostingId>, IAggregateRoot
         Guard.Against.NullOrEmpty(description, nameof(description));
         Guard.Against.NullOrEmpty(location, nameof(location));
 
-        Id = new JobPostingId();
+        Id = Guid.NewGuid();
         Description = description;
         Title = title;
         Location = location;
@@ -54,39 +53,33 @@ public class JobPosting : BaseEntity<JobPostingId>, IAggregateRoot
         _criterias = criterias;
     }
 
-    // Ef required
-    public JobPosting() { }
+    public JobPosting() { } // Ef required
 
     public void UpdateDescription(string description)
     {
         Guard.Against.NullOrEmpty(description, nameof(description));
         Description = description;
-        UpdatedAt = DateTime.UtcNow;
     }
 
     public void UpdateTitle(string newTitle)
     {
         Guard.Against.NullOrEmpty(newTitle, nameof(newTitle));
         Title = newTitle;
-        UpdatedAt = DateTime.UtcNow;
     }
 
     public void UpdateSalary(decimal newSalary)
     {
         Salary = new Salary(newSalary);
-        UpdatedAt = DateTime.UtcNow;
     }
 
     public void UpdateCriterias(List<Criteria> criterias)
     {
         _criterias = criterias;
-        UpdatedAt = DateTime.UtcNow;
     }
 
     public void UpdateLocation(string newLocation)
     {
         Guard.Against.NullOrEmpty(newLocation, nameof(newLocation));
         Location = newLocation;
-        UpdatedAt = DateTime.UtcNow;
     }
 }

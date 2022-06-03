@@ -6,7 +6,6 @@ using JobPostings.Application.Services.Contracts;
 using JobPostings.Domain.Aggregates.Companies;
 using JobPostings.Domain.Aggregates.Criterias;
 using JobPostings.Domain.Aggregates.JobPostings;
-using JobPostings.Domain.Common;
 using JobPostings.Domain.Repositories;
 
 namespace JobPostings.Application.Services.Concretes;
@@ -60,7 +59,7 @@ public class JobPostingsService : IJobPostingsService
 
     public async Task<IEnumerable<JobPostingResponse>> GetPublishedJobsBy(Guid companyId)
     {
-        var jobPostings = await _jobPostingsRepository.FindByCompanyOfId(new CompanyId(companyId));
+        var jobPostings = await _jobPostingsRepository.FindByCompanyOfId(companyId);
         return _mapper.Map<IEnumerable<JobPostingResponse>>(jobPostings);
     }
 
@@ -73,22 +72,22 @@ public class JobPostingsService : IJobPostingsService
     public async Task<IEnumerable<ApplicationResponse>> GetJobPostingApplications(Guid companyId, Guid jobPostingId)
     {
         var applications = await _applicationRepository.GetAllByJobCompanyOfId(
-            new CompanyId(companyId),
-            new JobPostingId(jobPostingId)
+            companyId,
+            jobPostingId
         );
 
         return _mapper.Map<List<ApplicationResponse>>(applications);
     }
 
-    private async Task<JobPosting> FindJobPostingOfId(Guid id)
+    private async Task<JobPosting> FindJobPostingOfId(Guid jobPostingId)
     {
-        var jobPosting = await _jobPostingsRepository.FindById(new JobPostingId(id));
+        var jobPosting = await _jobPostingsRepository.FindById(jobPostingId);
         return jobPosting ?? throw new EntityNotFoundException(nameof(JobPosting));
     }
 
     private async Task<Company> FindCompanyOfId(Guid companyId)
     {
-        var company = await _companyRepository.FindById(new CompanyId(companyId));
+        var company = await _companyRepository.FindById(companyId);
         return company ?? throw new EntityNotFoundException(nameof(Company));
     }
 

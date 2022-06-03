@@ -20,9 +20,9 @@ public class RedisClient : ICacheService
         return value.HasValue ? value.ToString() : null;
     }
 
-    public async Task<T?> GetAs<T>(string anId)
+    public async Task<T?> GetAs<T>(string key)
     {
-        var value = await _redis.StringGetAsync(anId);
+        var value = await _redis.StringGetAsync(key);
         return value.HasValue
             ? JsonSerializer.Deserialize<T>(value.ToString())
             : default;

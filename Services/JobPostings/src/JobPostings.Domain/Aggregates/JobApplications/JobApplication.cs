@@ -3,11 +3,10 @@
 using Common.Abstractions;
 using JobPostings.Domain.Aggregates.Applicants;
 using JobPostings.Domain.Aggregates.JobPostings;
-using JobPostings.Domain.Common;
 
 namespace JobPostings.Domain.Aggregates.JobApplications;
 
-public class JobApplication : BaseEntity<JobApplicationId>, IAggregateRoot
+public class JobApplication : BaseEntity, IAggregateRoot
 {
     public JobPosting JobPosting { get; }
 
@@ -25,7 +24,7 @@ public class JobApplication : BaseEntity<JobApplicationId>, IAggregateRoot
         JobPosting jobPosting,
         List<CriteriaAnswer> criteriasAnswers)
     {
-        Id = new JobApplicationId();
+        Id = Guid.NewGuid();
         JobPosting = jobPosting;
         Applicant = applicant;
         AppliedAt = DateTime.UtcNow;

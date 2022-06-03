@@ -1,12 +1,11 @@
 using JobPostings.Domain.Aggregates.JobApplications;
-using JobPostings.Domain.Common;
 using JobPostings.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace JobPostings.Infra.Persistence.Repositories;
 
 public class JobApplicationRepository :
-    BaseRepository<JobApplication, JobApplicationId>,
+    BaseRepository<JobApplication>,
     IJobApplicationRepository
 {
     private readonly ModelContext _context;
@@ -17,8 +16,8 @@ public class JobApplicationRepository :
     }
 
     public async Task<IEnumerable<JobApplication>> GetAllByJobCompanyOfId(
-        CompanyId companyId,
-        JobPostingId jobPostingId)
+        Guid companyId,
+        Guid jobPostingId)
     {
         return await _context.Applications
                              .Include(x => x.JobPosting)
@@ -28,7 +27,7 @@ public class JobApplicationRepository :
                              .ToListAsync();
     }
 
-    public async Task<IEnumerable<JobApplication>> GetAllByApplicant(ApplicantId applicantId)
+    public async Task<IEnumerable<JobApplication>> GetAllByApplicant(Guid applicantId)
     {
         return await _context.Applications
                              .Include(x => x.Applicant)

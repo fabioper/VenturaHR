@@ -1,12 +1,11 @@
 using Common.Abstractions;
 using JobPostings.Domain.Aggregates.JobPostings;
-using JobPostings.Domain.Common;
 
 namespace JobPostings.Domain.Repositories;
 
-public interface IJobPostingRepository : IBaseRepository<JobPosting, JobPostingId>
+public interface IJobPostingRepository : IBaseRepository<JobPosting>
 {
-    Task<List<JobPosting>> FindByCompanyOfId(CompanyId companyId);
+    Task<List<JobPosting>> FindByCompanyOfId(Guid companyId);
 
-    new Task<JobPosting?> FindById(JobPostingId id);
+    new Task<JobPosting?> FindById(Guid id);
 }

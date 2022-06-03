@@ -7,7 +7,7 @@ using Users.Domain.Models.ValueObjects;
 
 namespace Users.Domain.Models.Entities;
 
-public class User : BaseEntity<UserId>, IAggregateRoot
+public class User : BaseEntity, IAggregateRoot
 {
     public string Name { get; private set; }
     public string Email { get; private set; }
@@ -28,7 +28,7 @@ public class User : BaseEntity<UserId>, IAggregateRoot
         Guard.Against.NullOrEmpty(email, nameof(email));
         Guard.Against.NullOrEmpty(password, nameof(password));
 
-        Id = new UserId();
+        Id = Guid.NewGuid();
         Name = name;
         Email = email;
         Password = password;

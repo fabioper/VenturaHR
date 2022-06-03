@@ -1,21 +1,18 @@
-using Common.Abstractions;
-using JobPostings.Domain.Common;
-
 #nullable disable
+
+using Common.Abstractions;
 
 namespace JobPostings.Domain.Aggregates.Applicants;
 
-public class Applicant : BaseEntity<ApplicantId>, IAggregateRoot
+public class Applicant : BaseEntity, IAggregateRoot
 {
     public string Name { get; }
 
     public Applicant(Guid id, string name)
     {
-        Id = new ApplicantId(id);
+        Id = id;
         Name = name;
     }
 
-    public Applicant()
-    {
-    } // Ef required
+    public Applicant() { } // Ef required
 }
