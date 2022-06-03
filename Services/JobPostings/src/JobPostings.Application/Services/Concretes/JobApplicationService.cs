@@ -39,10 +39,14 @@ public class JobApplicationService : IJobApplicationService
     {
         var applicant = await FindApplicantOfId(request);
         var jobPosting = await FindJobPostingOfId(request);
-        var answers = MapCriteriasAnswers(request.CriteriaAnswers);
 
-        var newApplication = new JobApplication(applicant, jobPosting, answers);
-        await _applicationRepository.Add(newApplication);
+        var application = applicant.ApplyTo(jobPosting, WithAnswers(request.CriteriaAnswers));
+        await _applicationRepository.Add(application);
+    }
+
+    private static List<CriteriaAnswer> WithAnswers(IEnumerable<CriteriaAnswerRequest> criteriaAnswers)
+    {
+        return criteriaAnswers.Select(c => new CriteriaAnswer(c.CriteriaId, c.Value)).ToList();
     }
 
     private async Task<Applicant> FindApplicantOfId(JobApplicationRequest request)
@@ -55,10 +59,5 @@ public class JobApplicationService : IJobApplicationService
     {
         var jobPosting = await _jobPostingRepository.FindById(request.JobPostingId);
         return jobPosting ?? throw new EntityNotFoundException(nameof(JobPosting));
-    }
-
-    private static List<CriteriaAnswer> MapCriteriasAnswers(IEnumerable<CriteriaAnswerRequest> criteriaAnswers)
-    {
-        return criteriaAnswers.Select(c => new CriteriaAnswer(c.CriteriaId, c.Value)).ToList();
     }
 }

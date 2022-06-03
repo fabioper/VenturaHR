@@ -24,38 +24,25 @@ public class JobPosting : BaseEntity, IAggregateRoot
     private List<Criteria> _criterias;
     public IReadOnlyCollection<Criteria> Criterias => _criterias;
 
-    public JobPosting(
+    internal JobPosting(
         string title,
         string description,
         string location,
-        decimal salary,
-        DateTime expiration,
+        Salary salary,
+        DateTime expireAt,
         List<Criteria> criterias,
         Company company)
     {
-        Guard.Against.NullOrEmpty(title, nameof(title));
-        Guard.Against.NullOrEmpty(description, nameof(description));
-        Guard.Against.NullOrEmpty(location, nameof(location));
-
-        Id = Guid.NewGuid();
-        Description = description;
         Title = title;
+        Description = description;
         Location = location;
-        Salary = new Salary(salary);
-        Company = company;
-        CreatedAt = DateTime.UtcNow;
-        UpdatedAt = DateTime.UtcNow;
-        ExpireAt = expiration;
+        Salary = salary;
+        ExpireAt = expireAt;
         _criterias = criterias;
+        Company = company;
     }
 
     public JobPosting() { } // Ef required
-
-    public void UpdateDescription(string description)
-    {
-        Guard.Against.NullOrEmpty(description, nameof(description));
-        Description = description;
-    }
 
     public void UpdateTitle(string newTitle)
     {
@@ -63,14 +50,10 @@ public class JobPosting : BaseEntity, IAggregateRoot
         Title = newTitle;
     }
 
-    public void UpdateSalary(decimal newSalary)
+    public void UpdateDescription(string description)
     {
-        Salary = new Salary(newSalary);
-    }
-
-    public void UpdateCriterias(List<Criteria> criterias)
-    {
-        _criterias = criterias;
+        Guard.Against.NullOrEmpty(description, nameof(description));
+        Description = description;
     }
 
     public void UpdateLocation(string newLocation)
@@ -78,4 +61,8 @@ public class JobPosting : BaseEntity, IAggregateRoot
         Guard.Against.NullOrEmpty(newLocation, nameof(newLocation));
         Location = newLocation;
     }
+
+    public void UpdateSalary(decimal newSalary) => Salary = new Salary(newSalary);
+
+    public void UpdateCriterias(List<Criteria> criterias) => _criterias = criterias;
 }

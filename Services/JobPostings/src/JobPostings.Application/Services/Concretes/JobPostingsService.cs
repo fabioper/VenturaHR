@@ -33,13 +33,14 @@ public class JobPostingsService : IJobPostingsService
     {
         var company = await FindCompanyOfId(companyId);
 
-        var newJob = new JobPosting(request.Title,
+        var newJob = company.PublishJob(
+            request.Title,
             request.Description,
             request.Location,
-            request.Salary,
             request.ExpirationDate,
-            MapCriterias(request.Criterias),
-            company);
+            request.Salary,
+            MapCriterias(request.Criterias)
+        );
 
         await _jobPostingsRepository.Add(newJob);
     }

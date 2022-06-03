@@ -1,6 +1,8 @@
 #nullable disable
 
 using Common.Abstractions;
+using JobPostings.Domain.Aggregates.JobApplications;
+using JobPostings.Domain.Aggregates.JobPostings;
 
 namespace JobPostings.Domain.Aggregates.Applicants;
 
@@ -15,4 +17,9 @@ public class Applicant : BaseEntity, IAggregateRoot
     }
 
     public Applicant() { } // Ef required
+
+    public JobApplication ApplyTo(JobPosting jobPosting, List<CriteriaAnswer> criteriaAnswers)
+    {
+        return new JobApplication(this, jobPosting, criteriaAnswers);
+    }
 }

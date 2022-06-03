@@ -17,7 +17,7 @@ public class JobApplication : BaseEntity, IAggregateRoot
     public IReadOnlyCollection<CriteriaAnswer> CriteriasAnswers
         => _criteriasAnswers;
 
-    public JobApplication(
+    internal JobApplication(
         Applicant applicant,
         JobPosting jobPosting,
         List<CriteriaAnswer> criteriasAnswers)
