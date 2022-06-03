@@ -39,28 +39,26 @@ public class JobApplicationService : IJobApplicationService
     {
         var applicant = await FindApplicantOfId(request);
         var jobPosting = await FindJobPostingOfId(request);
-        var criteriasAnswers = MapCriteriasAnswers(request);
+        var answers = MapCriteriasAnswers(request.CriteriaAnswers);
 
-        var newApplication = new JobApplication(applicant, jobPosting, criteriasAnswers);
+        var newApplication = new JobApplication(applicant, jobPosting, answers);
         await _applicationRepository.Add(newApplication);
     }
 
-    private List<CriteriaAnswer> MapCriteriasAnswers(JobApplicationRequest request)
-        => _mapper.Map<List<CriteriaAnswer>>(request.CriteriaAnswers);
-
-    private async Task<Applicant?> FindApplicantOfId(JobApplicationRequest request)
+    private async Task<Applicant> FindApplicantOfId(JobApplicationRequest request)
     {
         var applicant = await _applicantRepository.FindById(request.ApplicantId);
-        if (applicant is null)
-            throw new EntityNotFoundException(nameof(Applicant));
-        return applicant;
+        return applicant ?? throw new EntityNotFoundException(nameof(Applicant));
     }
 
-    private async Task<JobPosting?> FindJobPostingOfId(JobApplicationRequest request)
+    private async Task<JobPosting> FindJobPostingOfId(JobApplicationRequest request)
     {
         var jobPosting = await _jobPostingRepository.FindById(request.JobPostingId);
-        if (jobPosting is null)
-            throw new EntityNotFoundException(nameof(JobPosting));
-        return jobPosting;
+        return jobPosting ?? throw new EntityNotFoundException(nameof(JobPosting));
+    }
+
+    private static List<CriteriaAnswer> MapCriteriasAnswers(IEnumerable<CriteriaAnswerRequest> criteriaAnswers)
+    {
+        return criteriaAnswers.Select(c => new CriteriaAnswer(c.CriteriaId, c.Value)).ToList();
     }
 }

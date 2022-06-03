@@ -8,6 +8,7 @@ public record CriteriaResponse
 {
     public Guid Id { get; init; }
     public string Title { get; init; }
+    public string Description { get; init; }
     public int Weight { get; init; }
     public DesiredProfile DesiredProfile { get; init; }
 }

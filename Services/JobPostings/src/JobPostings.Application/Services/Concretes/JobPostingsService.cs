@@ -71,11 +71,7 @@ public class JobPostingsService : IJobPostingsService
 
     public async Task<IEnumerable<ApplicationResponse>> GetJobPostingApplications(Guid companyId, Guid jobPostingId)
     {
-        var applications = await _applicationRepository.GetAllByJobCompanyOfId(
-            companyId,
-            jobPostingId
-        );
-
+        var applications = await _applicationRepository.GetAllByJobCompanyOfId(companyId, jobPostingId);
         return _mapper.Map<List<ApplicationResponse>>(applications);
     }
 
@@ -91,6 +87,8 @@ public class JobPostingsService : IJobPostingsService
         return company ?? throw new EntityNotFoundException(nameof(Company));
     }
 
-    private List<Criteria> MapCriterias(IEnumerable<CriteriaRequest> criterias)
-        => _mapper.Map<List<Criteria>>(criterias);
+    private static List<Criteria> MapCriterias(IEnumerable<CriteriaRequest> criterias)
+    {
+        return criterias.Select(c => new Criteria(c.Title, c.Description, c.Weight, c.DesiredProfile)).ToList();
+    }
 }

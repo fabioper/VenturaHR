@@ -17,10 +17,6 @@ public class JobPosting : BaseEntity, IAggregateRoot
 
     public Salary Salary { get; private set; }
 
-    public DateTime CreatedAt { get; private set; }
-    
-    public DateTime UpdatedAt { get; private set; }
-    
     public DateTime ExpireAt { get; private set; }
 
     public Company Company { get; }

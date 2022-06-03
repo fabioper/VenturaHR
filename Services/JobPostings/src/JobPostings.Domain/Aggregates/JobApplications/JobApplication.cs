@@ -12,9 +12,7 @@ public class JobApplication : BaseEntity, IAggregateRoot
 
     public Applicant Applicant { get; }
 
-    public DateTime AppliedAt { get; }
-
-    private List<CriteriaAnswer> _criteriasAnswers;
+    private readonly List<CriteriaAnswer> _criteriasAnswers;
 
     public IReadOnlyCollection<CriteriaAnswer> CriteriasAnswers
         => _criteriasAnswers;
@@ -27,7 +25,6 @@ public class JobApplication : BaseEntity, IAggregateRoot
         Id = Guid.NewGuid();
         JobPosting = jobPosting;
         Applicant = applicant;
-        AppliedAt = DateTime.UtcNow;
         _criteriasAnswers = criteriasAnswers;
     }
 

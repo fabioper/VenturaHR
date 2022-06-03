@@ -7,15 +7,14 @@ namespace JobPostings.Domain.Aggregates.JobApplications;
 
 public class CriteriaAnswer : BaseEntity
 {
-    public int Value { get; set; }
-    
-    public Guid CriteriaId { get; set; }
+    public int Value { get; }
 
-    public Criteria Criteria { get; }
+    private Guid _criteriaId;
+    public Criteria Criteria { get; private set; }
 
-    public CriteriaAnswer(Criteria criteria, int value)
+    public CriteriaAnswer(Guid criteriaId, int value)
     {
-        Criteria = criteria;
+        _criteriaId = criteriaId;
         Value = value;
     }
 

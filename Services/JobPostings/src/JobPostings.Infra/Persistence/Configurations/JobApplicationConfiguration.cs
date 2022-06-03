@@ -12,8 +12,6 @@ public class JobApplicationConfiguration : IEntityTypeConfiguration<JobApplicati
 
         builder.HasKey(x => x.Id);
 
-        builder.Property(x => x.AppliedAt).IsRequired();
-
         builder.HasOne(x => x.Applicant)
                .WithMany()
                .HasForeignKey("_applicantId")
