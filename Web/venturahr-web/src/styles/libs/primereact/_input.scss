@@ -9,6 +9,7 @@ input::placeholder {
   color: #ff5757;
   @apply block;
   @apply py-2;
+  @apply text-xs;
 }
 
 .p-inputtext {
@@ -32,6 +33,7 @@ input::placeholder {
   @apply border;
   @apply border-solid;
   @apply border-[#ff5757];
+  @apply bg-[#ff57570f];
 
   &:focus {
     box-shadow: 0 0 0 0.2rem rgb(255 36 36 / 30%);

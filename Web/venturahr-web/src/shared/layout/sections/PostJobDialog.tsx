@@ -1,9 +1,9 @@
-import React from "react"
+import React, { useMemo } from "react"
 import { Button } from "primereact/button"
 import { InputText } from "primereact/inputtext"
 import { Calendar } from "primereact/calendar"
 import { Editor } from "primereact/editor"
-import { Dialog } from "primereact/dialog"
+import { Dialog, DialogProps } from "primereact/dialog"
 import { PrimeIcons } from "primereact/api"
 import InputCurrency from "../../components/InputCurrency"
 import useForm from "../../hooks/useForm"
@@ -35,16 +35,16 @@ const PostJobDialog: React.FC<PostJobDialogProps> = ({ visible, onHide }) => {
     onHide()
   }
 
-  return (
-    <Dialog
-      onHide={handleHide}
-      visible={visible}
-      header="Publicar vaga"
-      dismissableMask
-      blockScroll
-      focusOnShow={false}
-      draggable={false}
-      footer={() => (
+  const dialogProps: DialogProps = useMemo(
+    () => ({
+      onHide: handleHide,
+      visible: visible,
+      header: "Publicar vaga",
+      dismissableMask: true,
+      blockScroll: true,
+      focusOnShow: false,
+      draggable: false,
+      footer: () => (
         <div className="flex justify-end pt-10">
           <Button
             className="p-button-rounded"
@@ -54,35 +54,28 @@ const PostJobDialog: React.FC<PostJobDialogProps> = ({ visible, onHide }) => {
             onClick={() => form.handleSubmit()}
           />
         </div>
-      )}
-    >
+      ),
+    }),
+    [visible, form]
+  )
+
+  return (
+    <Dialog {...dialogProps}>
       <form className="w-full max-w-3xl" onSubmit={form.handleSubmit}>
         <div className="flex flex-col md:grid md:grid-cols-5 gap-5">
           <div className="flex flex-col col-span-3">
-            <label
-              className="text-slate-300 text-base font-display mb-2"
-              htmlFor="title"
-            >
-              Cargo
-            </label>
+            <label htmlFor="title">Cargo</label>
             <InputText {...field("title")} />
             {renderError("title")}
           </div>
 
-          <div className="flex flex-col  col-span-2">
-            <label
-              className="text-slate-300 text-base font-display mb-2"
-              htmlFor="salary"
-            >
-              Remuneração
-            </label>
+          <div className="flex flex-col col-span-2">
+            <label htmlFor="salary">Remuneração</label>
             <InputCurrency
               id="salary"
               name="salary"
               onBlur={form.handleBlur}
-              onChange={value => {
-                form.setFieldValue("salary", value)
-              }}
+              onChange={value => form.setFieldValue("salary", value)}
               className={!isValid("salary") ? "p-invalid" : ""}
               initialValue={form.values.salary}
             />
@@ -90,12 +83,7 @@ const PostJobDialog: React.FC<PostJobDialogProps> = ({ visible, onHide }) => {
           </div>
 
           <div className="flex flex-col col-span-3">
-            <label
-              className="text-slate-300 text-base font-display mb-2"
-              htmlFor="location"
-            >
-              Localização
-            </label>
+            <label htmlFor="location">Localização</label>
             <div className="p-input-icon-left w-full">
               <i className={PrimeIcons.MAP_MARKER}></i>
               <InputText {...field("location")} />
@@ -104,12 +92,7 @@ const PostJobDialog: React.FC<PostJobDialogProps> = ({ visible, onHide }) => {
           </div>
 
           <div className="flex flex-col col-span-2">
-            <label
-              className="text-slate-300 text-base font-display mb-2"
-              htmlFor="expirationDate"
-            >
-              Data Limite
-            </label>
+            <label htmlFor="expirationDate">Data Limite</label>
             <Calendar
               {...field("expirationDate", { idField: "inputId" })}
               showButtonBar
@@ -120,12 +103,7 @@ const PostJobDialog: React.FC<PostJobDialogProps> = ({ visible, onHide }) => {
           </div>
 
           <div className="flex flex-col col-span-5">
-            <label
-              className="text-slate-300 text-base font-display mb-2"
-              htmlFor="description"
-            >
-              Descrição
-            </label>
+            <label htmlFor="description">Descrição</label>
             <Editor
               id="description"
               name="description"

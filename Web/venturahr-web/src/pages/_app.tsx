@@ -2,7 +2,7 @@ import React from "react"
 import "primereact/resources/themes/lara-dark-indigo/theme.css"
 import "primereact/resources/primereact.min.css"
 import "primeicons/primeicons.css"
-import "../styles/global.scss"
+import "../styles/styles.scss"
 
 import { AppProps } from "next/app"
 import AuthProvider from "../shared/contexts/AuthContext"
