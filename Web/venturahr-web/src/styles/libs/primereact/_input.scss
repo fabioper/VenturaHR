@@ -22,6 +22,10 @@ input::placeholder {
   }
 }
 
+.p-inputtext, .p-password {
+  @apply w-full;
+}
+
 .p-inputtext.p-invalid.p-component,
 .p-password.p-invalid.p-component > .p-inputtext,
 .p-editor-container.p-invalid {

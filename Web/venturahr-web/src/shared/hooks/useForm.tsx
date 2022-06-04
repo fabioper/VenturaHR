@@ -7,6 +7,11 @@ interface UseFormParams<T> {
   schema?: SchemaOf<T>
 }
 
+interface FieldOptions {
+  idField: string
+  className: string
+}
+
 function useForm<T>({ onSubmit, schema }: UseFormParams<T>) {
   const form = useFormik({
     initialValues: {} as T,
@@ -24,7 +29,16 @@ function useForm<T>({ onSubmit, schema }: UseFormParams<T>) {
       <small className="p-error">{form.errors[name]?.toString()}</small>
     )
 
-  return { form, isValid, renderError }
+  const field = (field: keyof T, options?: Partial<FieldOptions>) => ({
+    [options?.idField || "id"]: field.toString(),
+    name: field.toString(),
+    value: form.values[field] as any,
+    onChange: form.handleChange,
+    onBlur: form.handleBlur,
+    className: `${options?.className} ${!isValid(field) ? "p-invalid" : ""}`,
+  })
+
+  return { form, isValid, renderError, field }
 }
 
 export default useForm

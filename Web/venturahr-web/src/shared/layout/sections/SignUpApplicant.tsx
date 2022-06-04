@@ -15,7 +15,7 @@ const SignUpApplicant: React.FC = () => {
   const [error, setError] = useState<string | null>(null)
   const { signup, loading } = useAuth()
 
-  const { form, renderError, isValid } = useForm<SignUpModel>({
+  const { form, renderError, isValid, field } = useForm<SignUpModel>({
     onSubmit: handleSignUp,
     schema: signUpValidator,
   })
@@ -45,13 +45,7 @@ const SignUpApplicant: React.FC = () => {
           <label className="block mb-1.5" htmlFor="name">
             Nome:
           </label>
-          <InputText
-            id="name"
-            value={form.values.name}
-            onChange={form.handleChange}
-            onBlur={form.handleBlur}
-            className={`w-full ${!isValid("name") ? "p-invalid" : ""}`}
-          />
+          <InputText {...field("name")} />
           {renderError("name")}
         </div>
 
@@ -60,15 +54,11 @@ const SignUpApplicant: React.FC = () => {
             CPF:
           </label>
           <InputMask
-            id="registration"
+            {...field("registration")}
             type="tel"
             mask="999.999.999-99"
             autoClear
             unmask
-            value={form.values.registration}
-            onChange={form.handleChange}
-            onBlur={form.handleBlur}
-            className={`w-full ${!isValid("registration") ? "p-invalid" : ""}`}
           />
           {renderError("registration")}
         </div>
@@ -78,15 +68,11 @@ const SignUpApplicant: React.FC = () => {
             Telefone:
           </label>
           <InputMask
-            id="phoneNumber"
+            {...field("phoneNumber")}
             type="tel"
             mask="(99) 99999-9999"
             autoClear
             unmask
-            value={form.values.phoneNumber}
-            onChange={form.handleChange}
-            onBlur={form.handleBlur}
-            className={`w-full ${!isValid("phoneNumber") ? "p-invalid" : ""}`}
           />
           {renderError("phoneNumber")}
         </div>
@@ -95,14 +81,7 @@ const SignUpApplicant: React.FC = () => {
           <label className="block mb-1.5" htmlFor="email">
             Email:
           </label>
-          <InputText
-            id="email"
-            type="email"
-            value={form.values.email}
-            onChange={form.handleChange}
-            onBlur={form.handleBlur}
-            className={`w-full ${!isValid("email") ? "p-invalid" : ""}`}
-          />
+          <InputText {...field("email")} type="email" />
           {renderError("email")}
         </div>
 
@@ -111,13 +90,8 @@ const SignUpApplicant: React.FC = () => {
             Senha:
           </label>
           <Password
-            inputId="password"
-            value={form.values.password}
-            onChange={form.handleChange}
-            onBlur={form.handleBlur}
+            {...field("password", { idField: "inputId" })}
             feedback={false}
-            className={`w-full ${!isValid("password") ? "p-invalid" : ""}`}
-            inputClassName="w-full"
             toggleMask
           />
           {renderError("password")}

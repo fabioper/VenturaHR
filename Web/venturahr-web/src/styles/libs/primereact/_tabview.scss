@@ -17,3 +17,11 @@
 .p-tabview .p-tabview-nav li .p-tabview-nav-link:not(.p-disabled):focus {
   box-shadow: none;
 }
+
+.p-tabview .p-tabview-panels {
+  padding: 2rem 0;
+}
+
+.p-tabview .p-tabview-nav li:not(.p-highlight):not(.p-disabled):hover .p-tabview-nav-link {
+  background: none;
+}

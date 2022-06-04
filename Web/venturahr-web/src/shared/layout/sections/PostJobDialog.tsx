@@ -17,7 +17,7 @@ interface PostJobDialogProps {
 }
 
 const PostJobDialog: React.FC<PostJobDialogProps> = ({ visible, onHide }) => {
-  const { form, renderError, isValid } = useForm<PostJobModel>({
+  const { form, renderError, isValid, field } = useForm<PostJobModel>({
     onSubmit,
     schema: postJobValidator,
   })
@@ -65,13 +65,7 @@ const PostJobDialog: React.FC<PostJobDialogProps> = ({ visible, onHide }) => {
             >
               Cargo
             </label>
-            <InputText
-              id="title"
-              value={form.values.title}
-              onChange={form.handleChange}
-              onBlur={form.handleBlur}
-              className={!isValid("title") ? "p-invalid" : ""}
-            />
+            <InputText {...field("title")} />
             {renderError("title")}
           </div>
 
@@ -85,12 +79,12 @@ const PostJobDialog: React.FC<PostJobDialogProps> = ({ visible, onHide }) => {
             <InputCurrency
               id="salary"
               name="salary"
-              initialValue={form.values.salary}
+              onBlur={form.handleBlur}
               onChange={value => {
                 form.setFieldValue("salary", value)
               }}
-              onBlur={form.handleBlur}
               className={!isValid("salary") ? "p-invalid" : ""}
+              initialValue={form.values.salary}
             />
             {renderError("salary")}
           </div>
@@ -104,13 +98,7 @@ const PostJobDialog: React.FC<PostJobDialogProps> = ({ visible, onHide }) => {
             </label>
             <div className="p-input-icon-left w-full">
               <i className={PrimeIcons.MAP_MARKER}></i>
-              <InputText
-                id="location"
-                value={form.values.location}
-                onChange={form.handleChange}
-                onBlur={form.handleBlur}
-                className={!isValid("location") ? "w-full p-invalid" : "w-full"}
-              />
+              <InputText {...field("location")} />
             </div>
             {renderError("location")}
           </div>
@@ -123,14 +111,10 @@ const PostJobDialog: React.FC<PostJobDialogProps> = ({ visible, onHide }) => {
               Data Limite
             </label>
             <Calendar
-              inputId="expirationDate"
-              value={form.values.expirationDate}
-              onChange={form.handleChange}
-              onBlur={form.handleBlur}
+              {...field("expirationDate", { idField: "inputId" })}
               showButtonBar
               dateFormat="dd/mm/yy"
               minDate={new Date()}
-              inputClassName={!isValid("expirationDate") ? "p-invalid" : ""}
             />
             {renderError("expirationDate")}
           </div>
