@@ -1,7 +1,5 @@
-using Common.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using Users.Domain.Models.Entities;
-using Users.Domain.Models.ValueObjects;
 using Users.Domain.Repositories;
 
 namespace Users.Infra.Persistence.Repositories;

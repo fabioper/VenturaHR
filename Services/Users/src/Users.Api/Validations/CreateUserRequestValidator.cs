@@ -1,5 +1,6 @@
 using FluentValidation;
 using Users.Application.DTOs.Requests;
+using Users.Domain.Repositories;
 
 namespace Users.Api.Validations;
 

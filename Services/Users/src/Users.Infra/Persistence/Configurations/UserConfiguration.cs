@@ -18,9 +18,15 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(x => x.Password).IsRequired();
 
         builder.OwnsOne(x => x.Registration,
-            b => b.Property(ad => ad.Number).HasColumnName("Registration"));
+            b =>
+            {
+                b.Property(x => x.Number).HasColumnName("Registration");
+                b.HasIndex(x => x.Number).IsUnique();
+            });
 
         builder.OwnsOne(x => x.PhoneNumber,
             b => b.Property(x => x.Value).HasColumnName("PhoneNumber"));
+
+        builder.HasIndex(x => x.Email).IsUnique();
     }
 }

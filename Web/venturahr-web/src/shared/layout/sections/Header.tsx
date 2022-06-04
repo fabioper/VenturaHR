@@ -1,5 +1,5 @@
 import Link from "next/link"
-import React, { useEffect, useMemo, useRef } from "react"
+import React, { useMemo, useRef } from "react"
 import { useAuth } from "../../contexts/AuthContext"
 import { Button } from "primereact/button"
 import { PrimeIcons } from "primereact/api"
@@ -8,24 +8,13 @@ import { Menu } from "primereact/menu"
 import { MenuItem } from "primereact/menuitem"
 import { useRouter } from "next/router"
 import { Skeleton } from "primereact/skeleton"
+import { useHeaderTransparency } from "../../hooks/useHeaderTransparency"
 
 const Header: React.FC = () => {
   const { isLogged, logout, user, loading } = useAuth()
   const router = useRouter()
   const menu = useRef<Menu>(null)
-  const header = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    window.addEventListener("scroll", () => {
-      if (header.current) {
-        if (window.scrollY > 100) {
-          header.current.classList.remove("bg-transparent")
-        } else {
-          header.current.classList.add("bg-transparent")
-        }
-      }
-    })
-  }, [])
+  const header = useHeaderTransparency()
 
   const items: MenuItem[] = useMemo(
     () => [
@@ -41,7 +30,7 @@ const Header: React.FC = () => {
   return (
     <header
       ref={header}
-      className="sticky border-0 border-b border-solid border-b-slate-800 bg-[#0d1424] transition bg-opacity-20 top-0 w-full backdrop-blur bg-transparent"
+      className="sticky border-0 border-b border-solid border-b-slate-800 bg-[#0d1424] transition bg-opacity-20 top-0 w-full backdrop-blur bg-transparent z-10"
     >
       <div className="container flex justify-between py-3 items-center">
         <Link href="/">

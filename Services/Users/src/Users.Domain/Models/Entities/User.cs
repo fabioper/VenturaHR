@@ -9,12 +9,12 @@ namespace Users.Domain.Models.Entities;
 
 public class User : BaseEntity, IAggregateRoot
 {
-    public string Name { get; private set; }
-    public string Email { get; private set; }
-    public string Password { get; private set; }
-    public PhoneNumber PhoneNumber { get; private set; }
-    public Registration Registration { get; private set; }
-    public UserType UserType { get; private set; }
+    public string Name { get; }
+    public string Email { get; }
+    public string Password { get; }
+    public PhoneNumber PhoneNumber { get; }
+    public Registration Registration { get; }
+    public UserType UserType { get; }
 
     public User(
         string name,

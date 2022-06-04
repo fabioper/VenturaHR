@@ -10,18 +10,18 @@ public static class ErrorDetailsFactory
     {
         InvalidRefreshToken e => new ErrorDetails
         {
-          Message  = e.Message,
-          Status = HttpStatusCode.Forbidden,
+            Message = e.Message,
+            Status = HttpStatusCode.Forbidden,
         },
         UnrecognizedUserType e => new ErrorDetails
         {
-          Message  = e.Message,
-          Status = HttpStatusCode.BadRequest,
+            Message = e.Message,
+            Status = HttpStatusCode.BadRequest,
         },
         InvalidCredentialException e => new ErrorDetails
         {
-          Message  = e.Message,
-          Status = HttpStatusCode.Unauthorized,
+            Message = e.Message,
+            Status = HttpStatusCode.Unauthorized,
         },
         EntityNotFoundException e => new ErrorDetails
         {

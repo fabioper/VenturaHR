@@ -19,7 +19,7 @@ const SignUpCompany: React.FC = () => {
   })
 
   useEffect(() => {
-    form.setFieldValue("userType", UserType.Applicant)
+    form.setFieldValue("userType", UserType.Company)
   }, [])
 
   async function handleSignUp(values: SignUpModel) {

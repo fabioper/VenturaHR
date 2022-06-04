@@ -39,7 +39,7 @@ public class UserService : IUserService
 
     public async Task CreateUser(CreateUserRequest request)
     {
-        var newCompany = new User(
+        var newUser = new User(
             request.Name,
             request.Email,
             request.Password.ToHash(),
@@ -48,8 +48,8 @@ public class UserService : IUserService
             request.UserType
         );
 
-        await _repository.Add(newCompany);
-        await PublishUserCreatedEvent(request, newCompany);
+        await _repository.Add(newUser);
+        await PublishUserCreatedEvent(request, newUser);
     }
 
     private async Task PublishUserCreatedEvent(CreateUserRequest request, User newCompany)

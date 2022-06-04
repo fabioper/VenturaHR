@@ -33,8 +33,13 @@ const InputCurrency: React.FC<InputCurrencyProps> = ({
     return currency(value, opts).value
   }
 
-  useEffect(() => setCurrentValue(fromCurrency(maskedValue)), [maskedValue])
-  useEffect(() => onChange(currentValue), [currentValue])
+  useEffect(() => {
+    setCurrentValue(fromCurrency(maskedValue))
+  }, [maskedValue])
+
+  useEffect(() => {
+    onChange(currentValue)
+  }, [currentValue])
 
   useEffect(() => {
     initialValue &&
