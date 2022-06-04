@@ -12,18 +12,21 @@ import useForm from "../shared/hooks/useForm"
 import { loginValidator } from "../core/validations/login.validator"
 import { Message } from "primereact/message"
 import { LoginModel } from "../core/dtos/auth/LoginModel"
+import { useToaster } from "../shared/hooks/useToaster"
 
 const Login: NextPage = () => {
   useGuardAgainst(async ({ isLogged }) => isLogged)
 
   const { login, loading } = useAuth()
   const [error, setError] = useState<string | null>(null)
+  const toast = useToaster()
 
   const handleLogin = async ({ email, password }: LoginModel): Promise<any> => {
     setError(null)
     try {
       await login({ email, password })
     } catch (e) {
+      toast.error("Ocorreu um erro")
       setError("Email/senha incorretas")
     }
   }

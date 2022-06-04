@@ -2,6 +2,7 @@ import React from "react"
 import "primereact/resources/themes/lara-dark-indigo/theme.css"
 import "primereact/resources/primereact.min.css"
 import "primeicons/primeicons.css"
+import "react-toastify/dist/ReactToastify.min.css"
 import "../styles/styles.scss"
 
 import { AppProps } from "next/app"
@@ -15,13 +16,16 @@ import "@fontsource/inter/700.css"
 import "@fontsource/jost/300.css"
 import "@fontsource/jost/400.css"
 import "@fontsource/jost/700.css"
+import ToastProvider from "../shared/contexts/ToastContext"
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   return (
-    <AuthProvider>
-      <Header />
-      <Component {...pageProps} />
-    </AuthProvider>
+    <ToastProvider>
+      <AuthProvider>
+        <Header />
+        <Component {...pageProps} />
+      </AuthProvider>
+    </ToastProvider>
   )
 }
 
