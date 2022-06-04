@@ -16,20 +16,11 @@ interface PostJobDialogProps {
   onHide: () => any
 }
 
-const initialValues: PostJobModel = {
-  title: "",
-  location: "",
-  description: "",
-  expirationDate: new Date(),
-  salary: 0,
-}
-
 const PostJobDialog: React.FC<PostJobDialogProps> = ({ visible, onHide }) => {
-  const { form, renderError, isValid } = useForm<PostJobModel>(
-    initialValues,
-    postJobValidator,
-    onSubmit
-  )
+  const { form, renderError, isValid } = useForm<PostJobModel>({
+    onSubmit,
+    schema: postJobValidator,
+  })
 
   async function onSubmit(values: PostJobModel): Promise<void> {
     try {

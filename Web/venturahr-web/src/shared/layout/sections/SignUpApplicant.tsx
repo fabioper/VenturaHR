@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { InputText } from "primereact/inputtext"
 import { Password } from "primereact/password"
 import { Button } from "primereact/button"
@@ -15,18 +15,10 @@ const SignUpApplicant: React.FC = () => {
   const [error, setError] = useState<string | null>(null)
   const { signup, loading } = useAuth()
 
-  const { form, renderError, isValid } = useForm<SignUpModel>(
-    {
-      name: "",
-      email: "",
-      password: "",
-      userType: UserType.Applicant,
-      phoneNumber: "",
-      registration: "",
-    },
-    signUpValidator,
-    handleSignUp
-  )
+  const { form, renderError, isValid } = useForm<SignUpModel>({
+    onSubmit: handleSignUp,
+    schema: signUpValidator,
+  })
 
   async function handleSignUp(values: SignUpModel) {
     setError(null)
@@ -36,6 +28,10 @@ const SignUpApplicant: React.FC = () => {
       console.log(e)
     }
   }
+
+  useEffect(() => {
+    form.setFieldValue("userType", UserType.Applicant)
+  }, [])
 
   return (
     <>

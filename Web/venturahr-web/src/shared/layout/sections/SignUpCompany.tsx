@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useAuth } from "../../contexts/AuthContext"
 import useForm from "../../hooks/useForm"
 import { UserType } from "../../../core/enums/UserType"
@@ -15,27 +15,24 @@ const SignUpCompany: React.FC = () => {
   const [error, setError] = useState<string | null>(null)
   const { signup, loading } = useAuth()
 
-  const { form, renderError, isValid } = useForm<SignUpModel>(
-    {
-      name: "",
-      email: "",
-      password: "",
-      phoneNumber: "",
-      registration: "",
-      userType: UserType.Company,
-    },
-    signUpValidator,
-    handleSignUp
-  )
+  const { form, renderError, isValid } = useForm<SignUpModel>({
+    onSubmit: handleSignUp,
+    schema: signUpValidator,
+  })
 
   async function handleSignUp(values: SignUpModel) {
     setError(null)
+
     try {
       await signup({ ...values })
     } catch (e) {
       console.log(e)
     }
   }
+
+  useEffect(() => {
+    form.setFieldValue("userType", UserType.Applicant)
+  }, [])
 
   return (
     <>

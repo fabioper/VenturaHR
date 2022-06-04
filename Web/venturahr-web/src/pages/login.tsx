@@ -28,14 +28,10 @@ const Login: NextPage = () => {
     }
   }
 
-  const { form, renderError, isValid } = useForm<LoginModel>(
-    {
-      email: "",
-      password: "",
-    },
-    loginValidator,
-    handleLogin
-  )
+  const { form, renderError, isValid } = useForm<LoginModel>({
+    onSubmit: handleLogin,
+    schema: loginValidator,
+  })
 
   return (
     <main>

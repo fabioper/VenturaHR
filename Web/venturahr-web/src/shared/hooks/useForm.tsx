@@ -1,17 +1,17 @@
-import { FormikErrors, useFormik } from "formik"
+import { useFormik } from "formik"
 import { SchemaOf } from "yup"
+import React from "react"
 
-function useForm<T>(
-  initialValues: T,
-  validationSchema: SchemaOf<T>,
-  onSubmit: (values: T) => void,
-  validate?: (values: T) => FormikErrors<T>
-) {
+interface UseFormParams<T> {
+  onSubmit: (values: T) => void
+  schema?: SchemaOf<T>
+}
+
+function useForm<T>({ onSubmit, schema }: UseFormParams<T>) {
   const form = useFormik({
-    initialValues,
-    validationSchema,
+    initialValues: {} as T,
+    validationSchema: schema,
     onSubmit,
-    validate,
     validateOnMount: true,
   })
 
