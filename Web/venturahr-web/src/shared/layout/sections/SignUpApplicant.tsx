@@ -1,30 +1,16 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { InputText } from "primereact/inputtext"
 import { Password } from "primereact/password"
 import { Button } from "primereact/button"
 import { PrimeIcons } from "primereact/api"
 import { useAuth } from "../../contexts/AuthContext"
-import useForm from "../../hooks/useForm"
 import { UserType } from "../../../core/enums/UserType"
-import { signUpValidator } from "../../../core/validations/signup.validator"
-import { SignUpModel } from "../../../core/dtos/auth/SignUpModel"
 import { InputMask } from "primereact/inputmask"
+import { useSignUpForm } from "../../hooks/useSignUpForm"
 
 const SignUpApplicant: React.FC = () => {
-  const { signup, loading } = useAuth()
-
-  const { form, renderError, field } = useForm<SignUpModel>({
-    onSubmit: handleSignUp,
-    schema: signUpValidator,
-  })
-
-  async function handleSignUp(values: SignUpModel) {
-    await signup({ ...values })
-  }
-
-  useEffect(() => {
-    form.setFieldValue("userType", UserType.Applicant)
-  }, [])
+  const { loading } = useAuth()
+  const { form, renderError, field } = useSignUpForm(UserType.Applicant)
 
   return (
     <form onSubmit={form.handleSubmit} className="flex flex-col gap-y-5">

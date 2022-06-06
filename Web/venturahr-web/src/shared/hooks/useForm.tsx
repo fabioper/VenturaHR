@@ -32,7 +32,7 @@ function useForm<T>({ onSubmit, schema }: UseFormParams<T>) {
   const field = (field: keyof T, options?: Partial<FieldOptions>) => ({
     [options?.idField || "id"]: field.toString(),
     name: field.toString(),
-    value: form.values[field] as any,
+    value: (form.values[field] as any) || "",
     onChange: form.handleChange,
     onBlur: form.handleBlur,
     className: `${options?.className} ${!isValid(field) ? "p-invalid" : ""}`,

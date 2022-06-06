@@ -1,10 +1,13 @@
 import { toast, ToastOptions } from "react-toastify"
 
 export class ToasterService {
-  private options: ToastOptions = {
-    theme: "dark",
-    icon: true,
-    position: "top-right",
+  private readonly options: ToastOptions
+
+  constructor() {
+    this.options = {
+      theme: "dark",
+      icon: true,
+    }
   }
 
   error(message: string): void {
