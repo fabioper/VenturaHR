@@ -7,11 +7,13 @@ using Users.Application.DTOs.Requests;
 using Users.Application.DTOs.Responses;
 using Users.Application.Exceptions;
 using Users.Application.Extensions;
+using Users.Application.Extensions.Validations;
 using Users.Application.Services.Contracts;
 using Users.Domain.Models.Entities;
 using Users.Domain.Models.Enums;
 using Users.Domain.Models.ValueObjects;
 using Users.Domain.Repositories;
+using Users.Domain.Validators;
 
 namespace Users.Application.Services.Concretes;
 
@@ -20,6 +22,7 @@ public class UserService : IUserService
     private readonly IUserRepository _repository;
     private readonly ITokenService _tokenService;
     private readonly IPublishEndpoint _publishEndpoint;
+    private readonly IUniquenessValidator _uniquenessValidator;
     private readonly ICacheService _cache;
     private readonly IMapper _mapper;
 
@@ -27,6 +30,7 @@ public class UserService : IUserService
         IUserRepository repository,
         ITokenService tokenService,
         IPublishEndpoint publishEndpoint,
+        IUniquenessValidator uniquenessValidator,
         IMapper mapper,
         ICacheService cache)
     {
@@ -35,6 +39,7 @@ public class UserService : IUserService
         _publishEndpoint = publishEndpoint;
         _mapper = mapper;
         _cache = cache;
+        _uniquenessValidator = uniquenessValidator;
     }
 
     public async Task CreateUser(CreateUserRequest request)
@@ -47,6 +52,8 @@ public class UserService : IUserService
             new Registration(request.Registration),
             request.UserType
         );
+
+        newUser.Validate(_uniquenessValidator);
 
         await _repository.Add(newUser);
         await PublishUserCreatedEvent(request, newUser);

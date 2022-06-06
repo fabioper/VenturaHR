@@ -8,6 +8,12 @@ public static class ErrorDetailsFactory
 {
     public static ErrorDetails Create(Exception exception) => exception switch
     {
+        ValidationFailedException e => new ErrorDetails
+        {
+          Message = e.Message,
+          Status = HttpStatusCode.BadRequest,
+          Errors = e.Errors,
+        },
         InvalidRefreshToken e => new ErrorDetails
         {
             Message = e.Message,
@@ -28,6 +34,10 @@ public static class ErrorDetailsFactory
             Message = e.Message,
             Status = HttpStatusCode.NotFound,
         },
-        _ => new ErrorDetails(),
+        { } e => new ErrorDetails
+        {
+            Message = e.Message,
+            Status = HttpStatusCode.InternalServerError,
+        },
     };
 }

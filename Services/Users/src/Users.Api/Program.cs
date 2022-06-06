@@ -28,6 +28,7 @@ builder.Services.AddAutoMapper(typeof(UserProfile));
 
 builder.Services.AddRepositories();
 builder.Services.AddServices();
+builder.Services.AddValidators();
 
 const string corsConfig = "_corsConfig";
 builder.Services.AddCors(config =>

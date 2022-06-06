@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Users.Domain.Models.Entities;
+using Users.Domain.Models.ValueObjects;
 using Users.Domain.Repositories;
 
 namespace Users.Infra.Persistence.Repositories;
@@ -40,6 +41,9 @@ public class UserRepository : IUserRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task<User?> FindByEmail(string email) =>
-        await _entity.FirstOrDefaultAsync(x => x.Email == email);
+    public async Task<User?> FindByEmail(string email)
+        => await _entity.FirstOrDefaultAsync(x => x.Email == email);
+
+    public async Task<User?> FindByRegistration(Registration registration)
+        => await _entity.FirstOrDefaultAsync(x => x.Registration.Number == registration.Number);
 }

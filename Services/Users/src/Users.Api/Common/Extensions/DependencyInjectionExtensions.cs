@@ -10,9 +10,11 @@ using Users.Application.Options;
 using Users.Application.Services.Concretes;
 using Users.Application.Services.Contracts;
 using Users.Domain.Repositories;
+using Users.Domain.Validators;
 using Users.Infra.Caching;
 using Users.Infra.Persistence;
 using Users.Infra.Persistence.Repositories;
+using Users.Infra.Validators;
 
 namespace Users.Api.Common.Extensions;
 
@@ -26,7 +28,14 @@ public static class DependencyInjectionExtensions
     }
 
     public static void AddRepositories(this IServiceCollection services)
-        => services.AddScoped<IUserRepository, UserRepository>();
+    {
+        services.AddScoped<IUserRepository, UserRepository>();
+    }
+
+    public static void AddValidators(this IServiceCollection services)
+    {
+        services.AddScoped<IUniquenessValidator, UniquenessValidator>();
+    }
 
     public static void ConfigureDbContext(this IServiceCollection services, ConfigurationManager configuration)
     {
