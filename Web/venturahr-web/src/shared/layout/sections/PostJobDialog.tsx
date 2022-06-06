@@ -2,7 +2,6 @@ import React, { useMemo } from "react"
 import { Button } from "primereact/button"
 import { InputText } from "primereact/inputtext"
 import { Calendar } from "primereact/calendar"
-import { Editor } from "primereact/editor"
 import { Dialog, DialogProps } from "primereact/dialog"
 import { PrimeIcons } from "primereact/api"
 import InputCurrency from "../../components/InputCurrency"
@@ -10,6 +9,7 @@ import useForm from "../../hooks/useForm"
 import { PostJobModel } from "../../../core/dtos/jobposting/PostJobModel"
 import { postJobValidator } from "../../../core/validations/post-job.validator"
 import { postJob } from "../../../core/services/JobPostingsService"
+import MDEditor from "../../components/MDEditor/MDEditor"
 
 interface PostJobDialogProps {
   visible: boolean
@@ -61,7 +61,7 @@ const PostJobDialog: React.FC<PostJobDialogProps> = ({ visible, onHide }) => {
 
   return (
     <Dialog {...dialogProps}>
-      <form className="w-full max-w-3xl" onSubmit={form.handleSubmit}>
+      <form className="w-full min-w-[50vw]" onSubmit={form.handleSubmit}>
         <div className="flex flex-col md:grid md:grid-cols-5 gap-5">
           <div className="flex flex-col col-span-3">
             <label htmlFor="title">Cargo</label>
@@ -104,17 +104,7 @@ const PostJobDialog: React.FC<PostJobDialogProps> = ({ visible, onHide }) => {
 
           <div className="flex flex-col col-span-5">
             <label htmlFor="description">Descrição</label>
-            <Editor
-              id="description"
-              name="description"
-              value={form.values.description}
-              onTextChange={e => form.setFieldValue("description", e.htmlValue)}
-              onBlur={() => {
-                form.setFieldTouched("description")
-              }}
-              style={{ height: "220px" }}
-              className={!isValid("description") ? "p-invalid" : ""}
-            />
+            <MDEditor {...field("description")} />
             {renderError("description")}
           </div>
         </div>

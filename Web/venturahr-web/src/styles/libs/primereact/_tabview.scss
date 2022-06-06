@@ -12,6 +12,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  font-weight: 500;
+  @apply font-display;
 }
 
 .p-tabview .p-tabview-nav li .p-tabview-nav-link:not(.p-disabled):focus {
@@ -19,7 +21,7 @@
 }
 
 .p-tabview .p-tabview-panels {
-  padding: 2rem 0;
+  padding: 1rem 0;
 }
 
 .p-tabview .p-tabview-nav li:not(.p-highlight):not(.p-disabled):hover .p-tabview-nav-link {

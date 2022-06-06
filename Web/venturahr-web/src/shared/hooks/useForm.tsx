@@ -30,6 +30,7 @@ function useForm<T>({ onSubmit, schema }: UseFormParams<T>) {
     )
 
   const field = (field: keyof T, options?: Partial<FieldOptions>) => ({
+    id: field.toString(),
     [options?.idField || "id"]: field.toString(),
     name: field.toString(),
     value: (form.values[field] as any) || "",
