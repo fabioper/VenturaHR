@@ -7,7 +7,6 @@ using Users.Application.DTOs.Requests;
 using Users.Application.DTOs.Responses;
 using Users.Application.Exceptions;
 using Users.Application.Extensions;
-using Users.Application.Extensions.Validations;
 using Users.Application.Services.Contracts;
 using Users.Domain.Models.Entities;
 using Users.Domain.Models.Enums;

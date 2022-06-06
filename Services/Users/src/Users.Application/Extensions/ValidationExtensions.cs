@@ -2,7 +2,7 @@ using Users.Application.Exceptions;
 using Users.Domain.Models.Entities;
 using Users.Domain.Validators;
 
-namespace Users.Application.Extensions.Validations;
+namespace Users.Application.Extensions;
 
 public static class ValidationExtensions
 {
