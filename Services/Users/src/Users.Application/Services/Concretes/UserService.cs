@@ -58,20 +58,6 @@ public class UserService : IUserService
         await PublishUserCreatedEvent(request, newUser);
     }
 
-    private async Task PublishUserCreatedEvent(CreateUserRequest request, User newCompany)
-    {
-        object userCreatedEvent = request.UserType switch
-        {
-            UserType.Company => new CompanyCreatedEvent(
-                newCompany.Name, newCompany.Email, newCompany.Id.ToString()),
-            UserType.Applicant => new ApplicantCreatedEvent(
-                newCompany.Name, newCompany.Email, newCompany.Id.ToString()),
-            _ => throw new UnrecognizedUserType(request.UserType.ToString()),
-        };
-
-        await _publishEndpoint.Publish(userCreatedEvent);
-    }
-
     public async Task<TokenResponse> Authenticate(LoginRequest request)
     {
         var user = await _repository.FindByEmail(request.Email);
@@ -88,10 +74,7 @@ public class UserService : IUserService
         if (userId is null)
             throw new InvalidRefreshToken();
 
-        var user = await _repository.FindById(Guid.Parse(userId));
-        if (user is null)
-            throw new EntityNotFoundException(nameof(user));
-
+        var user = await FindUserOfId(Guid.Parse(userId));
         return await _tokenService.GenerateToken(user);
     }
 
@@ -102,16 +85,33 @@ public class UserService : IUserService
             return cachedUser;
 
         var user = await FindUserOfId(userId);
+        return await MapProfileAndSaveToCache(user, cacheKey: userId.ToString());
+    }
 
+    private async Task<UserProfileResponse> MapProfileAndSaveToCache(User user, string cacheKey)
+    {
         var profile = _mapper.Map<UserProfileResponse>(user);
-        await _cache.Set(userId.ToString(), profile);
-
+        await _cache.Set(cacheKey, profile);
         return profile;
     }
 
-    private async Task<User?> FindUserOfId(Guid userId)
+    private async Task<User> FindUserOfId(Guid userId)
     {
         var user = await _repository.FindById(userId);
         return user ?? throw new EntityNotFoundException(nameof(user));
+    }
+
+    private async Task PublishUserCreatedEvent(CreateUserRequest request, User newCompany)
+    {
+        object userCreatedEvent = request.UserType switch
+        {
+            UserType.Company => new CompanyCreatedEvent(
+                newCompany.Name, newCompany.Email, newCompany.Id.ToString()),
+            UserType.Applicant => new ApplicantCreatedEvent(
+                newCompany.Name, newCompany.Email, newCompany.Id.ToString()),
+            _ => throw new UnrecognizedUserType(request.UserType.ToString()),
+        };
+
+        await _publishEndpoint.Publish(userCreatedEvent);
     }
 }
