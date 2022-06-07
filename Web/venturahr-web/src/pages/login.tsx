@@ -19,7 +19,7 @@ const Login: NextPage = () => {
 
   const { login, loading } = useAuth()
   const [error, setError] = useState<string | null>(null)
-  const toast = useToaster()
+  const { toast } = useToaster()
 
   const handleLogin = async ({ email, password }: LoginModel): Promise<any> => {
     setError(null)
