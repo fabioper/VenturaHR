@@ -1,4 +1,4 @@
-namespace JobPostings.Application.Exceptions;
+namespace JobPostings.CrossCutting.Exceptions;
 
 public class ValidationFailedException : Exception
 {

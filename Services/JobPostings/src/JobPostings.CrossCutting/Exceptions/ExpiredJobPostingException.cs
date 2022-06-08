@@ -1,4 +1,4 @@
-﻿namespace JobPostings.Domain.Exceptions;
+﻿namespace JobPostings.CrossCutting.Exceptions;
 
 public class ExpiredJobPostingException : Exception
 {

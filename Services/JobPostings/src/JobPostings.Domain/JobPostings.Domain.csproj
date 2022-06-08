@@ -10,4 +10,8 @@
       <PackageReference Include="VenturaHRCommon" Version="1.2.11" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\JobPostings.CrossCutting\JobPostings.CrossCutting.csproj" />
+    </ItemGroup>
+
 </Project>

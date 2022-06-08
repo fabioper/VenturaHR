@@ -1,9 +1,9 @@
 #nullable disable
 
 using Common.Abstractions;
+using JobPostings.CrossCutting.Exceptions;
 using JobPostings.Domain.Aggregates.JobApplications;
 using JobPostings.Domain.Aggregates.JobPostings;
-using JobPostings.Domain.Exceptions;
 
 namespace JobPostings.Domain.Aggregates.Applicants;
 

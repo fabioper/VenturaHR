@@ -1,4 +1,4 @@
-using JobPostings.Application.Exceptions;
+using JobPostings.CrossCutting.Exceptions;
 using JobPostings.Domain.Aggregates.JobApplications;
 using JobPostings.Domain.Validators;
 
