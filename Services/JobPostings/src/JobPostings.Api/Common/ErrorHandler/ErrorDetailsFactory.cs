@@ -8,6 +8,11 @@ public static class ErrorDetailsFactory
 {
     public static ErrorDetails Create(Exception exception) => exception switch
     {
+        JobPostingAlreadyAppliedException e => new ErrorDetails
+        {
+            Message = e.Message,
+            Status = HttpStatusCode.BadRequest
+        },
         ExpiredJobPostingException e => new ErrorDetails
         {
             Message = e.Message,
