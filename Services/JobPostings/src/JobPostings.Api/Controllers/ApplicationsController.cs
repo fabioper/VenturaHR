@@ -18,14 +18,14 @@ public class ApplicationsController : ControllerBase
         => _applicationService = applicationService;
 
     [HttpGet]
-    public async Task<IActionResult> GetApplications()
+    public async Task<IActionResult> GetAll()
     {
         var applications = await _applicationService.GetApplicationsFrom(ApplicantId);
         return Ok(applications);
     }
 
     [HttpPost]
-    public async Task<IActionResult> ApplyToJobPosting([FromBody] JobApplicationRequest request)
+    public async Task<IActionResult> Create([FromBody] JobApplicationRequest request)
     {
         await _applicationService.Apply(ApplicantId, request);
         return Ok();
