@@ -21,9 +21,9 @@ public class JobPostingRepository : BaseRepository<JobPosting>, IJobPostingRepos
             .Skip(filter.PageSize * (filter.Page - 1))
             .Take(filter.PageSize);
 
-        var orderedQuery = paginatedQuery.OrderBy(x => x.CreatedAt);
+        var orderedQueryable = paginatedQuery.OrderBy(x => x.CreatedAt);
 
-        return await orderedQuery.ToListAsync();
+        return await orderedQueryable.ToListAsync();
     }
 
     public new async Task<JobPosting?> FindById(Guid id)
@@ -33,4 +33,7 @@ public class JobPostingRepository : BaseRepository<JobPosting>, IJobPostingRepos
                              .Include(x => x.Criterias)
                              .FirstOrDefaultAsync(x => x.Id == id);
     }
+
+    public async Task<int> Count(BaseFilter baseFilter)
+        => await _context.JobPostings.CountAsync();
 }
