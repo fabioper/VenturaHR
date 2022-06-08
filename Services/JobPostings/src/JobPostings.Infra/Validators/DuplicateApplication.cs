@@ -1,4 +1,5 @@
-﻿using JobPostings.Domain.Aggregates.JobApplications;
+﻿using JobPostings.CrossCutting.Filters;
+using JobPostings.Domain.Aggregates.JobApplications;
 using JobPostings.Domain.Repositories;
 using JobPostings.Domain.Validators;
 
@@ -21,7 +22,8 @@ public class DuplicateApplicationValidator : IDuplicateApplicationValidator
     {
         var brokenRules = new Dictionary<string, string>();
 
-        var applicantApplications = _jobApplicationRepository.GetAllByApplicant(entity.Applicant.Id).Result;
+        var filter = new ApplicationsFilter { Applicant = entity.Applicant.Id};
+        var applicantApplications = _jobApplicationRepository.GetAll(filter).Result;
         var alreadyApplied = applicantApplications.Any(x => x.JobPosting.Id == entity.JobPosting.Id);
 
         if (alreadyApplied)

@@ -4,6 +4,8 @@ using JobPostings.Application.DTOs.Requests;
 using JobPostings.Application.DTOs.Responses;
 using JobPostings.Application.Extensions;
 using JobPostings.Application.Services.Contracts;
+using JobPostings.CrossCutting.Extensions;
+using JobPostings.CrossCutting.Filters;
 using JobPostings.Domain.Aggregates.Applicants;
 using JobPostings.Domain.Aggregates.JobApplications;
 using JobPostings.Domain.Aggregates.JobPostings;
@@ -34,10 +36,14 @@ public class JobApplicationService : IJobApplicationService
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<JobApplicationResponse>> GetApplicationsFrom(Guid applicantId)
+    public async Task<FilterResponse<JobApplicationResponse>> GetAll(ApplicationsFilter filter)
     {
-        var applications = await _applicationRepository.GetAllByApplicant(applicantId);
-        return _mapper.Map<List<JobApplicationResponse>>(applications);
+        var applications = await _applicationRepository.GetAll(filter);
+        var totalRecords = await _applicationRepository.Count(filter);
+        
+        var results = _mapper.Map<List<JobApplicationResponse>>(applications);
+        
+        return results.ToFilterResponse(filter, totalRecords);
     }
 
     public async Task Apply(Guid applicantId, JobApplicationRequest request)

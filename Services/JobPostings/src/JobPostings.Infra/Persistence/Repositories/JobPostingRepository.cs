@@ -1,3 +1,4 @@
+using JobPostings.CrossCutting.Extensions;
 using JobPostings.CrossCutting.Filters;
 using JobPostings.Domain.Aggregates.JobPostings;
 using JobPostings.Domain.Repositories;
@@ -17,15 +18,13 @@ public class JobPostingRepository : BaseRepository<JobPosting>, IJobPostingRepos
             .Include(x => x.Company)
             .Include(x => x.Criterias);
 
-        var filteredQuery = FilterQuery(filter, jobPostings);
+        var orderedQueryable = jobPostings.OrderBy(x => x.CreatedAt);
+        
+        var filteredQuery = FilterQuery(filter, orderedQueryable);
 
-        var paginatedQuery = filteredQuery
-            .Skip(filter.PageSize * (filter.Page - 1))
-            .Take(filter.PageSize);
+        var paginatedQuery = filteredQuery.Paginate(filter);
 
-        var orderedQueryable = paginatedQuery.OrderBy(x => x.CreatedAt);
-
-        return await orderedQueryable.ToListAsync();
+        return await paginatedQuery.ToListAsync();
     }
 
     public new async Task<JobPosting?> FindById(Guid id)

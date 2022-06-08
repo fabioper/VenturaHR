@@ -1,3 +1,5 @@
+using JobPostings.CrossCutting.Extensions;
+using JobPostings.CrossCutting.Filters;
 using JobPostings.Domain.Aggregates.JobApplications;
 using JobPostings.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -27,15 +29,34 @@ public class JobApplicationRepository :
                              .ToListAsync();
     }
 
-    public async Task<IEnumerable<JobApplication>> GetAllByApplicant(Guid applicantId)
+    public async Task<IEnumerable<JobApplication>> GetAll(ApplicationsFilter filter)
     {
-        return await _context.Applications
-                             .Include(x => x.Applicant)
-                             .Include(x => x.CriteriasAnswers)
-                             .ThenInclude(x => x.Criteria)
-                             .Include(x => x.JobPosting)
-                             .ThenInclude(x => x.Company)
-                             .Where(x => x.Applicant.Id == applicantId)
-                             .ToListAsync();
+        var applications = _context.Applications
+            .Include(x => x.Applicant)
+            .Include(x => x.CriteriasAnswers)
+                .ThenInclude(x => x.Criteria)
+            .Include(x => x.JobPosting)
+                .ThenInclude(x => x.Company);
+
+        var orderedQuery = applications.OrderBy(x => x.CreatedAt);
+        
+        var filteredQuery = FilterQuery(filter, orderedQuery);
+       
+        var paginatedQuery = filteredQuery.Paginate(filter);
+
+        return await paginatedQuery.ToListAsync();
+    }
+
+    public async Task<int> Count(ApplicationsFilter filter)
+    {
+        var applications = _context.Applications.AsNoTracking();
+        var filtered = FilterQuery(filter, applications);
+        return await filtered.CountAsync();
+    }
+
+    private static IQueryable<JobApplication> FilterQuery(
+        ApplicationsFilter filter, IQueryable<JobApplication> orderedQuery)
+    {
+        return orderedQuery.Where(x => !filter.Applicant.HasValue || x.Applicant.Id == filter.Applicant.Value);
     }
 }
