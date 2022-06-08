@@ -132,6 +132,9 @@ namespace JobPostings.Infra.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<double>("Average")
+                        .HasColumnType("double precision");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -158,6 +161,9 @@ namespace JobPostings.Infra.Persistence.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<double>("Average")
+                        .HasColumnType("double precision");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -202,7 +208,7 @@ namespace JobPostings.Infra.Persistence.Migrations
             modelBuilder.Entity("JobPostings.Domain.Aggregates.JobApplications.CriteriaAnswer", b =>
                 {
                     b.HasOne("JobPostings.Domain.Aggregates.JobApplications.JobApplication", null)
-                        .WithMany("CriteriasAnswers")
+                        .WithMany("Answers")
                         .HasForeignKey("_applicationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -267,7 +273,7 @@ namespace JobPostings.Infra.Persistence.Migrations
 
             modelBuilder.Entity("JobPostings.Domain.Aggregates.JobApplications.JobApplication", b =>
                 {
-                    b.Navigation("CriteriasAnswers");
+                    b.Navigation("Answers");
                 });
 
             modelBuilder.Entity("JobPostings.Domain.Aggregates.JobPostings.JobPosting", b =>

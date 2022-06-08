@@ -19,12 +19,13 @@ public class JobPosting : BaseEntity, IAggregateRoot
 
     public DateTime ExpireAt { get; private set; }
 
-    public Company Company { get; }
+    public Company Company { get; private set; }
+
+    public List<Criteria> Criterias { get; private set; }
     
     public bool HasExpired => ExpireAt <= DateTime.UtcNow;
 
-    private List<Criteria> _criterias;
-    public IReadOnlyCollection<Criteria> Criterias => _criterias;
+    public double Average { get; private set; }
 
     internal JobPosting(
         string title,
@@ -40,8 +41,9 @@ public class JobPosting : BaseEntity, IAggregateRoot
         Location = location;
         Salary = salary;
         ExpireAt = expireAt;
-        _criterias = criterias;
+        Criterias = criterias;
         Company = company;
+        Average = CalculateAverage();
     }
 
     public JobPosting() { } // Ef required
@@ -66,5 +68,10 @@ public class JobPosting : BaseEntity, IAggregateRoot
 
     public void UpdateSalary(decimal newSalary) => Salary = new Salary(newSalary);
 
-    public void UpdateCriterias(List<Criteria> criterias) => _criterias = criterias;
+    public void UpdateCriterias(List<Criteria> criterias) => Criterias = criterias;
+    
+    private double CalculateAverage()
+    {
+        return Criterias.Sum(x => (int)x.DesiredProfile * x.Weight) / (double)Criterias.Sum(x => x.Weight);
+    }
 }

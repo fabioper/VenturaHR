@@ -18,6 +18,7 @@ public class JobPostingConfiguration : IEntityTypeConfiguration<JobPosting>
         builder.Property(x => x.CreatedAt).IsRequired();
         builder.Property(x => x.UpdatedAt).IsRequired();
         builder.Property(x => x.ExpireAt).IsRequired();
+        builder.Property(x => x.Average).IsRequired();
 
         builder.HasOne(x => x.Company)
                .WithMany()
@@ -26,9 +27,6 @@ public class JobPostingConfiguration : IEntityTypeConfiguration<JobPosting>
 
         builder.OwnsOne(x => x.Salary,
             x => x.Property(c => c.Value).HasColumnName("Compensation"));
-
-        var criteriaNavigation = builder.Metadata.FindNavigation(nameof(JobPosting.Criterias));
-        criteriaNavigation?.SetPropertyAccessMode(PropertyAccessMode.Field);
 
         builder.HasMany(x => x.Criterias)
                .WithOne()

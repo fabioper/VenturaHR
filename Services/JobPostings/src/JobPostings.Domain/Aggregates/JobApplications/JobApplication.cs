@@ -8,25 +8,28 @@ namespace JobPostings.Domain.Aggregates.JobApplications;
 
 public class JobApplication : BaseEntity, IAggregateRoot
 {
-    public JobPosting JobPosting { get; }
+    public JobPosting JobPosting { get; private set; }
 
-    public Applicant Applicant { get; }
+    public Applicant Applicant { get; private set; }
 
-    private readonly List<CriteriaAnswer> _criteriasAnswers;
+    public double Average { get; private set; }
 
-    public IReadOnlyCollection<CriteriaAnswer> CriteriasAnswers
-        => _criteriasAnswers;
+    public List<CriteriaAnswer> Answers { get; private set; }
 
     internal JobApplication(
         Applicant applicant,
         JobPosting jobPosting,
-        List<CriteriaAnswer> criteriasAnswers)
+        List<CriteriaAnswer> answers)
     {
         Id = Guid.NewGuid();
         JobPosting = jobPosting;
         Applicant = applicant;
-        _criteriasAnswers = criteriasAnswers;
+        Answers = answers;
+        Average = CalculateAverage();
     }
+
+    private double CalculateAverage()
+        => Answers.Sum(x => x.Value * x.Criteria.Weight) / (double)Answers.Sum(x => x.Criteria.Weight);
 
     public JobApplication() { } // Ef required
 }

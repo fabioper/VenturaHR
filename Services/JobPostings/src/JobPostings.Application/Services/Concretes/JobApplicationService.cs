@@ -1,3 +1,4 @@
+using System.Data;
 using AutoMapper;
 using Common.Exceptions;
 using JobPostings.Application.DTOs.Requests;
@@ -50,16 +51,27 @@ public class JobApplicationService : IJobApplicationService
     {
         var applicant = await FindApplicantOfId(applicantId);
         var jobPosting = await FindJobPostingOfId(request.JobPostingId);
-        var criteriaAnswers = MapCriteriaAnswers(request.CriteriaAnswers);
+        var criteriaAnswers = MapCriteriaAnswers(jobPosting, request.CriteriaAnswers);
 
-        var application = applicant.ApplyTo(jobPosting, criteriaAnswers);
+        var application = applicant.ApplyTo(jobPosting, criteriaAnswers.ToList());
         application.ValidateAgainst(_duplicateApplicationValidator);
 
         await _applicationRepository.Add(application);
     }
 
-    private static List<CriteriaAnswer> MapCriteriaAnswers(IEnumerable<CriteriaAnswerRequest> criteriaAnswers)
-        => criteriaAnswers.Select(c => new CriteriaAnswer(c.CriteriaId, c.Value)).ToList();
+    private static IEnumerable<CriteriaAnswer> MapCriteriaAnswers(
+        JobPosting jobPosting,
+        IReadOnlyCollection<CriteriaAnswerRequest> criteriaAnswers)
+    {
+        foreach (var jobPostingCriteria in jobPosting.Criterias)
+        {
+            var answer = criteriaAnswers.FirstOrDefault(x => x.CriteriaId == jobPostingCriteria.Id);
+            if (answer is null)
+                throw new InvalidConstraintException();
+
+            yield return new CriteriaAnswer(jobPostingCriteria, answer.Value);
+        }
+    }
 
     private async Task<Applicant> FindApplicantOfId(Guid applicantId)
     {

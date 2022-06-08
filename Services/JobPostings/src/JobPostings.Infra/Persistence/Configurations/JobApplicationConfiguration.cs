@@ -12,6 +12,8 @@ public class JobApplicationConfiguration : IEntityTypeConfiguration<JobApplicati
 
         builder.HasKey(x => x.Id);
 
+        builder.Property(x => x.Average).IsRequired();
+
         builder.HasOne(x => x.Applicant)
                .WithMany()
                .HasForeignKey("_applicantId")
@@ -22,10 +24,7 @@ public class JobApplicationConfiguration : IEntityTypeConfiguration<JobApplicati
                .HasForeignKey("_jobPostingId")
                .IsRequired();
 
-        var criterias = builder.Metadata.FindNavigation(nameof(JobApplication.CriteriasAnswers));
-        criterias?.SetPropertyAccessMode(PropertyAccessMode.Field);
-
-        builder.HasMany(x => x.CriteriasAnswers)
+        builder.HasMany(x => x.Answers)
                .WithOne()
                .HasForeignKey("_applicationId")
                .IsRequired();

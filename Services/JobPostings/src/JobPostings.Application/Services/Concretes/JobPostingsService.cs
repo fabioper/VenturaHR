@@ -7,6 +7,7 @@ using JobPostings.CrossCutting.Extensions;
 using JobPostings.CrossCutting.Filters;
 using JobPostings.Domain.Aggregates.Companies;
 using JobPostings.Domain.Aggregates.Criterias;
+using JobPostings.Domain.Aggregates.JobApplications;
 using JobPostings.Domain.Aggregates.JobPostings;
 using JobPostings.Domain.Repositories;
 
@@ -75,10 +76,10 @@ public class JobPostingsService : IJobPostingsService
         return _mapper.Map<JobPostingResponse>(jobPosting);
     }
 
-    public async Task<IEnumerable<ApplicationResponse>> GetJobPostingApplications(Guid companyId, Guid jobPostingId)
+    public async Task<IEnumerable<JobApplication>> GetJobPostingApplications(Guid companyId, Guid jobPostingId)
     {
         var applications = await _applicationRepository.GetAllByJobCompanyOfId(companyId, jobPostingId);
-        return _mapper.Map<List<ApplicationResponse>>(applications);
+        return _mapper.Map<List<JobApplication>>(applications);
     }
 
     private async Task<JobPosting> FindJobPostingOfId(Guid jobPostingId)

@@ -9,6 +9,7 @@ public record JobPostingResponse
     public string Description { get; init; }
     public string Location { get; init; }
     public decimal Salary { get; init; }
+    public double Average { get; init; }
     public DateTime CreatedAt { get; init; }
     public DateTime UpdatedAt { get; init; }
     public DateTime ExpireAt { get; init; }

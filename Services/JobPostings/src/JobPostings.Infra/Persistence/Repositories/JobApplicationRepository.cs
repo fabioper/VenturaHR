@@ -33,7 +33,7 @@ public class JobApplicationRepository :
     {
         var applications = _context.Applications
             .Include(x => x.Applicant)
-            .Include(x => x.CriteriasAnswers)
+            .Include(x => x.Answers)
                 .ThenInclude(x => x.Criteria)
             .Include(x => x.JobPosting)
                 .ThenInclude(x => x.Company);

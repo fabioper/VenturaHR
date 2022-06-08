@@ -12,8 +12,8 @@ using Users.Infra.Persistence;
 namespace Users.Infra.Persistence.Migrations
 {
     [DbContext(typeof(UsersContext))]
-    [Migration("20220603042816_AddUserDates")]
-    partial class AddUserDates
+    [Migration("20220608223220_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -53,6 +53,9 @@ namespace Users.Infra.Persistence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Email")
+                        .IsUnique();
+
                     b.ToTable("Users", (string)null);
                 });
 
@@ -86,6 +89,9 @@ namespace Users.Infra.Persistence.Migrations
                                 .HasColumnName("Registration");
 
                             b1.HasKey("UserId");
+
+                            b1.HasIndex("Number")
+                                .IsUnique();
 
                             b1.ToTable("Users");
 

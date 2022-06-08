@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace JobPostings.Infra.Persistence.Migrations
 {
     [DbContext(typeof(ModelContext))]
-    [Migration("20220531190144_RenameCriteriaAnswer")]
-    partial class RenameCriteriaAnswer
+    [Migration("20220608221944_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,11 +27,18 @@ namespace JobPostings.Infra.Persistence.Migrations
             modelBuilder.Entity("JobPostings.Domain.Aggregates.Applicants.Applicant", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
@@ -41,11 +48,18 @@ namespace JobPostings.Infra.Persistence.Migrations
             modelBuilder.Entity("JobPostings.Domain.Aggregates.Companies.Company", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
@@ -55,11 +69,21 @@ namespace JobPostings.Infra.Persistence.Migrations
             modelBuilder.Entity("JobPostings.Domain.Aggregates.Criterias.Criteria", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("DesiredProfile")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("Weight")
                         .HasColumnType("integer");
@@ -77,7 +101,14 @@ namespace JobPostings.Infra.Persistence.Migrations
             modelBuilder.Entity("JobPostings.Domain.Aggregates.JobApplications.CriteriaAnswer", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("Value")
                         .HasColumnType("integer");
@@ -100,9 +131,16 @@ namespace JobPostings.Infra.Persistence.Migrations
             modelBuilder.Entity("JobPostings.Domain.Aggregates.JobApplications.JobApplication", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("AppliedAt")
+                    b.Property<double>("Average")
+                        .HasColumnType("double precision");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("_applicantId")
@@ -123,7 +161,11 @@ namespace JobPostings.Infra.Persistence.Migrations
             modelBuilder.Entity("JobPostings.Domain.Aggregates.JobPostings.JobPosting", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<double>("Average")
+                        .HasColumnType("double precision");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -168,7 +210,7 @@ namespace JobPostings.Infra.Persistence.Migrations
             modelBuilder.Entity("JobPostings.Domain.Aggregates.JobApplications.CriteriaAnswer", b =>
                 {
                     b.HasOne("JobPostings.Domain.Aggregates.JobApplications.JobApplication", null)
-                        .WithMany("CriteriasFullfillments")
+                        .WithMany("Answers")
                         .HasForeignKey("_applicationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -233,7 +275,7 @@ namespace JobPostings.Infra.Persistence.Migrations
 
             modelBuilder.Entity("JobPostings.Domain.Aggregates.JobApplications.JobApplication", b =>
                 {
-                    b.Navigation("CriteriasFullfillments");
+                    b.Navigation("Answers");
                 });
 
             modelBuilder.Entity("JobPostings.Domain.Aggregates.JobPostings.JobPosting", b =>
