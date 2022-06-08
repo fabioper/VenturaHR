@@ -58,9 +58,9 @@ public class JobPostingsService : IJobPostingsService
         await _jobPostingsRepository.Update(jobPosting);
     }
 
-    public async Task<IEnumerable<JobPostingResponse>> GetPublishedJobsBy(Guid companyId)
+    public async Task<IEnumerable<JobPostingResponse>> GetJobPostings()
     {
-        var jobPostings = await _jobPostingsRepository.FindByCompanyOfId(companyId);
+        var jobPostings = await _jobPostingsRepository.GetAll();
         return _mapper.Map<IEnumerable<JobPostingResponse>>(jobPostings);
     }
 

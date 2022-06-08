@@ -20,15 +20,16 @@ public class ApplicationsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetApplications()
     {
-        var applicantId = User.GetId();
-        var applications = await _applicationService.GetApplicationsFrom(applicantId);
+        var applications = await _applicationService.GetApplicationsFrom(ApplicantId);
         return Ok(applications);
     }
 
     [HttpPost]
     public async Task<IActionResult> ApplyToJobPosting([FromBody] JobApplicationRequest request)
     {
-        await _applicationService.Apply(request);
+        await _applicationService.Apply(ApplicantId, request);
         return Ok();
     }
+
+    private Guid ApplicantId => User.GetId();
 }

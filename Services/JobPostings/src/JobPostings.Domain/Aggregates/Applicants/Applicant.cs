@@ -3,6 +3,7 @@
 using Common.Abstractions;
 using JobPostings.Domain.Aggregates.JobApplications;
 using JobPostings.Domain.Aggregates.JobPostings;
+using JobPostings.Domain.Exceptions;
 
 namespace JobPostings.Domain.Aggregates.Applicants;
 
@@ -16,10 +17,13 @@ public class Applicant : BaseEntity, IAggregateRoot
         Name = name;
     }
 
-    public Applicant() { } // Ef required
+    public Applicant() { }
 
     public JobApplication ApplyTo(JobPosting jobPosting, List<CriteriaAnswer> criteriaAnswers)
     {
+        if (jobPosting.HasExpired)
+            throw new ExpiredJobPostingException();
+
         return new JobApplication(this, jobPosting, criteriaAnswers);
     }
 }

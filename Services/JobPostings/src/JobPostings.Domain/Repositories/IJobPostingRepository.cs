@@ -5,7 +5,6 @@ namespace JobPostings.Domain.Repositories;
 
 public interface IJobPostingRepository : IBaseRepository<JobPosting>
 {
-    Task<List<JobPosting>> FindByCompanyOfId(Guid companyId);
-
+    new Task<IEnumerable<JobPosting>> GetAll();
     new Task<JobPosting?> FindById(Guid id);
 }

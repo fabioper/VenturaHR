@@ -19,9 +19,9 @@ public class JobApplicationService : IJobApplicationService
 
     public JobApplicationService(
         IJobApplicationRepository applicationRepository,
-        IMapper mapper,
+        IApplicantRepository applicantRepository,
         IJobPostingRepository jobPostingRepository,
-        IApplicantRepository applicantRepository)
+        IMapper mapper)
     {
         _applicationRepository = applicationRepository;
         _mapper = mapper;
@@ -35,29 +35,31 @@ public class JobApplicationService : IJobApplicationService
         return _mapper.Map<List<JobApplicationResponse>>(applications);
     }
 
-    public async Task Apply(JobApplicationRequest request)
+    public async Task Apply(Guid applicantId, JobApplicationRequest request)
     {
-        var applicant = await FindApplicantOfId(request);
-        var jobPosting = await FindJobPostingOfId(request);
+        var applicant = await FindApplicantOfId(applicantId);
+        var jobPosting = await FindJobPostingOfId(request.JobPostingId);
 
-        var application = applicant.ApplyTo(jobPosting, WithAnswers(request.CriteriaAnswers));
+        var application = applicant.ApplyTo(jobPosting, MapCriteriaAnswers(request.CriteriaAnswers));
+        
+        // TODO: Validar que o usuário não tenha aplicado para a mesma vaga antes.
+        // TODO: Validar que o usuário respondeu a todos os critérios adicionados a vaga
+        
         await _applicationRepository.Add(application);
     }
 
-    private static List<CriteriaAnswer> WithAnswers(IEnumerable<CriteriaAnswerRequest> criteriaAnswers)
-    {
-        return criteriaAnswers.Select(c => new CriteriaAnswer(c.CriteriaId, c.Value)).ToList();
-    }
+    private static List<CriteriaAnswer> MapCriteriaAnswers(IEnumerable<CriteriaAnswerRequest> criteriaAnswers)
+        => criteriaAnswers.Select(c => new CriteriaAnswer(c.CriteriaId, c.Value)).ToList();
 
-    private async Task<Applicant> FindApplicantOfId(JobApplicationRequest request)
+    private async Task<Applicant> FindApplicantOfId(Guid applicantId)
     {
-        var applicant = await _applicantRepository.FindById(request.ApplicantId);
+        var applicant = await _applicantRepository.FindById(applicantId);
         return applicant ?? throw new EntityNotFoundException(nameof(Applicant));
     }
 
-    private async Task<JobPosting> FindJobPostingOfId(JobApplicationRequest request)
+    private async Task<JobPosting> FindJobPostingOfId(Guid jobPostingId)
     {
-        var jobPosting = await _jobPostingRepository.FindById(request.JobPostingId);
+        var jobPosting = await _jobPostingRepository.FindById(jobPostingId);
         return jobPosting ?? throw new EntityNotFoundException(nameof(JobPosting));
     }
 }

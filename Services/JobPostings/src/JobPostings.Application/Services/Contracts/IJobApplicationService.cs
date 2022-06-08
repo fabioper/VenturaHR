@@ -6,5 +6,5 @@ namespace JobPostings.Application.Services.Contracts;
 public interface IJobApplicationService
 {
     Task<IEnumerable<JobApplicationResponse>> GetApplicationsFrom(Guid applicantId);
-    Task Apply(JobApplicationRequest request);
+    Task Apply(Guid applicantId, JobApplicationRequest request);
 }

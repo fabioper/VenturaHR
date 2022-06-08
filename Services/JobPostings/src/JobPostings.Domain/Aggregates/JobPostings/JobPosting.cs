@@ -20,6 +20,8 @@ public class JobPosting : BaseEntity, IAggregateRoot
     public DateTime ExpireAt { get; private set; }
 
     public Company Company { get; }
+    
+    public bool HasExpired => ExpireAt <= DateTime.UtcNow;
 
     private List<Criteria> _criterias;
     public IReadOnlyCollection<Criteria> Criterias => _criterias;

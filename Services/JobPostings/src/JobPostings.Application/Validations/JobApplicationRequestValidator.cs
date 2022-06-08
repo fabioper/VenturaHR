@@ -7,7 +7,6 @@ public class JobApplicationRequestValidator : AbstractValidator<JobApplicationRe
 {
     public JobApplicationRequestValidator()
     {
-        RuleFor(x => x.ApplicantId).NotEmpty();
         RuleFor(x => x.JobPostingId).NotEmpty();
     }
 }

@@ -18,10 +18,10 @@ public class JobPostingsController : ControllerBase
         => _jobPostingsService = jobPostingsService;
 
     [HttpGet]
+    [AllowAnonymous]
     public async Task<IActionResult> GetCompanyPublishedJobs()
     {
-        var companyId = User.GetId();
-        var jobPostings = await _jobPostingsService.GetPublishedJobsBy(companyId);
+        var jobPostings = await _jobPostingsService.GetJobPostings();
         return Ok(jobPostings);
     }
 
@@ -50,9 +50,7 @@ public class JobPostingsController : ControllerBase
     }
 
     [HttpPut("{jobPostingId:guid}")]
-    public async Task<IActionResult> UpdateJobPosting(
-        [FromBody] UpdateJobRequest request,
-        [FromRoute] Guid jobPostingId)
+    public async Task<IActionResult> UpdateJobPosting([FromBody] UpdateJobRequest request, [FromRoute] Guid jobPostingId)
     {
         await _jobPostingsService.UpdateJob(jobPostingId, request);
         return Ok();

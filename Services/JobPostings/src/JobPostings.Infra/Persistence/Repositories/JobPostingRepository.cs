@@ -10,12 +10,11 @@ public class JobPostingRepository : BaseRepository<JobPosting>, IJobPostingRepos
 
     public JobPostingRepository(ModelContext context) : base(context) => _context = context;
 
-    public async Task<List<JobPosting>> FindByCompanyOfId(Guid companyId)
+    public new async Task<IEnumerable<JobPosting>> GetAll()
     {
         return await _context.JobPostings
                              .Include(x => x.Company)
                              .Include(x => x.Criterias)
-                             .Where(x => x.Company.Id == companyId)
                              .ToListAsync();
     }
 
