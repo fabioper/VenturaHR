@@ -1,8 +1,10 @@
 using JobPostings.Application.Services.Concretes;
 using JobPostings.Application.Services.Contracts;
 using JobPostings.Domain.Repositories;
+using JobPostings.Domain.Validators;
 using JobPostings.Infra.Persistence;
 using JobPostings.Infra.Persistence.Repositories;
+using JobPostings.Infra.Validators;
 using Microsoft.EntityFrameworkCore;
 
 namespace JobPostings.Api.Common.Extensions.DependencyInjection;
@@ -30,5 +32,10 @@ public static class ServicesExtensions
             var connection = configuration.GetConnectionString("Database");
             config.UseNpgsql(connection);
         });
+    }
+
+    public static void AddValidators(this IServiceCollection services)
+    {
+        services.AddScoped<IDuplicateApplicationValidator, DuplicateApplicationValidator>();
     }
 }
