@@ -19,7 +19,7 @@ public class JobPostingsController : ControllerBase
 
     [HttpGet]
     [AllowAnonymous]
-    public async Task<IActionResult> GetCompanyPublishedJobs()
+    public async Task<IActionResult> GetAll()
     {
         var jobPostings = await _jobPostingsService.GetJobPostings();
         return Ok(jobPostings);
@@ -27,10 +27,25 @@ public class JobPostingsController : ControllerBase
 
     [HttpGet("{jobPostingId:guid}")]
     [AllowAnonymous]
-    public async Task<IActionResult> GetJobPosting([FromRoute] Guid jobPostingId)
+    public async Task<IActionResult> GetById([FromRoute] Guid jobPostingId)
     {
         var jobPosting = await _jobPostingsService.GetJobPostingOfId(jobPostingId);
         return Ok(jobPosting);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Create([FromBody] CreateJobPostingRequest request)
+    {
+        var companyId = User.GetId();
+        await _jobPostingsService.CreateJobPosting(companyId, request);
+        return Ok();
+    }
+
+    [HttpPut("{jobPostingId:guid}")]
+    public async Task<IActionResult> Update([FromBody] UpdateJobRequest request, [FromRoute] Guid jobPostingId)
+    {
+        await _jobPostingsService.UpdateJob(jobPostingId, request);
+        return Ok();
     }
 
     [HttpGet("{jobPostingId:guid}/applications")]
@@ -39,20 +54,5 @@ public class JobPostingsController : ControllerBase
         var companyId = User.GetId();
         var applications = await _jobPostingsService.GetJobPostingApplications(companyId, jobPostingId);
         return Ok(applications);
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> CreateJobPosting([FromBody] CreateJobPostingRequest request)
-    {
-        var companyId = User.GetId();
-        await _jobPostingsService.CreateJobPosting(companyId, request);
-        return Ok();
-    }
-
-    [HttpPut("{jobPostingId:guid}")]
-    public async Task<IActionResult> UpdateJobPosting([FromBody] UpdateJobRequest request, [FromRoute] Guid jobPostingId)
-    {
-        await _jobPostingsService.UpdateJob(jobPostingId, request);
-        return Ok();
     }
 }
