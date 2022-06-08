@@ -10,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRepositories();
 builder.Services.AddServices();
+builder.Services.AddValidators();
 builder.Services.AddDbContext(builder.Configuration);
 
 builder.Services.AddMassTransit(x =>

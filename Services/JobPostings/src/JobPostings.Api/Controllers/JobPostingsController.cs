@@ -2,6 +2,7 @@ using JobPostings.Api.Common.Constants;
 using JobPostings.Api.Common.Extensions;
 using JobPostings.Application.DTOs.Requests;
 using JobPostings.Application.Services.Contracts;
+using JobPostings.CrossCutting.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,9 +20,9 @@ public class JobPostingsController : ControllerBase
 
     [HttpGet]
     [AllowAnonymous]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll([FromQuery] BaseFilter baseFilter)
     {
-        var jobPostings = await _jobPostingsService.GetJobPostings();
+        var jobPostings = await _jobPostingsService.GetJobPostings(baseFilter);
         return Ok(jobPostings);
     }
 

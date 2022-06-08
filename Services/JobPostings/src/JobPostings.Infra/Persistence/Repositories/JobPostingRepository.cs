@@ -1,3 +1,4 @@
+using JobPostings.CrossCutting.Filters;
 using JobPostings.Domain.Aggregates.JobPostings;
 using JobPostings.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -10,12 +11,19 @@ public class JobPostingRepository : BaseRepository<JobPosting>, IJobPostingRepos
 
     public JobPostingRepository(ModelContext context) : base(context) => _context = context;
 
-    public new async Task<IEnumerable<JobPosting>> GetAll()
+    public async Task<IEnumerable<JobPosting>> GetAll(BaseFilter filter)
     {
-        return await _context.JobPostings
-                             .Include(x => x.Company)
-                             .Include(x => x.Criterias)
-                             .ToListAsync();
+        var jobPostings = _context.JobPostings.AsNoTracking()
+            .Include(x => x.Company)
+            .Include(x => x.Criterias);
+
+        var paginatedQuery = jobPostings
+            .Skip(filter.PageSize * (filter.Page - 1))
+            .Take(filter.PageSize);
+
+        var orderedQuery = paginatedQuery.OrderBy(x => x.CreatedAt);
+
+        return await orderedQuery.ToListAsync();
     }
 
     public new async Task<JobPosting?> FindById(Guid id)

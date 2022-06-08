@@ -3,6 +3,7 @@ using Common.Exceptions;
 using JobPostings.Application.DTOs.Requests;
 using JobPostings.Application.DTOs.Responses;
 using JobPostings.Application.Services.Contracts;
+using JobPostings.CrossCutting.Filters;
 using JobPostings.Domain.Aggregates.Companies;
 using JobPostings.Domain.Aggregates.Criterias;
 using JobPostings.Domain.Aggregates.JobPostings;
@@ -58,9 +59,9 @@ public class JobPostingsService : IJobPostingsService
         await _jobPostingsRepository.Update(jobPosting);
     }
 
-    public async Task<IEnumerable<JobPostingResponse>> GetJobPostings()
+    public async Task<IEnumerable<JobPostingResponse>> GetJobPostings(BaseFilter filter)
     {
-        var jobPostings = await _jobPostingsRepository.GetAll();
+        var jobPostings = await _jobPostingsRepository.GetAll(filter);
         return _mapper.Map<IEnumerable<JobPostingResponse>>(jobPostings);
     }
 
