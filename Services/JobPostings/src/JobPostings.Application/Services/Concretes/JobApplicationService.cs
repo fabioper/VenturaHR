@@ -7,7 +7,6 @@ using JobPostings.Application.Services.Contracts;
 using JobPostings.Domain.Aggregates.Applicants;
 using JobPostings.Domain.Aggregates.JobApplications;
 using JobPostings.Domain.Aggregates.JobPostings;
-using JobPostings.Domain.Exceptions;
 using JobPostings.Domain.Repositories;
 using JobPostings.Domain.Validators;
 

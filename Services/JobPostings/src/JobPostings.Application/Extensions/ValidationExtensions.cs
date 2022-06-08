@@ -1,4 +1,3 @@
-using Common.Abstractions;
 using JobPostings.Application.Exceptions;
 using JobPostings.Domain.Aggregates.JobApplications;
 using JobPostings.Domain.Validators;
