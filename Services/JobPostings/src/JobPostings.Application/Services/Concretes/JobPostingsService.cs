@@ -60,7 +60,7 @@ public class JobPostingsService : IJobPostingsService
         await _jobPostingsRepository.Update(jobPosting);
     }
 
-    public async Task<FilterResponse<JobPostingResponse>> GetJobPostings(BaseFilter filter)
+    public async Task<FilterResponse<JobPostingResponse>> GetJobPostings(JobPostingsFilter filter)
     {
         var jobPostings = await _jobPostingsRepository.GetAll(filter);
         var totalRecords = await _jobPostingsRepository.Count(filter);

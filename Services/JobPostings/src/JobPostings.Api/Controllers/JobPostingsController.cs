@@ -20,9 +20,9 @@ public class JobPostingsController : ControllerBase
 
     [HttpGet]
     [AllowAnonymous]
-    public async Task<IActionResult> GetAll([FromQuery] BaseFilter baseFilter)
+    public async Task<IActionResult> GetAll([FromQuery] JobPostingsFilter filter)
     {
-        var jobPostings = await _jobPostingsService.GetJobPostings(baseFilter);
+        var jobPostings = await _jobPostingsService.GetJobPostings(filter);
         return Ok(jobPostings);
     }
 

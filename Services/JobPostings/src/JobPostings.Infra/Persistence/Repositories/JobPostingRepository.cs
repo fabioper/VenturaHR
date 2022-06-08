@@ -11,13 +11,15 @@ public class JobPostingRepository : BaseRepository<JobPosting>, IJobPostingRepos
 
     public JobPostingRepository(ModelContext context) : base(context) => _context = context;
 
-    public async Task<IEnumerable<JobPosting>> GetAll(BaseFilter filter)
+    public async Task<IEnumerable<JobPosting>> GetAll(JobPostingsFilter filter)
     {
         var jobPostings = _context.JobPostings.AsNoTracking()
             .Include(x => x.Company)
             .Include(x => x.Criterias);
 
-        var paginatedQuery = jobPostings
+        var filteredQuery = FilterQuery(filter, jobPostings);
+
+        var paginatedQuery = filteredQuery
             .Skip(filter.PageSize * (filter.Page - 1))
             .Take(filter.PageSize);
 
@@ -34,6 +36,13 @@ public class JobPostingRepository : BaseRepository<JobPosting>, IJobPostingRepos
                              .FirstOrDefaultAsync(x => x.Id == id);
     }
 
-    public async Task<int> Count(BaseFilter baseFilter)
-        => await _context.JobPostings.CountAsync();
+    public async Task<int> Count(JobPostingsFilter filter)
+    {
+        var jobPostings = _context.JobPostings;
+        var filteredQuery = FilterQuery(filter, jobPostings);
+        return await filteredQuery.CountAsync();
+    }
+
+    private static IQueryable<JobPosting> FilterQuery(JobPostingsFilter filter, IQueryable<JobPosting> jobPostings)
+        => jobPostings.Where(x => !filter.Company.HasValue || x.Company.Id == filter.Company);
 }
