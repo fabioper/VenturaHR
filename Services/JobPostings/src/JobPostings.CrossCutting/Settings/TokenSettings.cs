@@ -1,8 +1,8 @@
-namespace JobPostings.Api.Common.Config;
+namespace JobPostings.CrossCutting.Settings;
 
 #nullable disable
 
-public class JwtConfig
+public class TokenSettings
 {
     public string Issuer { get; set; }
     public string Audience { get; set; }

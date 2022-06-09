@@ -8,15 +8,19 @@ namespace JobPostings.Domain.Aggregates.Companies;
 
 public class Company : BaseEntity, IAggregateRoot
 {
-    public string Name { get; }
+    public string Name { get; private set; }
+    public string Email { get; private set; }
 
-    public Company(Guid id, string name)
+    public Company(Guid id, string name, string email)
     {
         Id = id;
         Name = name;
+        Email = email;
     }
 
-    public Company() { } // ef required
+    public Company()
+    {
+    }
 
     public JobPosting PublishJob(
         string title,

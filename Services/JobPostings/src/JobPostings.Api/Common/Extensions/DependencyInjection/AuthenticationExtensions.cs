@@ -1,6 +1,6 @@
 using System.Text;
-using JobPostings.Api.Common.Config;
 using JobPostings.Api.Common.Constants;
+using JobPostings.CrossCutting.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
@@ -10,7 +10,7 @@ public static class AuthenticationExtensions
 {
     public static void AddJwtAuthentication(this IServiceCollection services, ConfigurationManager configuration)
     {
-        var jwtConfig = configuration.GetSection(nameof(JwtConfig)).Get<JwtConfig>();
+        var jwtConfig = configuration.GetSection(nameof(TokenSettings)).Get<TokenSettings>();
 
         var key = Encoding.ASCII.GetBytes(jwtConfig.Secret);
         services

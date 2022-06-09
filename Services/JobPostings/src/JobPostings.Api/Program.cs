@@ -1,14 +1,19 @@
 using FluentValidation.AspNetCore;
 using JobPostings.Api.Common.ErrorHandler;
 using JobPostings.Api.Common.Extensions.DependencyInjection;
-using JobPostings.Api.Jobs;
 using JobPostings.Application.Consumers;
 using JobPostings.Application.Mapping;
 using JobPostings.Application.Validations;
+using JobPostings.CrossCutting.Settings;
 using MassTransit;
-using Quartz;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var emailSettings = builder.Configuration
+    .GetSection(nameof(EmailSettings))
+    .Get<EmailSettings>();
+
+builder.Services.AddSingleton(emailSettings);
 
 builder.Services.AddRepositories();
 builder.Services.AddServices();

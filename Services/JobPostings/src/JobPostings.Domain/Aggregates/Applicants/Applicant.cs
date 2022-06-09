@@ -9,15 +9,19 @@ namespace JobPostings.Domain.Aggregates.Applicants;
 
 public class Applicant : BaseEntity, IAggregateRoot
 {
-    public string Name { get; }
+    public string Name { get; private set; }
+    public string Email { get; private set; }
 
-    public Applicant(Guid id, string name)
+    public Applicant(Guid id, string name, string email)
     {
         Id = id;
         Name = name;
+        Email = email;
     }
 
-    public Applicant() { }
+    public Applicant()
+    {
+    }
 
     public JobApplication ApplyTo(JobPosting jobPosting, List<CriteriaAnswer> criteriaAnswers)
     {

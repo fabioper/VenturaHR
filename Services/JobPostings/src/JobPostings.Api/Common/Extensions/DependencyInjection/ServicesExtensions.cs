@@ -2,6 +2,7 @@ using JobPostings.Application.Services.Concretes;
 using JobPostings.Application.Services.Contracts;
 using JobPostings.Domain.Repositories;
 using JobPostings.Domain.Validators;
+using JobPostings.Infra.Email;
 using JobPostings.Infra.Persistence;
 using JobPostings.Infra.Persistence.Repositories;
 using JobPostings.Infra.Validators;
@@ -23,6 +24,7 @@ public static class ServicesExtensions
         services.AddScoped<IJobPostingRepository, JobPostingRepository>();
         services.AddScoped<IApplicantRepository, ApplicantRepository>();
         services.AddScoped<IJobApplicationRepository, JobApplicationRepository>();
+        services.AddScoped<IEmailService, EmailService>();
     }
 
     public static void AddDbContext(this IServiceCollection services, ConfigurationManager configuration)

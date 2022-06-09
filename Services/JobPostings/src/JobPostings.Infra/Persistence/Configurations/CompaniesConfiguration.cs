@@ -13,5 +13,6 @@ public class CompaniesConfiguration : IEntityTypeConfiguration<Company>
         builder.HasKey(x => x.Id);
 
         builder.Property(x => x.Name).IsRequired();
+        builder.Property(x => x.Email).IsRequired();
     }
 }

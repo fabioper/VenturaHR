@@ -19,6 +19,7 @@ public class JobPostingsService : IJobPostingsService
     private readonly IJobPostingRepository _jobPostingsRepository;
     private readonly ICompanyRepository _companyRepository;
     private readonly IJobApplicationRepository _applicationRepository;
+    private readonly IEmailService _emailService;
     private readonly ILogger<JobPosting> _logger;
     private readonly IMapper _mapper;
 
@@ -27,12 +28,14 @@ public class JobPostingsService : IJobPostingsService
         ICompanyRepository companyRepository,
         IJobApplicationRepository applicationRepository,
         IMapper mapper,
-        ILogger<JobPosting> logger)
+        ILogger<JobPosting> logger,
+        IEmailService emailService)
     {
         _jobPostingsRepository = jobPostingsRepository;
         _companyRepository = companyRepository;
         _mapper = mapper;
         _logger = logger;
+        _emailService = emailService;
         _applicationRepository = applicationRepository;
     }
 
@@ -75,6 +78,17 @@ public class JobPostingsService : IJobPostingsService
         if (jobPostingsAboutToExpire.Any())
         {
             _logger.LogInformation("Notifying companies.");
+
+            foreach (var jobPosting in jobPostingsAboutToExpire)
+            {
+                await _emailService.SendMail(
+                    new EmailRequest(
+                        jobPosting.Company.Email,
+                        "Vaga prestes à expirar",
+                        "A vaga publicada está prestes à expirar."
+                    )
+                );
+            }
         }
     }
 
