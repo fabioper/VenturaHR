@@ -7,17 +7,15 @@ namespace JobPostings.Api.Controllers;
 [Route("jobs")]
 public class JobsController : ControllerBase
 {
-    private readonly IJobPostingsService _jobPostingsService;
+    private readonly IExpiringJobsNotifierService _expiringJobsNotifier;
 
-    public JobsController(IJobPostingsService jobPostingsService)
-    {
-        _jobPostingsService = jobPostingsService;
-    }
+    public JobsController(IExpiringJobsNotifierService expiringJobsNotifier)
+        => _expiringJobsNotifier = expiringJobsNotifier;
 
     [HttpPost("jobs-about-to-expire")]
     public async Task<IActionResult> NotifyCompaniesAboutJobsAboutToExpire()
     {
-        await _jobPostingsService.NotifyCompaniesOfJobsAboutToExpire(); 
+        await _expiringJobsNotifier.NotifyCompaniesOfExpiringJobs();
         return Ok();
     }
 }

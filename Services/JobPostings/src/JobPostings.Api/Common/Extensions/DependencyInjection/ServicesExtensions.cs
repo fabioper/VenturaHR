@@ -24,6 +24,7 @@ public static class ServicesExtensions
         services.AddScoped<IJobPostingRepository, JobPostingRepository>();
         services.AddScoped<IApplicantRepository, ApplicantRepository>();
         services.AddScoped<IJobApplicationRepository, JobApplicationRepository>();
+        services.AddScoped<IExpiringJobsNotifierService, ExpiringJobsService>();
         services.AddScoped<IEmailService, EmailService>();
     }
 
