@@ -1,10 +1,12 @@
 using FluentValidation.AspNetCore;
 using JobPostings.Api.Common.ErrorHandler;
 using JobPostings.Api.Common.Extensions.DependencyInjection;
+using JobPostings.Api.Jobs;
 using JobPostings.Application.Consumers;
 using JobPostings.Application.Mapping;
 using JobPostings.Application.Validations;
 using MassTransit;
+using Quartz;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +28,8 @@ builder.Services.AddMassTransit(x =>
         config.Host(new Uri(connection));
     });
 });
+
+builder.Services.AddCronJobs();
 
 builder.Services.AddControllers()
        .AddFluentValidation(opts =>

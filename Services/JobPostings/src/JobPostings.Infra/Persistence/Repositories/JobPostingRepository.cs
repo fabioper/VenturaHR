@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using JobPostings.CrossCutting.Extensions;
 using JobPostings.CrossCutting.Filters;
 using JobPostings.Domain.Aggregates.JobPostings;
@@ -40,6 +41,15 @@ public class JobPostingRepository : BaseRepository<JobPosting>, IJobPostingRepos
         var jobPostings = _context.JobPostings;
         var filteredQuery = FilterQuery(filter, jobPostings);
         return await filteredQuery.CountAsync();
+    }
+
+    public async Task<IEnumerable<JobPosting>> GetAllJobsAboutToExpire()
+    {
+        var today = DateTime.UtcNow;
+
+        return await _context.JobPostings.AsNoTracking()
+            .Where(x => x.ExpireAt - today <= TimeSpan.FromDays(1) && x.ExpireAt - today > TimeSpan.Zero)
+            .ToListAsync();
     }
 
     private static IQueryable<JobPosting> FilterQuery(JobPostingsFilter filter, IQueryable<JobPosting> jobPostings)

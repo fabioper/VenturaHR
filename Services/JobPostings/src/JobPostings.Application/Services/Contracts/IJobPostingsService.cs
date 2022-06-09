@@ -12,4 +12,5 @@ public interface IJobPostingsService
     Task<JobPostingResponse> GetJobPostingOfId(Guid jobPostingId);
     Task<IEnumerable<JobApplication>> GetJobPostingApplications(Guid companyId, Guid jobPostingId);
     Task UpdateJob(Guid jobPostingId, UpdateJobRequest request);
+    Task NotifyCompaniesOfJobsAboutToExpire();
 }

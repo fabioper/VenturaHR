@@ -10,6 +10,7 @@ using JobPostings.Domain.Aggregates.Criterias;
 using JobPostings.Domain.Aggregates.JobApplications;
 using JobPostings.Domain.Aggregates.JobPostings;
 using JobPostings.Domain.Repositories;
+using Microsoft.Extensions.Logging;
 
 namespace JobPostings.Application.Services.Concretes;
 
@@ -18,17 +19,20 @@ public class JobPostingsService : IJobPostingsService
     private readonly IJobPostingRepository _jobPostingsRepository;
     private readonly ICompanyRepository _companyRepository;
     private readonly IJobApplicationRepository _applicationRepository;
+    private readonly ILogger<JobPosting> _logger;
     private readonly IMapper _mapper;
 
     public JobPostingsService(
         IJobPostingRepository jobPostingsRepository,
         ICompanyRepository companyRepository,
         IJobApplicationRepository applicationRepository,
-        IMapper mapper)
+        IMapper mapper,
+        ILogger<JobPosting> logger)
     {
         _jobPostingsRepository = jobPostingsRepository;
         _companyRepository = companyRepository;
         _mapper = mapper;
+        _logger = logger;
         _applicationRepository = applicationRepository;
     }
 
@@ -59,6 +63,19 @@ public class JobPostingsService : IJobPostingsService
         jobPosting.UpdateCriterias(MapCriterias(request.Criterias));
 
         await _jobPostingsRepository.Update(jobPosting);
+    }
+
+    public async Task NotifyCompaniesOfJobsAboutToExpire()
+    {
+        _logger.LogInformation("Searching for jobs about to expire");
+        var jobPostingsAboutToExpire = (await _jobPostingsRepository.GetAllJobsAboutToExpire()).ToList();
+
+        _logger.LogInformation($"Found {jobPostingsAboutToExpire.Count} job postings about to expire.");
+
+        if (jobPostingsAboutToExpire.Any())
+        {
+            _logger.LogInformation("Notifying companies.");
+        }
     }
 
     public async Task<FilterResponse<JobPostingResponse>> GetJobPostings(JobPostingsFilter filter)
