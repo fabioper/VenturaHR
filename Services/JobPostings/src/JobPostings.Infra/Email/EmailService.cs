@@ -21,6 +21,7 @@ public class EmailService : IEmailService
     {
         var smtp = new SmtpClient(_emailSettings.SmtpServer, _emailSettings.Port);
         smtp.Credentials = new NetworkCredential(_emailSettings.Username, _emailSettings.Password);
+        smtp.UseDefaultCredentials = false;
         smtp.EnableSsl = true;
         return smtp;
     }
@@ -37,14 +38,6 @@ public class EmailService : IEmailService
             Priority = MailPriority.High
         };
 
-        try
-        {
-            await _smtpClient.SendMailAsync(mailMessage);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
+        await _smtpClient.SendMailAsync(mailMessage);
     }
 }

@@ -45,11 +45,17 @@ public class JobPostingRepository : BaseRepository<JobPosting>, IJobPostingRepos
 
     public async Task<IEnumerable<JobPosting>> GetAllJobsAboutToExpire()
     {
-        var today = DateTime.UtcNow;
+        var jobPostings = _context.JobPostings.AsNoTracking().Include(x => x.Company);
+        var query = jobPostings.Where(IsAboutToExpire());
+        return await query.ToListAsync();
+    }
 
-        return await _context.JobPostings.AsNoTracking()
-            .Where(x => x.ExpireAt - today <= TimeSpan.FromDays(1) && x.ExpireAt - today > TimeSpan.Zero)
-            .ToListAsync();
+    private static Expression<Func<JobPosting, bool>> IsAboutToExpire()
+    {
+        var currentDate = DateTime.UtcNow;
+
+        return x =>
+            x.ExpireAt - currentDate <= TimeSpan.FromDays(1) && x.ExpireAt - currentDate > TimeSpan.Zero;
     }
 
     private static IQueryable<JobPosting> FilterQuery(JobPostingsFilter filter, IQueryable<JobPosting> jobPostings)

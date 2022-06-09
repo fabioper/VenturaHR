@@ -16,7 +16,5 @@ public class ExpiringJobsNotifier : IJob
     }
 
     public async Task Execute(IJobExecutionContext context)
-    {
-        await _jobPostingsService.NotifyCompaniesOfJobsAboutToExpire();
-    }
+        => await _jobPostingsService.NotifyCompaniesOfJobsAboutToExpire();
 }

@@ -23,9 +23,10 @@ public class JobPosting : BaseEntity, IAggregateRoot
 
     public List<Criteria> Criterias { get; private set; }
     
+    public double Average { get; private set; }
+
     public bool HasExpired => ExpireAt <= DateTime.UtcNow;
 
-    public double Average { get; private set; }
 
     internal JobPosting(
         string title,
@@ -72,6 +73,9 @@ public class JobPosting : BaseEntity, IAggregateRoot
     
     private double CalculateAverage()
     {
+        if (!Criterias.Any())
+            return 0;
+
         return Criterias.Sum(x => (int)x.DesiredProfile * x.Weight) / (double)Criterias.Sum(x => x.Weight);
     }
 }

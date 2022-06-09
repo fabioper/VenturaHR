@@ -71,22 +71,18 @@ public class JobPostingsService : IJobPostingsService
     public async Task NotifyCompaniesOfJobsAboutToExpire()
     {
         _logger.LogInformation("Searching for jobs about to expire");
-        var jobPostingsAboutToExpire = (await _jobPostingsRepository.GetAllJobsAboutToExpire()).ToList();
+        var expiringJobs = (await _jobPostingsRepository.GetAllJobsAboutToExpire()).ToList();
 
-        _logger.LogInformation($"Found {jobPostingsAboutToExpire.Count} job postings about to expire.");
+        _logger.LogInformation($"Found {expiringJobs.Count} job postings about to expire.");
 
-        if (jobPostingsAboutToExpire.Any())
+        if (expiringJobs.Any())
         {
             _logger.LogInformation("Notifying companies.");
 
-            foreach (var jobPosting in jobPostingsAboutToExpire)
+            foreach (var job in expiringJobs)
             {
                 await _emailService.SendMail(
-                    new EmailRequest(
-                        jobPosting.Company.Email,
-                        "Vaga prestes à expirar",
-                        "A vaga publicada está prestes à expirar."
-                    )
+                    new EmailRequest(job.Company.Email, "Vaga prestes à expirar", "A vaga publicada está prestes à expirar.")
                 );
             }
         }

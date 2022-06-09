@@ -23,6 +23,10 @@ public static class ErrorDetailsFactory
             Message = e.Message,
             Status = HttpStatusCode.NotFound
         },
-        _ => new ErrorDetails(),
+        { } e => new ErrorDetails
+        {
+            Message = e.Message,
+            Status = HttpStatusCode.InternalServerError,
+        }
     };
 }
