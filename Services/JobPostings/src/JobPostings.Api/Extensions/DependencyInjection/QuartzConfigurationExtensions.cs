@@ -15,14 +15,19 @@ public static class QuartzConfigurationExtensions
 
             q.AddJob<ExpiringJobsNotifierJob>(opts => opts.WithIdentity(expiringJobsNotifierJobKey));
 
-            q.AddTrigger(opts =>
-            {
-                opts.ForJob(expiringJobsNotifierJobKey)
-                    .WithIdentity($"{nameof(expiringJobsNotifierJobKey)}-trigger")
-                    .WithCronSchedule(CronScheduleBuilder.DailyAtHourAndMinute(0, 0));
-            });
+            q.AddTrigger(TriggerConfig(expiringJobsNotifierJobKey, CronScheduleBuilder.DailyAtHourAndMinute(0, 0)));
         });
 
         services.AddQuartzHostedService(options => options.WaitForJobsToComplete = true);
+    }
+
+    private static Action<ITriggerConfigurator> TriggerConfig(JobKey key, CronScheduleBuilder cronSchedule)
+    {
+        return opts =>
+        {
+            opts.ForJob(key)
+                .WithIdentity($"{nameof(key)}-trigger")
+                .WithCronSchedule(cronSchedule);
+        };
     }
 }
