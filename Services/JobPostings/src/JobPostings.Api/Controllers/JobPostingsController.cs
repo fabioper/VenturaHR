@@ -51,8 +51,7 @@ public class JobPostingsController : ControllerBase
     [HttpGet("{jobPostingId:guid}/applications")]
     public async Task<IActionResult> GetJobPostingApplications([FromRoute] Guid jobPostingId)
     {
-        var companyId = User.GetId();
-        var applications = await _jobPostingsService.GetJobPostingApplications(companyId, jobPostingId);
+        var applications = await _jobPostingsService.GetJobPostingApplications(CompanyId, jobPostingId);
         return Ok(applications);
     }
     

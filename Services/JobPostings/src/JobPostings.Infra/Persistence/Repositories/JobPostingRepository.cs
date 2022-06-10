@@ -46,11 +46,11 @@ public class JobPostingRepository : BaseRepository<JobPosting>, IJobPostingRepos
     public async Task<IEnumerable<JobPosting>> GetAllJobsAboutToExpire()
     {
         var jobPostings = _context.JobPostings.AsNoTracking().Include(x => x.Company);
-        var query = jobPostings.Where(IsAboutToExpire());
+        var query = jobPostings.Where(AboutToExpire());
         return await query.ToListAsync();
     }
 
-    private static Expression<Func<JobPosting, bool>> IsAboutToExpire()
+    private static Expression<Func<JobPosting, bool>> AboutToExpire()
     {
         var currentDate = DateTime.UtcNow;
 

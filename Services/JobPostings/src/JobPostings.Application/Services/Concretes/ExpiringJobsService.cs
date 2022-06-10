@@ -25,21 +25,21 @@ public class ExpiringJobsService : IExpiringJobsNotifierService
         _logger.LogInformation("Searching for jobs about to expire");
         var expiringJobs = (await _jobPostingRepository.GetAllJobsAboutToExpire()).ToList();
 
-        _logger.LogInformation($"Found {expiringJobs.Count()} job postings about to expire.");
+        _logger.LogInformation($"Found {expiringJobs.Count} job postings about to expire.");
         return expiringJobs;
     }
 
     public async Task NotifyCompaniesOfExpiringJobs()
     {
         var expiringJobs = await GetExpiringJobs();
-        if (!expiringJobs.Any()) return;
+
+        if (!expiringJobs.Any())
+            return;
 
         _logger.LogInformation("Notifying companies.");
 
         foreach (var emailMessage in GetExpiringJobEmailRequest(expiringJobs))
-        {
             await _emailService.SendMail(emailMessage);
-        }
     }
 
     private static IEnumerable<EmailRequest> GetExpiringJobEmailRequest(IEnumerable<JobPosting> expiringJobs)
