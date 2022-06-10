@@ -6,13 +6,13 @@ namespace JobPostings.Domain.Aggregates.Criterias;
 
 public class Criteria : BaseEntity, IAggregateRoot
 {
-    public string Title { get; }
+    public string Title { get; private set; }
 
-    public string Description { get; }
+    public string Description { get; private set; }
 
-    public int Weight { get; }
+    public int Weight { get; private set; }
 
-    public DesiredProfile DesiredProfile { get; }
+    public DesiredProfile DesiredProfile { get; private set; }
 
     public Criteria(
         string title,

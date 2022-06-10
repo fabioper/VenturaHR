@@ -27,7 +27,6 @@ public class JobPosting : BaseEntity, IAggregateRoot
 
     public bool HasExpired => ExpireAt <= DateTime.UtcNow;
 
-
     internal JobPosting(
         string title,
         string description,
@@ -70,7 +69,7 @@ public class JobPosting : BaseEntity, IAggregateRoot
     public void UpdateSalary(decimal newSalary) => Salary = new Salary(newSalary);
 
     public void UpdateCriterias(List<Criteria> criterias) => Criterias = criterias;
-    
+
     private double CalculateAverage()
     {
         if (!Criterias.Any())

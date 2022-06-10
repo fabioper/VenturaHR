@@ -1,6 +1,5 @@
 using JobPostings.Application.Services.Concretes;
 using JobPostings.Application.Services.Contracts;
-using JobPostings.CrossCutting.Settings;
 using JobPostings.Domain.Repositories;
 using JobPostings.Domain.Validators;
 using JobPostings.Infra.Email;
