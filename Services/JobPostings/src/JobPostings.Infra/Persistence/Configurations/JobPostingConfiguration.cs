@@ -15,10 +15,11 @@ public class JobPostingConfiguration : IEntityTypeConfiguration<JobPosting>
         builder.Property(x => x.Title).IsRequired();
         builder.Property(x => x.Description).IsRequired();
         builder.Property(x => x.Location).IsRequired();
+        builder.Property(x => x.Average).IsRequired();
         builder.Property(x => x.CreatedAt).IsRequired();
         builder.Property(x => x.UpdatedAt).IsRequired();
         builder.Property(x => x.ExpireAt).IsRequired();
-        builder.Property(x => x.Average).IsRequired();
+        builder.Property(x => x.ClosedAt).IsRequired(false);
 
         builder.HasOne(x => x.Company)
                .WithMany()
