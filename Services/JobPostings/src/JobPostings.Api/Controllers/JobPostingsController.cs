@@ -1,5 +1,5 @@
 using JobPostings.Api.Common.Constants;
-using JobPostings.Api.Common.Extensions;
+using JobPostings.Api.Extensions;
 using JobPostings.Application.DTOs.Requests;
 using JobPostings.Application.Services.Contracts;
 using JobPostings.CrossCutting.Filters;

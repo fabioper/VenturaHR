@@ -5,7 +5,7 @@ namespace JobPostings.Infra.Persistence.Repositories;
 
 public class CompanyRepository : BaseRepository<Company>, ICompanyRepository
 {
-    private readonly ModelContext _context;
+    private readonly JobPostingsContext _context;
 
-    public CompanyRepository(ModelContext context) : base(context) => _context = context;
+    public CompanyRepository(JobPostingsContext context) : base(context) => _context = context;
 }

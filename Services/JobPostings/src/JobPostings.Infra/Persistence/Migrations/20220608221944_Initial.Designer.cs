@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace JobPostings.Infra.Persistence.Migrations
 {
-    [DbContext(typeof(ModelContext))]
+    [DbContext(typeof(JobPostingsContext))]
     [Migration("20220608221944_Initial")]
     partial class Initial
     {

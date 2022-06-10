@@ -1,5 +1,6 @@
 using JobPostings.Application.Services.Concretes;
 using JobPostings.Application.Services.Contracts;
+using JobPostings.CrossCutting.Settings;
 using JobPostings.Domain.Repositories;
 using JobPostings.Domain.Validators;
 using JobPostings.Infra.Email;
@@ -8,7 +9,7 @@ using JobPostings.Infra.Persistence.Repositories;
 using JobPostings.Infra.Validators;
 using Microsoft.EntityFrameworkCore;
 
-namespace JobPostings.Api.Common.Extensions.DependencyInjection;
+namespace JobPostings.Api.Extensions.DependencyInjection;
 
 public static class ServicesExtensions
 {
@@ -16,6 +17,8 @@ public static class ServicesExtensions
     {
         services.AddScoped<IJobPostingsService, JobPostingsService>();
         services.AddScoped<IJobApplicationService, JobApplicationService>();
+        services.AddScoped<IExpiringJobsNotifierService, ExpiringJobsService>();
+        services.AddScoped<IEmailService, EmailService>();
     }
 
     public static void AddRepositories(this IServiceCollection services)
@@ -24,17 +27,11 @@ public static class ServicesExtensions
         services.AddScoped<IJobPostingRepository, JobPostingRepository>();
         services.AddScoped<IApplicantRepository, ApplicantRepository>();
         services.AddScoped<IJobApplicationRepository, JobApplicationRepository>();
-        services.AddScoped<IExpiringJobsNotifierService, ExpiringJobsService>();
-        services.AddScoped<IEmailService, EmailService>();
     }
 
-    public static void AddDbContext(this IServiceCollection services, ConfigurationManager configuration)
+    public static void AddDbContext(this IServiceCollection services, string connection)
     {
-        services.AddDbContext<ModelContext>(config =>
-        {
-            var connection = configuration.GetConnectionString("Database");
-            config.UseNpgsql(connection);
-        });
+        services.AddDbContext<JobPostingsContext>(config => config.UseNpgsql(connection));
     }
 
     public static void AddValidators(this IServiceCollection services)

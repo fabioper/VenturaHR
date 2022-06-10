@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace JobPostings.Infra.Persistence;
 
-public class ModelContext : DbContext
+public class JobPostingsContext : DbContext
 {
     public DbSet<JobPosting> JobPostings { get; set; }
     public DbSet<Company> Companies { get; set; }
@@ -20,7 +20,7 @@ public class ModelContext : DbContext
     public DbSet<Criteria> Criterias { get; set; }
     public DbSet<CriteriaAnswer> CriteriaAnswers { get; set; }
 
-    public ModelContext(DbContextOptions<ModelContext> options) : base(options) { }
+    public JobPostingsContext(DbContextOptions<JobPostingsContext> options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

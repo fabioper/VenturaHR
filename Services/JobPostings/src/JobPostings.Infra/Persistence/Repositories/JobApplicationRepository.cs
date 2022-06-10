@@ -10,9 +10,9 @@ public class JobApplicationRepository :
     BaseRepository<JobApplication>,
     IJobApplicationRepository
 {
-    private readonly ModelContext _context;
+    private readonly JobPostingsContext _context;
 
-    public JobApplicationRepository(ModelContext context) : base(context)
+    public JobApplicationRepository(JobPostingsContext context) : base(context)
     {
         _context = context;
     }

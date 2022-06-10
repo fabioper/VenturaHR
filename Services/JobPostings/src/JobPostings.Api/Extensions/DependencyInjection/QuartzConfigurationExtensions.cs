@@ -1,7 +1,7 @@
 ﻿using JobPostings.Infra.Jobs;
 using Quartz;
 
-namespace JobPostings.Api.Common.Extensions.DependencyInjection;
+namespace JobPostings.Api.Extensions.DependencyInjection;
 
 public static class QuartzConfigurationExtensions
 {
@@ -19,7 +19,7 @@ public static class QuartzConfigurationExtensions
             {
                 opts.ForJob(expiringJobsNotifierJobKey)
                     .WithIdentity($"{nameof(expiringJobsNotifierJobKey)}-trigger")
-                    .WithCronSchedule(CronScheduleBuilder.DailyAtHourAndMinute(20, 36));
+                    .WithCronSchedule(CronScheduleBuilder.DailyAtHourAndMinute(0, 0));
             });
         });
 

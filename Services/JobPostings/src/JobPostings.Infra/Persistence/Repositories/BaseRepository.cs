@@ -8,7 +8,7 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity, IAggre
     private readonly DbContext _context;
     private readonly DbSet<T> _entity;
 
-    public BaseRepository(ModelContext context)
+    public BaseRepository(JobPostingsContext context)
     {
         _context = context;
         _entity = context.Set<T>();

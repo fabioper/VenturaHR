@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace JobPostings.Infra.Persistence.Migrations
 {
-    [DbContext(typeof(ModelContext))]
+    [DbContext(typeof(JobPostingsContext))]
     partial class ModelContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

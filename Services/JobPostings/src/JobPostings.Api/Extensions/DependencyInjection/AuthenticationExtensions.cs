@@ -4,15 +4,14 @@ using JobPostings.CrossCutting.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
-namespace JobPostings.Api.Common.Extensions.DependencyInjection;
+namespace JobPostings.Api.Extensions.DependencyInjection;
 
 public static class AuthenticationExtensions
 {
-    public static void AddJwtAuthentication(this IServiceCollection services, ConfigurationManager configuration)
+    public static void AddJwtAuthentication(this IServiceCollection services, TokenSettings tokenSettings)
     {
-        var jwtConfig = configuration.GetSection(nameof(TokenSettings)).Get<TokenSettings>();
 
-        var key = Encoding.ASCII.GetBytes(jwtConfig.Secret);
+        var key = Encoding.ASCII.GetBytes(tokenSettings.Secret);
         services
             .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
@@ -24,9 +23,9 @@ public static class AuthenticationExtensions
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = true,
-                    ValidIssuer = jwtConfig.Issuer,
+                    ValidIssuer = tokenSettings.Issuer,
                     ValidateAudience = true,
-                    ValidAudience = jwtConfig.Audience,
+                    ValidAudience = tokenSettings.Audience,
                     ValidateLifetime = true,
                     ClockSkew = TimeSpan.Zero,
                 };

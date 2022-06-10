@@ -1,7 +1,7 @@
 using System.Reflection;
 using Microsoft.OpenApi.Models;
 
-namespace JobPostings.Api.Common.Extensions.DependencyInjection;
+namespace JobPostings.Api.Extensions.DependencyInjection;
 
 public static class SwaggerExtensions
 {

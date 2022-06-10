@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace JobPostings.Infra.Persistence.Migrations
 {
-    [DbContext(typeof(ModelContext))]
+    [DbContext(typeof(JobPostingsContext))]
     [Migration("20220609064237_AddEmailColumn")]
     partial class AddEmailColumn
     {

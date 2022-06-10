@@ -1,5 +1,7 @@
 ﻿namespace JobPostings.CrossCutting.Settings;
 
+#nullable disable
+
 public class EmailSettings
 {
     public string From { get; set; }

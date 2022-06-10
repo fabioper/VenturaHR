@@ -9,9 +9,9 @@ namespace JobPostings.Infra.Persistence.Repositories;
 
 public class JobPostingRepository : BaseRepository<JobPosting>, IJobPostingRepository
 {
-    private readonly ModelContext _context;
+    private readonly JobPostingsContext _context;
 
-    public JobPostingRepository(ModelContext context) : base(context) => _context = context;
+    public JobPostingRepository(JobPostingsContext context) : base(context) => _context = context;
 
     public async Task<IEnumerable<JobPosting>> GetAll(JobPostingsFilter filter)
     {
