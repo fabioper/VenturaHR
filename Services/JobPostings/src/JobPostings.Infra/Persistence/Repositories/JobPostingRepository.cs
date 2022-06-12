@@ -43,21 +43,6 @@ public class JobPostingRepository : BaseRepository<JobPosting>, IJobPostingRepos
         return await filteredQuery.CountAsync();
     }
 
-    public async Task<IEnumerable<JobPosting>> GetAllJobsAboutToExpire()
-    {
-        var jobPostings = _context.JobPostings.AsNoTracking().Include(x => x.Company);
-        var query = jobPostings.Where(AboutToExpire());
-        return await query.ToListAsync();
-    }
-
-    private static Expression<Func<JobPosting, bool>> AboutToExpire()
-    {
-        var currentDate = DateTime.UtcNow;
-
-        return x =>
-            x.ExpireAt - currentDate <= TimeSpan.FromDays(1) && x.ExpireAt - currentDate > TimeSpan.Zero;
-    }
-
     private static IQueryable<JobPosting> FilterQuery(JobPostingsFilter filter, IQueryable<JobPosting> jobPostings)
         => jobPostings.Where(x => !filter.Company.HasValue || x.Company.Id == filter.Company);
 }

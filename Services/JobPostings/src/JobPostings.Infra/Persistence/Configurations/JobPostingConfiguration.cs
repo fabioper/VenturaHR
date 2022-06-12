@@ -19,7 +19,10 @@ public class JobPostingConfiguration : IEntityTypeConfiguration<JobPosting>
         builder.Property(x => x.CreatedAt).IsRequired();
         builder.Property(x => x.UpdatedAt).IsRequired();
         builder.Property(x => x.ExpireAt).IsRequired();
-        builder.Property(x => x.ClosedAt).IsRequired(false);
+
+        builder.Property(x => x.Status)
+            .IsRequired()
+            .HasDefaultValue(JobPostingStatus.Published);
 
         builder.HasOne(x => x.Company)
                .WithMany()

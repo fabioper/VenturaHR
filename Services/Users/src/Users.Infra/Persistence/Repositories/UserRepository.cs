@@ -1,7 +1,9 @@
+using Common.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using Users.Domain.Models.Entities;
 using Users.Domain.Models.ValueObjects;
 using Users.Domain.Repositories;
+using Users.Infra.Extensions;
 
 namespace Users.Infra.Persistence.Repositories;
 
@@ -18,10 +20,11 @@ public class UserRepository : IUserRepository
 
     public async Task<IEnumerable<User>> GetAll() => await _entity.AsNoTracking().ToListAsync();
 
+    public async Task<IEnumerable<User>> GetAllBy(ISpecification<User> specification)
+        => await _entity.Specify(specification).ToListAsync();
+
     public async Task<User?> FindById(Guid id)
-    {
-        return await _entity.FirstOrDefaultAsync(x => x.Id == id);
-    }
+        => await _entity.FirstOrDefaultAsync(x => x.Id == id);
 
     public async Task Add(User entity)
     {

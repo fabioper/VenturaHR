@@ -3,7 +3,7 @@ using Quartz;
 
 namespace JobPostings.Api.Extensions.DependencyInjection;
 
-public static class QuartzConfigurationExtensions
+public static class CronJobExtensions
 {
     public static void AddCronJobs(this IServiceCollection services)
     {
@@ -25,11 +25,8 @@ public static class QuartzConfigurationExtensions
 
     private static Action<ITriggerConfigurator> TriggerConfig(JobKey key, CronScheduleBuilder cronSchedule)
     {
-        return opts =>
-        {
-            opts.ForJob(key)
-                .WithIdentity($"{nameof(key)}-trigger")
-                .WithCronSchedule(cronSchedule);
-        };
+        return opts => opts.ForJob(key)
+            .WithIdentity($"{nameof(key)}-trigger")
+            .WithCronSchedule(cronSchedule);
     }
 }

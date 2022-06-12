@@ -14,7 +14,7 @@ public class JobPosting : BaseEntity, IAggregateRoot
     public string Location { get; private set; }
     public Salary Salary { get; private set; }
     public DateTime ExpireAt { get; private set; }
-    public DateTime? ClosedAt { get; private set; }
+    public JobPostingStatus Status { get; private set; }
     public List<Criteria> Criterias { get; private set; }
     public Company Company { get; private set; }
     public double Average { get; private set; }
@@ -28,21 +28,28 @@ public class JobPosting : BaseEntity, IAggregateRoot
         List<Criteria> criterias,
         Company company)
     {
+        Guard.Against.NullOrEmpty(title, nameof(title));
+        Guard.Against.NullOrEmpty(description, nameof(description));
+
         Title = title;
         Description = description;
         Location = location;
         Salary = salary;
         ExpireAt = expireAt;
         Criterias = criterias;
+        Status = JobPostingStatus.Published;
         Company = company;
         Average = CalculateAverage();
     }
 
-    public JobPosting() { } // Ef required
-    
-    public bool HasExpired => ExpireAt <= DateTime.UtcNow;
+    public bool HasExpired => Status == JobPostingStatus.Expired;
 
-    public bool IsClosed => ClosedAt.HasValue && ClosedAt.Value <= DateTime.UtcNow;
+    public bool IsClosed => Status == JobPostingStatus.Closed;
+
+    public void UpdateStatus(JobPostingStatus newStatus)
+    {
+        Status = newStatus;
+    }
 
     public void UpdateTitle(string newTitle)
     {
@@ -74,30 +81,5 @@ public class JobPosting : BaseEntity, IAggregateRoot
         return Criterias.Sum(x => (int)x.DesiredProfile * x.Weight) / (double)Criterias.Sum(x => x.Weight);
     }
 
-    public void ExtendExpirationDate(DateTime newExpirationDate)
-    {
-        if (newExpirationDate <= DateTime.UtcNow)
-        {
-            // TODO
-        }
-
-        if (newExpirationDate <= ExpireAt)
-        {
-            // TODO
-        }
-
-        if (IsClosed)
-        {
-            // TODO
-        }
-
-        ExpireAt = newExpirationDate;
-    }
-
-    public void Close()
-    {
-        var currentDate = DateTime.UtcNow;
-        ClosedAt = currentDate;
-        ExpireAt = currentDate;
-    }
+    public JobPosting() { } // Ef required
 }

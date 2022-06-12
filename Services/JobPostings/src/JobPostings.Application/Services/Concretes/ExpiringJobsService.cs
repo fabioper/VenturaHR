@@ -2,6 +2,7 @@
 using JobPostings.Application.Services.Contracts;
 using JobPostings.Domain.Aggregates.JobPostings;
 using JobPostings.Domain.Repositories;
+using JobPostings.Domain.Specifications;
 using Microsoft.Extensions.Logging;
 
 namespace JobPostings.Application.Services.Concretes;
@@ -23,7 +24,9 @@ public class ExpiringJobsService : IExpiringJobsNotifierService
     private async Task<List<JobPosting>> GetExpiringJobs()
     {
         _logger.LogInformation("Searching for jobs about to expire");
-        var expiringJobs = (await _jobPostingRepository.GetAllJobsAboutToExpire()).ToList();
+
+        var aboutToExpireSpec = new AboutToExpireJobPostings();
+        var expiringJobs = (await _jobPostingRepository.GetAllBy(aboutToExpireSpec)).ToList();
 
         _logger.LogInformation($"Found {expiringJobs.Count} job postings about to expire.");
         return expiringJobs;

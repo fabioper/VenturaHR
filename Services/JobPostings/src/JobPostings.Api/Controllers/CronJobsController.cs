@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace JobPostings.Api.Controllers;
 
 [ApiController]
-[Route("jobs")]
-public class JobsController : ControllerBase
+[Route("cron-jobs")]
+public class CronJobsController : ControllerBase
 {
     private readonly IExpiringJobsNotifierService _expiringJobsNotifier;
 
-    public JobsController(IExpiringJobsNotifierService expiringJobsNotifier)
+    public CronJobsController(IExpiringJobsNotifierService expiringJobsNotifier)
         => _expiringJobsNotifier = expiringJobsNotifier;
 
     [HttpPost("jobs-about-to-expire")]

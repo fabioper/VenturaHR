@@ -1,4 +1,5 @@
 using Common.Abstractions;
+using JobPostings.Infra.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace JobPostings.Infra.Persistence.Repositories;
@@ -16,10 +17,11 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity, IAggre
 
     public async Task<IEnumerable<T>> GetAll() => await _entity.AsNoTracking().ToListAsync();
 
+    public async Task<IEnumerable<T>> GetAllBy(ISpecification<T> specification)
+        => await _entity.Specify(specification).ToListAsync();
+
     public async Task<T?> FindById(Guid id)
-    {
-        return await _entity.FirstOrDefaultAsync(x => x.Id == id);
-    }
+        => await _entity.FirstOrDefaultAsync(x => x.Id == id);
 
     public async Task Add(T entity)
     {
