@@ -9,22 +9,14 @@ namespace JobPostings.Domain.Aggregates.JobPostings;
 
 public class JobPosting : BaseEntity, IAggregateRoot
 {
-    public string Description { get; private set; }
-
     public string Title { get; private set; }
-
+    public string Description { get; private set; }
     public string Location { get; private set; }
-
     public Salary Salary { get; private set; }
-
     public DateTime ExpireAt { get; private set; }
-
     public DateTime? ClosedAt { get; private set; }
-
-    public Company Company { get; private set; }
-
     public List<Criteria> Criterias { get; private set; }
-    
+    public Company Company { get; private set; }
     public double Average { get; private set; }
 
     internal JobPosting(
