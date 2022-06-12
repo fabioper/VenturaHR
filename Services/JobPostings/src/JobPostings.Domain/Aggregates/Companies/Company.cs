@@ -18,9 +18,7 @@ public class Company : BaseEntity, IAggregateRoot
         Email = email;
     }
 
-    public Company()
-    {
-    }
+    public Company() {}
 
     public JobPosting PublishJob(
         string title,
