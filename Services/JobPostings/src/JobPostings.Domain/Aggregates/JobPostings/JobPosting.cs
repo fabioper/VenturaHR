@@ -1,5 +1,6 @@
 using Common.Abstractions;
 using Common.Guards;
+using JobPostings.CrossCutting.Exceptions;
 using JobPostings.Domain.Aggregates.Companies;
 using JobPostings.Domain.Aggregates.Criterias;
 
@@ -77,4 +78,15 @@ public class JobPosting : BaseEntity, IAggregateRoot
     }
 
     public JobPosting() { } // Ef required
+
+    public void Renew(DateTime newExpiration)
+    {
+        if (!CanBeRenewed)
+            throw new UnableToRenewException();
+
+        ExpireAt = newExpiration;
+        Status = JobPostingStatus.Published;
+    }
+
+    private bool CanBeRenewed => Status != JobPostingStatus.Closed;
 }

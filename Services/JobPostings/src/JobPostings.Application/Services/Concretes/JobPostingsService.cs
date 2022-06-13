@@ -5,14 +5,11 @@ using JobPostings.Application.DTOs.Responses;
 using JobPostings.Application.Services.Contracts;
 using JobPostings.CrossCutting.Extensions;
 using JobPostings.CrossCutting.Filters;
-using JobPostings.CrossCutting.Services.Email;
 using JobPostings.Domain.Aggregates.Companies;
 using JobPostings.Domain.Aggregates.Criterias;
 using JobPostings.Domain.Aggregates.JobApplications;
 using JobPostings.Domain.Aggregates.JobPostings;
 using JobPostings.Domain.Repositories;
-using JobPostings.Domain.Services.Contracts;
-using Microsoft.Extensions.Logging;
 
 namespace JobPostings.Application.Services.Concretes;
 
@@ -21,23 +18,17 @@ public class JobPostingsService : IJobPostingsService
     private readonly IJobPostingRepository _jobPostingsRepository;
     private readonly ICompanyRepository _companyRepository;
     private readonly IJobApplicationRepository _applicationRepository;
-    private readonly IEmailService _emailService;
-    private readonly ILogger<JobPosting> _logger;
     private readonly IMapper _mapper;
 
     public JobPostingsService(
         IJobPostingRepository jobPostingsRepository,
         ICompanyRepository companyRepository,
         IJobApplicationRepository applicationRepository,
-        IMapper mapper,
-        ILogger<JobPosting> logger,
-        IEmailService emailService)
+        IMapper mapper)
     {
         _jobPostingsRepository = jobPostingsRepository;
         _companyRepository = companyRepository;
         _mapper = mapper;
-        _logger = logger;
-        _emailService = emailService;
         _applicationRepository = applicationRepository;
     }
 
@@ -67,6 +58,13 @@ public class JobPostingsService : IJobPostingsService
         jobPosting.UpdateSalary(request.Salary);
         jobPosting.UpdateCriterias(MapCriterias(request.Criterias));
 
+        await _jobPostingsRepository.Update(jobPosting);
+    }
+
+    public async Task RenewJobPosting(Guid jobPostingId, RenewJobPostingRequest request)
+    {
+        var jobPosting = await FindJobPostingOfId(jobPostingId);
+        jobPosting.Renew(request.NewExpiration);
         await _jobPostingsRepository.Update(jobPosting);
     }
 

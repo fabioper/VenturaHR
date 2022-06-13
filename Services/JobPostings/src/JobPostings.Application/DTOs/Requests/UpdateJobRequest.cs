@@ -9,4 +9,4 @@ public record UpdateJobRequest
     public string Location { get; init; }
     public decimal Salary { get; init; }
     public List<CriteriaRequest> Criterias { get; init; }
-};
+}

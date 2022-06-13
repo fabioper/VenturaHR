@@ -21,12 +21,17 @@ public class JobApplicationRepository :
         Guid companyId,
         Guid jobPostingId)
     {
-        return await _context.Applications
-                             .Include(x => x.JobPosting)
-                             .ThenInclude(x => x.Company)
-                             .Where(x => x.JobPosting.Company.Id == companyId)
-                             .Where(x => x.JobPosting.Id == jobPostingId)
-                             .ToListAsync();
+        var applications = _context.Applications
+            .Include(x => x.JobPosting)
+            .ThenInclude(x => x.Company);
+
+        var filteredApplications = applications
+            .Where(x => x.JobPosting.Company.Id == companyId)
+            .Where(x => x.JobPosting.Id == jobPostingId);
+
+        var applicationsOrderedByAverage = filteredApplications.OrderByDescending(x => x.Average);
+
+        return await applicationsOrderedByAverage.ToListAsync();
     }
 
     public async Task<IEnumerable<JobApplication>> GetAll(ApplicationsFilter filter)

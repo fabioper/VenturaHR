@@ -8,6 +8,11 @@ public static class ErrorDetailsFactory
 {
     public static ErrorDetails Create(Exception exception) => exception switch
     {
+        UnableToRenewException e => new ErrorDetails
+        {
+            Message = e.Message,
+            Status = HttpStatusCode.BadRequest
+        },
         DuplicateJobApplication e => new ErrorDetails
         {
             Message = e.Message,

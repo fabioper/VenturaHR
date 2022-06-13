@@ -48,6 +48,13 @@ public class JobPostingsController : ControllerBase
         return Ok();
     }
 
+    [HttpPut("{jobPostingId:guid}/renew")]
+    public async Task<IActionResult> Renew([FromBody] RenewJobPostingRequest request, [FromRoute] Guid jobPostingId)
+    {
+        await _jobPostingsService.RenewJobPosting(jobPostingId, request);
+        return Ok();
+    }
+
     [HttpGet("{jobPostingId:guid}/applications")]
     public async Task<IActionResult> GetJobPostingApplications([FromRoute] Guid jobPostingId)
     {
