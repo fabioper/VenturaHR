@@ -1,6 +1,6 @@
 ﻿namespace JobPostings.Domain.Services.Contracts;
 
-public interface IJobPostingExpirationService
+public interface IJobPostingStatusService
 {
     Task NotifyCompaniesOfExpiringJobs();
 

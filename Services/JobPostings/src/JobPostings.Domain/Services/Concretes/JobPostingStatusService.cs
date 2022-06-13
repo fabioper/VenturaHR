@@ -7,7 +7,7 @@ using JobPostings.Domain.Specifications;
 
 namespace JobPostings.Domain.Services.Concretes;
 
-public class JobPostingStatusService : IJobPostingExpirationService
+public class JobPostingStatusService : IJobPostingStatusService
 {
     private const int ExpirationLimitInDays = 2;
     private readonly IJobPostingRepository _jobPostingRepository;

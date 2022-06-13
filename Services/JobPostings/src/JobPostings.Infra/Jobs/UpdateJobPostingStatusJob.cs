@@ -5,14 +5,14 @@ namespace JobPostings.Infra.Jobs;
 
 public class UpdateJobPostingStatusJob : IJob
 {
-    private readonly IJobPostingExpirationService _jobPostingExpirationService;
+    private readonly IJobPostingStatusService _jobPostingStatusService;
 
-    public UpdateJobPostingStatusJob(IJobPostingExpirationService jobPostingExpirationService)
-        => _jobPostingExpirationService = jobPostingExpirationService;
+    public UpdateJobPostingStatusJob(IJobPostingStatusService jobPostingStatusService)
+        => _jobPostingStatusService = jobPostingStatusService;
 
     public async Task Execute(IJobExecutionContext context)
     {
-        await _jobPostingExpirationService.UpdateStatusOfExpiredJobs();
-        await _jobPostingExpirationService.UpdateStatusOfJobsExpiredMoreThanLimit();
+        await _jobPostingStatusService.UpdateStatusOfExpiredJobs();
+        await _jobPostingStatusService.UpdateStatusOfJobsExpiredMoreThanLimit();
     }
 }

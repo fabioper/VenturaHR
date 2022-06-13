@@ -19,7 +19,7 @@ public static class ServicesExtensions
     {
         services.AddScoped<IJobPostingsService, JobPostingsService>();
         services.AddScoped<IJobApplicationService, JobApplicationService>();
-        services.AddScoped<IJobPostingExpirationService, JobPostingStatusService>();
+        services.AddScoped<IJobPostingStatusService, JobPostingStatusService>();
         services.AddScoped<IEmailService, EmailService>();
     }
 
