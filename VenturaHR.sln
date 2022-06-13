@@ -28,6 +28,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobPostings.CrossCutting", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Users.CrossCutting", "Services\Users\Users.CrossCutting\Users.CrossCutting.csproj", "{B2DDFEBA-4FAD-4E69-B956-7EC715AA26AF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobPostings.Domain.Tests", "Services\JobPostings\tests\JobPostings.Domain.Tests\JobPostings.Domain.Tests.csproj", "{F22191EF-AEFC-4D5B-B7F5-17DD94C58373}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -78,6 +80,10 @@ Global
 		{B2DDFEBA-4FAD-4E69-B956-7EC715AA26AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2DDFEBA-4FAD-4E69-B956-7EC715AA26AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2DDFEBA-4FAD-4E69-B956-7EC715AA26AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F22191EF-AEFC-4D5B-B7F5-17DD94C58373}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F22191EF-AEFC-4D5B-B7F5-17DD94C58373}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F22191EF-AEFC-4D5B-B7F5-17DD94C58373}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F22191EF-AEFC-4D5B-B7F5-17DD94C58373}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{AE7EB33C-B742-4836-8838-E17AC7ABAD92} = {E0DA9450-4E0B-4491-8E24-214F97BB455E}
@@ -91,5 +97,6 @@ Global
 		{B9F82CBD-D94A-48C5-BE20-CBE2EA903AA3} = {A1D6DF64-FD57-48EE-AEF3-63E777CC1692}
 		{D533357B-8BF4-4220-A7FB-35606A1E83D2} = {1C2EB889-1ABD-4E8A-B903-8F9EBE40A8A8}
 		{B2DDFEBA-4FAD-4E69-B956-7EC715AA26AF} = {A1D6DF64-FD57-48EE-AEF3-63E777CC1692}
+		{F22191EF-AEFC-4D5B-B7F5-17DD94C58373} = {1C2EB889-1ABD-4E8A-B903-8F9EBE40A8A8}
 	EndGlobalSection
 EndGlobal
