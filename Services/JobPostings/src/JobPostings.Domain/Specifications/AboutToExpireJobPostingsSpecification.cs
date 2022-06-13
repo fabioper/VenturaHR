@@ -3,9 +3,9 @@ using JobPostings.Domain.Aggregates.JobPostings;
 
 namespace JobPostings.Domain.Specifications;
 
-public class ExpiringJobPostingsSpecification : BaseSpecification<JobPosting>
+public class AboutToExpireJobPostingsSpecification : BaseSpecification<JobPosting>
 {
-    public ExpiringJobPostingsSpecification()
+    public AboutToExpireJobPostingsSpecification()
     {
         var currentDate = DateTime.UtcNow;
         Criteria = x => x.ExpireAt - currentDate <= TimeSpan.FromDays(1) && x.ExpireAt - currentDate > TimeSpan.Zero;

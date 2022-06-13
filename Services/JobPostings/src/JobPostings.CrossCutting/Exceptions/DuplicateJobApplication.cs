@@ -1,8 +1,10 @@
-﻿namespace JobPostings.CrossCutting.Exceptions;
+﻿using JobPostings.CrossCutting.Resources;
+
+namespace JobPostings.CrossCutting.Exceptions;
 
 public class DuplicateJobApplication : Exception
 {
-    public DuplicateJobApplication() : base("Applicant already applied to this JobPosting")
+    public DuplicateJobApplication() : base(ExceptionMessagesResources.DuplicateJobApplication)
     {
     }
 }

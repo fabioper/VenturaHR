@@ -1,4 +1,5 @@
-﻿using JobPostings.CrossCutting.Services.Email;
+﻿using JobPostings.CrossCutting.Resources;
+using JobPostings.CrossCutting.Services.Email;
 using JobPostings.Domain.Aggregates.JobPostings;
 using JobPostings.Domain.Repositories;
 using JobPostings.Domain.Services.Contracts;
@@ -22,17 +23,17 @@ public class JobPostingStatusService : IJobPostingExpirationService
 
     public async Task NotifyCompaniesOfExpiringJobs()
     {
-        var expiringJobs = await GetExpiringJobs();
+        var aboutToExpireSpec = new AboutToExpireJobPostingsSpecification();
+        var expiringJobs = (await _jobPostingRepository.GetAllBy(aboutToExpireSpec)).ToList();
 
         if (!expiringJobs.Any())
             return;
 
         foreach (var expiringJob in expiringJobs)
         {
-            const string title = "Vaga prestes à expirar";
-            var body =
-                $"A vaga {expiringJob.Title} está prevista para expirar em {expiringJob.ExpireAt.ToShortDateString()}.";
-            await _emailService.SendMail(expiringJob.Company.Email, title, body);
+            await _emailService.SendMail(expiringJob.Company.Email, EmailResources.ExpiringJobTitle, string.Format(
+                EmailResources.ExpiringJobBody, expiringJob.Title,
+                expiringJob.ExpireAt.ToShortDateString()));
         }
     }
 
@@ -44,28 +45,22 @@ public class JobPostingStatusService : IJobPostingExpirationService
         {
             expiredJob.UpdateStatus(JobPostingStatus.Expired);
             await _emailService.SendMail(
-                expiredJob.Company.Email, "Vaga expirada", $"A vaga {expiredJob.Title} expirou.");
+                expiredJob.Company.Email, EmailResources.ExpiredJobTitle,
+                string.Format(EmailResources.ExpiredJobBody, expiredJob.Title));
         }
     }
 
     public async Task UpdateStatusOfJobsExpiredMoreThanLimit()
     {
-        var expiredMoreThanDays = new ExpiredMoreThanDaysSpecification(ExpirationLimitInDays);
-        var longExpiredJobPosting = await _jobPostingRepository.GetAllBy(expiredMoreThanDays);
+        var expiredMoreThanDaysSpecification = new ExpiredMoreThanDaysSpecification(ExpirationLimitInDays);
+        var longExpiredJobPosting = await _jobPostingRepository.GetAllBy(expiredMoreThanDaysSpecification);
 
         foreach (var expiredJob in longExpiredJobPosting)
         {
             expiredJob.UpdateStatus(JobPostingStatus.Closed);
             await _emailService.SendMail(
-                expiredJob.Company.Email, "Vaga fechada",
-                $"A vaga {expiredJob.Title} expirou há mais de {ExpirationLimitInDays} dias e não foi renovada, portanto foi fechada.");
+                expiredJob.Company.Email, EmailResources.ClosedJobTitle,
+                string.Format(EmailResources.ClosedJobBody, expiredJob.Title, ExpirationLimitInDays));
         }
-    }
-
-    private async Task<List<JobPosting>> GetExpiringJobs()
-    {
-        var aboutToExpireSpec = new ExpiringJobPostingsSpecification();
-        var expiringJobs = (await _jobPostingRepository.GetAllBy(aboutToExpireSpec)).ToList();
-        return expiringJobs;
     }
 }
