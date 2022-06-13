@@ -6,13 +6,13 @@ using JobPostings.Domain.Specifications;
 
 namespace JobPostings.Domain.Services.Concretes;
 
-public class JobPostingExpirationService : IJobPostingExpirationService
+public class JobPostingStatusService : IJobPostingExpirationService
 {
     private const int ExpirationLimitInDays = 2;
     private readonly IJobPostingRepository _jobPostingRepository;
     private readonly IEmailService _emailService;
 
-    public JobPostingExpirationService(
+    public JobPostingStatusService(
         IJobPostingRepository jobPostingRepository,
         IEmailService emailService)
     {

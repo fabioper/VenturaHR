@@ -41,10 +41,8 @@ public class JobPosting : BaseEntity, IAggregateRoot
         Company = company;
         Average = CalculateAverage();
     }
-
-    public bool HasExpired => Status == JobPostingStatus.Expired;
-
-    public bool IsClosed => Status == JobPostingStatus.Closed;
+    
+    public bool CanBeApplied => Status == JobPostingStatus.Published;
 
     public void UpdateStatus(JobPostingStatus newStatus) => Status = newStatus;
 

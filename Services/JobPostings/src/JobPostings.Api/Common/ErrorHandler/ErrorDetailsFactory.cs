@@ -13,7 +13,7 @@ public static class ErrorDetailsFactory
             Message = e.Message,
             Status = HttpStatusCode.BadRequest
         },
-        ExpiredJobPostingException e => new ErrorDetails
+        UnableToApplyException e => new ErrorDetails
         {
             Message = e.Message,
             Status = HttpStatusCode.BadRequest

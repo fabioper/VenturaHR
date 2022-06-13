@@ -25,8 +25,8 @@ public class Applicant : BaseEntity, IAggregateRoot
 
     public JobApplication ApplyTo(JobPosting jobPosting, List<CriteriaAnswer> criteriaAnswers)
     {
-        if (jobPosting.HasExpired)
-            throw new ExpiredJobPostingException();
+        if (!jobPosting.CanBeApplied)
+            throw new UnableToApplyException();
 
         return new JobApplication(this, jobPosting, criteriaAnswers);
     }
