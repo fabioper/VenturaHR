@@ -11,5 +11,8 @@ public class UpdateJobPostingStatusJob : IJob
         => _jobPostingExpirationService = jobPostingExpirationService;
 
     public async Task Execute(IJobExecutionContext context)
-        => await _jobPostingExpirationService.UpdateJobPostingsStatus();
+    {
+        await _jobPostingExpirationService.UpdateStatusOfExpiredJobs();
+        await _jobPostingExpirationService.UpdateStatusOfJobsExpiredMoreThanLimit();
+    }
 }

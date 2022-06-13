@@ -4,5 +4,6 @@ public interface IJobPostingExpirationService
 {
     Task NotifyCompaniesOfExpiringJobs();
 
-    Task UpdateJobPostingsStatus();
+    Task UpdateStatusOfExpiredJobs();
+    Task UpdateStatusOfJobsExpiredMoreThanLimit();
 }
