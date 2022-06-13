@@ -46,10 +46,7 @@ public class JobPosting : BaseEntity, IAggregateRoot
 
     public bool IsClosed => Status == JobPostingStatus.Closed;
 
-    public void UpdateStatus(JobPostingStatus newStatus)
-    {
-        Status = newStatus;
-    }
+    public void UpdateStatus(JobPostingStatus newStatus) => Status = newStatus;
 
     public void UpdateTitle(string newTitle)
     {

@@ -1,4 +1,4 @@
-namespace JobPostings.Domain.Validators;
+namespace JobPostings.CrossCutting.Abstractions;
 
 public interface IValidator<in T>
 {

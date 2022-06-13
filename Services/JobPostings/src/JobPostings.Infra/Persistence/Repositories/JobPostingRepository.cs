@@ -1,4 +1,3 @@
-using System.Linq.Expressions;
 using JobPostings.CrossCutting.Extensions;
 using JobPostings.CrossCutting.Filters;
 using JobPostings.Domain.Aggregates.JobPostings;

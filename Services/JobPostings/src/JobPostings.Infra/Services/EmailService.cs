@@ -2,7 +2,9 @@
 using System.Net.Mail;
 using JobPostings.Application.DTOs.Requests;
 using JobPostings.Application.Services.Contracts;
+using JobPostings.CrossCutting.Services.Email;
 using JobPostings.CrossCutting.Settings;
+using JobPostings.Domain.Services.Contracts;
 
 namespace JobPostings.Infra.Email;
 
@@ -26,14 +28,14 @@ public class EmailService : IEmailService
         return smtp;
     }
 
-    public async Task SendMail(EmailRequest message)
+    public async Task SendMail(string to, string subject, string body)
     {
         var mailMessage = new MailMessage
         {
             From = new MailAddress(_emailSettings.From, "VenturaHR"),
-            To = { new MailAddress(message.To) },
-            Subject = message.Subject,
-            Body = message.Body,
+            To = { new MailAddress(to) },
+            Subject = subject,
+            Body = body,
             IsBodyHtml = true,
             Priority = MailPriority.High
         };

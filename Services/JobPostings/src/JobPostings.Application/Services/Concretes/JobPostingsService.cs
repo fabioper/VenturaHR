@@ -5,11 +5,13 @@ using JobPostings.Application.DTOs.Responses;
 using JobPostings.Application.Services.Contracts;
 using JobPostings.CrossCutting.Extensions;
 using JobPostings.CrossCutting.Filters;
+using JobPostings.CrossCutting.Services.Email;
 using JobPostings.Domain.Aggregates.Companies;
 using JobPostings.Domain.Aggregates.Criterias;
 using JobPostings.Domain.Aggregates.JobApplications;
 using JobPostings.Domain.Aggregates.JobPostings;
 using JobPostings.Domain.Repositories;
+using JobPostings.Domain.Services.Contracts;
 using Microsoft.Extensions.Logging;
 
 namespace JobPostings.Application.Services.Concretes;

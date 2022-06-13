@@ -1,4 +1,5 @@
-﻿using JobPostings.Domain.Aggregates.JobApplications;
+﻿using JobPostings.CrossCutting.Abstractions;
+using JobPostings.Domain.Aggregates.JobApplications;
 
 namespace JobPostings.Domain.Validators;
 

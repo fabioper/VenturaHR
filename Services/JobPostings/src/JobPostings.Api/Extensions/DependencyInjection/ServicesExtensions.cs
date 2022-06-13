@@ -1,6 +1,9 @@
 using JobPostings.Application.Services.Concretes;
 using JobPostings.Application.Services.Contracts;
+using JobPostings.CrossCutting.Services.Email;
 using JobPostings.Domain.Repositories;
+using JobPostings.Domain.Services.Concretes;
+using JobPostings.Domain.Services.Contracts;
 using JobPostings.Domain.Validators;
 using JobPostings.Infra.Email;
 using JobPostings.Infra.Persistence;
@@ -16,7 +19,7 @@ public static class ServicesExtensions
     {
         services.AddScoped<IJobPostingsService, JobPostingsService>();
         services.AddScoped<IJobApplicationService, JobApplicationService>();
-        services.AddScoped<IExpiringJobsNotifierService, ExpiringJobsService>();
+        services.AddScoped<IJobPostingExpirationService, JobPostingExpirationService>();
         services.AddScoped<IEmailService, EmailService>();
     }
 

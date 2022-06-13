@@ -13,20 +13,27 @@ public static class CronJobExtensions
 
             var expiringJobsNotifierJobKey = new JobKey("expiringJobsNotifierJobKey");
 
-            q.AddJob<ExpiringJobsNotifierJob>(opts
-                => opts.WithIdentity(expiringJobsNotifierJobKey));
+            q.AddJob<ExpiringJobsNotifierJob>(opts => opts.WithIdentity(expiringJobsNotifierJobKey));
 
-            var cronSchedule = CronScheduleBuilder.DailyAtHourAndMinute(0, 0);
-            q.AddTrigger(TriggerConfig(expiringJobsNotifierJobKey, cronSchedule));
+            q.AddTrigger(opts =>
+            {
+                opts.ForJob(expiringJobsNotifierJobKey)
+                    .WithIdentity($"{nameof(expiringJobsNotifierJobKey)}-trigger")
+                    .WithCronSchedule(CronScheduleBuilder.DailyAtHourAndMinute(0, 0));
+            });
+
+            var updateJobsStatusJobKey = new JobKey("updateJobsStatusJobKey");
+
+            q.AddJob<UpdateJobPostingStatusJob>(opts => opts.WithIdentity(updateJobsStatusJobKey));
+
+            q.AddTrigger(x =>
+            {
+                x.ForJob(updateJobsStatusJobKey)
+                    .WithIdentity($"{nameof(updateJobsStatusJobKey)}-trigger")
+                    .WithCalendarIntervalSchedule(scheduleBuilder => scheduleBuilder.WithIntervalInHours(1));
+            });
         });
 
         services.AddQuartzHostedService(options => options.WaitForJobsToComplete = true);
-    }
-
-    private static Action<ITriggerConfigurator> TriggerConfig(JobKey key, CronScheduleBuilder cronSchedule)
-    {
-        return opts => opts.ForJob(key)
-            .WithIdentity($"{nameof(key)}-trigger")
-            .WithCronSchedule(cronSchedule);
     }
 }
