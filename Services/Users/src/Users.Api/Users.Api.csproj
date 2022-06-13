@@ -35,6 +35,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\..\JobPostings\src\JobPostings.CrossCutting\JobPostings.CrossCutting.csproj" />
       <ProjectReference Include="..\Users.Application\Users.Application.csproj" />
       <ProjectReference Include="..\Users.Infra\Users.Infra.csproj" />
     </ItemGroup>

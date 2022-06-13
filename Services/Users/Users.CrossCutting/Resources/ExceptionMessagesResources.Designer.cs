@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace JobPostings.CrossCutting.Resources {
+namespace Users.CrossCutting.Resources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace JobPostings.CrossCutting.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("JobPostings.CrossCutting.Resources.ExceptionMessagesResources", typeof(ExceptionMessagesResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Users.CrossCutting.Resources.ExceptionMessagesResources", typeof(ExceptionMessagesResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,29 +61,29 @@ namespace JobPostings.CrossCutting.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Applicant already applied to this JobPosting.
+        ///   Looks up a localized string similar to Invalid credentials.
         /// </summary>
-        public static string DuplicateJobApplication {
+        public static string InvalidCredentials {
             get {
-                return ResourceManager.GetString("DuplicateJobApplication", resourceCulture);
+                return ResourceManager.GetString("InvalidCredentials", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to apply to this job posting. This job posting is probably expired or closed..
+        ///   Looks up a localized string similar to Invalid Refresh Token.
         /// </summary>
-        public static string UnableToApply {
+        public static string InvalidRefreshToken {
             get {
-                return ResourceManager.GetString("UnableToApply", resourceCulture);
+                return ResourceManager.GetString("InvalidRefreshToken", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to renew this job posting. This is probably because the job posting is already closed..
+        ///   Looks up a localized string similar to Unrecognized user type: {0}.
         /// </summary>
-        public static string UnableToRenew {
+        public static string UnrecognizedUserType {
             get {
-                return ResourceManager.GetString("UnableToRenew", resourceCulture);
+                return ResourceManager.GetString("UnrecognizedUserType", resourceCulture);
             }
         }
         

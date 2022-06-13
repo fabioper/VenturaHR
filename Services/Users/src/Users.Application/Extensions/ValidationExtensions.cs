@@ -1,4 +1,4 @@
-using Users.Application.Exceptions;
+using Users.CrossCutting.Exceptions;
 using Users.Domain.Models.Entities;
 using Users.Domain.Validators;
 
@@ -11,6 +11,6 @@ public static class ValidationExtensions
         var isValid = validator.IsValid(user, out var brokenRules);
 
         if (!isValid)
-            throw new ValidationFailedException(brokenRules);
+            throw new ValidationException(brokenRules);
     }
 }

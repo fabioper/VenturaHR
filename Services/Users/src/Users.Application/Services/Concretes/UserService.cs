@@ -5,9 +5,9 @@ using MassTransit;
 using Users.Application.Contracts.Infrastructure;
 using Users.Application.DTOs.Requests;
 using Users.Application.DTOs.Responses;
-using Users.Application.Exceptions;
 using Users.Application.Extensions;
 using Users.Application.Services.Contracts;
+using Users.CrossCutting.Exceptions;
 using Users.Domain.Models.Entities;
 using Users.Domain.Models.Enums;
 using Users.Domain.Models.ValueObjects;
@@ -72,7 +72,7 @@ public class UserService : IUserService
     {
         var userId = await _tokenService.GetUserIdFromRefreshToken(request.RefreshToken);
         if (userId is null)
-            throw new InvalidRefreshToken();
+            throw new InvalidRefreshTokenException();
 
         var user = await FindUserOfId(Guid.Parse(userId));
         return await _tokenService.GenerateToken(user);
@@ -109,7 +109,7 @@ public class UserService : IUserService
                 newCompany.Name, newCompany.Email, newCompany.Id.ToString()),
             UserType.Applicant => new ApplicantCreatedEvent(
                 newCompany.Name, newCompany.Email, newCompany.Id.ToString()),
-            _ => throw new UnrecognizedUserType(request.UserType.ToString()),
+            _ => throw new UnrecognizedUserTypeException(request.UserType.ToString()),
         };
 
         await _publishEndpoint.Publish(userCreatedEvent);

@@ -11,6 +11,6 @@ public static class ValidationExtensions
         var isValid = validator.IsValid(entity, out var brokenRules);
 
         if (!isValid)
-            throw new ValidationFailedException(brokenRules);
+            throw new ValidationException(brokenRules);
     }
 }
