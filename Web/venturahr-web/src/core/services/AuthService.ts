@@ -1,7 +1,7 @@
 import { UserProfile } from "../models/UserProfile"
-import { SignUpModel } from "../dtos/auth/SignUpModel"
-import { LoginModel } from "../dtos/auth/LoginModel"
-import { TokenResponse } from "../dtos/auth/TokenResponse"
+import { SignUpRequest } from "../dtos/requests/SignUpRequest"
+import { LoginRequest } from "../dtos/requests/LoginRequest"
+import { TokenResponse } from "../dtos/responses/TokenResponse"
 import {
   hasAccessToken,
   refreshToken,
@@ -29,11 +29,11 @@ export async function notifyAuthListeners() {
   authListeners.forEach(listener => listener())
 }
 
-export async function createUser(model: SignUpModel) {
+export async function createUser(model: SignUpRequest) {
   await api.post(endpoint, model)
 }
 
-export async function login(model: LoginModel) {
+export async function login(model: LoginRequest) {
   const { data } = await api.post<TokenResponse>(endpoint + "/login", model)
   saveToken(data)
   await notifyAuthListeners()

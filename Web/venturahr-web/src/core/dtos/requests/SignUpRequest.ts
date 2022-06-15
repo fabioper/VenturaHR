@@ -1,6 +1,6 @@
 import { UserType } from "../../enums/UserType"
 
-export interface SignUpModel {
+export interface SignUpRequest {
   email: string
   password: string
   name: string

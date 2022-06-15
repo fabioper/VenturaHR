@@ -1,14 +1,14 @@
 import * as yup from "yup"
 import { SchemaOf } from "yup"
 import { UserType } from "../enums/UserType"
-import { SignUpModel } from "../dtos/auth/SignUpModel"
+import { SignUpRequest } from "../dtos/requests/SignUpRequest"
 
 const requiredField = "Obrigatório"
 const invalidEmail = "E-mail inválido"
 const invalidCpf = "CPF inválido"
 const invalidCnpj = "CNPJ inválido"
 
-export const signUpValidator: SchemaOf<SignUpModel> = yup.object().shape({
+export const signUpSchema: SchemaOf<SignUpRequest> = yup.object().shape({
   email: yup.string().email(invalidEmail).required(requiredField),
   password: yup.string().required(requiredField),
   name: yup.string().required(requiredField),

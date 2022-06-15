@@ -1,5 +1,5 @@
 import Cookies from "js-cookie"
-import { TokenResponse } from "../dtos/auth/TokenResponse"
+import { TokenResponse } from "../dtos/responses/TokenResponse"
 import usersApi from "../config/api/users"
 
 const api = usersApi

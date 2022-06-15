@@ -1,4 +1,4 @@
-export interface PostJobModel {
+export interface CreateJobRequest {
   title: string
   description: string
   salary: number

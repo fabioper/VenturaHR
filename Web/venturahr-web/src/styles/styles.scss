@@ -3,32 +3,5 @@
 @tailwind utilities;
 
 @import "./libs/primereact/primereact";
-
-*, :before, :after {
-  box-sizing: border-box;
-}
-
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  min-height: 100%;
-}
-
-body {
-  background-color: #050D19;
-  background-image: url("/bg.png");
-  background-size: 100% 100%;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  @apply text-slate-50;
-  @apply font-body;
-}
-
-#__next {
-  display: grid;
-  grid-template-rows: min-content auto min-content;
-  height: 100%;
-}
-
+@import "base";
 @import "forms";

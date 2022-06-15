@@ -9,9 +9,9 @@ import { PrimeIcons } from "primereact/api"
 import Head from "next/head"
 import Link from "next/link"
 import useForm from "../shared/hooks/useForm"
-import { loginValidator } from "../core/validations/login.validator"
+import { loginSchema } from "../core/validations/LoginSchema"
 import { Message } from "primereact/message"
-import { LoginModel } from "../core/dtos/auth/LoginModel"
+import { LoginRequest } from "../core/dtos/requests/LoginRequest"
 import { useToaster } from "../shared/hooks/useToaster"
 
 const Login: NextPage = () => {
@@ -21,7 +21,7 @@ const Login: NextPage = () => {
   const [error, setError] = useState<string | null>(null)
   const { toast } = useToaster()
 
-  const handleLogin = async ({ email, password }: LoginModel): Promise<any> => {
+  const handleLogin = async ({ email, password }: LoginRequest): Promise<any> => {
     setError(null)
     try {
       await login({ email, password })
@@ -31,9 +31,9 @@ const Login: NextPage = () => {
     }
   }
 
-  const { form, renderError, isValid } = useForm<LoginModel>({
+  const { form, renderError, isValid } = useForm<LoginRequest>({
     onSubmit: handleLogin,
-    schema: loginValidator,
+    schema: loginSchema,
   })
 
   return (

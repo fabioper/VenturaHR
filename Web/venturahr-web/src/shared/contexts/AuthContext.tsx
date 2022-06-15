@@ -3,16 +3,16 @@ import { useLoader } from "../hooks/useLoader"
 import * as authService from "../../core/services/AuthService"
 import { onAuthChange } from "../../core/services/AuthService"
 import { UserProfile } from "../../core/models/UserProfile"
-import { LoginModel } from "../../core/dtos/auth/LoginModel"
-import { SignUpModel } from "../../core/dtos/auth/SignUpModel"
+import { LoginRequest } from "../../core/dtos/requests/LoginRequest"
+import { SignUpRequest } from "../../core/dtos/requests/SignUpRequest"
 
 export interface AuthContextProps {
   user?: UserProfile
   loading: boolean
   isLogged: boolean
-  login: (credentials: LoginModel) => Promise<any>
+  login: (credentials: LoginRequest) => Promise<any>
   logout: () => Promise<any>
-  signup: (credentials: SignUpModel) => Promise<void>
+  signup: (credentials: SignUpRequest) => Promise<void>
 }
 
 export const AuthContext = createContext<AuthContextProps>({
@@ -46,7 +46,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     await usingLoader(loadUser)
   }
 
-  const login = async (credentials: LoginModel) => {
+  const login = async (credentials: LoginRequest) => {
     await usingLoader(async () => await authService.login(credentials), true)
   }
 
@@ -54,7 +54,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     await usingLoader(async () => await authService.logout())
   }
 
-  const signup = async (model: SignUpModel) => {
+  const signup = async (model: SignUpRequest) => {
     await usingLoader(async () => {
       await authService.createUser(model)
       await authService.login({ ...model })

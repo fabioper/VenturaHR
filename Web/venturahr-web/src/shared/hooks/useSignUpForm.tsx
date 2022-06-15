@@ -2,17 +2,17 @@ import { UserType } from "../../core/enums/UserType"
 import { useAuth } from "../contexts/AuthContext"
 import { useToaster } from "./useToaster"
 import useForm from "./useForm"
-import { SignUpModel } from "../../core/dtos/auth/SignUpModel"
-import { signUpValidator } from "../../core/validations/signup.validator"
+import { SignUpRequest } from "../../core/dtos/requests/SignUpRequest"
+import { signUpSchema } from "../../core/validations/SignUpSchema"
 import { useEffect } from "react"
 
 export function useSignUpForm(userType: UserType) {
   const { signup } = useAuth()
   const { toast } = useToaster()
 
-  const { form, renderError, field } = useForm<SignUpModel>({
+  const { form, renderError, field } = useForm<SignUpRequest>({
     onSubmit: handleSignUp,
-    schema: signUpValidator,
+    schema: signUpSchema,
   })
 
   function handleValidationErrors(errors: string[]): void {
@@ -27,7 +27,7 @@ export function useSignUpForm(userType: UserType) {
     }
   }
 
-  async function handleSignUp(values: SignUpModel) {
+  async function handleSignUp(values: SignUpRequest) {
     try {
       await signup({ ...values })
     } catch (e: any) {

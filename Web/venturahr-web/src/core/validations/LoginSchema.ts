@@ -1,8 +1,8 @@
 import * as yup from "yup"
 import { SchemaOf } from "yup"
-import { LoginModel } from "../dtos/auth/LoginModel"
+import { LoginRequest } from "../dtos/requests/LoginRequest"
 
-export const loginValidator: SchemaOf<LoginModel> = yup.object().shape({
+export const loginSchema: SchemaOf<LoginRequest> = yup.object().shape({
   email: yup
     .string()
     .email("Formato de e-mail inválido")

@@ -6,8 +6,8 @@ import { Dialog, DialogProps } from "primereact/dialog"
 import { PrimeIcons } from "primereact/api"
 import InputCurrency from "../../components/InputCurrency"
 import useForm from "../../hooks/useForm"
-import { PostJobModel } from "../../../core/dtos/jobposting/PostJobModel"
-import { postJobValidator } from "../../../core/validations/post-job.validator"
+import { CreateJobRequest } from "../../../core/dtos/requests/CreateJobRequest"
+import { createJobSchema } from "../../../core/validations/CreateJobSchema"
 import { postJob } from "../../../core/services/JobPostingsService"
 import MDEditor from "../../components/MDEditor/MDEditor"
 
@@ -17,12 +17,12 @@ interface PostJobDialogProps {
 }
 
 const PostJobDialog: React.FC<PostJobDialogProps> = ({ visible, onHide }) => {
-  const { form, renderError, isValid, field } = useForm<PostJobModel>({
+  const { form, renderError, isValid, field } = useForm<CreateJobRequest>({
     onSubmit,
-    schema: postJobValidator,
+    schema: createJobSchema,
   })
 
-  async function onSubmit(values: PostJobModel): Promise<void> {
+  async function onSubmit(values: CreateJobRequest): Promise<void> {
     try {
       await postJob(values)
     } catch (e) {
