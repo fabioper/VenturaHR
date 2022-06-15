@@ -21,7 +21,10 @@ const Login: NextPage = () => {
   const [error, setError] = useState<string | null>(null)
   const { toast } = useToaster()
 
-  const handleLogin = async ({ email, password }: LoginRequest): Promise<any> => {
+  const handleLogin = async ({
+    email,
+    password,
+  }: LoginRequest): Promise<any> => {
     setError(null)
     try {
       await login({ email, password })
