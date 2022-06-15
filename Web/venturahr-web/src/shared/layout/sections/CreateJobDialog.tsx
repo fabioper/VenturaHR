@@ -16,7 +16,7 @@ interface PostJobDialogProps {
   onHide: () => any
 }
 
-const PostJobDialog: React.FC<PostJobDialogProps> = ({ visible, onHide }) => {
+const CreateJobDialog: React.FC<PostJobDialogProps> = ({ visible, onHide }) => {
   const { form, renderError, isValid, field } = useForm<CreateJobRequest>({
     onSubmit,
     schema: createJobSchema,
@@ -113,4 +113,4 @@ const PostJobDialog: React.FC<PostJobDialogProps> = ({ visible, onHide }) => {
   )
 }
 
-export default PostJobDialog
+export default CreateJobDialog

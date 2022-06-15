@@ -9,7 +9,7 @@ import { useMemo, useState } from "react"
 import { useRouter } from "next/router"
 import Head from "next/head"
 import { UserType } from "../../core/enums/UserType"
-import PostJobDialog from "../../shared/layout/sections/PostJobDialog"
+import CreateJobDialog from "../../shared/layout/sections/CreateJobDialog"
 
 const Dashboard: NextPage = () => {
   const { user } = useAuth()
@@ -67,7 +67,7 @@ const Dashboard: NextPage = () => {
         </div>
       </header>
 
-      <PostJobDialog
+      <CreateJobDialog
         visible={showPublishJobModal}
         onHide={() => setShowPublishJobModal(false)}
       />
