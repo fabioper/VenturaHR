@@ -3,10 +3,10 @@ import { InputText } from "primereact/inputtext"
 import { Password } from "primereact/password"
 import { Button } from "primereact/button"
 import { PrimeIcons } from "primereact/api"
-import { useAuth } from "../../contexts/AuthContext"
-import { UserType } from "../../../core/enums/UserType"
+import { useAuth } from "../../../contexts/AuthContext"
+import { UserType } from "../../../../core/enums/UserType"
 import { InputMask } from "primereact/inputmask"
-import { useSignUpForm } from "../../hooks/useSignUpForm"
+import { useSignUpForm } from "./useSignUpForm"
 
 const SignUpApplicant: React.FC = () => {
   const { loading } = useAuth()

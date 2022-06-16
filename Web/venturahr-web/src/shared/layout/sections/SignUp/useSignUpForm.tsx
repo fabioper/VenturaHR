@@ -1,9 +1,9 @@
-import { UserType } from "../../core/enums/UserType"
-import { useAuth } from "../contexts/AuthContext"
-import { useToaster } from "./useToaster"
-import useForm from "./useForm"
-import { SignUpRequest } from "../../core/dtos/requests/SignUpRequest"
-import { signUpSchema } from "../../core/validations/SignUpSchema"
+import { UserType } from "../../../../core/enums/UserType"
+import { useAuth } from "../../../contexts/AuthContext"
+import { useToaster } from "../../../hooks/useToaster"
+import useForm from "../../../hooks/useForm"
+import { SignUpRequest } from "../../../../core/dtos/requests/SignUpRequest"
+import { signUpSchema } from "../../../../core/validations/SignUpSchema"
 import { useEffect } from "react"
 
 export function useSignUpForm(userType: UserType) {

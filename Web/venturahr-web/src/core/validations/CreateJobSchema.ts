@@ -10,8 +10,8 @@ export const createJobSchema: SchemaOf<CreateJobRequest> = yup.object().shape({
   location: yup.string().required("Campo obrigatório"),
   criterias: yup.array().of(
     yup.object().shape({
-      title: yup.string().required(),
-      description: yup.string().required(),
+      title: yup.string().required().min(1),
+      description: yup.string().required().min(1),
       weight: yup.number().min(1).max(5).required(),
       desiredProfile: yup.number().min(1).max(5).required(),
     })

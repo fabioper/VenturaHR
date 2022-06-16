@@ -1,15 +1,17 @@
-import React, { useMemo } from "react"
+import React, { useCallback, useMemo } from "react"
 import { Button } from "primereact/button"
 import { InputText } from "primereact/inputtext"
 import { Calendar } from "primereact/calendar"
 import { Dialog, DialogProps } from "primereact/dialog"
 import { PrimeIcons } from "primereact/api"
-import InputCurrency from "../../components/InputCurrency"
-import useForm from "../../hooks/useForm"
-import { CreateJobRequest } from "../../../core/dtos/requests/CreateJobRequest"
-import { createJobSchema } from "../../../core/validations/CreateJobSchema"
-import { postJob } from "../../../core/services/JobPostingsService"
-import MDEditor from "../../components/MDEditor/MDEditor"
+import InputCurrency from "../../../components/InputCurrency"
+import useForm from "../../../hooks/useForm"
+import { CreateJobRequest } from "../../../../core/dtos/requests/CreateJobRequest"
+import { createJobSchema } from "../../../../core/validations/CreateJobSchema"
+import { postJob } from "../../../../core/services/JobPostingsService"
+import MDEditor from "../../../components/MDEditor/MDEditor"
+import CriteriaForm from "../CriteriaForm/CriteriaForm"
+import { CriteriaRequest } from "../../../../core/dtos/requests/CriteriaRequest"
 
 interface PostJobDialogProps {
   visible: boolean
@@ -59,27 +61,18 @@ const CreateJobDialog: React.FC<PostJobDialogProps> = ({ visible, onHide }) => {
     [visible, form]
   )
 
+  const updateCriterias = useCallback((criterias: CriteriaRequest[]): void => {
+    form.setFieldValue("criterias", criterias)
+  }, [])
+
   return (
     <Dialog {...dialogProps}>
-      <form className="w-full min-w-[50vw]" onSubmit={form.handleSubmit}>
+      <form className="w-full min-w-[20vw]" onSubmit={form.handleSubmit}>
         <div className="flex flex-col md:grid md:grid-cols-5 gap-5">
-          <div className="flex flex-col col-span-3">
-            <label htmlFor="title">Cargo</label>
+          <div className="flex flex-col col-span-5">
+            <label htmlFor="title">Título</label>
             <InputText {...field("title")} />
             {renderError("title")}
-          </div>
-
-          <div className="flex flex-col col-span-2">
-            <label htmlFor="salary">Remuneração</label>
-            <InputCurrency
-              id="salary"
-              name="salary"
-              onBlur={form.handleBlur}
-              onChange={value => form.setFieldValue("salary", value)}
-              className={!isValid("salary") ? "p-invalid" : ""}
-              initialValue={form.values.salary}
-            />
-            {renderError("salary")}
           </div>
 
           <div className="flex flex-col col-span-3">
@@ -92,6 +85,30 @@ const CreateJobDialog: React.FC<PostJobDialogProps> = ({ visible, onHide }) => {
           </div>
 
           <div className="flex flex-col col-span-2">
+            <label htmlFor="salary">Salário</label>
+            <InputCurrency
+              id="salary"
+              name="salary"
+              onBlur={form.handleBlur}
+              onChange={value => form.setFieldValue("salary", value)}
+              className={!isValid("salary") ? "p-invalid" : ""}
+              initialValue={form.values.salary}
+            />
+            {renderError("salary")}
+          </div>
+
+          <div className="flex flex-col col-span-5">
+            <label htmlFor="description">Descrição</label>
+            <MDEditor {...field("description")} />
+            {renderError("description")}
+          </div>
+
+          <div className="flex flex-col col-span-5">
+            <label>Critérios</label>
+            <CriteriaForm onChange={criterias => updateCriterias(criterias)} />
+          </div>
+
+          <div className="flex flex-col col-span-5">
             <label htmlFor="expirationDate">Data Limite</label>
             <Calendar
               {...field("expirationDate", { idField: "inputId" })}
@@ -100,12 +117,6 @@ const CreateJobDialog: React.FC<PostJobDialogProps> = ({ visible, onHide }) => {
               minDate={new Date()}
             />
             {renderError("expirationDate")}
-          </div>
-
-          <div className="flex flex-col col-span-5">
-            <label htmlFor="description">Descrição</label>
-            <MDEditor {...field("description")} />
-            {renderError("description")}
           </div>
         </div>
       </form>

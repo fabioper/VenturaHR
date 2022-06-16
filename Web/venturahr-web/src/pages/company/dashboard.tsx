@@ -9,7 +9,7 @@ import { useMemo, useState } from "react"
 import { useRouter } from "next/router"
 import Head from "next/head"
 import { UserType } from "../../core/enums/UserType"
-import CreateJobDialog from "../../shared/layout/sections/CreateJobDialog"
+import CreateJobDialog from "../../shared/layout/sections/CreateJobDialog/CreateJobDialog"
 
 const Dashboard: NextPage = () => {
   const { user } = useAuth()

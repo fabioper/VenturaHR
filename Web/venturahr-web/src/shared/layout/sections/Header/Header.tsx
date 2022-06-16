@@ -1,6 +1,6 @@
 import Link from "next/link"
 import React, { useMemo, useRef } from "react"
-import { useAuth } from "../../contexts/AuthContext"
+import { useAuth } from "../../../contexts/AuthContext"
 import { Button } from "primereact/button"
 import { PrimeIcons } from "primereact/api"
 import { Avatar } from "primereact/avatar"
@@ -8,7 +8,7 @@ import { Menu } from "primereact/menu"
 import { MenuItem } from "primereact/menuitem"
 import { useRouter } from "next/router"
 import { Skeleton } from "primereact/skeleton"
-import { useHeaderTransparency } from "../../hooks/useHeaderTransparency"
+import { useHeaderTransparency } from "../../../hooks/useHeaderTransparency"
 
 const Header: React.FC = () => {
   const { isLogged, logout, user, loading } = useAuth()
