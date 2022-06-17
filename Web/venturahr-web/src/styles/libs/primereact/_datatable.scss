@@ -1,3 +1,41 @@
 .p-datatable.p-datatable-hoverable-rows .p-datatable-tbody > tr:not(.p-highlight):not(.p-datatable-emptymessage):hover {
   background: rgb(126 143 195 / 4%);
 }
+
+.p-datatable .p-datatable-tbody > tr {
+  background: none;
+
+  & > td {
+    border: none;
+    @apply text-sm;
+    @apply py-3;
+    @apply px-5;
+  }
+}
+
+.p-datatable .p-paginator-bottom {
+  background: none;
+  border: none;
+}
+
+.p-datatable .p-datatable-thead > tr > th {
+  background: rgba(0, 5, 11, 0.32);
+  @apply font-display;
+  @apply py-3;
+  @apply px-5;
+}
+
+.p-paginator .p-paginator-pages .p-paginator-page,
+.p-paginator .p-paginator-first, .p-paginator .p-paginator-prev, .p-paginator .p-paginator-next, .p-paginator .p-paginator-last {
+  height: 2rem;
+  width: 2rem;
+  min-width: 2rem;
+  border-radius: 100%;
+}
+
+.p-paginator {
+  .p-button:disabled {
+    background: none;
+    color: #4f567a;
+  }
+}

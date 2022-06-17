@@ -7,6 +7,7 @@ import { PrimeIcons } from "primereact/api"
 import { fetchJobPostings } from "../../../core/services/JobPostingsService"
 import FilterResponse from "../../../core/dtos/filters/FilterResponse"
 import { useLoader } from "../../hooks/useLoader"
+import { DateTime } from "luxon"
 
 interface JobPostingsListProps {
   companyId?: string
@@ -64,6 +65,20 @@ const JobPostingsList: React.FC<JobPostingsListProps> = ({ companyId }) => {
     setFirst(pageData.first)
   }
 
+  function expirationTemplate(job: JobPosting): JSX.Element {
+    const expiration = DateTime.fromISO(job.expireAt)
+    return (
+      <div className="flex items-center gap-2 align-middle">
+        <i className={PrimeIcons.CALENDAR}></i>
+        <span>
+          {expiration.toRelativeCalendar({
+            locale: "pt-BR",
+          }) || ""}
+        </span>
+      </div>
+    )
+  }
+
   return (
     <div>
       <DataTable
@@ -80,7 +95,11 @@ const JobPostingsList: React.FC<JobPostingsListProps> = ({ companyId }) => {
         <Column header="Título" body={(job: JobPosting) => job.title} />
         <Column header="Local" body={(job: JobPosting) => job.location} />
         <Column header="Salário" body={salaryTemplate} />
-        <Column body={actionsTemplate} />
+        <Column
+          header="Data de Expiração"
+          body={(job: JobPosting) => expirationTemplate(job)}
+        />
+        <Column body={actionsTemplate} style={{ width: "2rem" }} />
       </DataTable>
     </div>
   )
