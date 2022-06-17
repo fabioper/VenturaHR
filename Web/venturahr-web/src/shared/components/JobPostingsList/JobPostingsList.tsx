@@ -8,6 +8,7 @@ import { fetchJobPostings } from "../../../core/services/JobPostingsService"
 import FilterResponse from "../../../core/dtos/filters/FilterResponse"
 import { useLoader } from "../../hooks/useLoader"
 import { DateTime } from "luxon"
+import Link from "next/link"
 
 interface JobPostingsListProps {
   companyId?: string
@@ -51,21 +52,23 @@ const JobPostingsList: React.FC<JobPostingsListProps> = ({ companyId }) => {
   const actionsTemplate = useCallback((job: JobPosting): JSX.Element => {
     return (
       <div>
-        <Button
-          icon={PrimeIcons.EYE}
-          className="p-button-sm p-button-text p-button-info"
-        />
+        <Link href={`/company/job-postings/${job.id}`}>
+          <Button
+            icon={PrimeIcons.EYE}
+            className="p-button-sm p-button-text p-button-info"
+          />
+        </Link>
       </div>
     )
   }, [])
 
-  function handlePageChange(pageData: DataTablePFSEvent): void {
+  const handlePageChange = (pageData: DataTablePFSEvent): void => {
     const page = pageData.page || 0
     setCurrentPage(page + 1)
     setFirst(pageData.first)
   }
 
-  function expirationTemplate(job: JobPosting): JSX.Element {
+  const expirationTemplate = (job: JobPosting): JSX.Element => {
     const expiration = DateTime.fromISO(job.expireAt)
     return (
       <div className="flex items-center gap-2 align-middle">

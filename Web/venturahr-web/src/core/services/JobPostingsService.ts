@@ -18,3 +18,8 @@ export async function fetchJobPostings(params?: JobPostingsFilter) {
 
   return data
 }
+
+export async function fetchJobPosting(jobPostingId: string) {
+  const { data } = await api.get<JobPosting>(endpoint + "/" + jobPostingId)
+  return data
+}

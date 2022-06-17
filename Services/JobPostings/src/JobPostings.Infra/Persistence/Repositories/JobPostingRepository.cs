@@ -18,8 +18,8 @@ public class JobPostingRepository : BaseRepository<JobPosting>, IJobPostingRepos
             .Include(x => x.Company)
             .Include(x => x.Criterias);
 
-        var orderedQueryable = jobPostings.OrderBy(x => x.CreatedAt);
-        
+        var orderedQueryable = jobPostings.OrderByDescending(x => x.CreatedAt);
+
         var filteredQuery = FilterQuery(filter, orderedQueryable);
 
         var paginatedQuery = filteredQuery.Paginate(filter);
@@ -30,9 +30,9 @@ public class JobPostingRepository : BaseRepository<JobPosting>, IJobPostingRepos
     public new async Task<JobPosting?> FindById(Guid id)
     {
         return await _context.JobPostings
-                             .Include(x => x.Company)
-                             .Include(x => x.Criterias)
-                             .FirstOrDefaultAsync(x => x.Id == id);
+            .Include(x => x.Company)
+            .Include(x => x.Criterias)
+            .FirstOrDefaultAsync(x => x.Id == id);
     }
 
     public async Task<int> Count(JobPostingsFilter filter)
@@ -43,5 +43,9 @@ public class JobPostingRepository : BaseRepository<JobPosting>, IJobPostingRepos
     }
 
     private static IQueryable<JobPosting> FilterQuery(JobPostingsFilter filter, IQueryable<JobPosting> jobPostings)
-        => jobPostings.Where(x => !filter.Company.HasValue || x.Company.Id == filter.Company);
+    {
+        return jobPostings
+            .Where(x => x.Status == JobPostingStatus.Published)
+            .Where(x => !filter.Company.HasValue || x.Company.Id == filter.Company);
+    }
 }
