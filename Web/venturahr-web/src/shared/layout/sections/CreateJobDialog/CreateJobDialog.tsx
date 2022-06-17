@@ -12,6 +12,7 @@ import { postJob } from "../../../../core/services/JobPostingsService"
 import MDEditor from "../../../components/MDEditor/MDEditor"
 import CriteriaForm from "../CriteriaForm/CriteriaForm"
 import { CriteriaRequest } from "../../../../core/dtos/requests/CriteriaRequest"
+import { useToaster } from "../../../hooks/useToaster"
 
 interface PostJobDialogProps {
   visible: boolean
@@ -19,6 +20,7 @@ interface PostJobDialogProps {
 }
 
 const CreateJobDialog: React.FC<PostJobDialogProps> = ({ visible, onHide }) => {
+  const { toast } = useToaster()
   const { form, renderError, isValid, field } = useForm<CreateJobRequest>({
     onSubmit,
     schema: createJobSchema,
@@ -27,8 +29,10 @@ const CreateJobDialog: React.FC<PostJobDialogProps> = ({ visible, onHide }) => {
   async function onSubmit(values: CreateJobRequest): Promise<void> {
     try {
       await postJob(values)
+      toast.success("Vaga publicada com sucesso!")
+      handleHide()
     } catch (e) {
-      console.log(e)
+      toast.error("Ocorreu um erro ao publicar esta vaga.")
     }
   }
 
@@ -53,6 +57,7 @@ const CreateJobDialog: React.FC<PostJobDialogProps> = ({ visible, onHide }) => {
             label="Publicar vaga"
             type="submit"
             disabled={!form.isValid}
+            loading={form.isSubmitting || form.isValidating}
             onClick={() => form.handleSubmit()}
           />
         </div>
