@@ -11,11 +11,33 @@ import Head from "next/head"
 import { UserType } from "../../core/enums/UserType"
 import CreateJobDialog from "../../shared/layout/sections/CreateJobDialog/CreateJobDialog"
 import JobPostingsList from "../../shared/components/JobPostingsList/JobPostingsList"
+import FilterResponse from "../../core/dtos/filters/FilterResponse"
+import JobPosting from "../../core/models/JobPosting"
+import { useLoader } from "../../shared/hooks/useLoader"
+import { fetchJobPostings } from "../../core/services/JobPostingsService"
 
 const Dashboard: NextPage = () => {
   const { user } = useAuth()
+  const { loading, usingLoader } = useLoader()
   const router = useRouter()
   const [showPublishJobModal, setShowPublishJobModal] = useState(false)
+  const [data, setData] = useState<FilterResponse<JobPosting>>({
+    page: 0,
+    total: 0,
+    results: [],
+  })
+
+  const loadJobPostings = async (page = 1) => {
+    await usingLoader(async () => {
+      setData(
+        await fetchJobPostings({
+          pageSize: 10,
+          page,
+          company: user?.id,
+        })
+      )
+    })
+  }
 
   const contentSkeleton = useMemo(
     () => (
@@ -72,13 +94,20 @@ const Dashboard: NextPage = () => {
             Vagas Publicadas
           </h2>
 
-          <JobPostingsList />
+          <JobPostingsList
+            loading={loading}
+            data={data}
+            onPageChange={async page => await loadJobPostings(page)}
+          />
         </div>
       </div>
 
       <CreateJobDialog
         visible={showPublishJobModal}
-        onHide={() => setShowPublishJobModal(false)}
+        onHide={async () => {
+          await loadJobPostings()
+          setShowPublishJobModal(false)
+        }}
       />
     </ProtectedPage>
   )

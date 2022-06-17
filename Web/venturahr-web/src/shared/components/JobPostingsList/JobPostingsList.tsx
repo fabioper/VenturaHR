@@ -4,41 +4,33 @@ import JobPosting from "../../../core/models/JobPosting"
 import { Column } from "primereact/column"
 import { Button } from "primereact/button"
 import { PrimeIcons } from "primereact/api"
-import { fetchJobPostings } from "../../../core/services/JobPostingsService"
 import FilterResponse from "../../../core/dtos/filters/FilterResponse"
-import { useLoader } from "../../hooks/useLoader"
 import { DateTime } from "luxon"
 import Link from "next/link"
 
 interface JobPostingsListProps {
-  companyId?: string
+  onPageChange: (page: number) => void
+  data: FilterResponse<JobPosting>
+  loading: boolean
 }
 
-const JobPostingsList: React.FC<JobPostingsListProps> = ({ companyId }) => {
-  const [data, setData] = useState<FilterResponse<JobPosting>>({
-    page: 0,
-    total: 0,
-    results: [],
-  })
+const JobPostingsList: React.FC<JobPostingsListProps> = ({
+  onPageChange,
+  data,
+  loading,
+}) => {
   const [first, setFirst] = useState(0)
   const [currentPage, setCurrentPage] = useState(1)
-  const { loading, usingLoader } = useLoader()
-
-  const loadJobPostings = async (page = 1) => {
-    await usingLoader(async () => {
-      const jobPostings = await fetchJobPostings({
-        pageSize: 10,
-        page,
-        company: companyId,
-      })
-      setData(jobPostings)
-    })
-  }
 
   useEffect(() => {
-    console.log(currentPage)
-    ;(async () => await loadJobPostings(currentPage))()
+    onPageChange(currentPage)
   }, [currentPage])
+
+  const handlePageChange = (pageData: DataTablePFSEvent): void => {
+    const page = pageData.page || 0
+    setCurrentPage(page + 1)
+    setFirst(pageData.first)
+  }
 
   const salaryTemplate = useCallback((job: JobPosting): string => {
     const currencyFormatter = new Intl.NumberFormat("pt-BR", {
@@ -61,12 +53,6 @@ const JobPostingsList: React.FC<JobPostingsListProps> = ({ companyId }) => {
       </div>
     )
   }, [])
-
-  const handlePageChange = (pageData: DataTablePFSEvent): void => {
-    const page = pageData.page || 0
-    setCurrentPage(page + 1)
-    setFirst(pageData.first)
-  }
 
   const expirationTemplate = (job: JobPosting): JSX.Element => {
     const expiration = DateTime.fromISO(job.expireAt)
