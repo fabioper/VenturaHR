@@ -10,6 +10,7 @@ import { useRouter } from "next/router"
 import Head from "next/head"
 import { UserType } from "../../core/enums/UserType"
 import CreateJobDialog from "../../shared/layout/sections/CreateJobDialog/CreateJobDialog"
+import JobPostingsList from "../../shared/components/JobPostingsList/JobPostingsList"
 
 const Dashboard: NextPage = () => {
   const { user } = useAuth()
@@ -39,8 +40,8 @@ const Dashboard: NextPage = () => {
         <title>{user?.name} | VenturaHR</title>
       </Head>
 
-      <header className="py-8">
-        <div className="container">
+      <div className="container">
+        <header className="py-8">
           <div className="flex justify-between items-end">
             <div>
               <BreadCrumb
@@ -64,8 +65,16 @@ const Dashboard: NextPage = () => {
               />
             </div>
           </div>
+        </header>
+
+        <div>
+          <h2 className="text-3xl font-display font-normal">
+            Vagas Publicadas
+          </h2>
+
+          <JobPostingsList />
         </div>
-      </header>
+      </div>
 
       <CreateJobDialog
         visible={showPublishJobModal}
