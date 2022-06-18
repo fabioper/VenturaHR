@@ -109,8 +109,8 @@ const JobPostingResults: NextPage = () => {
                         className="p-button-sm"
                         style={{
                           color: "#ffffff",
-                          background: "#0b0404",
-                          border: "1px solid #0b0404",
+                          background: "#c53737",
+                          border: "1px solid #c53737",
                         }}
                       />
                     )}
@@ -143,9 +143,9 @@ const JobPostingResults: NextPage = () => {
           </div>
         </header>
 
-        <div className="max-w-5xl mx-auto my-20">
+        <div className="max-w-5xl mx-auto my-10">
           <h3 className="text-3xl font-display font-normal text-center">
-            Respostas
+            Respostas recebidas
           </h3>
 
           <DataTable
@@ -177,6 +177,13 @@ const JobPostingResults: NextPage = () => {
             <Column
               header="Média"
               body={(application: JobApplication) => application.average}
+            />
+
+            <Column
+              header="Data"
+              body={(application: JobApplication) =>
+                DateTime.fromISO(application.appliedAt).toLocaleString()
+              }
             />
           </DataTable>
         </div>

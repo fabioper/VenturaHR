@@ -80,7 +80,7 @@ const Dashboard: NextPage = () => {
             <div className="flex gap-3">
               <Button
                 label="Publicar vaga"
-                className="p-button-sm p-button-rounded p-button-shadowed"
+                className="p-button-sm p-button-shadowed"
                 icon={PrimeIcons.PLUS}
                 iconPos="right"
                 onClick={() => setShowPublishJobModal(true)}

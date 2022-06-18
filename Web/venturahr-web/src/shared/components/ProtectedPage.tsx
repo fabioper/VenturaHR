@@ -15,8 +15,8 @@ const ProtectedPage: React.FC<ProtectedPageProps> = ({
   children,
 }) => {
   if (role !== undefined) {
-    useGuardAgainst(async ({ isLogged, user }) => {
-      return !isLogged || !(await user?.hasRole(role))
+    useGuardAgainst(async ({ isLogged, loading, user }) => {
+      return (!isLogged && !loading) || !(await user?.hasRole(role))
     })
   }
 

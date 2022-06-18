@@ -8,6 +8,7 @@ public class JobApplicationProfile : Profile
 {
     public JobApplicationProfile()
     {
-        CreateMap<JobApplication, JobApplicationResponse>();
+        CreateMap<JobApplication, JobApplicationResponse>()
+            .ForMember(dto => dto.AppliedAt, opts => opts.MapFrom(m => m.CreatedAt));
     }
 }

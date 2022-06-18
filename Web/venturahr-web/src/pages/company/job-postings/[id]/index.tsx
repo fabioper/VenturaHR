@@ -69,8 +69,8 @@ export const JobPostingDetails: NextPage = () => {
                         className="p-button-sm"
                         style={{
                           color: "#ffffff",
-                          background: "#0b0404",
-                          border: "1px solid #0b0404",
+                          background: "#c53737",
+                          border: "1px solid #c53737",
                         }}
                       />
                     )}
