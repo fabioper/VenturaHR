@@ -1,0 +1,29 @@
+.p-badge {
+  border-radius: 0;
+  line-height: 1;
+  font-size: 0.6rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  @apply font-body;
+
+  &.p-badge-success {
+    color: #217841;
+    background: rgba(33, 120, 65, 0.17);
+    border: 1px solid #217841;
+  }
+
+  &.p-badge-warn {
+    color: #93781d;
+    background: #fcd34d1c;
+    border: 1px solid #93781d;
+  }
+
+  &.p-badge-error {
+    background: #ff282830;
+    color: #a54c4c;
+    border: 1px solid #a54c4c;
+  }
+}

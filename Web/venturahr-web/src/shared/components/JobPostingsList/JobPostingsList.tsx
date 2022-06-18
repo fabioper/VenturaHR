@@ -7,6 +7,8 @@ import { PrimeIcons } from "primereact/api"
 import FilterResponse from "../../../core/dtos/filters/FilterResponse"
 import { DateTime } from "luxon"
 import Link from "next/link"
+import { JobPostingStatus } from "../../../core/enums/JobPostingStatus"
+import { Badge } from "primereact/badge"
 
 interface JobPostingsListProps {
   onPageChange: (page: number) => void
@@ -69,6 +71,18 @@ const JobPostingsList: React.FC<JobPostingsListProps> = ({
     )
   }, [])
 
+  const statusTemplate = useCallback((job: JobPosting) => {
+    const labels = {
+      [JobPostingStatus.Expired]: { label: "Expirada", severity: "warn" },
+      [JobPostingStatus.Closed]: { label: "Fechada", severity: "error" },
+      [JobPostingStatus.Published]: { label: "Publicada", severity: "success" },
+    }
+
+    const jobStatus = labels[job.status]
+
+    return <Badge value={jobStatus.label} severity={jobStatus.severity} />
+  }, [])
+
   return (
     <div>
       <DataTable
@@ -85,6 +99,7 @@ const JobPostingsList: React.FC<JobPostingsListProps> = ({
         <Column header="Título" body={(job: JobPosting) => job.title} />
         <Column header="Local" body={(job: JobPosting) => job.location} />
         <Column header="Salário" body={salaryTemplate} />
+        <Column header="Status" body={statusTemplate} />
         <Column
           header="Data de Expiração"
           body={(job: JobPosting) => expirationTemplate(job)}
