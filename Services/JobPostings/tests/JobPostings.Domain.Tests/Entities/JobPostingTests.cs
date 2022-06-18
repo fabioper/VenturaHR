@@ -14,7 +14,7 @@ public class JobPostingTests
 
     [SetUp]
     public void SetUp()
-        => _company = new Company(Guid.NewGuid(), "Empresa", "empresa@empresa.com");
+        => _company = new Company(Guid.NewGuid(), "Empresa", "empresa@empresa.com", "99999999999");
 
     [Test]
     public void ShouldCreateJobPostingWithPublishedStatus()

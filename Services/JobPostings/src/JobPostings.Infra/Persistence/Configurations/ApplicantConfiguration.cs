@@ -14,5 +14,6 @@ public class ApplicantConfiguration : IEntityTypeConfiguration<Applicant>
 
         builder.Property(x => x.Name).IsRequired();
         builder.Property(x => x.Email).IsRequired();
+        builder.Property(x => x.PhoneNumber);
     }
 }

@@ -101,14 +101,24 @@ public class UserService : IUserService
         return user ?? throw new EntityNotFoundException(nameof(user));
     }
 
-    private async Task PublishUserCreatedEvent(CreateUserRequest request, User newCompany)
+    private async Task PublishUserCreatedEvent(CreateUserRequest request, User newUser)
     {
         object userCreatedEvent = request.UserType switch
         {
-            UserType.Company => new CompanyCreatedEvent(
-                newCompany.Name, newCompany.Email, newCompany.Id.ToString()),
-            UserType.Applicant => new ApplicantCreatedEvent(
-                newCompany.Name, newCompany.Email, newCompany.Id.ToString()),
+            UserType.Company => new CompanyCreatedEvent
+            {
+                Name = newUser.Name,
+                Email = newUser.Email,
+                Identifier = newUser.Id.ToString(),
+                PhoneNumber = newUser.PhoneNumber.Value
+            },
+            UserType.Applicant => new ApplicantCreatedEvent
+            {
+                Name = newUser.Name,
+                Email = newUser.Email,
+                Identifier = newUser.Id.ToString(),
+                PhoneNumber = newUser.PhoneNumber.Value
+            },
             _ => throw new UnrecognizedUserTypeException(request.UserType.ToString()),
         };
 

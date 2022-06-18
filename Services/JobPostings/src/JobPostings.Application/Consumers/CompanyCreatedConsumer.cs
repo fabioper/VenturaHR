@@ -15,7 +15,9 @@ public class CompanyCreatedConsumer : IConsumer<CompanyCreatedEvent>
     public async Task Consume(ConsumeContext<CompanyCreatedEvent> context)
     {
         var companyCreated = context.Message;
-        var newCompany = new Company(Guid.Parse(companyCreated.Identifier), companyCreated.Name, companyCreated.Email);
+        var companyId = Guid.Parse(companyCreated.Identifier);
+        var newCompany = new Company(
+            companyId, companyCreated.Name, companyCreated.Email, companyCreated.PhoneNumber);
         await _companyRepository.Add(newCompany);
     }
 }

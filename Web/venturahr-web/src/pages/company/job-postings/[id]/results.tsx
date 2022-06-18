@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { UserType } from "../../../../core/enums/UserType"
 import Head from "next/head"
 import { BreadCrumb } from "primereact/breadcrumb"
@@ -9,6 +9,9 @@ import { useJobPostingOfId } from "../../../../shared/hooks/useJobPostingOfId"
 import { NextPage } from "next"
 import { JobApplication } from "../../../../core/models/JobApplication"
 import { fetchApplicationsFromJobPosting } from "../../../../core/services/JobApplicationsService"
+import { DataTable } from "primereact/datatable"
+import { Column } from "primereact/column"
+import CriteriaAnswer from "../../../../core/models/CriteriaAnswer"
 
 const JobPostingResults: NextPage = () => {
   const router = useRouter()
@@ -16,6 +19,9 @@ const JobPostingResults: NextPage = () => {
   const jobPosting = useJobPostingOfId(jobPostingId)
 
   const [applications, setApplications] = useState<JobApplication[]>([])
+  const [expandedApplications, setExpandedApplications] = useState<
+    JobApplication[]
+  >([])
 
   const loadApplications = async (page = 1) => {
     if (jobPostingId) {
@@ -25,6 +31,20 @@ const JobPostingResults: NextPage = () => {
 
   useEffect(() => {
     ;(async () => await loadApplications())()
+  }, [])
+
+  const criteriaAnswersTemplate = useCallback((application: JobApplication) => {
+    return (
+      <div className="max-w-sm px-10">
+        <DataTable value={application.answers}>
+          <Column
+            header="Critério"
+            body={(x: CriteriaAnswer) => x.criteriaTitle}
+          />
+          <Column header="Resposta" body={(x: CriteriaAnswer) => x.value} />
+        </DataTable>
+      </div>
+    )
   }, [])
 
   if (!jobPosting) {
@@ -70,7 +90,37 @@ const JobPostingResults: NextPage = () => {
         </header>
 
         <div>
-          <pre>{JSON.stringify(applications, null, 2)}</pre>
+          <DataTable
+            value={applications}
+            expandedRows={expandedApplications}
+            onRowToggle={e => setExpandedApplications(e.data)}
+            rowExpansionTemplate={criteriaAnswersTemplate}
+          >
+            <Column expander style={{ width: "3em" }} />
+            <Column
+              header="Candidato"
+              body={(application: JobApplication) => application.applicant.name}
+            />
+
+            <Column
+              header="E-mail"
+              body={(application: JobApplication) =>
+                application.applicant.email
+              }
+            />
+
+            <Column
+              header="Telefone"
+              body={(application: JobApplication) =>
+                application.applicant.phoneNumber
+              }
+            />
+
+            <Column
+              header="Média"
+              body={(application: JobApplication) => application.average}
+            />
+          </DataTable>
         </div>
       </main>
     </ProtectedPage>

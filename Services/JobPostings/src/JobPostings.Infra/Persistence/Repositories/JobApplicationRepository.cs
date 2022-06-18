@@ -22,8 +22,9 @@ public class JobApplicationRepository :
         Guid jobPostingId)
     {
         var applications = _context.Applications
-            .Include(x => x.JobPosting)
-            .ThenInclude(x => x.Company);
+            .Include(x => x.Applicant)
+            .Include(x => x.Answers)
+            .ThenInclude(x => x.Criteria);
 
         var filteredApplications = applications
             .Where(x => x.JobPosting.Company.Id == companyId)

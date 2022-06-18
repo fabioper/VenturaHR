@@ -11,12 +11,14 @@ public class Applicant : BaseEntity, IAggregateRoot
 {
     public string Name { get; private set; }
     public string Email { get; private set; }
+    public string PhoneNumber { get; private set; }
 
-    public Applicant(Guid id, string name, string email)
+    public Applicant(Guid id, string name, string email, string phoneNumber)
     {
         Id = id;
         Name = name;
         Email = email;
+        PhoneNumber = phoneNumber;
     }
 
     public Applicant()

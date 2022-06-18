@@ -6,7 +6,6 @@ using JobPostings.Application.Mapping;
 using JobPostings.Application.Validations;
 using JobPostings.CrossCutting.Settings;
 using MassTransit;
-using Microsoft.AspNetCore.Cors.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 

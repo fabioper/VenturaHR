@@ -6,5 +6,6 @@ public record JobApplicationResponse
     public double Average { get; init; }
     public DateTime AppliedAt { get; init; }
     public JobPostingResponse JobPosting { get; init; }
+    public ApplicantResponse Applicant { get; init; }
     public List<CriteriaAnswerResponse> Answers { get; init; }
 }

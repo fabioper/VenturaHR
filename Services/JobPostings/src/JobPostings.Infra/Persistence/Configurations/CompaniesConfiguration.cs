@@ -14,5 +14,6 @@ public class CompaniesConfiguration : IEntityTypeConfiguration<Company>
 
         builder.Property(x => x.Name).IsRequired();
         builder.Property(x => x.Email).IsRequired();
+        builder.Property(x => x.PhoneNumber);
     }
 }
