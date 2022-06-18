@@ -1,7 +1,7 @@
 import React from "react"
 import { useAuth } from "../contexts/AuthContext"
-import { useGuardAgainst } from "../hooks/useGuardAgainst"
 import { UserType } from "../../core/enums/UserType"
+import { useRouter } from "next/router"
 
 interface ProtectedPageProps {
   role?: UserType
@@ -14,13 +14,8 @@ const ProtectedPage: React.FC<ProtectedPageProps> = ({
   loader,
   children,
 }) => {
-  if (role !== undefined) {
-    useGuardAgainst(async ({ isLogged, loading, user }) => {
-      return (!isLogged && !loading) || !(await user?.hasRole(role))
-    })
-  }
-
-  const { loading } = useAuth()
+  const { loading, isLogged, user } = useAuth()
+  const router = useRouter()
 
   if (loading) {
     return (
@@ -30,6 +25,14 @@ const ProtectedPage: React.FC<ProtectedPageProps> = ({
         </div>
       )
     )
+  }
+
+  if (!isLogged && !loading) {
+    router.push("/").then()
+  }
+
+  if (user && role !== undefined && !user.hasRole(role)) {
+    router.push(user.redirectPage).then()
   }
 
   return <>{children}</>

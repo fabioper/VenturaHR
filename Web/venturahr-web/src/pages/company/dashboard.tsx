@@ -18,7 +18,7 @@ import { fetchJobPostings } from "../../core/services/JobPostingsService"
 
 const Dashboard: NextPage = () => {
   const { user } = useAuth()
-  const { loading, usingLoader } = useLoader()
+  const { loading, withLoader } = useLoader()
   const router = useRouter()
   const [showPublishJobModal, setShowPublishJobModal] = useState(false)
   const [data, setData] = useState<FilterResponse<JobPosting>>({
@@ -28,7 +28,7 @@ const Dashboard: NextPage = () => {
   })
 
   const loadJobPostings = async (page = 1) => {
-    await usingLoader(async () => {
+    await withLoader(async () => {
       setData(
         await fetchJobPostings({
           pageSize: 10,

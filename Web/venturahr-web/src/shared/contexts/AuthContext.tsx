@@ -28,7 +28,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [user, setUser] = useState<UserProfile>()
   const [isLogged, setIsLogged] = useState(false)
-  const { loading, usingLoader } = useLoader()
+  const { loading, withLoader } = useLoader()
 
   useEffect(() => setIsLogged(!!user), [user])
 
@@ -38,24 +38,26 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   }, [])
 
   async function loadUser(): Promise<void> {
-    const currentUser = await authService.getCurrentUser()
-    setUser(currentUser)
+    await withLoader(async () => {
+      const currentUser = await authService.getCurrentUser()
+      setUser(currentUser)
+    })
   }
 
   async function checkAuthState() {
-    await usingLoader(loadUser)
+    await loadUser()
   }
 
   const login = async (credentials: LoginRequest) => {
-    await usingLoader(async () => await authService.login(credentials), true)
+    await withLoader(async () => await authService.login(credentials), true)
   }
 
   const logout = async () => {
-    await usingLoader(async () => await authService.logout())
+    await withLoader(async () => await authService.logout())
   }
 
   const signup = async (model: SignUpRequest) => {
-    await usingLoader(async () => {
+    await withLoader(async () => {
       await authService.createUser(model)
       await authService.login({ ...model })
     }, true)
