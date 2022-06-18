@@ -88,44 +88,48 @@ const JobPostingResults: NextPage = () => {
                 </div>
               </div>
 
-              <div>{/* TODO */}</div>
+              <div className="max-w-5xl mx-auto my-20">
+                <h3 className="text-3xl font-display font-normal text-center">
+                  Respostas
+                </h3>
+
+                <DataTable
+                  value={applications}
+                  expandedRows={expandedApplications}
+                  onRowToggle={e => setExpandedApplications(e.data)}
+                  rowExpansionTemplate={criteriaAnswersTemplate}
+                >
+                  <Column expander style={{ width: "3em" }} />
+                  <Column
+                    header="Candidato"
+                    body={(application: JobApplication) =>
+                      application.applicant.name
+                    }
+                  />
+
+                  <Column
+                    header="E-mail"
+                    body={(application: JobApplication) =>
+                      application.applicant.email
+                    }
+                  />
+
+                  <Column
+                    header="Telefone"
+                    body={(application: JobApplication) =>
+                      application.applicant.phoneNumber
+                    }
+                  />
+
+                  <Column
+                    header="Média"
+                    body={(application: JobApplication) => application.average}
+                  />
+                </DataTable>
+              </div>
             </div>
           </div>
         </header>
-
-        <div>
-          <DataTable
-            value={applications}
-            expandedRows={expandedApplications}
-            onRowToggle={e => setExpandedApplications(e.data)}
-            rowExpansionTemplate={criteriaAnswersTemplate}
-          >
-            <Column expander style={{ width: "3em" }} />
-            <Column
-              header="Candidato"
-              body={(application: JobApplication) => application.applicant.name}
-            />
-
-            <Column
-              header="E-mail"
-              body={(application: JobApplication) =>
-                application.applicant.email
-              }
-            />
-
-            <Column
-              header="Telefone"
-              body={(application: JobApplication) =>
-                application.applicant.phoneNumber
-              }
-            />
-
-            <Column
-              header="Média"
-              body={(application: JobApplication) => application.average}
-            />
-          </DataTable>
-        </div>
       </main>
     </ProtectedPage>
   )
