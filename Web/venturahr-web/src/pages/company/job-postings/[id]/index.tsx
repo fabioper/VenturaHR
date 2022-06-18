@@ -92,7 +92,7 @@ export const JobPostingDetails: NextPage = () => {
                       href={`/company/job-postings/${jobPostingId}/results`}
                     >
                       <Button
-                        icon={PrimeIcons.LOCK}
+                        icon={PrimeIcons.CHART_BAR}
                         label="Ver resultados"
                         className="p-button-sm"
                       />

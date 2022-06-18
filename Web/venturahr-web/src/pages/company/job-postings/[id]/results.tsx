@@ -50,6 +50,8 @@ const JobPostingResults: React.FC<JobPostingResultsProps> = () => {
                   </h2>
                 </div>
               </div>
+
+              <div>{/* TODO */}</div>
             </div>
           </div>
         </header>
