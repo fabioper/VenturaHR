@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { UserType } from "../../../../core/enums/UserType"
 import Head from "next/head"
 import { BreadCrumb } from "primereact/breadcrumb"
@@ -6,13 +6,26 @@ import { PrimeIcons } from "primereact/api"
 import ProtectedPage from "../../../../shared/components/ProtectedPage"
 import { useRouter } from "next/router"
 import { useJobPostingOfId } from "../../../../shared/hooks/useJobPostingOfId"
+import { NextPage } from "next"
+import { JobApplication } from "../../../../core/models/JobApplication"
+import { fetchApplicationsFromJobPosting } from "../../../../core/services/JobApplicationsService"
 
-interface JobPostingResultsProps {}
-
-const JobPostingResults: React.FC<JobPostingResultsProps> = () => {
+const JobPostingResults: NextPage = () => {
   const router = useRouter()
   const jobPostingId = router.query.id as string
   const jobPosting = useJobPostingOfId(jobPostingId)
+
+  const [applications, setApplications] = useState<JobApplication[]>([])
+
+  const loadApplications = async (page = 1) => {
+    if (jobPostingId) {
+      setApplications(await fetchApplicationsFromJobPosting(jobPostingId))
+    }
+  }
+
+  useEffect(() => {
+    ;(async () => await loadApplications())()
+  }, [])
 
   if (!jobPosting) {
     return <>Carregando...</>
@@ -55,6 +68,10 @@ const JobPostingResults: React.FC<JobPostingResultsProps> = () => {
             </div>
           </div>
         </header>
+
+        <div>
+          <pre>{JSON.stringify(applications, null, 2)}</pre>
+        </div>
       </main>
     </ProtectedPage>
   )
