@@ -35,11 +35,15 @@ const JobPostingResults: NextPage = () => {
 
   const criteriaAnswersTemplate = useCallback((application: JobApplication) => {
     return (
-      <div className="max-w-sm px-10">
+      <div className="max-w-3xl">
         <DataTable value={application.answers}>
           <Column
             header="Critério"
             body={(x: CriteriaAnswer) => x.criteriaTitle}
+          />
+          <Column
+            header="Descrição"
+            body={(x: CriteriaAnswer) => x.criteriaDescription}
           />
           <Column header="Resposta" body={(x: CriteriaAnswer) => x.value} />
         </DataTable>
