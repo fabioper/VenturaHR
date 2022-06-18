@@ -5,32 +5,19 @@ import Head from "next/head"
 import { BreadCrumb } from "primereact/breadcrumb"
 import { PrimeIcons } from "primereact/api"
 import ProtectedPage from "../../../../shared/components/ProtectedPage"
-import React, { useCallback } from "react"
-import JobPosting from "../../../../core/models/JobPosting"
+import React from "react"
 import { marked } from "marked"
 import { DateTime } from "luxon"
 import { JobPostingStatus } from "../../../../core/enums/JobPostingStatus"
 import { Button } from "primereact/button"
-import { Badge } from "primereact/badge"
 import Link from "next/link"
 import { useJobPostingOfId } from "../../../../shared/hooks/useJobPostingOfId"
+import JobStatusBadge from "../../../../shared/components/JobStatusBadge/JobStatusBadge"
 
 export const JobPostingDetails: NextPage = () => {
   const router = useRouter()
   const jobPostingId = router.query.id as string
   const jobPosting = useJobPostingOfId(jobPostingId)
-
-  const statusTemplate = useCallback((job: JobPosting) => {
-    const labels = {
-      [JobPostingStatus.Expired]: { label: "Expirada", severity: "warn" },
-      [JobPostingStatus.Closed]: { label: "Fechada", severity: "error" },
-      [JobPostingStatus.Published]: { label: "Publicada", severity: "success" },
-    }
-
-    const jobStatus = labels[job.status]
-
-    return <Badge value={jobStatus.label} severity={jobStatus.severity} />
-  }, [])
 
   if (!jobPosting) {
     return <>Carregando...</>
@@ -62,7 +49,7 @@ export const JobPostingDetails: NextPage = () => {
                   <h2 className="m-0 font-display text-4xl font-light">
                     {jobPosting.title}
                   </h2>
-                  {statusTemplate(jobPosting)}
+                  <JobStatusBadge status={jobPosting.status} />
                 </div>
 
                 <div className="flex gap-5 items-center">
