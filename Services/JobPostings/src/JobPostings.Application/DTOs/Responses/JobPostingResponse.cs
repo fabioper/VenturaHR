@@ -1,3 +1,5 @@
+using JobPostings.Domain.Aggregates.JobPostings;
+
 namespace JobPostings.Application.DTOs.Responses;
 
 #nullable disable
@@ -15,4 +17,5 @@ public record JobPostingResponse
     public DateTime ExpireAt { get; init; }
     public CompanyResponse Company { get; init; }
     public List<CriteriaResponse> Criterias { get; init; }
+    public JobPostingStatus Status { get; set; }
 }

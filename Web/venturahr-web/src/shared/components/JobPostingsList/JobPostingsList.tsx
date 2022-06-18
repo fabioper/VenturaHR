@@ -26,11 +26,11 @@ const JobPostingsList: React.FC<JobPostingsListProps> = ({
     onPageChange(currentPage)
   }, [currentPage])
 
-  const handlePageChange = (pageData: DataTablePFSEvent): void => {
+  const handlePageChange = useCallback((pageData: DataTablePFSEvent): void => {
     const page = pageData.page || 0
     setCurrentPage(page + 1)
     setFirst(pageData.first)
-  }
+  }, [])
 
   const salaryTemplate = useCallback((job: JobPosting): string => {
     const currencyFormatter = new Intl.NumberFormat("pt-BR", {
@@ -54,19 +54,20 @@ const JobPostingsList: React.FC<JobPostingsListProps> = ({
     )
   }, [])
 
-  const expirationTemplate = (job: JobPosting): JSX.Element => {
-    const expiration = DateTime.fromISO(job.expireAt)
+  const toRelativeDate = useCallback((job: JobPosting): string => {
+    const date = DateTime.fromISO(job.expireAt)
+    const options = { locale: "pt-BR" }
+    return date.toRelativeCalendar(options) || ""
+  }, [])
+
+  const expirationTemplate = useCallback((job: JobPosting): JSX.Element => {
     return (
       <div className="flex items-center gap-2 align-middle">
         <i className={PrimeIcons.CALENDAR}></i>
-        <span>
-          {expiration.toRelativeCalendar({
-            locale: "pt-BR",
-          }) || ""}
-        </span>
+        <span>{toRelativeDate(job)}</span>
       </div>
     )
-  }
+  }, [])
 
   return (
     <div>
