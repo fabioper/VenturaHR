@@ -1,5 +1,6 @@
 import Company from "./Company"
 import Criteria from "./Criteria"
+import { JobPostingStatus } from "../enums/JobPostingStatus"
 
 export default class JobPosting {
   id: string
@@ -13,4 +14,5 @@ export default class JobPosting {
   expireAt: string
   company: Company
   criterias: Criteria[]
+  status: JobPostingStatus
 }

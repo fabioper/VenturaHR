@@ -45,7 +45,6 @@ public class JobPostingRepository : BaseRepository<JobPosting>, IJobPostingRepos
     private static IQueryable<JobPosting> FilterQuery(JobPostingsFilter filter, IQueryable<JobPosting> jobPostings)
     {
         return jobPostings
-            .Where(x => x.Status == JobPostingStatus.Published)
             .Where(x => !filter.Company.HasValue || x.Company.Id == filter.Company);
     }
 }

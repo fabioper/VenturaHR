@@ -11,6 +11,7 @@ import { fetchJobPosting } from "../../../core/services/JobPostingsService"
 import { marked } from "marked"
 import { DateTime } from "luxon"
 import { Button } from "primereact/button"
+import { JobPostingStatus } from "../../../core/enums/JobPostingStatus"
 
 export const JobPostingResults: NextPage = () => {
   const router = useRouter()
@@ -93,7 +94,7 @@ export const JobPostingResults: NextPage = () => {
               </div>
             </div>
           </div>
-          <div className="p-5 bg-teal-700 grow-1 min-w-[300px] rounded-2xl shadow flex flex-col">
+          <div className="p-5 bg-blue-800 grow-1 min-w-[300px] rounded-2xl shadow flex flex-col">
             <div>
               <p>
                 <strong className="block">Publicada em:</strong>{" "}
@@ -106,16 +107,18 @@ export const JobPostingResults: NextPage = () => {
               </p>
             </div>
 
-            <Button
-              icon={PrimeIcons.CALENDAR_PLUS}
-              label="Renovar"
-              className="p-button-sm w-full mt-auto"
-              style={{
-                background: "azure",
-                color: "#0f766e",
-                borderColor: "#0f766e",
-              }}
-            />
+            {jobPosting.status === JobPostingStatus.Expired && (
+              <Button
+                icon={PrimeIcons.CALENDAR_PLUS}
+                label="Renovar"
+                className="p-button-sm w-full mt-auto"
+                style={{
+                  background: "azure",
+                  color: "#0f766e",
+                  borderColor: "#0f766e",
+                }}
+              />
+            )}
             <Button
               icon={PrimeIcons.LOCK}
               label="Fechar"
