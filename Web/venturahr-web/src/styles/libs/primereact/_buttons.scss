@@ -35,6 +35,18 @@
     @apply border-indigo-600;
     @apply text-indigo-50;
   }
+
+  &.p-button-info {
+    @apply bg-blue-500;
+    @apply text-blue-50;
+    @apply border-blue-500;
+
+    &:hover:not(:disabled) {
+      @apply bg-blue-600;
+      @apply text-blue-50;
+      @apply border-blue-600;
+    }
+  }
 }
 
 .p-button.p-button-xs.p-button-icon-only {
