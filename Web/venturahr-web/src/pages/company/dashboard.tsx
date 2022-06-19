@@ -10,11 +10,11 @@ import { useRouter } from "next/router"
 import Head from "next/head"
 import { UserType } from "../../core/enums/UserType"
 import CreateJobDialog from "../../shared/layout/sections/CreateJobDialog/CreateJobDialog"
-import JobPostingsList from "../../shared/components/JobPostingsList/JobPostingsList"
 import FilterResponse from "../../core/dtos/filters/FilterResponse"
 import JobPosting from "../../core/models/JobPosting"
 import { useLoader } from "../../shared/hooks/useLoader"
 import { fetchJobPostings } from "../../core/services/JobPostingsService"
+import JobPostingsList from "../../shared/layout/sections/JobPostingsList/JobPostingsList"
 
 const Dashboard: NextPage = () => {
   const { user } = useAuth()

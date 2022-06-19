@@ -5,7 +5,6 @@ import { BreadCrumb } from "primereact/breadcrumb"
 import { PrimeIcons } from "primereact/api"
 import ProtectedPage from "../../../../shared/components/ProtectedPage"
 import { useRouter } from "next/router"
-import { useJobPostingOfId } from "../../../../shared/hooks/useJobPostingOfId"
 import { NextPage } from "next"
 import { JobApplication } from "../../../../core/models/JobApplication"
 import { fetchApplicationsFromJobPosting } from "../../../../core/services/JobApplicationsService"
@@ -16,22 +15,36 @@ import JobStatusBadge from "../../../../shared/components/JobStatusBadge/JobStat
 import { JobPostingStatus } from "../../../../core/enums/JobPostingStatus"
 import { Button } from "primereact/button"
 import { DateTime } from "luxon"
+import RenewJobPostingDialog from "../../../../shared/layout/sections/RenewJobPostingDialog/RenewJobPostingDialog"
+import JobPosting from "../../../../core/models/JobPosting"
+import { fetchJobPosting } from "../../../../core/services/JobPostingsService"
 
 const JobPostingResults: NextPage = () => {
   const router = useRouter()
   const jobPostingId = router.query.id as string
-  const jobPosting = useJobPostingOfId(jobPostingId)
-
+  const [jobPosting, setJobPosting] = useState<JobPosting>()
+  const [renewDialogIsVisible, setRenewDialogIsVisible] = useState(false)
   const [applications, setApplications] = useState<JobApplication[]>([])
   const [expandedApplications, setExpandedApplications] = useState<
     JobApplication[]
   >([])
 
-  const loadApplications = async (page = 1) => {
+  const loadJobPostingOfId = async (jobPostingId: string) => {
+    const data = await fetchJobPosting(jobPostingId)
+    setJobPosting(data)
+  }
+
+  const loadApplications = async () => {
     if (jobPostingId) {
       setApplications(await fetchApplicationsFromJobPosting(jobPostingId))
     }
   }
+
+  useEffect(() => {
+    if (jobPostingId) {
+      ;(async () => await loadJobPostingOfId(jobPostingId))()
+    }
+  }, [jobPostingId])
 
   useEffect(() => {
     ;(async () => await loadApplications())()
@@ -94,24 +107,12 @@ const JobPostingResults: NextPage = () => {
 
                 <div className="flex gap-5 items-center">
                   <div className="flex gap-2 my-10">
-                    {jobPosting.status === JobPostingStatus.Expired && (
+                    {jobPosting.status !== JobPostingStatus.Closed && (
                       <Button
                         icon={PrimeIcons.CALENDAR_PLUS}
                         label="Renovar"
                         className="p-button-sm p-button-info"
-                      />
-                    )}
-
-                    {jobPosting.status !== JobPostingStatus.Closed && (
-                      <Button
-                        icon={PrimeIcons.LOCK}
-                        label="Fechar"
-                        className="p-button-sm"
-                        style={{
-                          color: "#ffffff",
-                          background: "#c53737",
-                          border: "1px solid #c53737",
-                        }}
+                        onClick={() => setRenewDialogIsVisible(true)}
                       />
                     )}
                   </div>
@@ -188,6 +189,15 @@ const JobPostingResults: NextPage = () => {
           </DataTable>
         </div>
       </main>
+
+      <RenewJobPostingDialog
+        visible={renewDialogIsVisible}
+        onHide={async () => {
+          setRenewDialogIsVisible(false)
+          await loadJobPostingOfId(jobPostingId)
+        }}
+        jobPosting={jobPosting}
+      />
     </ProtectedPage>
   )
 }

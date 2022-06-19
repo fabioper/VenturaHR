@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect, useState } from "react"
 import { DataTable, DataTablePFSEvent } from "primereact/datatable"
-import JobPosting from "../../../core/models/JobPosting"
+import JobPosting from "../../../../core/models/JobPosting"
 import { Column } from "primereact/column"
 import { Button } from "primereact/button"
 import { PrimeIcons } from "primereact/api"
-import FilterResponse from "../../../core/dtos/filters/FilterResponse"
+import FilterResponse from "../../../../core/dtos/filters/FilterResponse"
 import { DateTime } from "luxon"
 import Link from "next/link"
-import { JobPostingStatus } from "../../../core/enums/JobPostingStatus"
+import { JobPostingStatus } from "../../../../core/enums/JobPostingStatus"
 import { Badge } from "primereact/badge"
 
 interface JobPostingsListProps {
@@ -46,7 +46,7 @@ const JobPostingsList: React.FC<JobPostingsListProps> = ({
   const actionsTemplate = useCallback((job: JobPosting): JSX.Element => {
     return (
       <div>
-        <Link href={`/company/job-postings/${job.id}`}>
+        <Link href={`/company/job-postings/${job.id}/results`}>
           <Button
             icon={PrimeIcons.EYE}
             className="p-button-sm p-button-text p-button-info"

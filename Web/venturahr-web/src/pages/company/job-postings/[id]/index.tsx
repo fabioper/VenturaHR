@@ -8,7 +8,6 @@ import ProtectedPage from "../../../../shared/components/ProtectedPage"
 import React from "react"
 import { marked } from "marked"
 import { DateTime } from "luxon"
-import { JobPostingStatus } from "../../../../core/enums/JobPostingStatus"
 import { Button } from "primereact/button"
 import Link from "next/link"
 import { useJobPostingOfId } from "../../../../shared/hooks/useJobPostingOfId"
@@ -54,27 +53,6 @@ export const JobPostingDetails: NextPage = () => {
 
                 <div className="flex gap-5 items-center">
                   <div className="flex gap-2 my-10">
-                    {jobPosting.status === JobPostingStatus.Expired && (
-                      <Button
-                        icon={PrimeIcons.CALENDAR_PLUS}
-                        label="Renovar"
-                        className="p-button-sm p-button-info"
-                      />
-                    )}
-
-                    {jobPosting.status !== JobPostingStatus.Closed && (
-                      <Button
-                        icon={PrimeIcons.LOCK}
-                        label="Fechar"
-                        className="p-button-sm"
-                        style={{
-                          color: "#ffffff",
-                          background: "#c53737",
-                          border: "1px solid #c53737",
-                        }}
-                      />
-                    )}
-
                     <Link
                       href={`/company/job-postings/${jobPostingId}/results`}
                     >

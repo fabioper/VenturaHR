@@ -23,3 +23,12 @@ export async function fetchJobPosting(jobPostingId: string) {
   const { data } = await api.get<JobPosting>(endpoint + "/" + jobPostingId)
   return data
 }
+
+export async function renewJobPosting(
+  jobPostingId: string,
+  newExpiration: Date
+) {
+  return await api.put(endpoint + "/" + jobPostingId + "/renew", {
+    newExpiration,
+  })
+}
