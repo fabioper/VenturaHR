@@ -1,5 +1,5 @@
 import { NextPage } from "next"
-import ProtectedPage from "../../shared/components/ProtectedPage"
+import ProtectedPage from "../../shared/components/ProtectedPage/ProtectedPage"
 import { useAuth } from "../../shared/contexts/AuthContext"
 import { Button } from "primereact/button"
 import { BreadCrumb } from "primereact/breadcrumb"

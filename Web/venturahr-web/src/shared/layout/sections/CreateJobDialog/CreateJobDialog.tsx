@@ -4,7 +4,6 @@ import { InputText } from "primereact/inputtext"
 import { Calendar } from "primereact/calendar"
 import { Dialog, DialogProps } from "primereact/dialog"
 import { PrimeIcons } from "primereact/api"
-import InputCurrency from "../../../components/InputCurrency"
 import useForm from "../../../hooks/useForm"
 import { CreateJobRequest } from "../../../../core/dtos/requests/CreateJobRequest"
 import { createJobSchema } from "../../../../core/validations/CreateJobSchema"
@@ -13,6 +12,7 @@ import MDEditor from "../../../components/MDEditor/MDEditor"
 import CriteriaForm from "../CriteriaForm/CriteriaForm"
 import { CriteriaRequest } from "../../../../core/dtos/requests/CriteriaRequest"
 import { useToaster } from "../../../hooks/useToaster"
+import InputCurrency from "../../../components/InputCurrency/InputCurrency"
 
 interface PostJobDialogProps {
   visible: boolean

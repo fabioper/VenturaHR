@@ -1,6 +1,6 @@
 import React from "react"
-import { useAuth } from "../contexts/AuthContext"
-import { UserType } from "../../core/enums/UserType"
+import { useAuth } from "../../contexts/AuthContext"
+import { UserType } from "../../../core/enums/UserType"
 import { useRouter } from "next/router"
 
 interface ProtectedPageProps {
