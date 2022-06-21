@@ -2,5 +2,6 @@
 
 public record JobPostingsFilter : BaseFilter
 {
-    public Guid? Company { get; set; }
+    public Guid? Company { get; init; }
+    public string? Query { get; init; }
 }

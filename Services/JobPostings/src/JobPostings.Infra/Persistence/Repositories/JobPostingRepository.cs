@@ -42,9 +42,20 @@ public class JobPostingRepository : BaseRepository<JobPosting>, IJobPostingRepos
         return await filteredQuery.CountAsync();
     }
 
-    private static IQueryable<JobPosting> FilterQuery(JobPostingsFilter filter, IQueryable<JobPosting> jobPostings)
+    private static IQueryable<JobPosting> FilterQuery(JobPostingsFilter filter, IQueryable<JobPosting> query)
     {
-        return jobPostings
-            .Where(x => !filter.Company.HasValue || x.Company.Id == filter.Company);
+        if (!string.IsNullOrEmpty(filter.Query))
+        {
+            query = query.Where(x =>
+                x.Title.ToLower().Contains(filter.Query.ToLower()) ||
+                x.Company.Name.ToLower().Contains(filter.Query.ToLower()));
+        }
+
+        if (filter.Company.HasValue)
+        {
+            query = query.Where(x => x.Company.Id == filter.Company);
+        }
+
+        return query;
     }
 }

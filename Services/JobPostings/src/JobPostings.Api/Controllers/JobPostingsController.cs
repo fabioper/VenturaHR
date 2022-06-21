@@ -31,7 +31,7 @@ public class JobPostingsController : ControllerBase
     public async Task<IActionResult> GetById([FromRoute] Guid jobPostingId)
     {
         var jobPosting = await _jobPostingsService.GetJobPostingOfId(jobPostingId);
-        return Ok(jobPosting);
+        return Ok(jobPosting); 
     }
 
     [HttpPost]
