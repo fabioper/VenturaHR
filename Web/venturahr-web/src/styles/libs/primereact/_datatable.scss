@@ -23,17 +23,4 @@
   @apply px-5;
 }
 
-.p-paginator .p-paginator-pages .p-paginator-page,
-.p-paginator .p-paginator-first, .p-paginator .p-paginator-prev, .p-paginator .p-paginator-next, .p-paginator .p-paginator-last {
-  height: 2rem;
-  width: 2rem;
-  min-width: 2rem;
-  border-radius: 100%;
-}
 
-.p-paginator {
-  .p-button:disabled {
-    background: none;
-    color: #4f567a;
-  }
-}

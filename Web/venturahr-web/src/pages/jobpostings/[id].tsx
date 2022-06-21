@@ -1,17 +1,13 @@
 import { NextPage } from "next"
 import { useRouter } from "next/router"
-import { UserType } from "../../../../core/enums/UserType"
 import Head from "next/head"
 import { BreadCrumb } from "primereact/breadcrumb"
 import { PrimeIcons } from "primereact/api"
-import ProtectedPage from "../../../../shared/components/ProtectedPage"
+import ProtectedPage from "../../shared/components/ProtectedPage/ProtectedPage"
 import React from "react"
 import { marked } from "marked"
 import { DateTime } from "luxon"
-import { Button } from "primereact/button"
-import Link from "next/link"
-import { useJobPostingOfId } from "../../../../shared/hooks/useJobPostingOfId"
-import JobStatusBadge from "../../../../shared/components/JobStatusBadge/JobStatusBadge"
+import { useJobPostingOfId } from "../../shared/hooks/useJobPostingOfId"
 
 export const JobPostingDetails: NextPage = () => {
   const router = useRouter()
@@ -23,7 +19,7 @@ export const JobPostingDetails: NextPage = () => {
   }
 
   return (
-    <ProtectedPage role={UserType.Company} loader={<>Carregando</>}>
+    <ProtectedPage loader={<>Carregando</>}>
       <Head>
         <title>{jobPosting.title} | VenturaHR</title>
       </Head>
@@ -38,33 +34,14 @@ export const JobPostingDetails: NextPage = () => {
                   url: router.pathname,
                 }}
                 model={[
-                  { url: "/company/dashboard", label: "Vagas publicadas" },
+                  { url: "/jobpostings", label: "Vagas" },
                   { label: jobPosting?.title },
                 ]}
                 className="p-0 pb-5"
               />
-              <div className="flex flex-row items-center justify-between gap-5">
-                <div className="flex flex-col items-start justify-between gap-2">
-                  <h2 className="m-0 font-display text-4xl font-light">
-                    {jobPosting.title}
-                  </h2>
-                  <JobStatusBadge status={jobPosting.status} />
-                </div>
-
-                <div className="flex gap-5 items-center">
-                  <div className="flex gap-2 my-10">
-                    <Link
-                      href={`/company/job-postings/${jobPostingId}/results`}
-                    >
-                      <Button
-                        icon={PrimeIcons.CHART_BAR}
-                        label="Ver resultados"
-                        className="p-button-sm"
-                      />
-                    </Link>
-                  </div>
-                </div>
-              </div>
+              <h2 className="m-0 font-display text-4xl font-light">
+                {jobPosting.title}
+              </h2>
             </div>
           </div>
         </header>

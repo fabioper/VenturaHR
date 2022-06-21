@@ -1,5 +1,5 @@
 import { NextPage } from "next"
-import ProtectedPage from "../../shared/components/ProtectedPage"
+import ProtectedPage from "../../shared/components/ProtectedPage/ProtectedPage"
 import { UserType } from "../../core/enums/UserType"
 
 const Dashboard: NextPage = () => {

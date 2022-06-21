@@ -74,20 +74,36 @@ const Header: React.FC = () => {
             )}
           </ul>
         ) : (
-          <Button
-            type="button"
-            className="user-button rounded-full p-0"
-            onClick={menu.current?.toggle}
-          >
-            <Avatar
-              label={user?.name?.[0]}
-              shape="circle"
-              size="normal"
-              imageAlt={`Imagem do usuário ${user?.name}`}
-            />
-            <span className="text-sm mx-2 text-slate-300">{user?.name}</span>
-            <i className={`${PrimeIcons.ANGLE_DOWN} mr-2 text-slate-600`} />
-          </Button>
+          <ul className="list-none m-0 p-0 flex gap-2">
+            {router.pathname !== "/jobpostings" && (
+              <li>
+                <Link href="/jobpostings/">
+                  <Button
+                    label="Procurar vagas"
+                    className="p-button-rounded p-button-sm p-button-text"
+                  />
+                </Link>
+              </li>
+            )}
+            <li>
+              <Button
+                type="button"
+                className="user-button rounded-full p-0"
+                onClick={menu.current?.toggle}
+              >
+                <Avatar
+                  label={user?.name?.[0]}
+                  shape="circle"
+                  size="normal"
+                  imageAlt={`Imagem do usuário ${user?.name}`}
+                />
+                <span className="text-sm mx-2 text-slate-300">
+                  {user?.name}
+                </span>
+                <i className={`${PrimeIcons.ANGLE_DOWN} mr-2 text-slate-600`} />
+              </Button>
+            </li>
+          </ul>
         )}
       </div>
       <Menu model={items} popup ref={menu} />

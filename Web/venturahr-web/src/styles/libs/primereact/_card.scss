@@ -1,0 +1,25 @@
+.p-card {
+  border: 1px solid rgb(27 35 74 / 59%);
+  transition: all .3s ease;
+
+  .p-card-title {
+    @apply font-display;
+    @apply text-lg;
+    @apply font-normal;
+  }
+}
+
+.card-grid {
+  &:hover {
+    .p-card {
+      transform: scale(.95);
+    }
+  }
+
+  .p-card {
+    &:hover {
+      border: 1px solid #3e317a;
+      transform: scale(1);
+    }
+  }
+}
