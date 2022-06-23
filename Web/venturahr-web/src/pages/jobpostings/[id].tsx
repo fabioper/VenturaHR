@@ -18,6 +18,7 @@ import {
 } from "../../core/services/JobPostingsService"
 import { Skeleton } from "primereact/skeleton"
 import JobPosting from "../../core/models/JobPosting"
+import { Rating } from "primereact/rating"
 
 export const JobPostingDetails: NextPage = () => {
   const router = useRouter()
@@ -161,6 +162,14 @@ export const JobPostingDetails: NextPage = () => {
                   className="p-0"
                   title={criteria.title}
                   subTitle={criteria.description}
+                  footer={() => (
+                    <Rating
+                      value={criteria.desiredProfile}
+                      readOnly
+                      cancel={false}
+                      stars={criteria.desiredProfile}
+                    />
+                  )}
                 />
               ))}
             </div>

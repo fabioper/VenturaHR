@@ -29,7 +29,12 @@ public class JobApplication : BaseEntity, IAggregateRoot
     }
 
     private double CalculateAverage()
-        => Answers.Sum(x => x.Value * x.Criteria.Weight) / (double)Answers.Sum(x => x.Criteria.Weight);
+    {
+        if (!Answers.Any())
+            return 0;
+
+        return Answers.Sum(x => x.Value * x.Criteria.Weight) / (double)Answers.Sum(x => x.Criteria.Weight);
+    }
 
     public JobApplication() { } // Ef required
 }
