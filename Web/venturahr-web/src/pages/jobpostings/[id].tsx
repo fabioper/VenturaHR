@@ -74,13 +74,18 @@ export const JobPostingDetails: NextPage = () => {
     }
 
     if (alreadyApplied) {
-      return <span>Você já se candidatou para esta vaga!</span>
+      return (
+        <span className="text-green-400 font-display text-right inline-flex gap-3 items-center my-5">
+          <i className={PrimeIcons.CHECK_CIRCLE}></i>
+          Você já se candidatou para esta vaga!
+        </span>
+      )
     }
 
     return (
       <Button
         label="Candidatar"
-        className="p-button-rounded"
+        className="p-button-rounded my-5"
         onClick={() => setShowApplicationDialog(true)}
       />
     )
@@ -110,7 +115,7 @@ export const JobPostingDetails: NextPage = () => {
                 ]}
                 className="p-0 pb-5"
               />
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between flex-col md:flex-row">
                 <h2 className="m-0 font-display text-4xl font-light">
                   {jobPosting.title}
                 </h2>

@@ -6,7 +6,7 @@ import { useAuth } from "../../shared/contexts/AuthContext"
 import { BreadCrumb } from "primereact/breadcrumb"
 import { PrimeIcons } from "primereact/api"
 import { useRouter } from "next/router"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useLayoutEffect, useState } from "react"
 import FilterResponse from "../../core/dtos/filters/FilterResponse"
 import { JobApplication } from "../../core/models/JobApplication"
 import { fetchJobApplications } from "../../core/services/JobApplicationsService"
@@ -40,7 +40,7 @@ const Dashboard: NextPage = () => {
     )
   }
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     ;(async () => await loadJobApplications(currentPage))()
   }, [currentPage])
 
