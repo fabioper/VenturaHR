@@ -4,15 +4,22 @@ import Head from "next/head"
 import { BreadCrumb } from "primereact/breadcrumb"
 import { PrimeIcons } from "primereact/api"
 import ProtectedPage from "../../shared/components/ProtectedPage/ProtectedPage"
-import React from "react"
+import React, { useState } from "react"
 import { marked } from "marked"
 import { DateTime } from "luxon"
 import { useJobPostingOfId } from "../../shared/hooks/useJobPostingOfId"
+import { Card } from "primereact/card"
+import { useAuth } from "../../shared/contexts/AuthContext"
+import { UserType } from "../../core/enums/UserType"
+import { Button } from "primereact/button"
+import JobApplicationDialog from "../../shared/layout/sections/JobApplicationDialog/JobApplicationDialog"
 
 export const JobPostingDetails: NextPage = () => {
   const router = useRouter()
   const jobPostingId = router.query.id as string
   const jobPosting = useJobPostingOfId(jobPostingId)
+  const [showApplicationDialog, setShowApplicationDialog] = useState(false)
+  const { user } = useAuth()
 
   if (!jobPosting) {
     return <>Carregando...</>
@@ -34,14 +41,26 @@ export const JobPostingDetails: NextPage = () => {
                   url: router.pathname,
                 }}
                 model={[
-                  { url: "/jobpostings", label: "Vagas" },
+                  {
+                    label: "Vagas",
+                    command: () => router.push("/jobpostings"),
+                  },
                   { label: jobPosting?.title },
                 ]}
                 className="p-0 pb-5"
               />
-              <h2 className="m-0 font-display text-4xl font-light">
-                {jobPosting.title}
-              </h2>
+              <div className="flex items-center justify-between">
+                <h2 className="m-0 font-display text-4xl font-light">
+                  {jobPosting.title}
+                </h2>
+                {user?.userType === UserType.Applicant && (
+                  <Button
+                    label="Candidatar"
+                    className="p-button-rounded"
+                    onClick={() => setShowApplicationDialog(true)}
+                  />
+                )}
+              </div>
             </div>
           </div>
         </header>
@@ -64,7 +83,7 @@ export const JobPostingDetails: NextPage = () => {
           </div>
         </div>
 
-        <div>
+        <div className="grid lg:grid-cols-[1.5fr_1fr] gap-10">
           <div
             className="text-sm max-w-4xl text-[#a7b1c8]"
             dangerouslySetInnerHTML={{
@@ -73,30 +92,27 @@ export const JobPostingDetails: NextPage = () => {
           />
 
           <div>
-            <h3 className="font-display text-2xl font-light mt-16">
-              Critérios
-            </h3>
+            <h3 className="font-display text-2xl font-light mt-0">Critérios</h3>
 
             <div className="grid grid-cols-2 gap-5 max-w-3xl">
               {jobPosting.criterias.map(criteria => (
-                <div
+                <Card
                   key={criteria.id}
-                  className="border border-slate-800 border-solid rounded-lg py-2 px-5 bg-[#00000024]"
-                >
-                  <h4 className="m-0 mb-2">{criteria.title}</h4>
-                  <p className="m-0 text-sm">{criteria.description}</p>
-                  <div>
-                    <p className="my-2 text-xs">
-                      Perfil: {criteria.desiredProfile}
-                    </p>
-                    <p className="my-2 text-xs">Peso: {criteria.weight}</p>
-                  </div>
-                </div>
+                  className="p-0"
+                  title={criteria.title}
+                  subTitle={criteria.description}
+                />
               ))}
             </div>
           </div>
         </div>
       </main>
+
+      <JobApplicationDialog
+        visible={showApplicationDialog}
+        onHide={() => setShowApplicationDialog(false)}
+        jobPosting={jobPosting}
+      />
     </ProtectedPage>
   )
 }

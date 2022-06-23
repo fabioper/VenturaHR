@@ -65,7 +65,7 @@ const index: NextPage = () => {
                 home={{
                   icon: PrimeIcons.HOME,
                   command(): void {
-                    router.push(router.pathname).then()
+                    router.push("/").then()
                   },
                 }}
                 className="p-0 pb-5"
@@ -92,22 +92,28 @@ const index: NextPage = () => {
                 title={job.title}
                 subTitle={job.company.name}
                 className="cursor-pointer"
-              >
-                <div className="flex gap-2 items-center justify-between">
-                  <div className="flex gap-2">
-                    {job.criterias.map(criteria => (
-                      <Chip
-                        key={criteria.id}
-                        label={criteria.title}
-                        className="text-xs"
-                      ></Chip>
-                    ))}
-                  </div>
-                  <span className="text-sm">
-                    {DateTime.fromISO(job.createdAt).toRelativeCalendar()}
-                  </span>
-                </div>
-              </Card>
+                footer={() => {
+                  return (
+                    <div className="flex gap-2 items-center justify-between">
+                      <div className="flex gap-2">
+                        {job.criterias.map(criteria => (
+                          <Chip
+                            key={criteria.id}
+                            label={criteria.title}
+                            className="text-xs"
+                          ></Chip>
+                        ))}
+                      </div>
+                      <span className="text-sm inline-flex gap-2 items-center">
+                        <i
+                          className={`${PrimeIcons.CALENDAR} text-xs text-slate-500`}
+                        ></i>
+                        {DateTime.fromISO(job.createdAt).toRelativeCalendar()}
+                      </span>
+                    </div>
+                  )
+                }}
+              />
             </Link>
           ))}
         </div>

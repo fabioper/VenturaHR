@@ -80,6 +80,7 @@ const Header: React.FC = () => {
                 <Link href="/jobpostings/">
                   <Button
                     label="Procurar vagas"
+                    icon={PrimeIcons.SEARCH}
                     className="p-button-rounded p-button-sm p-button-text"
                   />
                 </Link>

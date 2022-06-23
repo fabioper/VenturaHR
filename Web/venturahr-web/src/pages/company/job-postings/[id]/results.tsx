@@ -88,10 +88,13 @@ const JobPostingResults: NextPage = () => {
                   url: router.pathname,
                 }}
                 model={[
-                  { url: "/company/dashboard", label: "Vagas publicadas" },
                   {
-                    url: "/company/job-postings/" + jobPostingId,
+                    label: "Vagas publicadas",
+                    command: () => router.push("/company/dashboard"),
+                  },
+                  {
                     label: jobPosting?.title,
+                    command: () => router.push(`/jobpostings/${jobPostingId}`),
                   },
                   { label: "Resultados" },
                 ]}
