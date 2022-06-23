@@ -28,7 +28,7 @@ const ProtectedPage: React.FC<ProtectedPageProps> = ({
   }
 
   if (!isLogged && !loading) {
-    router.push("/").then()
+    router.push("/login").then()
   }
 
   if (user && role !== undefined && !user.hasRole(role)) {

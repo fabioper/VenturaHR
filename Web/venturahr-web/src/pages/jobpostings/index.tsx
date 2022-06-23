@@ -85,7 +85,7 @@ const index: NextPage = () => {
           </div>
         </header>
 
-        <div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-5 card-grid">
+        <div className="card-grid">
           {jobPostings.results.map(job => (
             <Link href={"/jobpostings/" + job.id} key={job.id}>
               <Card
@@ -94,8 +94,8 @@ const index: NextPage = () => {
                 className="cursor-pointer"
                 footer={() => {
                   return (
-                    <div className="flex gap-2 items-center justify-between">
-                      <div className="flex gap-2">
+                    <div className="flex gap-2 items-center justify-between mt-auto">
+                      <div className="flex gap-2 flex-wrap">
                         {job.criterias.map(criteria => (
                           <Chip
                             key={criteria.id}
@@ -104,7 +104,7 @@ const index: NextPage = () => {
                           ></Chip>
                         ))}
                       </div>
-                      <span className="text-sm inline-flex gap-2 items-center">
+                      <span className="text-sm inline-flex gap-2 items-center shrink-0">
                         <i
                           className={`${PrimeIcons.CALENDAR} text-xs text-slate-500`}
                         ></i>

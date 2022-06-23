@@ -10,6 +10,13 @@
 }
 
 .card-grid {
+  @apply grid;
+  @apply md:grid-cols-2;
+  @apply lg:grid-cols-3;
+  @apply xl:grid-cols-4;
+  @apply gap-10;
+  grid-auto-rows: 1fr;
+
   &:hover {
     .p-card {
       transform: scale(.95);
@@ -20,6 +27,16 @@
     &:hover {
       border: 1px solid #3e317a;
       transform: scale(1);
+    }
+
+    .p-card-body {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .p-card-footer {
+      margin-top: auto;
     }
   }
 }
