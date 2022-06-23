@@ -13,6 +13,8 @@ import { fetchJobApplications } from "../../core/services/JobApplicationsService
 import { DataTable, DataTablePFSEvent } from "primereact/datatable"
 import { Column } from "primereact/column"
 import { DateTime } from "luxon"
+import { Button } from "primereact/button"
+import Link from "next/link"
 
 const Dashboard: NextPage = () => {
   const { user } = useAuth()
@@ -96,6 +98,21 @@ const Dashboard: NextPage = () => {
             body={(app: JobApplication) =>
               DateTime.fromISO(app.appliedAt).toLocaleString()
             }
+          />
+
+          <Column
+            body={(app: JobApplication) => (
+              <div>
+                <Link href={`/jobpostings/${app.jobPosting.id}`}>
+                  <Button
+                    icon={PrimeIcons.EYE}
+                    className="p-button-text p-button-sm p-button-info p-button-rounded"
+                    label="Ver Detalhes"
+                  />
+                </Link>
+              </div>
+            )}
+            style={{ width: "15rem" }}
           />
         </DataTable>
       </div>
