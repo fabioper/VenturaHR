@@ -4,25 +4,86 @@ import Head from "next/head"
 import { BreadCrumb } from "primereact/breadcrumb"
 import { PrimeIcons } from "primereact/api"
 import ProtectedPage from "../../shared/components/ProtectedPage/ProtectedPage"
-import React, { useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { marked } from "marked"
 import { DateTime } from "luxon"
-import { useJobPostingOfId } from "../../shared/hooks/useJobPostingOfId"
 import { Card } from "primereact/card"
 import { useAuth } from "../../shared/contexts/AuthContext"
 import { UserType } from "../../core/enums/UserType"
 import { Button } from "primereact/button"
 import JobApplicationDialog from "../../shared/layout/sections/JobApplicationDialog/JobApplicationDialog"
+import {
+  fetchJobPosting,
+  verifyIfUserCanApplyTo,
+} from "../../core/services/JobPostingsService"
+import { Skeleton } from "primereact/skeleton"
+import JobPosting from "../../core/models/JobPosting"
 
 export const JobPostingDetails: NextPage = () => {
   const router = useRouter()
   const jobPostingId = router.query.id as string
-  const jobPosting = useJobPostingOfId(jobPostingId)
+  const [jobPosting, setJobPosting] = useState<JobPosting>()
   const [showApplicationDialog, setShowApplicationDialog] = useState(false)
   const { user } = useAuth()
+  const [checkingIfAlreadyApplied, setCheckingIfAlreadyApplied] = useState(true)
+  const [alreadyApplied, setAlreadyApplied] = useState(false)
+
+  const loadJobPostingOfId = async (jobPostingId: string) => {
+    const data = await fetchJobPosting(jobPostingId)
+    setJobPosting(data)
+  }
+
+  useEffect(() => {
+    if (jobPostingId) {
+      ;(async () => await loadJobPostingOfId(jobPostingId))()
+    }
+  }, [jobPostingId])
+
+  useEffect(() => {
+    ;(async () => {
+      jobPosting &&
+        user?.hasRole(UserType.Applicant) &&
+        (await checkIfAlreadyApplied(jobPosting.id))
+    })()
+  }, [jobPosting])
+
+  const checkIfAlreadyApplied = useCallback(async (jobPostingId: string) => {
+    setCheckingIfAlreadyApplied(true)
+
+    try {
+      const userCanApply = await verifyIfUserCanApplyTo(jobPostingId)
+      setAlreadyApplied(!userCanApply)
+    } catch (e) {
+      console.log(e)
+    } finally {
+      setCheckingIfAlreadyApplied(false)
+    }
+  }, [])
 
   if (!jobPosting) {
     return <>Carregando...</>
+  }
+
+  const applyButton = (): JSX.Element => {
+    if (user?.userType !== UserType.Applicant) {
+      return <></>
+    }
+
+    if (checkingIfAlreadyApplied) {
+      return <Skeleton width="100px" />
+    }
+
+    if (alreadyApplied) {
+      return <span>Você já se candidatou para esta vaga!</span>
+    }
+
+    return (
+      <Button
+        label="Candidatar"
+        className="p-button-rounded"
+        onClick={() => setShowApplicationDialog(true)}
+      />
+    )
   }
 
   return (
@@ -53,13 +114,7 @@ export const JobPostingDetails: NextPage = () => {
                 <h2 className="m-0 font-display text-4xl font-light">
                   {jobPosting.title}
                 </h2>
-                {user?.userType === UserType.Applicant && (
-                  <Button
-                    label="Candidatar"
-                    className="p-button-rounded"
-                    onClick={() => setShowApplicationDialog(true)}
-                  />
-                )}
+                {applyButton()}
               </div>
             </div>
           </div>
@@ -110,7 +165,10 @@ export const JobPostingDetails: NextPage = () => {
 
       <JobApplicationDialog
         visible={showApplicationDialog}
-        onHide={() => setShowApplicationDialog(false)}
+        onHide={async () => {
+          setShowApplicationDialog(false)
+          await loadJobPostingOfId(jobPostingId)
+        }}
         jobPosting={jobPosting}
       />
     </ProtectedPage>

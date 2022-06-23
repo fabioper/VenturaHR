@@ -1,7 +1,6 @@
 using JobPostings.Application.DTOs.Requests;
 using JobPostings.Application.DTOs.Responses;
 using JobPostings.CrossCutting.Filters;
-using JobPostings.Domain.Aggregates.JobApplications;
 
 namespace JobPostings.Application.Services.Contracts;
 
@@ -13,4 +12,5 @@ public interface IJobPostingsService
     Task<IEnumerable<JobApplicationResponse>> GetJobPostingApplications(Guid companyId, Guid jobPostingId);
     Task UpdateJob(Guid jobPostingId, UpdateJobRequest request);
     Task RenewJobPosting(Guid jobPostingId, RenewJobPostingRequest request);
+    Task<bool> VerifyIfUserCanApply(Guid applicantId, Guid jobPostingId);
 }

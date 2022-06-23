@@ -10,7 +10,6 @@ namespace JobPostings.Api.Controllers;
 
 [ApiController]
 [Route("job-postings")]
-[Authorize(Policy = Policy.CompanyOnly)]
 public class JobPostingsController : ControllerBase
 {
     private readonly IJobPostingsService _jobPostingsService;
@@ -35,6 +34,7 @@ public class JobPostingsController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Policy = Policy.CompanyOnly)]
     public async Task<IActionResult> Create([FromBody] CreateJobPostingRequest request)
     {
         await _jobPostingsService.CreateJobPosting(CompanyId, request);
@@ -42,6 +42,7 @@ public class JobPostingsController : ControllerBase
     }
 
     [HttpPut("{jobPostingId:guid}")]
+    [Authorize(Policy = Policy.CompanyOnly)]
     public async Task<IActionResult> Update([FromBody] UpdateJobRequest request, [FromRoute] Guid jobPostingId)
     {
         await _jobPostingsService.UpdateJob(jobPostingId, request);
@@ -49,6 +50,7 @@ public class JobPostingsController : ControllerBase
     }
 
     [HttpPut("{jobPostingId:guid}/renew")]
+    [Authorize(Policy = Policy.CompanyOnly)]
     public async Task<IActionResult> Renew([FromBody] RenewJobPostingRequest request, [FromRoute] Guid jobPostingId)
     {
         await _jobPostingsService.RenewJobPosting(jobPostingId, request);
@@ -56,11 +58,20 @@ public class JobPostingsController : ControllerBase
     }
 
     [HttpGet("{jobPostingId:guid}/applications")]
+    [Authorize(Policy = Policy.CompanyOnly)]
     public async Task<IActionResult> GetJobPostingApplications([FromRoute] Guid jobPostingId)
     {
         var applications = await _jobPostingsService.GetJobPostingApplications(CompanyId, jobPostingId);
         return Ok(applications);
     }
     
+    [HttpGet("{jobPostingId:guid}/can-apply")]
+    [Authorize(Policy = Policy.ApplicantOnly)]
+    public async Task<IActionResult> VerifyUserCanApply([FromRoute] Guid jobPostingId)
+    {
+        var userCanApply = await _jobPostingsService.VerifyIfUserCanApply(User.GetId(), jobPostingId);
+        return Ok(userCanApply);
+    }
+
     private Guid CompanyId => User.GetId();
 }

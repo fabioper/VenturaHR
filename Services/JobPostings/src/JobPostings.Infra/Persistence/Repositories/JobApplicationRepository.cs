@@ -17,7 +17,7 @@ public class JobApplicationRepository :
         _context = context;
     }
 
-    public async Task<IEnumerable<JobApplication>> GetAllByJobCompanyOfId(
+    public async Task<IEnumerable<JobApplication>> GetJobPostingApplications(
         Guid companyId,
         Guid jobPostingId)
     {
@@ -63,6 +63,12 @@ public class JobApplicationRepository :
     private static IQueryable<JobApplication> FilterQuery(
         ApplicationsFilter filter, IQueryable<JobApplication> orderedQuery)
     {
-        return orderedQuery.Where(x => !filter.Applicant.HasValue || x.Applicant.Id == filter.Applicant.Value);
+        if (filter.Applicant.HasValue)
+            orderedQuery = orderedQuery.Where(x => x.Applicant.Id == filter.Applicant.Value);
+
+        if (filter.JobPosting.HasValue)
+            orderedQuery = orderedQuery.Where(x => x.JobPosting.Id == filter.JobPosting.Value);
+
+        return orderedQuery;
     }
 }

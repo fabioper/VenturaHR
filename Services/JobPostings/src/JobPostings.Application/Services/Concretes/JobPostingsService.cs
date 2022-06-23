@@ -7,7 +7,6 @@ using JobPostings.CrossCutting.Extensions;
 using JobPostings.CrossCutting.Filters;
 using JobPostings.Domain.Aggregates.Companies;
 using JobPostings.Domain.Aggregates.Criterias;
-using JobPostings.Domain.Aggregates.JobApplications;
 using JobPostings.Domain.Aggregates.JobPostings;
 using JobPostings.Domain.Repositories;
 
@@ -68,6 +67,17 @@ public class JobPostingsService : IJobPostingsService
         await _jobPostingsRepository.Update(jobPosting);
     }
 
+    public async Task<bool> VerifyIfUserCanApply(Guid applicantId, Guid jobPostingId)
+    {
+        var jobApplicationsByUser = await _applicationRepository.GetAll(new ApplicationsFilter
+        {
+            Applicant = applicantId,
+            JobPosting = jobPostingId
+        });
+
+        return !jobApplicationsByUser.Any();
+    }
+
     public async Task<FilterResponse<JobPostingResponse>> GetJobPostings(JobPostingsFilter filter)
     {
         var jobPostings = await _jobPostingsRepository.GetAll(filter);
@@ -85,7 +95,7 @@ public class JobPostingsService : IJobPostingsService
 
     public async Task<IEnumerable<JobApplicationResponse>> GetJobPostingApplications(Guid companyId, Guid jobPostingId)
     {
-        var applications = await _applicationRepository.GetAllByJobCompanyOfId(companyId, jobPostingId);
+        var applications = await _applicationRepository.GetJobPostingApplications(companyId, jobPostingId);
         return _mapper.Map<List<JobApplicationResponse>>(applications);
     }
 

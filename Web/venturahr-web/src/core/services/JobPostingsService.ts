@@ -32,3 +32,11 @@ export async function renewJobPosting(
     newExpiration,
   })
 }
+
+export async function verifyIfUserCanApplyTo(jobPostingId: string) {
+  const { data } = await api.get<boolean>(
+    endpoint + "/" + jobPostingId + "/can-apply"
+  )
+
+  return data
+}
