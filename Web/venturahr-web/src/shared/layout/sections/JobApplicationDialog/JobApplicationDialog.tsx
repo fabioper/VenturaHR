@@ -52,7 +52,7 @@ const JobApplicationDialog: React.FC<JobApplicationDialogProps> = ({
     () => ({
       onHide: handleHide,
       visible: visible,
-      header: "Publicar vaga",
+      header: "Confirmar Candidatura",
       dismissableMask: false,
       blockScroll: true,
       focusOnShow: false,
