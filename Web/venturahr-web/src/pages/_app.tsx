@@ -24,6 +24,13 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
       <AuthProvider>
         <Header />
         <Component {...pageProps} />
+        <footer className="p-4">
+          <div className="container">
+            <p className="text-slate-500 text-center text-xs">
+              VenturaHR &copy; Fábio Pereira
+            </p>
+          </div>
+        </footer>
       </AuthProvider>
     </ToastProvider>
   )

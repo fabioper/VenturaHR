@@ -29,12 +29,14 @@ const index: NextPage = () => {
   const { loading, withLoader } = useLoader()
   const [searchQuery, setSearchQuery] = useState("")
 
+  const totalRows = 9
+
   const loadJobPostings = async (query?: string) => {
     await withLoader(async () => {
       setJobPostings(
         await fetchJobPostings({
           page: currentPage,
-          pageSize: 10,
+          pageSize: totalRows,
           query,
         })
       )
@@ -135,7 +137,7 @@ const index: NextPage = () => {
 
         <Paginator
           first={first}
-          rows={10}
+          rows={totalRows}
           totalRecords={jobPostings.total}
           onPageChange={e => {
             setCurrentPage(e.page + 1)
