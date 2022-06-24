@@ -30,7 +30,7 @@ public static class CronJobExtensions
             {
                 x.ForJob(updateJobsStatusJobKey)
                     .WithIdentity($"{nameof(updateJobsStatusJobKey)}-trigger")
-                    .WithCalendarIntervalSchedule(scheduleBuilder => scheduleBuilder.WithIntervalInHours(1));
+                    .WithCalendarIntervalSchedule(scheduleBuilder => scheduleBuilder.WithIntervalInMinutes(5));
             });
         });
 
