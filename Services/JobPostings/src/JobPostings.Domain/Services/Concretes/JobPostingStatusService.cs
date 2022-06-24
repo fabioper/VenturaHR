@@ -44,6 +44,7 @@ public class JobPostingStatusService : IJobPostingStatusService
         foreach (var expiredJob in expiredJobs)
         {
             expiredJob.UpdateStatus(JobPostingStatus.Expired);
+            await _jobPostingRepository.Update(expiredJob);
             await _emailService.SendMail(
                 expiredJob.Company.Email, EmailResources.ExpiredJobTitle,
                 string.Format(EmailResources.ExpiredJobBody, expiredJob.Title));
