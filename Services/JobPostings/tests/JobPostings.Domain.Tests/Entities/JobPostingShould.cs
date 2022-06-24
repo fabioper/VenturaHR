@@ -8,7 +8,7 @@ using JobPostings.Domain.Tests.Fixtures;
 
 namespace JobPostings.Domain.Tests.Entities;
 
-public class JobPostingTests
+public class JobPostingShould
 {
     private Company _company;
 
@@ -17,7 +17,7 @@ public class JobPostingTests
         => _company = new Company(Guid.NewGuid(), "Empresa", "empresa@empresa.com", "99999999999");
 
     [Test]
-    public void ShouldCreateJobPostingWithPublishedStatus()
+    public void CreateJobPostingWithPublishedStatus()
     {
         var jobPosting = _company.PublishJob(
             "Desenvolvedor",
@@ -31,7 +31,7 @@ public class JobPostingTests
     }
 
     [Test]
-    public void Renew_ShouldThrow_IfJobPostingIsClosed()
+    public void ThrowWhenTryingToRenewClosedJobPosting()
     {
         var jobPosting = _company.PublishJob("Desenvolvedor",
             "Descrição",
@@ -45,7 +45,7 @@ public class JobPostingTests
     }
 
     [TestCaseSource(typeof(CriteriasDataFixture), nameof(CriteriasDataFixture.TestCriterias))]
-    public void ShouldCalculateJobPostingAverage((List<(int Profile, int Weight)> Values, double Result) sources)
+    public void CalculateAverageBasedOnGivenCriterias((List<(int Profile, int Weight)> Values, double Result) sources)
     {
         var criterias = sources.Values.Select(
             criteria => new Criteria("Criteria Name", "Criteria Description", criteria.Profile,
