@@ -95,6 +95,7 @@ const JobPostingsList: React.FC<JobPostingsListProps> = ({
         totalRecords={data.total}
         onPage={handlePageChange}
         first={first}
+        emptyMessage="Nenhuma vaga publicada"
       >
         <Column header="Título" body={(job: JobPosting) => job.title} />
         <Column header="Local" body={(job: JobPosting) => job.location} />

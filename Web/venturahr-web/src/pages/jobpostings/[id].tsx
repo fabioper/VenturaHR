@@ -104,7 +104,7 @@ export const JobPostingDetails: NextPage = () => {
               <BreadCrumb
                 home={{
                   icon: PrimeIcons.HOME,
-                  url: router.pathname,
+                  command: () => router.push("/"),
                 }}
                 model={[
                   {

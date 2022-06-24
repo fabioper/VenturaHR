@@ -15,6 +15,7 @@ import { DateTime } from "luxon"
 import { Paginator } from "primereact/paginator"
 import { InputText } from "primereact/inputtext"
 import Link from "next/link"
+import { ProgressSpinner } from "primereact/progressspinner"
 
 const index: NextPage = () => {
   const router = useRouter()
@@ -25,7 +26,7 @@ const index: NextPage = () => {
   })
   const [first, setFirst] = useState(0)
   const [currentPage, setCurrentPage] = useState(1)
-  const { withLoader } = useLoader()
+  const { loading, withLoader } = useLoader()
   const [searchQuery, setSearchQuery] = useState("")
 
   const loadJobPostings = async (query?: string) => {
@@ -85,38 +86,52 @@ const index: NextPage = () => {
           </div>
         </header>
 
-        <div className="card-grid">
-          {jobPostings.results.map(job => (
-            <Link href={"/jobpostings/" + job.id} key={job.id}>
-              <Card
-                title={job.title}
-                subTitle={job.company.name}
-                className="cursor-pointer"
-                footer={() => {
-                  return (
-                    <div className="flex gap-2 items-center justify-between mt-auto">
-                      <div className="flex gap-2 flex-wrap">
-                        {job.criterias.map(criteria => (
-                          <Chip
-                            key={criteria.id}
-                            label={criteria.title}
-                            className="text-xs"
-                          ></Chip>
-                        ))}
+        {loading && (
+          <p className="text-center p-10 text-slate-500">
+            <ProgressSpinner />
+          </p>
+        )}
+
+        {!jobPostings.results.length && !loading && (
+          <p className="text-center p-10 text-slate-500">
+            Nenhuma vaga publicada
+          </p>
+        )}
+
+        {jobPostings.results.length && !loading && (
+          <div className="card-grid">
+            {jobPostings.results.map(job => (
+              <Link href={"/jobpostings/" + job.id} key={job.id}>
+                <Card
+                  title={job.title}
+                  subTitle={job.company.name}
+                  className="cursor-pointer"
+                  footer={() => {
+                    return (
+                      <div className="flex gap-2 items-end justify-between mt-auto">
+                        <div className="flex gap-2 flex-wrap">
+                          {job.criterias.map(criteria => (
+                            <Chip
+                              key={criteria.id}
+                              label={criteria.title}
+                              className="text-xs"
+                            ></Chip>
+                          ))}
+                        </div>
+                        <span className="text-sm inline-flex gap-2 items-center shrink-0">
+                          <i
+                            className={`${PrimeIcons.CALENDAR} text-xs text-slate-500`}
+                          ></i>
+                          {DateTime.fromISO(job.createdAt).toRelativeCalendar()}
+                        </span>
                       </div>
-                      <span className="text-sm inline-flex gap-2 items-center shrink-0">
-                        <i
-                          className={`${PrimeIcons.CALENDAR} text-xs text-slate-500`}
-                        ></i>
-                        {DateTime.fromISO(job.createdAt).toRelativeCalendar()}
-                      </span>
-                    </div>
-                  )
-                }}
-              />
-            </Link>
-          ))}
-        </div>
+                    )
+                  }}
+                />
+              </Link>
+            ))}
+          </div>
+        )}
 
         <Paginator
           first={first}

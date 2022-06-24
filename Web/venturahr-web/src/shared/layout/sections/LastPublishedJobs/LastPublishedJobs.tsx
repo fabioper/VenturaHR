@@ -6,24 +6,21 @@ import { Chip } from "primereact/chip"
 import { PrimeIcons } from "primereact/api"
 import { DateTime } from "luxon"
 import Link from "next/link"
+import { useLoader } from "../../../hooks/useLoader"
+import { ProgressSpinner } from "primereact/progressspinner"
 
 const LastPublishedJobs: React.FC = () => {
   const [jobPostings, setJobPostings] = useState<JobPosting[]>([])
-  const [loading, setLoading] = useState(true)
+  const { loading, withLoader } = useLoader()
 
   const loadLastJobPostings = useCallback(async () => {
-    setLoading(true)
-    try {
+    await withLoader(async () => {
       const response = await fetchJobPostings({
         page: 1,
         pageSize: 10,
       })
       setJobPostings(response.results)
-    } catch (e) {
-      console.log(e)
-    } finally {
-      setLoading(false)
-    }
+    })
   }, [])
 
   useEffect(() => {
@@ -35,6 +32,18 @@ const LastPublishedJobs: React.FC = () => {
       <h2 className="font-display font-normal text-4xl text-center mt-20 mb-10">
         Últimas vagas publicadas
       </h2>
+
+      {loading && (
+        <p className="text-center p-10 text-slate-500">
+          <ProgressSpinner />
+        </p>
+      )}
+
+      {!jobPostings.length && !loading && (
+        <p className="text-center p-10 text-slate-500">
+          Nenhuma vaga publicada recentemente
+        </p>
+      )}
 
       <div className="card-grid">
         {jobPostings.map(job => (

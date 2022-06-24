@@ -15,10 +15,12 @@ import { Column } from "primereact/column"
 import { DateTime } from "luxon"
 import { Button } from "primereact/button"
 import Link from "next/link"
+import { useLoader } from "../../shared/hooks/useLoader"
 
 const Dashboard: NextPage = () => {
   const { user } = useAuth()
   const router = useRouter()
+  const { loading, withLoader } = useLoader()
 
   const [jobApplications, setJobApplications] = useState<
     FilterResponse<JobApplication>
@@ -31,13 +33,15 @@ const Dashboard: NextPage = () => {
   const [currentPage, setCurrentPage] = useState(1)
 
   const loadJobApplications = async (page = 1) => {
-    setJobApplications(
-      await fetchJobApplications({
-        applicant: user?.id,
-        page,
-        pageSize: 10,
-      })
-    )
+    await withLoader(async () => {
+      setJobApplications(
+        await fetchJobApplications({
+          applicant: user?.id,
+          page,
+          pageSize: 10,
+        })
+      )
+    })
   }
 
   useLayoutEffect(() => {
@@ -84,6 +88,8 @@ const Dashboard: NextPage = () => {
           rows={10}
           first={first}
           onPage={handlePageChange}
+          loading={loading}
+          emptyMessage="Você não se candidatou a nenhuma vaga"
         >
           <Column
             header="Vaga"

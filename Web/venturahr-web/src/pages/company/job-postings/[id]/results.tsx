@@ -85,7 +85,7 @@ const JobPostingResults: NextPage = () => {
               <BreadCrumb
                 home={{
                   icon: PrimeIcons.HOME,
-                  url: router.pathname,
+                  command: () => router.push("/"),
                 }}
                 model={[
                   {
@@ -157,6 +157,7 @@ const JobPostingResults: NextPage = () => {
             expandedRows={expandedApplications}
             onRowToggle={e => setExpandedApplications(e.data)}
             rowExpansionTemplate={criteriaAnswersTemplate}
+            emptyMessage="Nenhuma resposta recebida ainda"
           >
             <Column expander style={{ width: "3em" }} />
             <Column
