@@ -98,7 +98,7 @@ const index: NextPage = () => {
           </p>
         )}
 
-        {jobPostings.results.length && !loading && (
+        {!!jobPostings.results.length && !loading && (
           <div className="card-grid">
             {jobPostings.results.map(job => (
               <Link href={"/jobpostings/" + job.id} key={job.id}>
